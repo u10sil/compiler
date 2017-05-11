@@ -16,36 +16,28 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Comment } from "./Comment"
-import { Consumer } from "./Consumer"
-import { EndOfFile } from "./EndOfFile"
-import { GapRemover } from "./GapRemover"
-import { Gap } from "./Gap"
-import { Identifier } from "./Identifier"
-import { Lexer } from "./Lexer"
-import { Literal } from "./Literal"
-import * as Literals from "./Literals"
-import { Operator } from "./Operator"
-import { Separator } from "./Separator"
+import { Error, Utilities } from "@cogneco/mend"
+import * as Tokens from "../Tokens"
+import * as Type from "./Type"
 import { Source } from "./Source"
-import { Substance } from "./Substance"
-import { Token } from "./Token"
-import { Whitespace } from "./Whitespace"
+import { Statement } from "./Statement"
 
-export {
-	Comment,
-	Consumer,
-	EndOfFile,
-	GapRemover,
-	Gap,
-	Identifier,
-	Lexer,
-	Literal,
-	Literals,
-	Operator,
-	Separator,
-	Source,
-	Substance,
-	Token,
-	Whitespace,
+export class Declaration extends Statement {
+	constructor(private symbol: string, tokens: Tokens.Substance[]) {
+		super(tokens)
+	}
+	getSymbol(): string { return this.symbol }
+	static parseTypeParameters(source: Source): Type.Name[] {
+		var result: Type.Name[] = []
+		if (source.peek().isOperator("<")) {
+			do {
+				source.next() // consume "<" or ","
+				if (!source.peek().isIdentifier())
+					source.raise("Expected type parameter")
+				result.push(Type.Name.parse(source.clone()))
+			} while (source.peek().isSeparator(","))
+			source.next() // consume ">"
+		}
+		return result
+	}
 }

@@ -16,36 +16,14 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Comment } from "./Comment"
-import { Consumer } from "./Consumer"
-import { EndOfFile } from "./EndOfFile"
-import { GapRemover } from "./GapRemover"
-import { Gap } from "./Gap"
+import { Assignment } from "./Assignment"
+import { Expression } from "./Expression"
 import { Identifier } from "./Identifier"
-import { Lexer } from "./Lexer"
-import { Literal } from "./Literal"
-import * as Literals from "./Literals"
-import { Operator } from "./Operator"
-import { Separator } from "./Separator"
-import { Source } from "./Source"
-import { Substance } from "./Substance"
-import { Token } from "./Token"
-import { Whitespace } from "./Whitespace"
+import * as Literal from "./Literal"
 
 export {
-	Comment,
-	Consumer,
-	EndOfFile,
-	GapRemover,
-	Gap,
+	Assignment,
+	Expression,
 	Identifier,
-	Lexer,
-	Literal,
-	Literals,
-	Operator,
-	Separator,
-	Source,
-	Substance,
-	Token,
-	Whitespace,
+	Literal
 }

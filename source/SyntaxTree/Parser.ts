@@ -16,36 +16,17 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Comment } from "./Comment"
-import { Consumer } from "./Consumer"
-import { EndOfFile } from "./EndOfFile"
-import { GapRemover } from "./GapRemover"
-import { Gap } from "./Gap"
-import { Identifier } from "./Identifier"
-import { Lexer } from "./Lexer"
-import { Literal } from "./Literal"
-import * as Literals from "./Literals"
-import { Operator } from "./Operator"
-import { Separator } from "./Separator"
+import { Error, Utilities } from "@cogneco/mend"
+import * as Tokens from "../Tokens"
 import { Source } from "./Source"
-import { Substance } from "./Substance"
-import { Token } from "./Token"
-import { Whitespace } from "./Whitespace"
+import { Module } from "./Module"
 
-export {
-	Comment,
-	Consumer,
-	EndOfFile,
-	GapRemover,
-	Gap,
-	Identifier,
-	Lexer,
-	Literal,
-	Literals,
-	Operator,
-	Separator,
-	Source,
-	Substance,
-	Token,
-	Whitespace,
+export class Parser implements Utilities.Iterator<Module> {
+	source: Source
+	constructor(tokens: Utilities.Iterator<Tokens.Substance>, errorHandler: Error.Handler) {
+		this.source = new Source(tokens, errorHandler)
+	}
+	next(): Module {
+		return Module.parse(this.source)
+	}
 }
