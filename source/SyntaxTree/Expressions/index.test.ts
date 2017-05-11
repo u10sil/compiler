@@ -16,5 +16,5 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import "./Declarations/index.test"
-import "./Expressions/index.test"
+import "./Expression.test"
+import "./Literal/index.test"

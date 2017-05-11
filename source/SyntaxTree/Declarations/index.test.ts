@@ -18,3 +18,5 @@
 
 import "./Assignment.test"
 import "./Class.test"
+import "./Function.test"
+import "./Variable.test"
