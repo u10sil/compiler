@@ -32,7 +32,7 @@
 		},
 		{
 			"taskName": "build",
-			"args": ["build"],
+			"args": ["run", "build"],
 			"isBuildCommand": true,
 			"problemMatcher": {
 				"owner": "tsc",

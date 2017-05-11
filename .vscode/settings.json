@@ -5,12 +5,13 @@
 	"files.trimTrailingWhitespace": true,
 	"search.exclude": {
 		"node_modules": true,
-		"typings": true,
+		"build": true,
+		"**/.git": true,
 		".vscode": true
 	},
 	"files.exclude": {
 		"node_modules": true,
-		"build": true,
+		"build": false,
 		"**/.git": true
 	},
 	"licenser.license": "GPLv3",

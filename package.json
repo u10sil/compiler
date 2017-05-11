@@ -4,11 +4,11 @@
   "description": "Compiler for SysPL. The System Programming Language.",
   "main": "build/index.js",
   "scripts": {
-    "dev": "watch 'npm run build' src",
+    "dev": "watch 'npm run build' source",
     "build": "tsc -p source",
     "pretest": "npm run build",
-    "test": "node build/Test.js",
-    "test:watch": "npm test -- --watch",
+    "test": "node build/index.test.js",
+    "test:watch": "watch 'npm test' source",
     "prepublish": "npm run build",
     "release": "np"
   },
