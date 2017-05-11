@@ -17,14 +17,10 @@
 //
 
 import { Source } from "../Source"
-/// <reference path="../../Tokens/Token" />
-/// <reference path="../../Tokens/Identifier" />
-/// <reference path="../../Tokens/Separator" />
-/// <reference path="../../Tokens/Substance" />
+import * as Tokens from "../../Tokens"
 import { Statement } from "../Statement"
 import { Declaration } from "../Declaration"
-/// <reference path="../Type/Name" />
-/// <reference path="../Type/Expression" />
+import * as Type from "../Type"
 import { Assignment } from "./Assignment"
 
 export class Argument extends Declaration {

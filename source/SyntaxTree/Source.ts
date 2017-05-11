@@ -43,7 +43,7 @@ export class Source implements Utilities.Iterator<Tokens.Substance>, Error.Handl
 		this.lastTokens = []
 		return result
 	}
-	raise(message: string | Error.Message, level = Error.Level.Critical, type = Error.Type.Gramatical, region?: Error.Region): void {
+	raise(message: string | Error.Message, level: Error.Level = Error.Level.Critical, type: Error.Type = Error.Type.Gramatical, region?: Error.Region): void {
 		if (typeof message == "string") {
 			if (!region)
 				region = this.peek().getRegion()
