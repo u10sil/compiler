@@ -16,6 +16,8 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+import * as Literals from "./Literals"
+
 import { Comment } from "./Comment"
 import { Consumer } from "./Consumer"
 import { EndOfFile } from "./EndOfFile"
@@ -24,7 +26,6 @@ import { Gap } from "./Gap"
 import { Identifier } from "./Identifier"
 import { Lexer } from "./Lexer"
 import { Literal } from "./Literal"
-import * as Literals from "./Literals"
 import { Operator } from "./Operator"
 import { Separator } from "./Separator"
 import { Source } from "./Source"
@@ -33,6 +34,8 @@ import { Token } from "./Token"
 import { Whitespace } from "./Whitespace"
 
 export {
+	Literals,
+	
 	Comment,
 	Consumer,
 	EndOfFile,
@@ -41,7 +44,6 @@ export {
 	Identifier,
 	Lexer,
 	Literal,
-	Literals,
 	Operator,
 	Separator,
 	Source,

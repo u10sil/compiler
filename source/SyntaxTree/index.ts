@@ -16,4 +16,28 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-export { } from "./"
+import * as Declarations from "./Declarations"
+import * as Expressions from "./Expressions"
+import * as Type from "./Type"
+
+import { Block } from "./Block"
+import { Declaration } from "./Declaration"
+import { Module } from "./Module"
+import { Node } from "./Node"
+import { Parser } from "./Parser"
+import { Source } from "./Source"
+import { Statement } from "./Statement"
+
+export {
+	Declarations,
+	Expressions,
+	Type,
+	
+	Block,
+	Declaration,
+	Module,
+	Node,
+	Parser,
+	Source,
+	Statement,
+}

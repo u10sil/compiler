@@ -16,14 +16,16 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+import * as Literal from "./Literal"
+
 import { Assignment } from "./Assignment"
 import { Expression } from "./Expression"
 import { Identifier } from "./Identifier"
-import * as Literal from "./Literal"
 
 export {
+	Literal,
+	
 	Assignment,
 	Expression,
 	Identifier,
-	Literal
 }

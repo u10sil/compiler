@@ -16,9 +16,9 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Source } from "Source"
-import { Node } from "Node"
-import * as Tokens from "Tokens"
+import { Source } from "./Source"
+import { Node } from "./Node"
+import * as Tokens from "../Tokens"
 
 export abstract class Statement extends Node {
 	constructor(tokens: Tokens.Substance[]) {
