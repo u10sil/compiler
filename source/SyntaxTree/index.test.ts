@@ -16,7 +16,4 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Unit } from "@cogneco/mend"
-import "./SyntaxTree/index.test"
-
-process.exit(Unit.Fixture.run(process.argv.length > 2 && process.argv[2] == "debug") ? 0 : 1)
+import "./Declarations/index.test"

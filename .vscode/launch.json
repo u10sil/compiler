@@ -11,7 +11,8 @@
 			"type": "node",
 			"request": "launch",
 			"name": "Launch Test",
-			"program": "${workspaceRoot}/build/index.test.js"
+			"program": "${workspaceRoot}/build/index.test.js",
+			"args": [ "debug" ]
 		}
 	]
 }
