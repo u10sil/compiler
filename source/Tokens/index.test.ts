@@ -1,4 +1,4 @@
-// Copyright (C) 2017  Simon Mika <simon@mika.se>
+// Copyright (C) 2015, 2017  Simon Mika <simon@mika.se>
 //
 // This file is part of SysPL.
 //
@@ -16,9 +16,10 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Unit } from "@cogneco/mend"
-
-import "./Tokens/index.test"
-import "./SyntaxTree/index.test"
-
-process.exit(Unit.Fixture.run(process.argv.length > 2 && process.argv[2] == "debug") ? 0 : 1)
+import "./Literals/index.test"
+import "./Comment.test"
+import "./EndOfFile.test"
+import "./GapRemover.test"
+import "./Operator.test"
+import "./Separator.test"
+import "./Whitespace.test"
