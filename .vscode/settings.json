@@ -1,0 +1,20 @@
+{
+	"editor.tabSize": 2,
+	"editor.renderWhitespace": "boundary",
+	"editor.insertSpaces": false,
+	"files.trimTrailingWhitespace": true,
+	"search.exclude": {
+		"node_modules": true,
+		"typings": true,
+		".vscode": true
+	},
+	"files.exclude": {
+		"node_modules": true,
+		"build": true,
+		"**/.git": true
+	},
+	"licenser.license": "GPLv3",
+	"licenser.projectName": "SysPL",
+	"licenser.author": "Simon Mika <simon@mika.se>",
+	"licenser.useSingleLineStyle": true
+}

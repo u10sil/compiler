@@ -1,2 +1,2 @@
-# syspl
-Compiler for Syspl. The System Programming Language.
+# SysPL
+Compiler for SysPL. The System Programming Language.

@@ -1,0 +1,38 @@
+{
+  "name": "syspl",
+  "version": "0.1.0",
+  "description": "Compiler for SysPL. The System Programming Language.",
+  "main": "build/index.js",
+  "scripts": {
+    "dev": "watch 'npm run build' src",
+    "build": "tsc -p source",
+    "pretest": "npm run build",
+    "test": "node build/Test.js",
+    "test:watch": "npm test -- --watch",
+    "prepublish": "npm run build",
+    "release": "np"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/syspl/syspl.git"
+  },
+  "keywords": [
+    "programming-language",
+    "syspl"
+  ],
+  "author": "Simon Mika (simon@mika.se)",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/syspl/syspl/issues"
+  },
+  "homepage": "https://github.com/syspl/syspl#readme",
+  "devDependencies": {
+    "@types/node": "^7.0.12",
+    "np": "^2.13.1",
+    "typescript": "^2.3.2",
+    "watch": "^1.0.2"
+  },
+  "dependencies": {
+    "@cogneco/mend": "^1.0.0"
+  }
+}
