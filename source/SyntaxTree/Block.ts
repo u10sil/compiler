@@ -1,4 +1,4 @@
-// Copyright (C) 2017  Simon Mika <simon@mika.se>
+// Copyright (C) 2015, 2017  Simon Mika <simon@mika.se>
 //
 // This file is part of SysPL.
 //
