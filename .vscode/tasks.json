@@ -21,7 +21,7 @@
 				"owner": "tsc",
 				"fileLocation": ["relative", "${workspaceRoot}"],
 				"pattern": {
-					"regexp": "^([\\w,\/,\\.]+)\\(\\d+,\\d+\\):\\s+(\\w+)\\s+(\\w+):\\s+(.*)$",
+					"regexp": "^([\\w,\\/,\\.]+)\\((\\d+),(\\d+)\\):\\s(error)\\s\\w+:\\s+(.+)$",
 					"file": 1,
 					"line": 2,
 					"column": 3,
@@ -38,7 +38,7 @@
 				"owner": "tsc",
 				"fileLocation": ["relative", "${workspaceRoot}"],
 				"pattern": {
-					"regexp": "^([\\w,\/,\\.]+)\\(\\d+,\\d+\\):\\s+(\\w+)\\s+(\\w+):\\s+(.*)$",
+					"regexp": "^([\\w,\\/,\\.]+)\\((\\d+),(\\d+)\\):\\s(error)\\s\\w+:\\s+(.+)$",
 					"file": 1,
 					"line": 2,
 					"column": 3,

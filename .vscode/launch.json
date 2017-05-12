@@ -5,14 +5,22 @@
 			"type": "node",
 			"request": "launch",
 			"name": "Launch Program",
-			"program": "${workspaceRoot}/build/index.js"
+			"program": "${workspaceRoot}/build/index.js",
+			"protocol": "inspector",
+			"preLaunchTask": "build",
+			"sourceMaps": true,
+			"outFiles": [ "${workspaceRoot}/build/**/*.js" ]
 		},
 		{
 			"type": "node",
 			"request": "launch",
 			"name": "Launch Test",
 			"program": "${workspaceRoot}/build/index.test.js",
-			"args": [ "debug" ]
+			"args": [ "debug" ],
+			"protocol": "inspector",
+			"preLaunchTask": "build",
+			"sourceMaps": true,
+			"outFiles": [ "${workspaceRoot}/build/**/*.js" ]
 		}
 	]
 }

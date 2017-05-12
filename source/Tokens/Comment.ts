@@ -32,7 +32,7 @@ export class Comment extends Gap {
 			case "//":
 				result = ""
 				source.read(2)
-				while (source.peek() != "\n" && source.peek() != "\0")
+				while (source.peek() != "\n" && source.peek() != "\0" && source.peek() != undefined)
 					result += source.read()
 				break
 			case "/*":
