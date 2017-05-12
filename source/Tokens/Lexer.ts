@@ -50,7 +50,7 @@ export class Lexer implements Utilities.Iterator<Token> {
 			(result = Identifier.scan(this.source)) ||
 			false
 		))
-			this.source.raise("[Lexer]: Unrecognized token.");
+			this.source.raise("[Lexer]: Unrecognized token: " + this.source.peek());
 		return result
 	}
 }
