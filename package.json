@@ -1,6 +1,6 @@
 {
   "name": "syspl",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Compiler for SysPL. The System Programming Language.",
   "main": "build/index.js",
   "scripts": {
