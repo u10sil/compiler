@@ -28,20 +28,20 @@ export class CharacterTest extends Unit.Fixture {
 		this.add("empty", () => {
 			var s = "''"
 			var source = new Tokens.Source(new IO.StringReader(s), errorHandler)
-			this.expect((token = Tokens.Literals.Character.scan(source)) instanceof Tokens.Literals.Character, Is.True())
-			this.expect((<Tokens.Literals.Character>token).getValue(), Is.Equal().To(""))
+			this.expect((token = Tokens.Literals.Character.scan(source)) instanceof Tokens.Literals.Character, Is.true)
+			this.expect((<Tokens.Literals.Character>token).getValue(), Is.equal.to(""))
 		})
 		this.add("newline", () => {
 			var s = "'\\n'"
 			var source = new Tokens.Source(new IO.StringReader(s), errorHandler)
-			this.expect((token = Tokens.Literals.Character.scan(source)) instanceof Tokens.Literals.Character, Is.True())
-			this.expect((<Tokens.Literals.Character>token).getValue(), Is.Equal().To("\n"))
+			this.expect((token = Tokens.Literals.Character.scan(source)) instanceof Tokens.Literals.Character, Is.true)
+			this.expect((<Tokens.Literals.Character>token).getValue(), Is.equal.to("\n"))
 		})
 		this.add("double quote", () => {
 			var s = "'\\\"'"
 			var source = new Tokens.Source(new IO.StringReader(s), errorHandler)
-			this.expect((token = Tokens.Literals.Character.scan(source)) instanceof Tokens.Literals.Character, Is.True())
-			this.expect((<Tokens.Literals.Character>token).getValue(), Is.Equal().To("\""))
+			this.expect((token = Tokens.Literals.Character.scan(source)) instanceof Tokens.Literals.Character, Is.true)
+			this.expect((<Tokens.Literals.Character>token).getValue(), Is.equal.to("\""))
 		})
 	}
 }

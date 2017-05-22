@@ -25,7 +25,7 @@ export class Source extends IO.BufferedReader implements Error.Handler {
 	raise(message: string | Error.Message, level: Error.Level = Error.Level.Critical, type: Error.Type = Error.Type.Lexical, region?: Error.Region): void {
 		if (typeof message == "string") {
 			if (!region) {
-				region = this.getRegion()
+				region = this.region
 			}
 			message = new Error.Message(<string>message, level, type, region)
 		}

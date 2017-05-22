@@ -28,19 +28,19 @@ export class CommentTest extends Unit.Fixture {
 			var source = new Tokens.Source(new IO.StringReader("//this is a line comment"), errorHandler)
 			var token = Tokens.Comment.scan(source)
 			this.expect(token instanceof Tokens.Comment)
-			this.expect((<Tokens.Comment>token).getContent(), Is.Equal().To("this is a line comment"))
+			this.expect((<Tokens.Comment>token).getContent(), Is.equal.to("this is a line comment"))
 		})
 		this.add("block comment, single line", () => {
 			var source = new Tokens.Source(new IO.StringReader("/*this is a block comment*/"), errorHandler)
 			var token = Tokens.Comment.scan(source)
 			this.expect(token instanceof Tokens.Comment)
-			this.expect((<Tokens.Comment>token).getContent(), Is.Equal().To("this is a block comment"))
+			this.expect((<Tokens.Comment>token).getContent(), Is.equal.to("this is a block comment"))
 		})
 		this.add("block comment, multiple lines", () => {
 			var source = new Tokens.Source(new IO.StringReader("/*this\nis\na\nblock\ncomment*/"), errorHandler)
 			var token = Tokens.Comment.scan(source)
 			this.expect(token instanceof Tokens.Comment)
-			this.expect((<Tokens.Comment>token).getContent(), Is.Equal().To("this\nis\na\nblock\ncomment"))
+			this.expect((<Tokens.Comment>token).getContent(), Is.equal.to("this\nis\na\nblock\ncomment"))
 		})
 	}
 }

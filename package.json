@@ -33,6 +33,6 @@
     "watch": "^1.0.2"
   },
   "dependencies": {
-    "@cogneco/mend": "^1.0.0"
+    "@cogneco/mend": "^1.2.0"
   }
 }

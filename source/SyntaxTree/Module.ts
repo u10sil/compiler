@@ -27,7 +27,7 @@ export class Module extends Node {
 	private namespace: string[]
 	constructor(private statements: Statement[], tokens: Tokens.Substance[]) {
 		super(tokens)
-		this.namespace = tokens[0].getRegion().getResource().split("/")
+		this.namespace = tokens[0].getRegion().resource.split("/")
 	}
 	getStatements(): Utilities.Iterator<Statement> {
 		return new Utilities.ArrayIterator(this.statements)

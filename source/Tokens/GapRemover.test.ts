@@ -30,15 +30,15 @@ export class GapRemoverTest extends Unit.Fixture {
 			var gapRemover = new Tokens.GapRemover(lexer)
 			var token: Tokens.Token
 			this.expect((token = gapRemover.next()) instanceof Tokens.Identifier);
-			this.expect((<Tokens.Identifier>token).getName(), Is.Equal().To("a"))
+			this.expect((<Tokens.Identifier>token).getName(), Is.equal.to("a"))
 			this.expect((token = gapRemover.next()) instanceof Tokens.Operator)
-			this.expect((<Tokens.Operator>token).getSymbol(), Is.Equal().To(":="))
+			this.expect((<Tokens.Operator>token).getSymbol(), Is.equal.to(":="))
 			this.expect((token = gapRemover.next()) instanceof Tokens.Identifier)
-			this.expect((<Tokens.Identifier>token).getName(), Is.Equal().To("b"))
+			this.expect((<Tokens.Identifier>token).getName(), Is.equal.to("b"))
 			this.expect((token = gapRemover.next()) instanceof Tokens.Operator)
-			this.expect((<Tokens.Operator>token).getSymbol(), Is.Equal().To("/"))
+			this.expect((<Tokens.Operator>token).getSymbol(), Is.equal.to("/"))
 			this.expect((token = gapRemover.next()) instanceof Tokens.Identifier)
-			this.expect((<Tokens.Identifier>token).getName(), Is.Equal().To("c"))
+			this.expect((<Tokens.Identifier>token).getName(), Is.equal.to("c"))
 		})
 		this.add("verify gaps", () => {
 			var testString = "\t\t\ta := b**c\t\n"
@@ -48,33 +48,33 @@ export class GapRemoverTest extends Unit.Fixture {
 			// PRE-GAP:	"\t\t\t"
 			// POST-GAP: " "
 			this.expect((token = gapRemover.next()) instanceof Tokens.Identifier)
-			this.expect((<Tokens.Identifier>token).getName(), Is.Equal().To("a"))
-			this.expect((<Tokens.Identifier>token).getPregap()[0].getRegion().getContent(), Is.Equal().To("\t\t\t"))
-			this.expect((<Tokens.Identifier>token).getPostgap()[0].getRegion().getContent(), Is.Equal().To(" "))
+			this.expect((<Tokens.Identifier>token).getName(), Is.equal.to("a"))
+			this.expect((<Tokens.Identifier>token).getPregap()[0].getRegion().content, Is.equal.to("\t\t\t"))
+			this.expect((<Tokens.Identifier>token).getPostgap()[0].getRegion().content, Is.equal.to(" "))
 			// PRE-GAP: <none>
 			// POST-GAP: " "
 			this.expect((token = gapRemover.next()) instanceof Tokens.Operator)
-			this.expect((<Tokens.Operator>token).getSymbol(), Is.Equal().To(":="))
-			this.expect((<Tokens.Operator>token).getPregap().length, Is.Equal().To(0))
-			this.expect((<Tokens.Operator>token).getPostgap()[0].getRegion().getContent(), Is.Equal().To(" "))
+			this.expect((<Tokens.Operator>token).getSymbol(), Is.equal.to(":="))
+			this.expect((<Tokens.Operator>token).getPregap().length, Is.equal.to(0))
+			this.expect((<Tokens.Operator>token).getPostgap()[0].getRegion().content, Is.equal.to(" "))
 			// PRE-GAP: <none>
 			// POST-GAP: <none>
 			this.expect((token = gapRemover.next()) instanceof Tokens.Identifier)
-			this.expect((<Tokens.Identifier>token).getName(), Is.Equal().To("b"))
-			this.expect((<Tokens.Identifier>token).getPregap().length, Is.Equal().To(0))
-			this.expect((<Tokens.Identifier>token).getPostgap().length, Is.Equal().To(0))
+			this.expect((<Tokens.Identifier>token).getName(), Is.equal.to("b"))
+			this.expect((<Tokens.Identifier>token).getPregap().length, Is.equal.to(0))
+			this.expect((<Tokens.Identifier>token).getPostgap().length, Is.equal.to(0))
 			// PRE-GAP: <none>
 			// POST-GAP: <none>
 			this.expect((token = gapRemover.next()) instanceof Tokens.Operator)
-			this.expect((<Tokens.Operator>token).getSymbol(), Is.Equal().To("**"))
-			this.expect((<Tokens.Operator>token).getPregap().length, Is.Equal().To(0))
-			this.expect((<Tokens.Operator>token).getPostgap().length, Is.Equal().To(0))
+			this.expect((<Tokens.Operator>token).getSymbol(), Is.equal.to("**"))
+			this.expect((<Tokens.Operator>token).getPregap().length, Is.equal.to(0))
+			this.expect((<Tokens.Operator>token).getPostgap().length, Is.equal.to(0))
 			// PRE-GAP: <none>
 			// POST-GAP: "\t\n"
 			this.expect((token = gapRemover.next()) instanceof Tokens.Identifier)
-			this.expect((<Tokens.Identifier>token).getName(), Is.Equal().To("c"))
-			this.expect((<Tokens.Identifier>token).getPregap().length, Is.Equal().To(0))
-			this.expect((<Tokens.Identifier>token).getPostgap()[0].getRegion().getContent(), Is.Equal().To("\t\n"))
+			this.expect((<Tokens.Identifier>token).getName(), Is.equal.to("c"))
+			this.expect((<Tokens.Identifier>token).getPregap().length, Is.equal.to(0))
+			this.expect((<Tokens.Identifier>token).getPostgap()[0].getRegion().content, Is.equal.to("\t\n"))
 		})
 	}
 }

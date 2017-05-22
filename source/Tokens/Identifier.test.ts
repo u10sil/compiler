@@ -28,17 +28,17 @@ export class IdentifierTest extends Unit.Fixture {
 			var identifier1 = new Tokens.Identifier(null, null)
 			var identifier2 = new Tokens.Identifier("bar", null)
 			this.expect(identifier1.isIdentifier())
-			this.expect(identifier1.isIdentifier(""), Is.True())
-			this.expect(identifier1.isIdentifier("foo"), Is.False())
+			this.expect(identifier1.isIdentifier(""), Is.true)
+			this.expect(identifier1.isIdentifier("foo"), Is.false)
 			this.expect(identifier2.isIdentifier())
-			this.expect(identifier2.isIdentifier("foo"), Is.False())
+			this.expect(identifier2.isIdentifier("foo"), Is.false)
 		})
 		this.add("scan identifier", () => {
 			var source = new Tokens.Source(new IO.StringReader("identifier"), errorHandler)
 			var token = Tokens.Identifier.scan(source)
 			this.expect(token instanceof Tokens.Identifier)
 			this.expect(token.isIdentifier())
-			this.expect((<Tokens.Identifier>token).getName(), Is.Equal().To("identifier"))
+			this.expect((<Tokens.Identifier>token).getName(), Is.equal.to("identifier"))
 		})
 	}
 }

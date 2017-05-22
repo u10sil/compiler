@@ -49,7 +49,7 @@ export class Whitespace extends Gap {
 		return result
 	}
 	isWhitespace(content?: string): boolean {
-		return !content || content == this.getRegion().getContent()
+		return !content || content == this.getRegion().content
 	}
 	private static isWhitespace(character: string) {
 		return character === "\n" || character === "\r" || character === "\t" || character === " "
