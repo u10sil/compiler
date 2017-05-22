@@ -23,11 +23,11 @@ import { Expression } from "./Expression"
 import { Name } from "./Name"
 
 export class Identifier extends Name {
-	constructor(name: string, private typeParameters: Identifier[], tokens: Tokens.Substance[]) {
-		super(name, tokens)
+	get typeParameters(): Utilities.Iterator<Identifier> {
+		return new Utilities.ArrayIterator(this.typeParametersArray)
 	}
-	getTypeParameters(): Utilities.Iterator<Identifier> {
-		return new Utilities.ArrayIterator(this.typeParameters)
+	constructor(name: string, private typeParametersArray: Identifier[], tokens: Tokens.Substance[]) {
+		super(name, tokens)
 	}
 	static parse(source: Source): Identifier {
 		var result: Identifier

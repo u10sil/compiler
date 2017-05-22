@@ -33,38 +33,38 @@ export class ClassTest extends Unit.Fixture {
 		this.add("generic class #1", () => {
 			var classDeclaration = this.createDeclaration("Empty: class <T> {}\n", handler)
 			this.expect(classDeclaration, Is.not.nullOrUndefined)
-			this.expect(classDeclaration.getTypeParameters().next().name, Is.equal.to("T"))
+			this.expect(classDeclaration.typeParameters.next().name, Is.equal.to("T"))
 		})
 		this.add("generic class #2", () => {
 			var classDeclaration = this.createDeclaration("Empty: class <T, S> {}\n", handler)
 			this.expect(classDeclaration, Is.not.nullOrUndefined)
-			var typeParameters = classDeclaration.getTypeParameters()
+			var typeParameters = classDeclaration.typeParameters
 			this.expect(typeParameters.next().name, Is.equal.to("T"))
 			this.expect(typeParameters.next().name, Is.equal.to("S"))
 		})
 		this.add("class extends", () => {
 			var classDeclaration = this.createDeclaration("Empty: class extends Full {}\n", handler)
-			this.expect(classDeclaration.getExtended().name, Is.equal.to("Full"))
+			this.expect(classDeclaration.extended.name, Is.equal.to("Full"))
 		})
 		this.add("class implements", () => {
 			var classDeclaration = this.createDeclaration("Empty: class implements Enumerable, Enumerator {}\n", handler)
-			var implemented = classDeclaration.getImplemented()
+			var implemented = classDeclaration.implemented
 			this.expect(implemented.next().name, Is.equal.to("Enumerable"))
 			this.expect(implemented.next().name, Is.equal.to("Enumerator"))
 			this.expect(implemented.next(), Is.nullOrUndefined)
 		})
 		this.add("generic class implements generic interfaces", () => {
 			var classDeclaration = this.createDeclaration("Empty: class <T, S> implements Interface1<T, S>, Interface2<T, S> {}\n", handler)
-			var implemented = classDeclaration.getImplemented()
+			var implemented = classDeclaration.implemented
 			var interface1 = implemented.next()
 			this.expect(interface1.name, Is.equal.to("Interface1"))
-			var typeParameters1 = interface1.getTypeParameters()
+			var typeParameters1 = interface1.typeParameters
 			this.expect(typeParameters1.next().name, Is.equal.to("T"))
 			this.expect(typeParameters1.next().name, Is.equal.to("S"))
 			this.expect(typeParameters1.next(), Is.nullOrUndefined)
 			var interface2 = implemented.next()
 			this.expect(interface2.name, Is.equal.to("Interface2"))
-			var typeParameters2 = interface2.getTypeParameters()
+			var typeParameters2 = interface2.typeParameters
 			this.expect(typeParameters2.next().name, Is.equal.to("T"))
 			this.expect(typeParameters2.next().name, Is.equal.to("S"))
 			this.expect(typeParameters2.next(), Is.nullOrUndefined)
@@ -72,7 +72,7 @@ export class ClassTest extends Unit.Fixture {
 		})
 		this.add("abstract class", () => {
 			var classDeclaration = this.createDeclaration("Empty: abstract class {}\n", handler)
-			this.expect(classDeclaration.isAbstract(), Is.true)
+			this.expect(classDeclaration.isAbstract, Is.true)
 		})
 		this.add("member fields", () => {
 			var program: string =
@@ -82,7 +82,7 @@ f := 50.5f
 }
 `
 			var classDeclaration = this.createDeclaration(program, handler);
-			var statements = classDeclaration.getBlock().getStatements()
+			var statements = classDeclaration.block.statements
 			var firstField = <SyntaxTree.Declarations.Assignment>statements.next()
 			this.expect(firstField.left.name, Is.equal.to("i"))
 			this.expect(firstField.type.name, Is.equal.to("Int"))
@@ -107,28 +107,28 @@ f := 50.5f
 }
 `
 			var classDeclaration = this.createDeclaration(program, handler);
-			var statements = classDeclaration.getBlock().getStatements()
+			var statements = classDeclaration.block.statements
 			var countField = statements.next()
 			var constructor = <SyntaxTree.Declarations.Function>statements.next()
 			this.expect(constructor.symbol, Is.equal.to("init"))
-			this.expect(constructor.getBody(), Is.nullOrUndefined)
-			this.expect(constructor.getReturnType(), Is.nullOrUndefined)
+			this.expect(constructor.body, Is.nullOrUndefined)
+			this.expect(constructor.returnType, Is.nullOrUndefined)
 			var updateCountFunction = <SyntaxTree.Declarations.Function>statements.next()
 			this.expect(updateCountFunction.symbol, Is.equal.to("updateCount"))
-			var updateCountArgument = <SyntaxTree.Declarations.Argument>updateCountFunction.getArguments().next()
+			var updateCountArgument = <SyntaxTree.Declarations.Argument>updateCountFunction.argumentList.next()
 			this.expect(updateCountArgument.symbol, Is.equal.to("newCount"))
 			this.expect((<SyntaxTree.Type.Identifier>updateCountArgument.type).name, Is.equal.to("Int"))
-			this.expect(updateCountFunction.getReturnType(), Is.nullOrUndefined)
+			this.expect(updateCountFunction.returnType, Is.nullOrUndefined)
 			var getCountFunction = <SyntaxTree.Declarations.Function>statements.next()
 			this.expect(getCountFunction.symbol, Is.equal.to("getCount"))
-			this.expect((<SyntaxTree.Type.Identifier>getCountFunction.getReturnType()).name, Is.equal.to("Int"))
-			var getCountFunctionStatement = <SyntaxTree.Expressions.Identifier>getCountFunction.getBody().getStatements().next()
+			this.expect((<SyntaxTree.Type.Identifier>getCountFunction.returnType).name, Is.equal.to("Int"))
+			var getCountFunctionStatement = <SyntaxTree.Expressions.Identifier>getCountFunction.body.statements.next()
 			this.expect(getCountFunctionStatement.name, Is.equal.to("count"))
 		})
 	}
 	createDeclaration(sourceString: string, errorHandler: Error.Handler): SyntaxTree.Declarations.Class {
 		var parser = new SyntaxTree.Parser(new Tokens.GapRemover(new Tokens.Lexer(new IO.StringReader(sourceString), errorHandler)), errorHandler)
-		var statements = parser.next().getStatements()
+		var statements = parser.next().statements
 		return <SyntaxTree.Declarations.Class> statements.next()
 	}
 }

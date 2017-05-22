@@ -52,7 +52,7 @@ export class VariableTest extends Unit.Fixture {
 	}
 	createDeclaration(sourceString: string, errorHandler: Error.Handler): SyntaxTree.Declarations.Variable {
 		var parser = new SyntaxTree.Parser(new Tokens.GapRemover(new Tokens.Lexer(new IO.StringReader(sourceString), errorHandler)), errorHandler)
-		var statements = parser.next().getStatements()
+		var statements = parser.next().statements
 		return <SyntaxTree.Declarations.Variable> statements.next()
 	}
 }

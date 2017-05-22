@@ -25,12 +25,12 @@ import { Node } from "./Node"
 
 export class Module extends Node {
 	private namespace: string[]
-	constructor(private statements: Statement[], tokens: Tokens.Substance[]) {
+	get statements(): Utilities.Iterator<Statement> {
+		return new Utilities.ArrayIterator(this.statementsArray)
+	}
+	constructor(private statementsArray: Statement[], tokens: Tokens.Substance[]) {
 		super(tokens)
 		this.namespace = tokens[0].region.resource.split("/")
-	}
-	getStatements(): Utilities.Iterator<Statement> {
-		return new Utilities.ArrayIterator(this.statements)
 	}
 	static parse(source: Source): Module {
 		var result: Module

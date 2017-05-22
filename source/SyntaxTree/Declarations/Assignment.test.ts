@@ -45,7 +45,7 @@ export class AssignmentTest extends Unit.Fixture {
 	}
 	createDeclaration(sourceString: string, errorHandler: Error.Handler): SyntaxTree.Declarations.Assignment {
 		var parser = new SyntaxTree.Parser(new Tokens.GapRemover(new Tokens.Lexer(new IO.StringReader(sourceString), errorHandler)), errorHandler)
-		var statements = parser.next().getStatements()
+		var statements = parser.next().statements
 		return <SyntaxTree.Declarations.Assignment> statements.next()
 	}
 }

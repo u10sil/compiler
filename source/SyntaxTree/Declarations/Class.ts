@@ -25,23 +25,14 @@ import * as Type from "../Type"
 import { Block } from "../Block"
 
 export class Class extends Declaration {
-	constructor(symbol: Type.Name, private isAbstractClass: boolean, private typeParameters: Type.Name[], private extended: Type.Identifier, private implemented: Type.Identifier[], private block: Block, tokens: Tokens.Substance[]) {
+	get typeParameters(): Utilities.Iterator<Type.Name> {
+		return new Utilities.ArrayIterator(this.typeParametersArray)
+	}
+	get implemented(): Utilities.Iterator<Type.Identifier> {
+		return new Utilities.ArrayIterator(this.implementedArray)
+	}
+	constructor(symbol: Type.Name, readonly isAbstract: boolean, private typeParametersArray: Type.Name[], readonly extended: Type.Identifier, private implementedArray: Type.Identifier[], readonly block: Block, tokens: Tokens.Substance[]) {
 		super(symbol.name, tokens)
-	}
-	isAbstract(): boolean {
-		return this.isAbstractClass
-	}
-	getTypeParameters(): Utilities.Iterator<Type.Name> {
-		return new Utilities.ArrayIterator(this.typeParameters)
-	}
-	getExtended(): Type.Identifier {
-		return this.extended
-	}
-	getImplemented(): Utilities.Iterator<Type.Identifier> {
-		return new Utilities.ArrayIterator(this.implemented)
-	}
-	getBlock(): Block {
-		return this.block
 	}
 	static parse(source: Source): Class {
 		var result: Class

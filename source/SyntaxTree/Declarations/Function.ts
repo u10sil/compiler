@@ -27,23 +27,14 @@ import { Block } from "../Block"
 import { FunctionModifier } from "./FunctionModifier"
 
 export class Function extends Declaration {
-	constructor(symbol: Type.Name, private modifier: FunctionModifier, private typeParameters: Type.Name[], private argumentList: Argument[], private returnType: Type.Expression, private body: Block, tokens: Tokens.Substance[]) {
+	get typeParameters(): Utilities.Iterator<Type.Name> {
+		return new Utilities.ArrayIterator(this.typeParametersArray)
+	}
+	get argumentList(): Utilities.Iterator<Argument> {
+		return new Utilities.ArrayIterator(this.argumentsArray)
+	}
+	constructor(symbol: Type.Name, readonly modifier: FunctionModifier, private typeParametersArray: Type.Name[], private argumentsArray: Argument[], readonly returnType: Type.Expression, readonly body: Block, tokens: Tokens.Substance[]) {
 		super(symbol.name, tokens)
-	}
-	getModifier(): FunctionModifier {
-		return this.modifier
-	}
-	getTypeParameters(): Utilities.Iterator<Type.Name> {
-		return new Utilities.ArrayIterator(this.typeParameters)
-	}
-	getReturnType(): Type.Expression {
-		return this.returnType
-	}
-	getBody(): Block {
-		return this.body
-	}
-	getArguments(): Utilities.Iterator<Argument> {
-		return new Utilities.ArrayIterator(this.argumentList)
 	}
 	static parse(source: Source): Function {
 		var result: Function

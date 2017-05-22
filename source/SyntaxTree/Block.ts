@@ -22,11 +22,11 @@ import { Source } from "./Source"
 import { Statement } from "./Statement"
 
 export class Block extends Statement {
-	constructor(private statements: Statement[], tokens: Tokens.Substance[]) {
-		super(tokens)
+	get statements(): Utilities.Iterator<Statement> {
+		return new Utilities.ArrayIterator(this.statementsArray)
 	}
-	getStatements(): Utilities.Iterator<Statement> {
-		return new Utilities.ArrayIterator(this.statements)
+	constructor(private statementsArray: Statement[], tokens: Tokens.Substance[]) {
+		super(tokens)
 	}
 	static parse(source: Source): Block {
 		var result: Block
