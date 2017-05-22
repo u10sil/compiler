@@ -21,14 +21,13 @@ import { Source } from "../../Source"
 import { Expression } from "../Expression"
 
 export class String extends Expression {
-	constructor(private value: string, tokens: Tokens.Substance[]) {
+	constructor(readonly value: string, tokens: Tokens.Substance[]) {
 		super(tokens)
 	}
-	getValue(): string { return this.value }
 	static parse(source: Source): String {
 		var result: String
 		if (source.peek() instanceof Tokens.Literals.String)
-			result = new String((<Tokens.Literals.String>source.next()).getValue(), source.mark())
+			result = new String((<Tokens.Literals.String>source.next()).value, source.mark())
 		return result
 	}
 }

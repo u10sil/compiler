@@ -27,20 +27,20 @@ export class AssignmentTest extends Unit.Fixture {
 		var handler = new Error.ConsoleHandler()
 		this.add("a := b", () => {
 			var declareAssignStatement = this.createDeclaration("a := b", handler)
-			this.expect(declareAssignStatement.getLeft().getName(), Is.equal.to("a"))
-			this.expect((<SyntaxTree.Expressions.Identifier>declareAssignStatement.getRight()).getName(), Is.equal.to("b"))
+			this.expect(declareAssignStatement.left.getName(), Is.equal.to("a"))
+			this.expect((<SyntaxTree.Expressions.Identifier>declareAssignStatement.right).getName(), Is.equal.to("b"))
 		})
 		this.add("foo: Type = bar", () => {
 			var declareAssignStatement = this.createDeclaration("foo: Type = bar", handler)
-			this.expect(declareAssignStatement.getLeft().getName(), Is.equal.to("foo"))
-			this.expect(declareAssignStatement.getType().getName(), Is.equal.to("Type"))
-			this.expect((<SyntaxTree.Expressions.Identifier>declareAssignStatement.getRight()).getName(), Is.equal.to("bar"))
+			this.expect(declareAssignStatement.left.getName(), Is.equal.to("foo"))
+			this.expect(declareAssignStatement.type.getName(), Is.equal.to("Type"))
+			this.expect((<SyntaxTree.Expressions.Identifier>declareAssignStatement.right).getName(), Is.equal.to("bar"))
 		})
 		this.add("foo: Float = 0.50f", () => {
 			var declareAssignStatement = this.createDeclaration("f: Float = 0.50f", handler)
-			this.expect(declareAssignStatement.getLeft().getName(), Is.equal.to("f"))
-			this.expect(declareAssignStatement.getType().getName(), Is.equal.to("Float"))
-			this.expect((<SyntaxTree.Expressions.Literal.Number>declareAssignStatement.getRight()).getValue(), Is.equal.to(0.5))
+			this.expect(declareAssignStatement.left.getName(), Is.equal.to("f"))
+			this.expect(declareAssignStatement.type.getName(), Is.equal.to("Float"))
+			this.expect((<SyntaxTree.Expressions.Literal.Number>declareAssignStatement.right).value, Is.equal.to(0.5))
 		})
 	}
 	createDeclaration(sourceString: string, errorHandler: Error.Handler): SyntaxTree.Declarations.Assignment {

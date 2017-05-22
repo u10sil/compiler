@@ -19,8 +19,7 @@
 import { Error } from "@cogneco/mend"
 
 export abstract class Token {
-	constructor(private region: Error.Region) { }
-	getRegion(): Error.Region { return this.region; }
+	constructor(readonly region: Error.Region) { }
 	toString() {
 		return this.region.toString()
 	}

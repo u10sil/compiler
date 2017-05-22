@@ -41,12 +41,12 @@ export class GapRemover implements Utilities.Iterator<Substance> {
 		while (this.backend.peek() instanceof Gap) {
 			var next = this.backend.next()
 			post.push(next)
-			if (next instanceof Whitespace && (<Whitespace>next).getEndsLine()) {
+			if (next instanceof Whitespace && (<Whitespace>next).endsLine) {
 				break
 			}
 		}
-		result.setPregap(pre)
-		result.setPostgap(post)
+		result.pregap = pre
+		result.postgap = post
 		return result
 	}
 }

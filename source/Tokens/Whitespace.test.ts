@@ -31,13 +31,13 @@ export class WhitespaceTest extends Unit.Fixture {
 			var sourceSpace = new Tokens.Source(new IO.StringReader(" "), errorHandler)
 			var token: Tokens.Token
 			this.expect((token = Tokens.Whitespace.scan(sourceNewline)) instanceof Tokens.Whitespace)
-			this.expect((<Tokens.Whitespace>token).getEndsLine(), Is.true)
+			this.expect((<Tokens.Whitespace>token).endsLine, Is.true)
 			this.expect((token = Tokens.Whitespace.scan(sourceCarriageReturn)) instanceof Tokens.Whitespace)
-			this.expect((<Tokens.Whitespace>token).getEndsLine(), Is.false)
+			this.expect((<Tokens.Whitespace>token).endsLine, Is.false)
 			this.expect((token = Tokens.Whitespace.scan(sourceTab)) instanceof Tokens.Whitespace)
-			this.expect((<Tokens.Whitespace>token).getEndsLine(), Is.false)
+			this.expect((<Tokens.Whitespace>token).endsLine, Is.false)
 			this.expect((token = Tokens.Whitespace.scan(sourceSpace)) instanceof Tokens.Whitespace)
-			this.expect((<Tokens.Whitespace>token).getEndsLine(), Is.false)
+			this.expect((<Tokens.Whitespace>token).endsLine, Is.false)
 		})
 	}
 }

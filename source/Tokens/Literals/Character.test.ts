@@ -29,19 +29,19 @@ export class CharacterTest extends Unit.Fixture {
 			var s = "''"
 			var source = new Tokens.Source(new IO.StringReader(s), errorHandler)
 			this.expect((token = Tokens.Literals.Character.scan(source)) instanceof Tokens.Literals.Character, Is.true)
-			this.expect((<Tokens.Literals.Character>token).getValue(), Is.equal.to(""))
+			this.expect((<Tokens.Literals.Character>token).value, Is.equal.to(""))
 		})
 		this.add("newline", () => {
 			var s = "'\\n'"
 			var source = new Tokens.Source(new IO.StringReader(s), errorHandler)
 			this.expect((token = Tokens.Literals.Character.scan(source)) instanceof Tokens.Literals.Character, Is.true)
-			this.expect((<Tokens.Literals.Character>token).getValue(), Is.equal.to("\n"))
+			this.expect((<Tokens.Literals.Character>token).value, Is.equal.to("\n"))
 		})
 		this.add("double quote", () => {
 			var s = "'\\\"'"
 			var source = new Tokens.Source(new IO.StringReader(s), errorHandler)
 			this.expect((token = Tokens.Literals.Character.scan(source)) instanceof Tokens.Literals.Character, Is.true)
-			this.expect((<Tokens.Literals.Character>token).getValue(), Is.equal.to("\""))
+			this.expect((<Tokens.Literals.Character>token).value, Is.equal.to("\""))
 		})
 	}
 }

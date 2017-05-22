@@ -22,10 +22,9 @@ import { Token } from "../Token"
 import { Literal } from "../Literal"
 
 export class Number extends Literal {
-	constructor(private value: number, original: string, region: Error.Region) {
+	constructor(readonly value: number, original: string, region: Error.Region) {
 		super(region)
 	}
-	getValue(): number { return this.value }
 	static scan(source: Source): Token {
 		var result: Token
 		(result = this.scanBinary(source)) ||

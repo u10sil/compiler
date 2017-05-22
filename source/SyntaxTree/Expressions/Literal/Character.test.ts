@@ -30,7 +30,7 @@ export class CharacterTest extends Unit.Fixture {
 			var statements = parser.next().getStatements()
 			var literal = statements.next()
 			this.expect(literal instanceof SyntaxTree.Expressions.Literal.Character, Is.true)
-			this.expect((<SyntaxTree.Expressions.Literal.Character>literal).getValue(), Is.equal.to("a"))
+			this.expect((<SyntaxTree.Expressions.Literal.Character>literal).value, Is.equal.to("a"))
 		})
 	}
 }

@@ -22,10 +22,9 @@ import { Token } from "../Token"
 import { Literal } from "../Literal"
 
 export class Character extends Literal {
-	constructor(private value: string, region: Error.Region) {
+	constructor(readonly value: string, region: Error.Region) {
 		super(region)
 	}
-	getValue(): string { return this.value }
 	static scan(source: Source): Token {
 		var result: string
 		if (source.peek() == "'") {

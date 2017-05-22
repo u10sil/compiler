@@ -21,14 +21,13 @@ import { Source } from "../../Source"
 import { Expression } from "../Expression"
 
 export class Number extends Expression {
-	constructor(private value: number, tokens: Tokens.Substance[]) {
+	constructor(readonly value: number, tokens: Tokens.Substance[]) {
 		super(tokens)
 	}
-	getValue(): number { return this.value }
 	static parse(source: Source): Number {
 		var result: Number
 		if (source.peek() instanceof Tokens.Literals.Number)
-			result = new Number((<Tokens.Literals.Number>source.next()).getValue(), source.mark())
+			result = new Number((<Tokens.Literals.Number>source.next()).value, source.mark())
 		return result
 	}
 }

@@ -34,17 +34,8 @@ import * as Expressions from "../Expressions"
 //		List<T> new()	= Expressions.Expression
 //
 export class Assignment extends Declaration {
-	constructor(private left: Type.Name, private right: Expressions.Expression, private type: Type.Identifier, tokens: Tokens.Substance[]) {
+	constructor(readonly left: Type.Name, readonly right: Expressions.Expression, readonly type: Type.Identifier, tokens: Tokens.Substance[]) {
 		super(left.getName(), tokens)
-	}
-	getLeft(): Type.Name {
-		return this.left
-	}
-	getRight(): Expressions.Expression {
-		return this.right
-	}
-	getType(): Type.Identifier {
-		return this.type
 	}
 	static parse(source: Source): Assignment {
 		var result: Assignment

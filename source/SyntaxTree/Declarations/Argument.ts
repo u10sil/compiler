@@ -24,11 +24,8 @@ import * as Type from "../Type"
 import { Assignment } from "./Assignment"
 
 export class Argument extends Declaration {
-	constructor(symbol: string, private type: Type.Expression, tokens: Tokens.Substance[]) {
+	constructor(symbol: string, public /* TODO: syntax tree should be immutable */ type: Type.Expression, tokens: Tokens.Substance[]) {
 		super(symbol, tokens)
-	}
-	getType(): Type.Expression {
-		return this.type
 	}
 	static parse(source: Source): Argument {
 		var result: Argument
@@ -40,7 +37,7 @@ export class Argument extends Declaration {
 			//
 			// TODO: Is this the correct way to go?
 			//
-			result = new Argument(assignment.getSymbol(), assignment.getRight(), source.mark())
+			result = new Argument(assignment.getSymbol(), assignment.right, source.mark())
 		} else if (source.peek().isIdentifier()) {
 			//
 			// handles cases "x" and "x: Type"
@@ -76,9 +73,9 @@ export class Argument extends Declaration {
 			// This is useful for cases where the argument list is written in reduced form.
 			// 	Example: foo: func (width, height: Int, x, y, z: Float)
 			//
-			var previousArgumentType = result[result.length - 1].getType()
+			var previousArgumentType = result[result.length - 1].type
 			for (var i = result.length - 1; i >= 0; i--) {
-				var currentArgumentType = result[i].getType()
+				var currentArgumentType = result[i].type
 				if (currentArgumentType && currentArgumentType !== previousArgumentType)
 					previousArgumentType = currentArgumentType
 				if (!currentArgumentType)

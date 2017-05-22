@@ -20,6 +20,7 @@ import { Error, IO, Unit, Uri, Utilities } from "@cogneco/mend";
 import * as Tokens from "./Tokens"
 
 export class Program {
+	readonly version = "0.1.1"
 	private defaultCommand = "build"
 	constructor(private commands: string[]) {
 		this.commands = this.commands.slice(2)
@@ -45,7 +46,7 @@ export class Program {
 				process.exitCode = Unit.Fixture.run() ? 0 : 1
 				break
 			case "version":
-				console.log("syspl " + this.getVersion())
+				console.log("syspl " + this.version)
 				break
 			case "help":
 				console.log("help")
@@ -65,15 +66,12 @@ export class Program {
 			this.runHelper(command, this.commands)
 		}
 	}
-	getVersion(): string {
-		return "0.2"
-	}
 }
 
 try {
 	var syspl = new Program(process.argv)
 	syspl.run()
-	console.log("syspl " + syspl.getVersion())
+	console.log("syspl " + syspl.version)
 } catch (Error) {
 	console.log(Error.toString())
 }

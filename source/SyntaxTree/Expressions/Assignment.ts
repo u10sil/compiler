@@ -22,14 +22,8 @@ import { Expression } from "./Expression"
 import { Identifier } from "./Identifier"
 
 export class Assignment extends Expression {
-	constructor(private left: Identifier, private right: Expression, tokens: Tokens.Substance[]) {
+	constructor(readonly left: Identifier, readonly right: Expression, tokens: Tokens.Substance[]) {
 		super(tokens)
-	}
-	getLeft(): Identifier {
-		return this.left
-	}
-	getRight(): Expression {
-		return this.right
 	}
 	static parse(source: Source): Assignment {
 		var result: Assignment

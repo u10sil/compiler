@@ -30,7 +30,7 @@ export class StringTest extends Unit.Fixture {
 			var statements = parser.next().getStatements()
 			var literal = statements.next()
 			this.expect(literal instanceof SyntaxTree.Expressions.Literal.String, Is.true)
-			this.expect((<SyntaxTree.Expressions.Literal.String>literal).getValue(), Is.equal.to("\"string\""))
+			this.expect((<SyntaxTree.Expressions.Literal.String>literal).value, Is.equal.to("\"string\""))
 		})
 	}
 }

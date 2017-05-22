@@ -24,17 +24,8 @@ import { Declaration } from "../Declaration"
 import * as Type from "../Type"
 
 export class Variable extends Declaration {
-	constructor(name: Type.Name, private static_: boolean, private constant: boolean, private type: Type.Expression, tokens: Tokens.Substance[]) {
+	constructor(name: Type.Name, readonly isStatic: boolean, readonly isConstant: boolean, readonly type: Type.Expression, tokens: Tokens.Substance[]) {
 		super(name.getName(), tokens)
-	}
-	isStatic(): boolean {
-		return this.static_
-	}
-	isConstant(): boolean {
-		return this.constant
-	}
-	getType(): Type.Expression {
-		return this.type
 	}
 	static parse(source: Source): Variable {
 		var result: Variable

@@ -46,7 +46,7 @@ export class Source implements Utilities.Iterator<Tokens.Substance>, Error.Handl
 	raise(message: string | Error.Message, level: Error.Level = Error.Level.Critical, type: Error.Type = Error.Type.Gramatical, region?: Error.Region): void {
 		if (typeof message == "string") {
 			if (!region)
-				region = this.peek().getRegion()
+				region = this.peek().region
 			message = new Error.Message(<string>message, level, type, region)
 		}
 		this.errorHandler.raise(<Error.Message>message)

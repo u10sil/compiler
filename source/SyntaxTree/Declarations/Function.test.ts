@@ -55,13 +55,13 @@ export class FunctionTest extends Unit.Fixture {
 			this.expect(functionDeclaration.getSymbol(), Is.equal.to("Empty"))
 			currentArgument = functionArguments.next()
 			this.expect(currentArgument.getSymbol(), Is.equal.to("i"))
-			this.expect((<SyntaxTree.Type.Identifier>currentArgument.getType()).getName(), Is.equal.to("Int"))
+			this.expect((<SyntaxTree.Type.Identifier>currentArgument.type).getName(), Is.equal.to("Int"))
 			currentArgument = functionArguments.next()
 			this.expect(currentArgument.getSymbol(), Is.equal.to("j"))
-			this.expect((<SyntaxTree.Type.Identifier>currentArgument.getType()).getName(), Is.equal.to("Float"))
+			this.expect((<SyntaxTree.Type.Identifier>currentArgument.type).getName(), Is.equal.to("Float"))
 			currentArgument = functionArguments.next()
 			this.expect(currentArgument.getSymbol(), Is.equal.to("k"))
-			this.expect((<SyntaxTree.Type.Identifier>currentArgument.getType()).getName(), Is.equal.to("Double"))
+			this.expect((<SyntaxTree.Type.Identifier>currentArgument.type).getName(), Is.equal.to("Double"))
 		})
 		this.add("empty function with parameters reduced", () => {
 			var functionDeclaration = this.createDeclaration("Empty: func (w, h: Int, x, y, z: Float)\n", handler)
@@ -70,19 +70,19 @@ export class FunctionTest extends Unit.Fixture {
 			this.expect(functionDeclaration.getSymbol(), Is.equal.to("Empty"))
 			currentArgument = functionArguments.next()
 			this.expect(currentArgument.getSymbol(), Is.equal.to("w"))
-			this.expect((<SyntaxTree.Type.Identifier>currentArgument.getType()).getName(), Is.equal.to("Int"))
+			this.expect((<SyntaxTree.Type.Identifier>currentArgument.type).getName(), Is.equal.to("Int"))
 			currentArgument = functionArguments.next()
 			this.expect(currentArgument.getSymbol(), Is.equal.to("h"))
-			this.expect((<SyntaxTree.Type.Identifier>currentArgument.getType()).getName(), Is.equal.to("Int"))
+			this.expect((<SyntaxTree.Type.Identifier>currentArgument.type).getName(), Is.equal.to("Int"))
 			currentArgument = functionArguments.next()
 			this.expect(currentArgument.getSymbol(), Is.equal.to("x"))
-			this.expect((<SyntaxTree.Type.Identifier>currentArgument.getType()).getName(), Is.equal.to("Float"))
+			this.expect((<SyntaxTree.Type.Identifier>currentArgument.type).getName(), Is.equal.to("Float"))
 			currentArgument = functionArguments.next()
 			this.expect(currentArgument.getSymbol(), Is.equal.to("y"))
-			this.expect((<SyntaxTree.Type.Identifier>currentArgument.getType()).getName(), Is.equal.to("Float"))
+			this.expect((<SyntaxTree.Type.Identifier>currentArgument.type).getName(), Is.equal.to("Float"))
 			currentArgument = functionArguments.next()
 			this.expect(currentArgument.getSymbol(), Is.equal.to("z"))
-			this.expect((<SyntaxTree.Type.Identifier>currentArgument.getType()).getName(), Is.equal.to("Float"))
+			this.expect((<SyntaxTree.Type.Identifier>currentArgument.type).getName(), Is.equal.to("Float"))
 		})
 		this.add("empty generic function with generic parameter types", () => {
 			var functionDeclaration = this.createDeclaration("Empty: func <T, S> (a, b: Generic<T>, x, y: Generic<S>)\n", handler)
@@ -91,10 +91,10 @@ export class FunctionTest extends Unit.Fixture {
 			var currentArgument = functionArguments.next()
 			this.expect(typeParameters.next().getName(), Is.equal.to("T"))
 			this.expect(typeParameters.next().getName(), Is.equal.to("S"))
-			this.expect((<SyntaxTree.Type.Identifier>currentArgument.getType()).getTypeParameters().next().getName(), Is.equal.to("T"))
+			this.expect((<SyntaxTree.Type.Identifier>currentArgument.type).getTypeParameters().next().getName(), Is.equal.to("T"))
 			functionArguments.next() // consume "b: Generic<T>"
 			currentArgument = functionArguments.next()
-			this.expect((<SyntaxTree.Type.Identifier>currentArgument.getType()).getTypeParameters().next().getName(), Is.equal.to("S"))
+			this.expect((<SyntaxTree.Type.Identifier>currentArgument.type).getTypeParameters().next().getName(), Is.equal.to("S"))
 		})
 		this.add("empty function with return type", () => {
 			var functionDeclaration = this.createDeclaration("Empty: func -> ReturnType\n", handler)
@@ -113,13 +113,13 @@ export class FunctionTest extends Unit.Fixture {
 			var functionDeclaration = this.createDeclaration("Empty: func (.arg)\n", handler)
 			var argument = <SyntaxTree.Declarations.Argument>functionDeclaration.getArguments().next()
 			this.expect(argument.getSymbol(), Is.equal.to("arg"))
-			this.expect(argument.getType(), Is.nullOrUndefined)
+			this.expect(argument.type, Is.nullOrUndefined)
 		})
 		this.add("argument assign", () => {
 			var functionDeclaration = this.createDeclaration("Empty: func (=arg)\n", handler)
 			var argument = <SyntaxTree.Declarations.Argument>functionDeclaration.getArguments().next()
 			this.expect(argument.getSymbol(), Is.equal.to("arg"))
-			this.expect(argument.getType(), Is.nullOrUndefined)
+			this.expect(argument.type, Is.nullOrUndefined)
 		})
 		this.add("argument declare-assign", () => {
 			var functionDeclaration = this.createDeclaration("Empty: func (arg := 10)\n", handler)
@@ -128,7 +128,7 @@ export class FunctionTest extends Unit.Fixture {
 			//
 			// TODO: Fix this test
 			//
-			this.expect(argument.getType(), Is.not.nullOrUndefined)
+			this.expect(argument.type, Is.not.nullOrUndefined)
 		})
 	}
 	createDeclaration(sourceString: string, errorHandler: Error.Handler): SyntaxTree.Declarations.Function {

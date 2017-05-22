@@ -29,13 +29,13 @@ export class StringTest extends Unit.Fixture {
 			var s = "\"\""
 			var source = new Tokens.Source(new IO.StringReader(s), errorHandler)
 			this.expect((token = Tokens.Literals.String.scan(source)) instanceof Tokens.Literals.String, Is.true)
-			this.expect((<Tokens.Literals.String>token).getValue(), Is.equal.to(""))
+			this.expect((<Tokens.Literals.String>token).value, Is.equal.to(""))
 		})
 		this.add("string with escape sequence #1", () => {
 			var s = "\" \\\" \""
 			var source = new Tokens.Source(new IO.StringReader(s), errorHandler)
 			this.expect((token = Tokens.Literals.String.scan(source)) instanceof Tokens.Literals.String, Is.true)
-			this.expect((<Tokens.Literals.String>token).getValue(), Is.equal.to(" \" "))
+			this.expect((<Tokens.Literals.String>token).value, Is.equal.to(" \" "))
 		})
 	}
 }

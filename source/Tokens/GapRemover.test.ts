@@ -49,32 +49,32 @@ export class GapRemoverTest extends Unit.Fixture {
 			// POST-GAP: " "
 			this.expect((token = gapRemover.next()) instanceof Tokens.Identifier)
 			this.expect((<Tokens.Identifier>token).getName(), Is.equal.to("a"))
-			this.expect((<Tokens.Identifier>token).getPregap()[0].getRegion().content, Is.equal.to("\t\t\t"))
-			this.expect((<Tokens.Identifier>token).getPostgap()[0].getRegion().content, Is.equal.to(" "))
+			this.expect((<Tokens.Identifier>token).pregap[0].region.content, Is.equal.to("\t\t\t"))
+			this.expect((<Tokens.Identifier>token).postgap[0].region.content, Is.equal.to(" "))
 			// PRE-GAP: <none>
 			// POST-GAP: " "
 			this.expect((token = gapRemover.next()) instanceof Tokens.Operator)
 			this.expect((<Tokens.Operator>token).getSymbol(), Is.equal.to(":="))
-			this.expect((<Tokens.Operator>token).getPregap().length, Is.equal.to(0))
-			this.expect((<Tokens.Operator>token).getPostgap()[0].getRegion().content, Is.equal.to(" "))
+			this.expect((<Tokens.Operator>token).pregap.length, Is.equal.to(0))
+			this.expect((<Tokens.Operator>token).postgap[0].region.content, Is.equal.to(" "))
 			// PRE-GAP: <none>
 			// POST-GAP: <none>
 			this.expect((token = gapRemover.next()) instanceof Tokens.Identifier)
 			this.expect((<Tokens.Identifier>token).getName(), Is.equal.to("b"))
-			this.expect((<Tokens.Identifier>token).getPregap().length, Is.equal.to(0))
-			this.expect((<Tokens.Identifier>token).getPostgap().length, Is.equal.to(0))
+			this.expect((<Tokens.Identifier>token).pregap.length, Is.equal.to(0))
+			this.expect((<Tokens.Identifier>token).postgap.length, Is.equal.to(0))
 			// PRE-GAP: <none>
 			// POST-GAP: <none>
 			this.expect((token = gapRemover.next()) instanceof Tokens.Operator)
 			this.expect((<Tokens.Operator>token).getSymbol(), Is.equal.to("**"))
-			this.expect((<Tokens.Operator>token).getPregap().length, Is.equal.to(0))
-			this.expect((<Tokens.Operator>token).getPostgap().length, Is.equal.to(0))
+			this.expect((<Tokens.Operator>token).pregap.length, Is.equal.to(0))
+			this.expect((<Tokens.Operator>token).postgap.length, Is.equal.to(0))
 			// PRE-GAP: <none>
 			// POST-GAP: "\t\n"
 			this.expect((token = gapRemover.next()) instanceof Tokens.Identifier)
 			this.expect((<Tokens.Identifier>token).getName(), Is.equal.to("c"))
-			this.expect((<Tokens.Identifier>token).getPregap().length, Is.equal.to(0))
-			this.expect((<Tokens.Identifier>token).getPostgap()[0].getRegion().content, Is.equal.to("\t\n"))
+			this.expect((<Tokens.Identifier>token).pregap.length, Is.equal.to(0))
+			this.expect((<Tokens.Identifier>token).postgap[0].region.content, Is.equal.to("\t\n"))
 		})
 	}
 }
