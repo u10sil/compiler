@@ -23,21 +23,21 @@ import Is = Unit.Is
 export class WhitespaceTest extends Unit.Fixture {
 	constructor() {
 		super("Tokens.Whitespace")
-		var errorHandler = new Error.ConsoleHandler()
+		const errorHandler = new Error.ConsoleHandler()
 		this.add("whitespace", () => {
-			var sourceNewline = new Tokens.Source(new IO.StringReader("\n"), errorHandler)
-			var sourceCarriageReturn = new Tokens.Source(new IO.StringReader("\r"), errorHandler)
-			var sourceTab = new Tokens.Source(new IO.StringReader("\t"), errorHandler)
-			var sourceSpace = new Tokens.Source(new IO.StringReader(" "), errorHandler)
-			var token: Tokens.Token
+			const sourceNewline = new Tokens.Source(new IO.StringReader("\n"), errorHandler)
+			const sourceCarriageReturn = new Tokens.Source(new IO.StringReader("\r"), errorHandler)
+			const sourceTab = new Tokens.Source(new IO.StringReader("\t"), errorHandler)
+			const sourceSpace = new Tokens.Source(new IO.StringReader(" "), errorHandler)
+			let token: Tokens.Token
 			this.expect((token = Tokens.Whitespace.scan(sourceNewline)) instanceof Tokens.Whitespace)
-			this.expect((<Tokens.Whitespace>token).endsLine, Is.true)
+			this.expect((token as Tokens.Whitespace).endsLine, Is.true)
 			this.expect((token = Tokens.Whitespace.scan(sourceCarriageReturn)) instanceof Tokens.Whitespace)
-			this.expect((<Tokens.Whitespace>token).endsLine, Is.false)
+			this.expect((token as Tokens.Whitespace).endsLine, Is.false)
 			this.expect((token = Tokens.Whitespace.scan(sourceTab)) instanceof Tokens.Whitespace)
-			this.expect((<Tokens.Whitespace>token).endsLine, Is.false)
+			this.expect((token as Tokens.Whitespace).endsLine, Is.false)
 			this.expect((token = Tokens.Whitespace.scan(sourceSpace)) instanceof Tokens.Whitespace)
-			this.expect((<Tokens.Whitespace>token).endsLine, Is.false)
+			this.expect((token as Tokens.Whitespace).endsLine, Is.false)
 		})
 	}
 }

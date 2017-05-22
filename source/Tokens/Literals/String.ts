@@ -26,7 +26,7 @@ export class String extends Literal {
 		super(region)
 	}
 	static scan(source: Source): Token {
-		var result: string
+		let result: string
 		if (source.peek() == "\"") {
 			source.read()
 			result = ""
@@ -45,7 +45,7 @@ export class String extends Literal {
 					result += source.read()
 			}
 			source.read() // Consume last "
-		}
+		} // tslint:disable:no-construct
 		return result || result == "" ? new String(result, source.mark()) : null
 	}
 }

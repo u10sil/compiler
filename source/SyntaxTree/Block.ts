@@ -29,11 +29,11 @@ export class Block extends Statement {
 		super(tokens)
 	}
 	static parse(source: Source): Block {
-		var result: Block
+		let result: Block
 		if (source.peek().isSeparator("{")) {
 			source.next() // consume: {
-			var statements: Statement[] = []
-			var next: Statement
+			const statements: Statement[] = []
+			let next: Statement
 			while (source.peek() &&	!source.peek().isSeparator("}") && (next = Statement.parse(source.clone()))) {
 				statements.push(next)
 			}

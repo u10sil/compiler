@@ -26,6 +26,6 @@ export class Name extends Expression {
 		super(tokens)
 	}
 	static parse(source: Source): Name {
-		return source.peek().isIdentifier() ? new Name((<Tokens.Identifier>source.next()).name, source.mark()) : null
+		return source.peek().isIdentifier() ? new Name((source.next() as Tokens.Identifier).name, source.mark()) : null
 	}
 }

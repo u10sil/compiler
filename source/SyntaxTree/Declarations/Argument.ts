@@ -28,8 +28,8 @@ export class Argument extends Declaration {
 		super(symbol, tokens)
 	}
 	static parse(source: Source): Argument {
-		var result: Argument
-		var assignment: Assignment
+		let result: Argument
+		let assignment: Assignment
 		if ((assignment = Assignment.parse(source.clone()))) {
 			//
 			// handles syntactic sugar case "argument := value", since this is a declare-assign operation,
@@ -42,8 +42,8 @@ export class Argument extends Declaration {
 			//
 			// handles cases "x" and "x: Type"
 			//
-			var symbol = (<Tokens.Identifier>source.next()).name
-			var type: Type.Expression;
+			const symbol = (source.next() as Tokens.Identifier).name
+			let type: Type.Expression
 			if (source.peek().isSeparator(":")) {
 				source.next() // consume ":"
 				type = Type.Expression.parse(source.clone())
@@ -55,12 +55,12 @@ export class Argument extends Declaration {
 			// The type of the argument will have to be resolved later
 			//
 			source.next() // consume "=" or "."
-			result = new Argument((<Tokens.Identifier>source.next()).name, undefined, source.mark())
+			result = new Argument((source.next() as Tokens.Identifier).name, undefined, source.mark())
 		}
 		return result
 	}
 	static parseAll(source: Source): Argument[] {
-		var result: Argument[] = []
+		const result: Argument[] = []
 		if (source.peek().isSeparator("(")) {
 			do {
 				source.next() // consume: ( or ,
@@ -73,9 +73,9 @@ export class Argument extends Declaration {
 			// This is useful for cases where the argument list is written in reduced form.
 			// 	Example: foo: func (width, height: Int, x, y, z: Float)
 			//
-			var previousArgumentType = result[result.length - 1].type
-			for (var i = result.length - 1; i >= 0; i--) {
-				var currentArgumentType = result[i].type
+			let previousArgumentType = result[result.length - 1].type
+			for (let i = result.length - 1; i >= 0; i--) {
+				const currentArgumentType = result[i].type
 				if (currentArgumentType && currentArgumentType !== previousArgumentType)
 					previousArgumentType = currentArgumentType
 				if (!currentArgumentType)

@@ -27,7 +27,7 @@ export class Source extends IO.BufferedReader implements Error.Handler {
 			if (!region) {
 				region = this.region
 			}
-			message = new Error.Message(<string>message, level, type, region)
+			message = new Error.Message(message as string, level, type, region)
 		}
 		console.log(message.toString())
 	}

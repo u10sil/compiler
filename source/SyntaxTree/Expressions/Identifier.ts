@@ -22,19 +22,19 @@ import { Expression } from "./Expression"
 
 //
 // TODO: Make this abstract
-//	Derived:
-//		NamedIdentifier		: a, abc, foobar
-//		TupleIdentifier		: (a, b, c)
-//		DiscardedIdentifier	: (a, b, _), where '_' is the discarded identifier
+// 	Derived:
+// 		NamedIdentifier		: a, abc, foobar
+// 		TupleIdentifier		: (a, b, c)
+// 		DiscardedIdentifier	: (a, b, _), where '_' is the discarded identifier
 //
 export class Identifier extends Expression {
 	constructor(readonly name: string, tokens: Tokens.Substance[]) {
 		super(tokens)
 	}
 	static parse(source: Source): Identifier {
-		var result: Identifier
+		let result: Identifier
 		if (source.peek().isIdentifier() /*&& !source.peek(1).isOperator() && !source.peek(1).isSeparator()*/)
-			result = new Identifier((<Tokens.Identifier>source.next()).name, source.mark())
+			result = new Identifier((source.next() as Tokens.Identifier).name, source.mark())
 		return result
 	}
 }

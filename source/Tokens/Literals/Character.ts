@@ -26,7 +26,7 @@ export class Character extends Literal {
 		super(region)
 	}
 	static scan(source: Source): Token {
-		var result: string
+		let result: string
 		if (source.peek() == "'") {
 			source.read()
 			result = ""

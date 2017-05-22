@@ -21,5 +21,5 @@ export enum FunctionModifier {
 	Static,
 	Abstract,
 	Virtual,
-	Override
+	Override,
 }

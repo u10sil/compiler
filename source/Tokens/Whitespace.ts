@@ -26,7 +26,7 @@ export class Whitespace extends Gap {
 		super(region)
 	}
 	static scan(source: Source): Token {
-		var result: Token = null
+		let result: Token = null
 		if (Whitespace.isWhitespace(source.peek())) {
 			do {
 				switch (source.peek()) {

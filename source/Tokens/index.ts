@@ -35,7 +35,6 @@ import { Whitespace } from "./Whitespace"
 
 export {
 	Literals,
-	
 	Comment,
 	Consumer,
 	EndOfFile,

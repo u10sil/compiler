@@ -24,36 +24,36 @@ import Is = Unit.Is
 export class VariableTest extends Unit.Fixture {
 	constructor() {
 		super("SyntaxTree.Declarations.Variable")
-		var handler = new Error.ConsoleHandler()
+		const handler = new Error.ConsoleHandler()
 		this.add("simple declaration", () => {
-			var variableDeclaration = this.createDeclaration("i: Int\n", handler)
+			const variableDeclaration = this.createDeclaration("i: Int\n", handler)
 			this.expect(variableDeclaration.symbol, Is.equal.to("i"))
-			this.expect((<SyntaxTree.Type.Identifier>variableDeclaration.type).name, Is.equal.to("Int"))
+			this.expect((variableDeclaration.type as SyntaxTree.Type.Identifier).name, Is.equal.to("Int"))
 		})
 		this.add("static variable", () => {
-			var variableDeclaration = this.createDeclaration("i: static Int\n", handler)
+			const variableDeclaration = this.createDeclaration("i: static Int\n", handler)
 			this.expect(variableDeclaration.symbol, Is.equal.to("i"))
 			this.expect(variableDeclaration.isStatic, Is.true)
-			this.expect((<SyntaxTree.Type.Identifier>variableDeclaration.type).name, Is.equal.to("Int"))
+			this.expect((variableDeclaration.type as SyntaxTree.Type.Identifier).name, Is.equal.to("Int"))
 		})
 		this.add("constant", () => {
-			var variableDeclaration = this.createDeclaration("i: const Int\n", handler)
+			const variableDeclaration = this.createDeclaration("i: const Int\n", handler)
 			this.expect(variableDeclaration.symbol, Is.equal.to("i"))
 			this.expect(variableDeclaration.isConstant, Is.true)
-			this.expect((<SyntaxTree.Type.Identifier>variableDeclaration.type).name, Is.equal.to("Int"))
+			this.expect((variableDeclaration.type as SyntaxTree.Type.Identifier).name, Is.equal.to("Int"))
 		})
 		this.add("static const", () => {
-			var variableDeclaration = this.createDeclaration("i: static const Int\n", handler)
+			const variableDeclaration = this.createDeclaration("i: static const Int\n", handler)
 			this.expect(variableDeclaration.symbol, Is.equal.to("i"))
 			this.expect(variableDeclaration.isStatic, Is.true)
 			this.expect(variableDeclaration.isConstant, Is.true)
-			this.expect((<SyntaxTree.Type.Identifier>variableDeclaration.type).name, Is.equal.to("Int"))
+			this.expect((variableDeclaration.type as SyntaxTree.Type.Identifier).name, Is.equal.to("Int"))
 		})
 	}
 	createDeclaration(sourceString: string, errorHandler: Error.Handler): SyntaxTree.Declarations.Variable {
-		var parser = new SyntaxTree.Parser(new Tokens.GapRemover(new Tokens.Lexer(new IO.StringReader(sourceString), errorHandler)), errorHandler)
-		var statements = parser.next().statements
-		return <SyntaxTree.Declarations.Variable> statements.next()
+		const parser = new SyntaxTree.Parser(new Tokens.GapRemover(new Tokens.Lexer(new IO.StringReader(sourceString), errorHandler)), errorHandler)
+		const statements = parser.next().statements
+		return statements.next() as SyntaxTree.Declarations.Variable
 	}
 }
 Unit.Fixture.add(new VariableTest())

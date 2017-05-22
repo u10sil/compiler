@@ -23,15 +23,15 @@ import Is = Unit.Is
 export class EndOfFileTest extends Unit.Fixture {
 	constructor() {
 		super("Tokens.EndOfFile")
-		var errorHandler = new Error.ConsoleHandler()
+		const errorHandler = new Error.ConsoleHandler()
 		this.add("empty source string", () => {
-			var source = new Tokens.Source(new IO.StringReader(""), errorHandler)
-			var token = Tokens.EndOfFile.scan(source)
+			const source = new Tokens.Source(new IO.StringReader(""), errorHandler)
+			const token = Tokens.EndOfFile.scan(source)
 			this.expect(token instanceof Tokens.EndOfFile)
 		})
 		this.add("null string", () => {
-			var source = new Tokens.Source(new IO.StringReader("\0"), errorHandler)
-			var token = Tokens.EndOfFile.scan(source)
+			const source = new Tokens.Source(new IO.StringReader("\0"), errorHandler)
+			const token = Tokens.EndOfFile.scan(source)
 			this.expect(token instanceof Tokens.EndOfFile)
 		})
 	}

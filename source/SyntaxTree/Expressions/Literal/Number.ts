@@ -24,10 +24,11 @@ export class Number extends Expression {
 	constructor(readonly value: number, tokens: Tokens.Substance[]) {
 		super(tokens)
 	}
+	// tslint:disable:ban-types no-construct
 	static parse(source: Source): Number {
-		var result: Number
+		let result: Number
 		if (source.peek() instanceof Tokens.Literals.Number)
-			result = new Number((<Tokens.Literals.Number>source.next()).value, source.mark())
+			result = new Number((source.next() as Tokens.Literals.Number).value, source.mark())
 		return result
 	}
 }

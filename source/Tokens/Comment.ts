@@ -26,7 +26,7 @@ export class Comment extends Gap {
 		super(region)
 	}
 	static scan(source: Source): Token {
-		var result: string;
+		let result: string
 		switch (source.peek(2)) {
 			case "//":
 				result = ""

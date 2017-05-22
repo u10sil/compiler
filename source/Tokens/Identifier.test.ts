@@ -23,10 +23,10 @@ import Is = Unit.Is
 export class IdentifierTest extends Unit.Fixture {
 	constructor() {
 		super("Tokens.Identifier")
-		var errorHandler = new Error.ConsoleHandler()
+		const errorHandler = new Error.ConsoleHandler()
 		this.add("isIdentifier()", () => {
-			var identifier1 = new Tokens.Identifier(null, null)
-			var identifier2 = new Tokens.Identifier("bar", null)
+			const identifier1 = new Tokens.Identifier(null, null)
+			const identifier2 = new Tokens.Identifier("bar", null)
 			this.expect(identifier1.isIdentifier())
 			this.expect(identifier1.isIdentifier(""), Is.true)
 			this.expect(identifier1.isIdentifier("foo"), Is.false)
@@ -34,11 +34,11 @@ export class IdentifierTest extends Unit.Fixture {
 			this.expect(identifier2.isIdentifier("foo"), Is.false)
 		})
 		this.add("scan identifier", () => {
-			var source = new Tokens.Source(new IO.StringReader("identifier"), errorHandler)
-			var token = Tokens.Identifier.scan(source)
+			const source = new Tokens.Source(new IO.StringReader("identifier"), errorHandler)
+			const token = Tokens.Identifier.scan(source)
 			this.expect(token instanceof Tokens.Identifier)
 			this.expect(token.isIdentifier())
-			this.expect((<Tokens.Identifier>token).name, Is.equal.to("identifier"))
+			this.expect((token as Tokens.Identifier).name, Is.equal.to("identifier"))
 		})
 	}
 }

@@ -35,7 +35,7 @@ export class Lexer implements Utilities.Iterator<Token> {
 		this.source = new Source(reader, errorHandler)
 	}
 	next(): Token {
-		var result: Token
+		let result: Token
 		if (!this.source)
 			result = undefined
 		else if (!(
@@ -50,7 +50,7 @@ export class Lexer implements Utilities.Iterator<Token> {
 			(result = Identifier.scan(this.source)) ||
 			false
 		))
-			this.source.raise("[Lexer]: Unrecognized token: " + this.source.peek());
+			this.source.raise("[Lexer]: Unrecognized token: " + this.source.peek())
 		return result
 	}
 }

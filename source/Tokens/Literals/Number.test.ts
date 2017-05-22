@@ -23,91 +23,91 @@ import Is = Unit.Is
 export class NumberTest extends Unit.Fixture {
 	constructor() {
 		super("Tokens.Literals.Number")
-		var errorHandler = new Error.ConsoleHandler()
-		var token: Tokens.Token
+		const errorHandler = new Error.ConsoleHandler()
+		let token: Tokens.Token
 		this.add("integer #1", () => {
-			var numberString = "000012"
-			var source = new Tokens.Source(new IO.StringReader(numberString), errorHandler)
+			const numberString = "000012"
+			const source = new Tokens.Source(new IO.StringReader(numberString), errorHandler)
 			this.expect((token = Tokens.Literals.Number.scan(source)) instanceof Tokens.Literals.Number, Is.true)
-			this.expect((<Tokens.Literals.Number>token).value, Is.equal.to(parseInt(numberString)))
+			this.expect((token as Tokens.Literals.Number).value, Is.equal.to(parseInt(numberString)))
 		})
 		this.add("integer #2", () => {
-			var numberString = "12345678900"
-			var source = new Tokens.Source(new IO.StringReader(numberString), errorHandler)
+			const numberString = "12345678900"
+			const source = new Tokens.Source(new IO.StringReader(numberString), errorHandler)
 			this.expect((token = Tokens.Literals.Number.scan(source)) instanceof Tokens.Literals.Number, Is.true)
-			this.expect((<Tokens.Literals.Number>token).value, Is.equal.to(parseInt(numberString)))
+			this.expect((token as Tokens.Literals.Number).value, Is.equal.to(parseInt(numberString)))
 		})
 		this.add("float #1", () => {
-			var numberString = "000012.21"
-			var source = new Tokens.Source(new IO.StringReader(numberString), errorHandler)
+			const numberString = "000012.21"
+			const source = new Tokens.Source(new IO.StringReader(numberString), errorHandler)
 			this.expect((token = Tokens.Literals.Number.scan(source)) instanceof Tokens.Literals.Number, Is.true)
-			this.expect((<Tokens.Literals.Number>token).value, Is.equal.to(parseFloat(numberString)))
+			this.expect((token as Tokens.Literals.Number).value, Is.equal.to(parseFloat(numberString)))
 		})
 		this.add("float #2", () => {
-			var numberString = "12345678.900"
-			var source = new Tokens.Source(new IO.StringReader(numberString), errorHandler)
+			const numberString = "12345678.900"
+			const source = new Tokens.Source(new IO.StringReader(numberString), errorHandler)
 			this.expect((token = Tokens.Literals.Number.scan(source)) instanceof Tokens.Literals.Number, Is.true)
-			this.expect((<Tokens.Literals.Number>token).value, Is.equal.to(parseFloat(numberString)))
+			this.expect((token as Tokens.Literals.Number).value, Is.equal.to(parseFloat(numberString)))
 		})
 		this.add("float #3", () => {
-			var numberString = "0.0000012"
-			var source = new Tokens.Source(new IO.StringReader(numberString), errorHandler)
+			const numberString = "0.0000012"
+			const source = new Tokens.Source(new IO.StringReader(numberString), errorHandler)
 			this.expect((token = Tokens.Literals.Number.scan(source)) instanceof Tokens.Literals.Number, Is.true)
-			this.expect((<Tokens.Literals.Number>token).value, Is.equal.to(parseFloat(numberString)))
+			this.expect((token as Tokens.Literals.Number).value, Is.equal.to(parseFloat(numberString)))
 		})
 		this.add("float #4", () => {
-			var numberString = ".01f"
-			var source = new Tokens.Source(new IO.StringReader(numberString), errorHandler)
+			const numberString = ".01f"
+			const source = new Tokens.Source(new IO.StringReader(numberString), errorHandler)
 			this.expect((token = Tokens.Literals.Number.scan(source)) instanceof Tokens.Literals.Number, Is.true)
-			this.expect((<Tokens.Literals.Number>token).value, Is.equal.to(parseFloat(numberString)))
+			this.expect((token as Tokens.Literals.Number).value, Is.equal.to(parseFloat(numberString)))
 		})
 		this.add("binary #1", () => {
-			var binaryString = "0b00000000"
-			var source = new Tokens.Source(new IO.StringReader(binaryString), errorHandler)
+			const binaryString = "0b00000000"
+			const source = new Tokens.Source(new IO.StringReader(binaryString), errorHandler)
 			this.expect((token = Tokens.Literals.Number.scan(source)) instanceof Tokens.Literals.Number, Is.true)
-			this.expect((<Tokens.Literals.Number>token).value, Is.equal.to(0))
+			this.expect((token as Tokens.Literals.Number).value, Is.equal.to(0))
 		})
 		this.add("binary #2", () => {
-			var binaryString = "0b100000001"
-			var source = new Tokens.Source(new IO.StringReader(binaryString), errorHandler)
+			const binaryString = "0b100000001"
+			const source = new Tokens.Source(new IO.StringReader(binaryString), errorHandler)
 			this.expect((token = Tokens.Literals.Number.scan(source)) instanceof Tokens.Literals.Number, Is.true)
-			this.expect((<Tokens.Literals.Number>token).value, Is.equal.to(257))
+			this.expect((token as Tokens.Literals.Number).value, Is.equal.to(257))
 		})
 		this.add("octal #1", () => {
-			var octalString = "0c0"
-			var source = new Tokens.Source(new IO.StringReader(octalString), errorHandler)
+			const octalString = "0c0"
+			const source = new Tokens.Source(new IO.StringReader(octalString), errorHandler)
 			this.expect((token = Tokens.Literals.Number.scan(source)) instanceof Tokens.Literals.Number, Is.true)
-			this.expect((<Tokens.Literals.Number>token).value, Is.equal.to(0))
+			this.expect((token as Tokens.Literals.Number).value, Is.equal.to(0))
 		})
 		this.add("octal #2", () => {
-			var octalString = "0c10"
-			var source = new Tokens.Source(new IO.StringReader(octalString), errorHandler)
+			const octalString = "0c10"
+			const source = new Tokens.Source(new IO.StringReader(octalString), errorHandler)
 			this.expect((token = Tokens.Literals.Number.scan(source)) instanceof Tokens.Literals.Number, Is.true)
-			this.expect((<Tokens.Literals.Number>token).value, Is.equal.to(8))
+			this.expect((token as Tokens.Literals.Number).value, Is.equal.to(8))
 		})
 		this.add("octal #3", () => {
-			var octalString = "0c20000"
-			var source = new Tokens.Source(new IO.StringReader(octalString), errorHandler)
+			const octalString = "0c20000"
+			const source = new Tokens.Source(new IO.StringReader(octalString), errorHandler)
 			this.expect((token = Tokens.Literals.Number.scan(source)) instanceof Tokens.Literals.Number, Is.true)
-			this.expect((<Tokens.Literals.Number>token).value, Is.equal.to(8192))
+			this.expect((token as Tokens.Literals.Number).value, Is.equal.to(8192))
 		})
 		this.add("hexadecimal #1", () => {
-			var hexadecimalString = "0x0"
-			var source = new Tokens.Source(new IO.StringReader(hexadecimalString), errorHandler)
+			const hexadecimalString = "0x0"
+			const source = new Tokens.Source(new IO.StringReader(hexadecimalString), errorHandler)
 			this.expect((token = Tokens.Literals.Number.scan(source)) instanceof Tokens.Literals.Number, Is.true)
-			this.expect((<Tokens.Literals.Number>token).value, Is.equal.to(0))
+			this.expect((token as Tokens.Literals.Number).value, Is.equal.to(0))
 		})
 		this.add("hexadecimal #2", () => {
-			var hexadecimalString = "0xF"
-			var source = new Tokens.Source(new IO.StringReader(hexadecimalString), errorHandler)
+			const hexadecimalString = "0xF"
+			const source = new Tokens.Source(new IO.StringReader(hexadecimalString), errorHandler)
 			this.expect((token = Tokens.Literals.Number.scan(source)) instanceof Tokens.Literals.Number, Is.true)
-			this.expect((<Tokens.Literals.Number>token).value, Is.equal.to(parseInt(hexadecimalString, 16)))
+			this.expect((token as Tokens.Literals.Number).value, Is.equal.to(parseInt(hexadecimalString, 16)))
 		})
 		this.add("hexadecimal #3", () => {
-			var hexadecimalString = "0xB0D16F"
-			var source = new Tokens.Source(new IO.StringReader(hexadecimalString), errorHandler)
+			const hexadecimalString = "0xB0D16F"
+			const source = new Tokens.Source(new IO.StringReader(hexadecimalString), errorHandler)
 			this.expect((token = Tokens.Literals.Number.scan(source)) instanceof Tokens.Literals.Number, Is.true)
-			this.expect((<Tokens.Literals.Number>token).value, Is.equal.to(parseInt(hexadecimalString, 16)))
+			this.expect((token as Tokens.Literals.Number).value, Is.equal.to(parseInt(hexadecimalString, 16)))
 		})
 	}
 }

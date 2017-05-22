@@ -25,7 +25,7 @@ export class Source implements Utilities.Iterator<Tokens.Substance>, Error.Handl
 	constructor(tokens: Utilities.Iterator<Tokens.Substance>, private errorHandler: Error.Handler) {
 		if (!(tokens instanceof Utilities.BufferedIterator))
 			tokens = new Utilities.BufferedIterator(tokens)
-		this.tokens = <Utilities.BufferedIterator<Tokens.Substance>> tokens
+		this.tokens = tokens as Utilities.BufferedIterator<Tokens.Substance>
 	}
 	clone(): Source {
 		return new Source(this.tokens, this.errorHandler)
@@ -34,12 +34,12 @@ export class Source implements Utilities.Iterator<Tokens.Substance>, Error.Handl
 		return this.tokens.peek(position)
 	}
 	next(): Tokens.Substance {
-		var result = this.tokens.next()
+		const result = this.tokens.next()
 		this.lastTokens.push(result)
 		return result
 	}
 	mark(): Tokens.Substance[] {
-		var result = this.lastTokens
+		const result = this.lastTokens
 		this.lastTokens = []
 		return result
 	}
@@ -47,8 +47,8 @@ export class Source implements Utilities.Iterator<Tokens.Substance>, Error.Handl
 		if (typeof message == "string") {
 			if (!region)
 				region = this.peek().region
-			message = new Error.Message(<string>message, level, type, region)
+			message = new Error.Message(message as string, level, type, region)
 		}
-		this.errorHandler.raise(<Error.Message>message)
+		this.errorHandler.raise(message as Error.Message)
 	}
 }

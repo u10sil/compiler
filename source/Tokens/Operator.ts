@@ -29,7 +29,7 @@ export class Operator extends Substance {
 		return !symbol || symbol == this.symbol
 	}
 	static scan(source: Source): Token {
-		var result: Token;
+		let result: Token
 		switch (source.peek()) {
 			case "@": result = new Operator(source.read(), source.mark()); break
 			case "+":
@@ -37,13 +37,15 @@ export class Operator extends Substance {
 					default: result = new Operator(source.read(), source.mark()); break
 					case "++": result = new Operator(source.read(2), source.mark()); break
 					case "+=": result = new Operator(source.read(2), source.mark()); break
-				} break
+				}
+				break
 			case "-":
 				switch (source.peek(2)) {
 					default: result = new Operator(source.read(), source.mark()); break
 					case "-=": result = new Operator(source.read(2), source.mark()); break
 					case "->": result = new Operator(source.read(2), source.mark()); break
-				} break
+				}
+				break
 			case "*":
 				switch (source.peek(2)) {
 					default: result = new Operator(source.read(), source.mark()); break
@@ -51,42 +53,50 @@ export class Operator extends Substance {
 						switch (source.peek(3)) {
 							default: result = new Operator(source.read(2), source.mark()); break
 							case "**=": result = new Operator(source.read(3), source.mark()); break
-						} break
+						}
+						break
 					case "*=": result = new Operator(source.read(2), source.mark()); break
-				} break
+				}
+				break
 			case "/":
 				switch (source.peek(2)) {
 					default: result = new Operator(source.read(), source.mark()); break
 					case "/=": result = new Operator(source.read(2), source.mark()); break
-				}; break
+				}
+				break
 			case "=":
 				switch (source.peek(2)) {
 					default: result = new Operator(source.read(), source.mark()); break
 					case "==": result = new Operator(source.read(2), source.mark()); break
 					case "=>": result = new Operator(source.read(2), source.mark()); break
-				} break
+				}
+				break
 			case "^":
 				switch (source.peek(2)) {
 					default: result = new Operator(source.read(), source.mark()); break
 					case "^=": result = new Operator(source.read(2), source.mark()); break
-				} break
+				}
+				break
 			case "|":
 				switch (source.peek(2)) {
 					default: result = new Operator(source.read(), source.mark()); break
 					case "||": result = new Operator(source.read(2), source.mark()); break
 					case "|=": result = new Operator(source.read(2), source.mark()); break
-				} break
+				}
+				break
 			case "&":
 				switch (source.peek(2)) {
 					default: result = new Operator(source.read(), source.mark()); break
 					case "&&": result = new Operator(source.read(2), source.mark()); break
 					case "&=": result = new Operator(source.read(2), source.mark()); break
-				} break
+				}
+				break
 			case "!":
 				switch (source.peek(2)) {
 					default: result = new Operator(source.read(), source.mark()); break
 					case "!=": result = new Operator(source.read(2), source.mark()); break
-				} break
+				}
+				break
 			case "<":
 				switch (source.peek(2)) {
 					default: result = new Operator(source.read(), source.mark()); break
@@ -94,13 +104,16 @@ export class Operator extends Substance {
 						switch (source.peek(3)) {
 							default: result = new Operator(source.read(2), source.mark()); break
 							case "<<=": result = new Operator(source.read(3), source.mark()); break
-						} break
+						}
+						break
 					case "<=":
 						switch (source.peek(4)) {
 							default: result = new Operator(source.read(2), source.mark()); break
 							case "<==>": result = new Operator(source.read(4), source.mark()); break
-						} break
-				} break
+						}
+						break
+				}
+				break
 			case ">":
 				switch (source.peek(2)) {
 					default: result = new Operator(source.read(), source.mark()); break
@@ -108,7 +121,8 @@ export class Operator extends Substance {
 						switch (source.peek(3)) {
 							default: result = new Operator(source.read(2), source.mark()); break
 							case ">>=": result = new Operator(source.read(3), source.mark()); break
-						} break
+						}
+						break
 					case ">=": result = new Operator(source.read(2), source.mark()); break
 				}
 				break
@@ -119,33 +133,40 @@ export class Operator extends Substance {
 						switch (source.peek(3)) {
 							default: result = new Operator(source.read(2), source.mark()); break
 							case ":==": result = new Operator(source.read(3), source.mark()); break
-						} break
+						}
+						break
 					case "::":
 						switch (source.peek(3)) {
 							default: source.raise("Undefined operator \"::\""); break
 							case "::=": result = new Operator(source.read(3), source.mark()); break
-						} break
-				} break
+						}
+						break
+				}
+				break
 			case ".":
 				switch (source.peek(2)) {
 					default: result = null /* separator */; break
 					case "..":
-						switch(source.peek(3)) {
+						switch (source.peek(3)) {
 							default: result = new Operator(source.read(2), source.mark()); break
 							case "...": result = new Operator(source.read(3), source.mark()); break
-						} break
-				} break
+						}
+						break
+				}
+				break
 			case "%":
 				switch (source.peek(2)) {
 					default: result = new Operator(source.read(), source.mark()); break
 					case "%=": result = new Operator(source.read(2), source.mark()); break
-				} break
+				}
+				break
 			case "~": result = new Operator(source.read(), source.mark()); break
 			case "?":
-				switch(source.peek(2)) {
+				switch (source.peek(2)) {
 					default: result = new Operator(source.read(), source.mark()); break
 					case "??": result = new Operator(source.read(2), source.mark()); break
-				} break
+				}
+				break
 
 			default: result = null; break
 		}

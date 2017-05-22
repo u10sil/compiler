@@ -29,7 +29,7 @@ export class Separator extends Substance {
 		return !symbol || this.symbol == symbol
 	}
 	static scan(source: Source): Token {
-		var result: Token;
+		let result: Token
 		switch (source.peek()) {
 			case ".":
 			case ":":

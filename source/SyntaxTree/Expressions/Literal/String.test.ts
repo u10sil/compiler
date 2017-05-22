@@ -24,13 +24,13 @@ import Is = Unit.Is
 export class StringTest extends Unit.Fixture {
 	constructor() {
 		super("SyntaxTree.Expressions.Literals.StringLiteral")
-		var handler = new Error.ConsoleHandler()
+		const handler = new Error.ConsoleHandler()
 		this.add("literal", () => {
-			var parser = new SyntaxTree.Parser(new Tokens.GapRemover(new Tokens.Lexer(new IO.StringReader("\"\\\"string\\\"\""), handler)), handler)
-			var statements = parser.next().statements
-			var literal = statements.next()
+			const parser = new SyntaxTree.Parser(new Tokens.GapRemover(new Tokens.Lexer(new IO.StringReader("\"\\\"string\\\"\""), handler)), handler)
+			const statements = parser.next().statements
+			const literal = statements.next()
 			this.expect(literal instanceof SyntaxTree.Expressions.Literal.String, Is.true)
-			this.expect((<SyntaxTree.Expressions.Literal.String>literal).value, Is.equal.to("\"string\""))
+			this.expect((literal as SyntaxTree.Expressions.Literal.String).value, Is.equal.to("\"string\""))
 		})
 	}
 }

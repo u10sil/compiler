@@ -16,7 +16,7 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Error, IO, Unit, Uri, Utilities } from "@cogneco/mend";
+import { Error, IO, Unit, Uri, Utilities } from "@cogneco/mend"
 import * as Tokens from "./Tokens"
 
 export class Program {
@@ -36,7 +36,7 @@ export class Program {
 		return new Tokens.GapRemover(new Tokens.Lexer(this.openReader(path), handler))
 	}
 	private runHelper(command: string, commands: string[]) {
-		var handler = new Error.ConsoleHandler()
+		const handler = new Error.ConsoleHandler()
 		switch (command) {
 			case "build":
 				console.log("build")
@@ -61,7 +61,7 @@ export class Program {
 			this.defaultCommand = command
 	}
 	run() {
-		var command: string
+		let command: string
 		while (command = this.commands.shift()) {
 			this.runHelper(command, this.commands)
 		}
@@ -69,7 +69,7 @@ export class Program {
 }
 
 try {
-	var syspl = new Program(process.argv)
+	const syspl = new Program(process.argv)
 	syspl.run()
 	console.log("syspl " + syspl.version)
 } catch (Error) {

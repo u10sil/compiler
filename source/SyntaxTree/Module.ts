@@ -22,7 +22,6 @@ import { Source } from "./Source"
 import { Statement } from "./Statement"
 import { Node } from "./Node"
 
-
 export class Module extends Node {
 	private namespace: string[]
 	get statements(): Utilities.Iterator<Statement> {
@@ -33,13 +32,13 @@ export class Module extends Node {
 		this.namespace = tokens[0].region.resource.split("/")
 	}
 	static parse(source: Source): Module {
-		var result: Module
+		let result: Module
 		if (source.peek()) {
-			var statements: Statement[] = []
-			var next: Statement
+			const statements: Statement[] = []
+			let next: Statement
 			while (next = Statement.parse(source.clone()))
 				statements.push(next)
-			if (!<Tokens.EndOfFile>source.next())
+			if (!(source.next() as Tokens.EndOfFile))
 				source.raise("Missing end of file.")
 			result = new Module(statements, source.mark())
 		}

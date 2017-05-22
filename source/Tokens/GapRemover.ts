@@ -16,7 +16,7 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Utilities } from "@cogneco/mend"
+import { Error, Utilities } from "@cogneco/mend"
 
 import { Token } from "./Token"
 import { Gap } from "./Gap"
@@ -29,19 +29,19 @@ export class GapRemover implements Utilities.Iterator<Substance> {
 		this.backend = new Utilities.BufferedIterator(backend)
 	}
 	next(): Substance {
-		var pre: Gap[] = []
+		const pre: Gap[] = []
 		while (this.backend.peek() instanceof Gap) {
 			pre.push(this.backend.next())
 		}
-		var result: Substance
+		let result: Substance
 		if (!(this.backend.peek() instanceof Substance))
-			throw "Lexical Error: Missing end of file token."
-		result = <Substance>this.backend.next()
-		var post: Gap[] = []
+			throw new Error.Message(" Missing end of file token.", Error.Level.Recoverable, Error.Type.Lexical, this.backend.peek().region)
+		result = this.backend.next() as Substance
+		const post: Gap[] = []
 		while (this.backend.peek() instanceof Gap) {
-			var next = this.backend.next()
+			const next = this.backend.next()
 			post.push(next)
-			if (next instanceof Whitespace && (<Whitespace>next).endsLine) {
+			if (next instanceof Whitespace && (next as Whitespace).endsLine) {
 				break
 			}
 		}

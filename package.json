@@ -5,12 +5,14 @@
   "main": "build/index.js",
   "scripts": {
     "dev": "watch 'npm run build' source",
+		"prebuild": "tslint --config .vscode/tslint.json --project source/tsconfig.json",
     "build": "tsc -p source",
     "pretest": "npm run build",
     "test": "node build/index.test.js",
     "test:watch": "watch 'npm test' source",
     "prepublish": "npm run build",
-    "release": "np"
+    "release": "np",
+    "clean": "rm -rf build node_modules"
   },
   "repository": {
     "type": "git",
@@ -29,6 +31,7 @@
   "devDependencies": {
     "@types/node": "^7.0.12",
     "np": "^2.13.1",
+    "tslint": "^5.2.0",
     "typescript": "^2.3.2",
     "watch": "^1.0.2"
   },

@@ -17,35 +17,13 @@
 			"taskName": "dev",
 			"args": ["run", "dev"],
 			"isBackground": true,
-			"problemMatcher": {
-				"owner": "tsc",
-				"fileLocation": ["relative", "${workspaceRoot}"],
-				"pattern": {
-					"regexp": "^([\\w,\\/,\\.]+)\\((\\d+),(\\d+)\\):\\s(error)\\s\\w+:\\s+(.+)$",
-					"file": 1,
-					"line": 2,
-					"column": 3,
-					"severity": 4,
-					"message": 5
-				}
-			}
+			"problemMatcher": [ "$tsc", "$tslint5" ]
 		},
 		{
 			"taskName": "build",
 			"args": ["run", "build"],
 			"isBuildCommand": true,
-			"problemMatcher": {
-				"owner": "tsc",
-				"fileLocation": ["relative", "${workspaceRoot}"],
-				"pattern": {
-					"regexp": "^([\\w,\\/,\\.]+)\\((\\d+),(\\d+)\\):\\s(error)\\s\\w+:\\s+(.+)$",
-					"file": 1,
-					"line": 2,
-					"column": 3,
-					"severity": 4,
-					"message": 5
-				}
-			}
+			"problemMatcher": [ "$tsc", "$tslint5" ]
 		},
 		{
 			"taskName": "publish",
@@ -59,20 +37,7 @@
 			"taskName": "test",
 			"args": ["run", "test"],
 			"isTestCommand": true,
-			"problemMatcher": [
-				{
-					"owner": "tsc",
-					"fileLocation": ["relative", "${workspaceRoot}"],
-					"pattern": {
-						"regexp": "^([\\w,\/,\\.]+)\\((\\d+),(\\d+)\\):\\s+\\w+\\s+(\\w+):\\s+(.*)$",
-						"file": 1,
-						"line": 2,
-						"column": 3,
-						"severity": 4,
-						"message": 5
-					}
-				}
-			]
+			"problemMatcher": [ "$tsc", "$tslint5" ]
 		}
 	]
 }

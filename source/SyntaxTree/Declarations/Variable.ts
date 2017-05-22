@@ -28,15 +28,15 @@ export class Variable extends Declaration {
 		super(name.name, tokens)
 	}
 	static parse(source: Source): Variable {
-		var result: Variable
+		let result: Variable
 		if (source.peek().isIdentifier() && source.peek(1).isSeparator(":")) {
-			var name = Type.Name.parse(source.clone())
+			const name = Type.Name.parse(source.clone())
 			source.next() // consume ":"
-			var done = false
-			var isStatic = false
-			var isConstant = false
+			let done = false
+			let isStatic = false
+			let isConstant = false
 			while (!done && source.peek().isIdentifier()) {
-				switch ((<Tokens.Identifier>source.peek()).name) {
+				switch ((source.peek() as Tokens.Identifier).name) {
 					case "static":
 						if (isStatic)
 							source.raise("Multiple static keywords.", Error.Level.Recoverable)
@@ -51,10 +51,10 @@ export class Variable extends Declaration {
 						break
 					default:
 						done = true
-						break;
+						break
 				}
 			}
-			var type = Type.Expression.parse(source.clone())
+			const type = Type.Expression.parse(source.clone())
 			result = new Variable(name, isStatic, isConstant, type, source.mark())
 		}
 		return result

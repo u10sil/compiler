@@ -26,11 +26,11 @@ export class Assignment extends Expression {
 		super(tokens)
 	}
 	static parse(source: Source): Assignment {
-		var result: Assignment
+		let result: Assignment
 		if (source.peek().isIdentifier() && source.peek(1).isOperator("=")) {
-			var left = new Identifier((<Tokens.Identifier>source.next()).name, source.mark())
+			const left = new Identifier((source.next() as Tokens.Identifier).name, source.mark())
 			source.next() // consume "="
-			var right = Expression.parse(source.clone())
+			const right = Expression.parse(source.clone())
 			result = new Assignment(left, right, source.mark())
 		}
 		return result

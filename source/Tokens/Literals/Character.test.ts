@@ -23,25 +23,25 @@ import Is = Unit.Is
 export class CharacterTest extends Unit.Fixture {
 	constructor() {
 		super("Tokens.Literals.Character")
-		var errorHandler = new Error.ConsoleHandler()
-		var token: Tokens.Token
+		const errorHandler = new Error.ConsoleHandler()
+		let token: Tokens.Token
 		this.add("empty", () => {
-			var s = "''"
-			var source = new Tokens.Source(new IO.StringReader(s), errorHandler)
+			const s = "''"
+			const source = new Tokens.Source(new IO.StringReader(s), errorHandler)
 			this.expect((token = Tokens.Literals.Character.scan(source)) instanceof Tokens.Literals.Character, Is.true)
-			this.expect((<Tokens.Literals.Character>token).value, Is.equal.to(""))
+			this.expect((token as Tokens.Literals.Character).value, Is.equal.to(""))
 		})
 		this.add("newline", () => {
-			var s = "'\\n'"
-			var source = new Tokens.Source(new IO.StringReader(s), errorHandler)
+			const s = "'\\n'"
+			const source = new Tokens.Source(new IO.StringReader(s), errorHandler)
 			this.expect((token = Tokens.Literals.Character.scan(source)) instanceof Tokens.Literals.Character, Is.true)
-			this.expect((<Tokens.Literals.Character>token).value, Is.equal.to("\n"))
+			this.expect((token as Tokens.Literals.Character).value, Is.equal.to("\n"))
 		})
 		this.add("double quote", () => {
-			var s = "'\\\"'"
-			var source = new Tokens.Source(new IO.StringReader(s), errorHandler)
+			const s = "'\\\"'"
+			const source = new Tokens.Source(new IO.StringReader(s), errorHandler)
 			this.expect((token = Tokens.Literals.Character.scan(source)) instanceof Tokens.Literals.Character, Is.true)
-			this.expect((<Tokens.Literals.Character>token).value, Is.equal.to("\""))
+			this.expect((token as Tokens.Literals.Character).value, Is.equal.to("\""))
 		})
 	}
 }

@@ -29,9 +29,9 @@ export class Tuple extends Expression {
 		super(tokens)
 	}
 	static parse(source: Source): Expression {
-		var result: Expression
+		let result: Expression
 		if (source.peek().isSeparator("(")) {
-			var children: Expression[] = []
+			const children: Expression[] = []
 			do {
 				source.next() // consume "(" or ","
 				children.push(Expression.parse(source.clone()))

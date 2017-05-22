@@ -24,41 +24,41 @@ import Is = Unit.Is
 export class NumberTest extends Unit.Fixture {
 	constructor() {
 		super("SyntaxTree.Expressions.Literal.Number")
-		var handler = new Error.ConsoleHandler()
+		const handler = new Error.ConsoleHandler()
 		this.add("integer", () => {
-			var parser = new SyntaxTree.Parser(new Tokens.GapRemover(new Tokens.Lexer(new IO.StringReader("12345"), handler)), handler)
-			var statements = parser.next().statements
-			var literal = statements.next()
+			const parser = new SyntaxTree.Parser(new Tokens.GapRemover(new Tokens.Lexer(new IO.StringReader("12345"), handler)), handler)
+			const statements = parser.next().statements
+			const literal = statements.next()
 			this.expect(literal instanceof SyntaxTree.Expressions.Literal.Number, Is.true)
-			this.expect((<SyntaxTree.Expressions.Literal.Number>literal).value, Is.equal.to(12345))
+			this.expect((literal as SyntaxTree.Expressions.Literal.Number).value, Is.equal.to(12345))
 		})
 		this.add("float", () => {
-			var parser = new SyntaxTree.Parser(new Tokens.GapRemover(new Tokens.Lexer(new IO.StringReader("0.1234f"), handler)), handler)
-			var statements = parser.next().statements
-			var literal = statements.next()
+			const parser = new SyntaxTree.Parser(new Tokens.GapRemover(new Tokens.Lexer(new IO.StringReader("0.1234f"), handler)), handler)
+			const statements = parser.next().statements
+			const literal = statements.next()
 			this.expect(literal instanceof SyntaxTree.Expressions.Literal.Number, Is.true)
-			this.expect((<SyntaxTree.Expressions.Literal.Number>literal).value, Is.equal.to(0.1234))
+			this.expect((literal as SyntaxTree.Expressions.Literal.Number).value, Is.equal.to(0.1234))
 		})
 		this.add("binary", () => {
-			var parser = new SyntaxTree.Parser(new Tokens.GapRemover(new Tokens.Lexer(new IO.StringReader("0b11000000111001"), handler)), handler)
-			var statements = parser.next().statements
-			var literal = statements.next()
+			const parser = new SyntaxTree.Parser(new Tokens.GapRemover(new Tokens.Lexer(new IO.StringReader("0b11000000111001"), handler)), handler)
+			const statements = parser.next().statements
+			const literal = statements.next()
 			this.expect(literal instanceof SyntaxTree.Expressions.Literal.Number, Is.true)
-			this.expect((<SyntaxTree.Expressions.Literal.Number>literal).value, Is.equal.to(12345))
+			this.expect((literal as SyntaxTree.Expressions.Literal.Number).value, Is.equal.to(12345))
 		})
 		this.add("octal", () => {
-			var parser = new SyntaxTree.Parser(new Tokens.GapRemover(new Tokens.Lexer(new IO.StringReader("0c30071"), handler)), handler)
-			var statements = parser.next().statements
-			var literal = statements.next()
+			const parser = new SyntaxTree.Parser(new Tokens.GapRemover(new Tokens.Lexer(new IO.StringReader("0c30071"), handler)), handler)
+			const statements = parser.next().statements
+			const literal = statements.next()
 			this.expect(literal instanceof SyntaxTree.Expressions.Literal.Number, Is.true)
-			this.expect((<SyntaxTree.Expressions.Literal.Number>literal).value, Is.equal.to(12345))
+			this.expect((literal as SyntaxTree.Expressions.Literal.Number).value, Is.equal.to(12345))
 		})
 		this.add("hexadecimal", () => {
-			var parser = new SyntaxTree.Parser(new Tokens.GapRemover(new Tokens.Lexer(new IO.StringReader("0xD431"), handler)), handler)
-			var statements = parser.next().statements
-			var literal = statements.next()
+			const parser = new SyntaxTree.Parser(new Tokens.GapRemover(new Tokens.Lexer(new IO.StringReader("0xD431"), handler)), handler)
+			const statements = parser.next().statements
+			const literal = statements.next()
 			this.expect(literal instanceof SyntaxTree.Expressions.Literal.Number, Is.true)
-			this.expect((<SyntaxTree.Expressions.Literal.Number>literal).value, Is.equal.to(54321))
+			this.expect((literal as SyntaxTree.Expressions.Literal.Number).value, Is.equal.to(54321))
 		})
 	}
 }

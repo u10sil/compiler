@@ -24,7 +24,6 @@ import { Identifier } from "./Identifier"
 
 export {
 	Literal,
-	
 	Assignment,
 	Expression,
 	Identifier,

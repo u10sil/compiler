@@ -25,9 +25,9 @@ export class Character extends Expression {
 		super(tokens)
 	}
 	static parse(source: Source): Character {
-		var result: Character
+		let result: Character
 		if (source.peek() instanceof Tokens.Literals.Character)
-			result = new Character((<Tokens.Literals.Character>source.next()).value, source.mark())
+			result = new Character((source.next() as Tokens.Literals.Character).value, source.mark())
 		return result
 	}
 }

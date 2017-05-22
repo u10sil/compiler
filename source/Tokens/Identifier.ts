@@ -29,7 +29,7 @@ export class Identifier extends Substance {
 		return !name || name == this.name
 	}
 	static scan(source: Source): Token {
-		var result: string = ""
+		let result: string = ""
 		if (Identifier.isValidFirstCharacter(source.peek())) {
 			do {
 				result += source.read()

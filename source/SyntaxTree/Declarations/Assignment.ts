@@ -28,27 +28,27 @@ import * as Expressions from "../Expressions"
 // ID := EXPRESSION
 // ID: TYPE = EXPRESSION
 // Example:
-//	list: List<T> = List<T> new()
-//		list 			= Type.Name
-//		List<T> 		= Type.Identifier
-//		List<T> new()	= Expressions.Expression
+// 	list: List<T> = List<T> new()
+// 		list 			= Type.Name
+// 		List<T> 		= Type.Identifier
+// 		List<T> new()	= Expressions.Expression
 //
 export class Assignment extends Declaration {
 	constructor(readonly left: Type.Name, readonly right: Expressions.Expression, readonly type: Type.Identifier, tokens: Tokens.Substance[]) {
 		super(left.name, tokens)
 	}
 	static parse(source: Source): Assignment {
-		var result: Assignment
-		var shorthand = false;
+		let result: Assignment
+		let shorthand = false
 		if ((shorthand = Assignment.isDeclareAssignShorthand(source)) || Assignment.isDeclareAssign(source)) {
-			var type: Type.Identifier = undefined
-			var left = Type.Name.parse(source.clone())
+			let type: Type.Identifier
+			const left = Type.Name.parse(source.clone())
 			source.next() // consume ":=" or ":"
 			if (!shorthand) {
 				type = Type.Identifier.parse(source.clone())
 				source.next() // consume "="
 			}
-			var right = Expressions.Expression.parse(source.clone())
+			const right = Expressions.Expression.parse(source.clone())
 			result = new Assignment(left, right, type, source.mark())
 		}
 		return result

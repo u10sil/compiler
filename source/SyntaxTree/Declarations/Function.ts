@@ -36,17 +36,18 @@ export class Function extends Declaration {
 	constructor(symbol: Type.Name, readonly modifier: FunctionModifier, private typeParametersArray: Type.Name[], private argumentsArray: Argument[], readonly returnType: Type.Expression, readonly body: Block, tokens: Tokens.Substance[]) {
 		super(symbol.name, tokens)
 	}
+	// tslint:disable:ban-types
 	static parse(source: Source): Function {
-		var result: Function
+		let result: Function
 		if (source.peek(0).isIdentifier() && source.peek(1).isSeparator(":") && (source.peek(2).isIdentifier("func") || source.peek(3).isIdentifier("func"))) {
-			var symbol = Type.Name.parse(source.clone())
-			var modifier = FunctionModifier.None
+			const symbol = Type.Name.parse(source.clone())
+			let modifier = FunctionModifier.None
 			source.next() // consume ":"
 			if (!source.peek().isIdentifier("func")) {
 				//
 				// TODO: what about 'unmangled'? A function can be 'static unmangled'
 				//
-				switch ((<Tokens.Identifier>source.peek()).name) {
+				switch ((source.peek() as Tokens.Identifier).name) {
 					case "static":
 						modifier = FunctionModifier.Static
 						break
@@ -55,7 +56,7 @@ export class Function extends Declaration {
 						break
 					case "virtual":
 						modifier = FunctionModifier.Virtual
-						break;
+						break
 					case "override":
 						modifier = FunctionModifier.Override
 						break
@@ -66,14 +67,14 @@ export class Function extends Declaration {
 			}
 			source.next() // consume "func"
 			// TODO: add overload name parsing: ~overloadName
-			var typeParameters = Declaration.parseTypeParameters(source)
-			var argumentList = Argument.parseAll(source)
-			var returnType: Type.Expression
+			const typeParameters = Declaration.parseTypeParameters(source)
+			const argumentList = Argument.parseAll(source)
+			let returnType: Type.Expression
 			if (source.peek().isOperator("->")) {
 				source.next() // consume "->"
 				returnType = Type.Expression.parse(source)
 			}
-			var body = Block.parse(source)
+			const body = Block.parse(source)
 			result = new Function(symbol, modifier, typeParameters, argumentList, returnType, body, source.mark())
 		}
 		return result

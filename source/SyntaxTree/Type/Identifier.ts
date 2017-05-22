@@ -30,10 +30,10 @@ export class Identifier extends Name {
 		super(name, tokens)
 	}
 	static parse(source: Source): Identifier {
-		var result: Identifier
+		let result: Identifier
 		if (source.peek().isIdentifier()) {
-			var name = (<Tokens.Identifier>source.next()).name
-			var typeParameters: Identifier[] = []
+			const name = (source.next() as Tokens.Identifier).name
+			const typeParameters: Identifier[] = []
 			if (source.peek().isOperator("<")) {
 				do {
 					source.next() // consume "<" or ","

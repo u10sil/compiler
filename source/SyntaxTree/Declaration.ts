@@ -27,7 +27,7 @@ export class Declaration extends Statement {
 		super(tokens)
 	}
 	static parseTypeParameters(source: Source): Type.Name[] {
-		var result: Type.Name[] = []
+		const result: Type.Name[] = []
 		if (source.peek().isOperator("<")) {
 			do {
 				source.next() // consume "<" or ","

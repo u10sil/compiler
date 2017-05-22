@@ -23,24 +23,24 @@ import Is = Unit.Is
 export class CommentTest extends Unit.Fixture {
 	constructor() {
 		super("Tokens.Comment")
-		var errorHandler = new Error.ConsoleHandler()
+		const errorHandler = new Error.ConsoleHandler()
 		this.add("line comment", () => {
-			var source = new Tokens.Source(new IO.StringReader("//this is a line comment"), errorHandler)
-			var token = Tokens.Comment.scan(source)
+			const source = new Tokens.Source(new IO.StringReader("//this is a line comment"), errorHandler)
+			const token = Tokens.Comment.scan(source)
 			this.expect(token instanceof Tokens.Comment)
-			this.expect((<Tokens.Comment>token).content, Is.equal.to("this is a line comment"))
+			this.expect((token as Tokens.Comment).content, Is.equal.to("this is a line comment"))
 		})
 		this.add("block comment, single line", () => {
-			var source = new Tokens.Source(new IO.StringReader("/*this is a block comment*/"), errorHandler)
-			var token = Tokens.Comment.scan(source)
+			const source = new Tokens.Source(new IO.StringReader("/*this is a block comment*/"), errorHandler)
+			const token = Tokens.Comment.scan(source)
 			this.expect(token instanceof Tokens.Comment)
-			this.expect((<Tokens.Comment>token).content, Is.equal.to("this is a block comment"))
+			this.expect((token as Tokens.Comment).content, Is.equal.to("this is a block comment"))
 		})
 		this.add("block comment, multiple lines", () => {
-			var source = new Tokens.Source(new IO.StringReader("/*this\nis\na\nblock\ncomment*/"), errorHandler)
-			var token = Tokens.Comment.scan(source)
+			const source = new Tokens.Source(new IO.StringReader("/*this\nis\na\nblock\ncomment*/"), errorHandler)
+			const token = Tokens.Comment.scan(source)
 			this.expect(token instanceof Tokens.Comment)
-			this.expect((<Tokens.Comment>token).content, Is.equal.to("this\nis\na\nblock\ncomment"))
+			this.expect((token as Tokens.Comment).content, Is.equal.to("this\nis\na\nblock\ncomment"))
 		})
 	}
 }

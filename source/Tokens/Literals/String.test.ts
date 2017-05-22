@@ -23,19 +23,19 @@ import Is = Unit.Is
 export class StringTest extends Unit.Fixture {
 	constructor() {
 		super("Tokens.Literals.String")
-		var errorHandler = new Error.ConsoleHandler()
-		var token: Tokens.Token
+		const errorHandler = new Error.ConsoleHandler()
+		let token: Tokens.Token
 		this.add("empty", () => {
-			var s = "\"\""
-			var source = new Tokens.Source(new IO.StringReader(s), errorHandler)
+			const s = "\"\""
+			const source = new Tokens.Source(new IO.StringReader(s), errorHandler)
 			this.expect((token = Tokens.Literals.String.scan(source)) instanceof Tokens.Literals.String, Is.true)
-			this.expect((<Tokens.Literals.String>token).value, Is.equal.to(""))
+			this.expect((token as Tokens.Literals.String).value, Is.equal.to(""))
 		})
 		this.add("string with escape sequence #1", () => {
-			var s = "\" \\\" \""
-			var source = new Tokens.Source(new IO.StringReader(s), errorHandler)
+			const s = "\" \\\" \""
+			const source = new Tokens.Source(new IO.StringReader(s), errorHandler)
 			this.expect((token = Tokens.Literals.String.scan(source)) instanceof Tokens.Literals.String, Is.true)
-			this.expect((<Tokens.Literals.String>token).value, Is.equal.to(" \" "))
+			this.expect((token as Tokens.Literals.String).value, Is.equal.to(" \" "))
 		})
 	}
 }

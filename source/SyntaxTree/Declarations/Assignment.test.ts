@@ -24,29 +24,29 @@ import Is = Unit.Is
 export class AssignmentTest extends Unit.Fixture {
 	constructor() {
 		super("SyntaxTree.Declarations.Assignment")
-		var handler = new Error.ConsoleHandler()
+		const handler = new Error.ConsoleHandler()
 		this.add("a := b", () => {
-			var declareAssignStatement = this.createDeclaration("a := b", handler)
+			const declareAssignStatement = this.createDeclaration("a := b", handler)
 			this.expect(declareAssignStatement.left.name, Is.equal.to("a"))
-			this.expect((<SyntaxTree.Expressions.Identifier>declareAssignStatement.right).name, Is.equal.to("b"))
+			this.expect((declareAssignStatement.right as SyntaxTree.Expressions.Identifier).name, Is.equal.to("b"))
 		})
 		this.add("foo: Type = bar", () => {
-			var declareAssignStatement = this.createDeclaration("foo: Type = bar", handler)
+			const declareAssignStatement = this.createDeclaration("foo: Type = bar", handler)
 			this.expect(declareAssignStatement.left.name, Is.equal.to("foo"))
 			this.expect(declareAssignStatement.type.name, Is.equal.to("Type"))
-			this.expect((<SyntaxTree.Expressions.Identifier>declareAssignStatement.right).name, Is.equal.to("bar"))
+			this.expect((declareAssignStatement.right as SyntaxTree.Expressions.Identifier).name, Is.equal.to("bar"))
 		})
 		this.add("foo: Float = 0.50f", () => {
-			var declareAssignStatement = this.createDeclaration("f: Float = 0.50f", handler)
+			const declareAssignStatement = this.createDeclaration("f: Float = 0.50f", handler)
 			this.expect(declareAssignStatement.left.name, Is.equal.to("f"))
 			this.expect(declareAssignStatement.type.name, Is.equal.to("Float"))
-			this.expect((<SyntaxTree.Expressions.Literal.Number>declareAssignStatement.right).value, Is.equal.to(0.5))
+			this.expect((declareAssignStatement.right as SyntaxTree.Expressions.Literal.Number).value, Is.equal.to(0.5))
 		})
 	}
 	createDeclaration(sourceString: string, errorHandler: Error.Handler): SyntaxTree.Declarations.Assignment {
-		var parser = new SyntaxTree.Parser(new Tokens.GapRemover(new Tokens.Lexer(new IO.StringReader(sourceString), errorHandler)), errorHandler)
-		var statements = parser.next().statements
-		return <SyntaxTree.Declarations.Assignment> statements.next()
+		const parser = new SyntaxTree.Parser(new Tokens.GapRemover(new Tokens.Lexer(new IO.StringReader(sourceString), errorHandler)), errorHandler)
+		const statements = parser.next().statements
+		return statements.next() as SyntaxTree.Declarations.Assignment
 	}
 }
 Unit.Fixture.add(new AssignmentTest())
