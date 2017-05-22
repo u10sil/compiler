@@ -17,7 +17,10 @@
 		"no-conditional-assignment": false,
 		"array-type": [ false ],
 		"no-empty": false,
-		"radix": false
+		"radix": false,
+		"interface-name": [
+			"never-prefix"
+		]
 	},
 	"jsRules": {
 		"curly": false,
