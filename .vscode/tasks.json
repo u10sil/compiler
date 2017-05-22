@@ -15,7 +15,7 @@
 		},
 		{
 			"taskName": "dev",
-			"args": ["dev"],
+			"args": ["run", "dev"],
 			"isBackground": true,
 			"problemMatcher": {
 				"owner": "tsc",
