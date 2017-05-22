@@ -22,11 +22,11 @@ import { Expression } from "./Expression"
 import { Source } from "../Source"
 
 export class Tuple extends Expression {
-	constructor(private children: Expression[], tokens: Tokens.Substance[]) {
-		super(tokens)
+	get children(): Utilities.Iterator<Expression> {
+		return new Utilities.ArrayIterator(this.childrenArray)
 	}
-	getChildren(): Utilities.Iterator<Expression> {
-		return new Utilities.ArrayIterator(this.children)
+	constructor(private childrenArray: Expression[], tokens: Tokens.Substance[]) {
+		super(tokens)
 	}
 	static parse(source: Source): Expression {
 		var result: Expression

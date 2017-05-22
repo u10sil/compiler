@@ -21,13 +21,10 @@ import * as Tokens from "../../Tokens"
 import { Expression } from "./Expression"
 
 export class Function extends Expression {
-	constructor(private argumentList: Expression[], private result: Expression, tokens: Tokens.Substance[]) {
+	get arguments(): Utilities.Iterator<Expression> {
+		return new Utilities.ArrayIterator(this.argumentArray)
+	}
+	constructor(private argumentArray: Expression[], readonly result: Expression, tokens: Tokens.Substance[]) {
 		super(tokens)
-	}
-	getArguments(): Utilities.Iterator<Expression> {
-		return new Utilities.ArrayIterator(this.argumentList)
-	}
-	getResult(): Expression {
-		return this.result
 	}
 }

@@ -103,7 +103,7 @@ export class FunctionTest extends Unit.Fixture {
 		})
 		this.add("empty function with return type tuple", () => {
 			var functionDeclaration = this.createDeclaration("Empty: func -> (Int, Float, Double)\n", handler)
-			var tupleChildren = (<SyntaxTree.Type.Tuple>functionDeclaration.returnType).getChildren()
+			var tupleChildren = (<SyntaxTree.Type.Tuple>functionDeclaration.returnType).children
 			this.expect(functionDeclaration.symbol, Is.equal.to("Empty"))
 			this.expect((<SyntaxTree.Type.Identifier>tupleChildren.next()).name, Is.equal.to("Int"))
 			this.expect((<SyntaxTree.Type.Identifier>tupleChildren.next()).name, Is.equal.to("Float"))

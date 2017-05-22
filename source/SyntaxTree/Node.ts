@@ -20,9 +20,9 @@ import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../Tokens"
 
 export abstract class Node {
-	constructor(private tokens: Tokens.Substance[]) {
+	get tokens(): Utilities.Iterator<Tokens.Substance> {
+		return new Utilities.ArrayIterator(this.tokensArray)
 	}
-	getTokens(): Utilities.Iterator<Tokens.Substance> {
-		return new Utilities.ArrayIterator(this.tokens)
+	constructor(private tokensArray: Tokens.Substance[]) {
 	}
 }

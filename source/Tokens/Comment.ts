@@ -22,10 +22,9 @@ import { Token } from "./Token"
 import { Gap } from "./Gap"
 
 export class Comment extends Gap {
-	constructor(private content: string, region: Error.Region) {
+	constructor(readonly content: string, region: Error.Region) {
 		super(region)
 	}
-	getContent() { return this.content }
 	static scan(source: Source): Token {
 		var result: string;
 		switch (source.peek(2)) {
