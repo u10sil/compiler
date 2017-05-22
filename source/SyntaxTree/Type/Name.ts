@@ -22,13 +22,13 @@ import { Expression } from "./Expression"
 import * as Tokens from "../../Tokens"
 
 export class Name extends Expression {
-	constructor(private name: string, tokens: Tokens.Substance[]) {
+	constructor(readonly name: string, tokens: Tokens.Substance[]) {
 		super(tokens)
 	}
 	getName(): string {
 		return this.name
 	}
 	static parse(source: Source): Name {
-		return source.peek().isIdentifier() ? new Name((<Tokens.Identifier>source.next()).getName(), source.mark()) : null
+		return source.peek().isIdentifier() ? new Name((<Tokens.Identifier>source.next()).name, source.mark()) : null
 	}
 }

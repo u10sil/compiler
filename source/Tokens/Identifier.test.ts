@@ -38,7 +38,7 @@ export class IdentifierTest extends Unit.Fixture {
 			var token = Tokens.Identifier.scan(source)
 			this.expect(token instanceof Tokens.Identifier)
 			this.expect(token.isIdentifier())
-			this.expect((<Tokens.Identifier>token).getName(), Is.equal.to("identifier"))
+			this.expect((<Tokens.Identifier>token).name, Is.equal.to("identifier"))
 		})
 	}
 }

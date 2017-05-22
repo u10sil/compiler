@@ -23,10 +23,9 @@ import { Source } from "./Source"
 import { Statement } from "./Statement"
 
 export class Declaration extends Statement {
-	constructor(private symbol: string, tokens: Tokens.Substance[]) {
+	constructor(readonly symbol: string, tokens: Tokens.Substance[]) {
 		super(tokens)
 	}
-	getSymbol(): string { return this.symbol }
 	static parseTypeParameters(source: Source): Type.Name[] {
 		var result: Type.Name[] = []
 		if (source.peek().isOperator("<")) {

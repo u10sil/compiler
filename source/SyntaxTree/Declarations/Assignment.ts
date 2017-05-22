@@ -35,7 +35,7 @@ import * as Expressions from "../Expressions"
 //
 export class Assignment extends Declaration {
 	constructor(readonly left: Type.Name, readonly right: Expressions.Expression, readonly type: Type.Identifier, tokens: Tokens.Substance[]) {
-		super(left.getName(), tokens)
+		super(left.name, tokens)
 	}
 	static parse(source: Source): Assignment {
 		var result: Assignment

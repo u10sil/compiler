@@ -25,7 +25,7 @@ import * as Type from "../Type"
 
 export class Variable extends Declaration {
 	constructor(name: Type.Name, readonly isStatic: boolean, readonly isConstant: boolean, readonly type: Type.Expression, tokens: Tokens.Substance[]) {
-		super(name.getName(), tokens)
+		super(name.name, tokens)
 	}
 	static parse(source: Source): Variable {
 		var result: Variable
@@ -36,7 +36,7 @@ export class Variable extends Declaration {
 			var isStatic = false
 			var isConstant = false
 			while (!done && source.peek().isIdentifier()) {
-				switch ((<Tokens.Identifier>source.peek()).getName()) {
+				switch ((<Tokens.Identifier>source.peek()).name) {
 					case "static":
 						if (isStatic)
 							source.raise("Multiple static keywords.", Error.Level.Recoverable)

@@ -32,7 +32,7 @@ export class Identifier extends Name {
 	static parse(source: Source): Identifier {
 		var result: Identifier
 		if (source.peek().isIdentifier()) {
-			var name = (<Tokens.Identifier>source.next()).getName()
+			var name = (<Tokens.Identifier>source.next()).name
 			var typeParameters: Identifier[] = []
 			if (source.peek().isOperator("<")) {
 				do {

@@ -28,7 +28,7 @@ export class Assignment extends Expression {
 	static parse(source: Source): Assignment {
 		var result: Assignment
 		if (source.peek().isIdentifier() && source.peek(1).isOperator("=")) {
-			var left = new Identifier((<Tokens.Identifier>source.next()).getName(), source.mark())
+			var left = new Identifier((<Tokens.Identifier>source.next()).name, source.mark())
 			source.next() // consume "="
 			var right = Expression.parse(source.clone())
 			result = new Assignment(left, right, source.mark())

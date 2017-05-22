@@ -22,11 +22,8 @@ import { Token } from "./Token"
 import { Substance } from "./Substance"
 
 export class Operator extends Substance {
-	constructor(private symbol: string, region: Error.Region) {
+	constructor(readonly symbol: string, region: Error.Region) {
 		super(region)
-	}
-	getSymbol(): string {
-		return this.symbol
 	}
 	isOperator(symbol: string = null): boolean {
 		return !symbol || symbol == this.symbol

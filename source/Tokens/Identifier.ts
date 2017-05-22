@@ -22,11 +22,8 @@ import { Token } from "./Token"
 import { Substance } from "./Substance"
 
 export class Identifier extends Substance {
-	constructor(private name: string, region: Error.Region) {
+	constructor(readonly name: string, region: Error.Region) {
 		super(region)
-	}
-	getName(): string {
-		return this.name
 	}
 	isIdentifier(name: string = null): boolean {
 		return !name || name == this.name

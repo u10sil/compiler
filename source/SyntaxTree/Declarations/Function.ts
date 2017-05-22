@@ -28,7 +28,7 @@ import { FunctionModifier } from "./FunctionModifier"
 
 export class Function extends Declaration {
 	constructor(symbol: Type.Name, private modifier: FunctionModifier, private typeParameters: Type.Name[], private argumentList: Argument[], private returnType: Type.Expression, private body: Block, tokens: Tokens.Substance[]) {
-		super(symbol.getName(), tokens)
+		super(symbol.name, tokens)
 	}
 	getModifier(): FunctionModifier {
 		return this.modifier
@@ -55,7 +55,7 @@ export class Function extends Declaration {
 				//
 				// TODO: what about 'unmangled'? A function can be 'static unmangled'
 				//
-				switch ((<Tokens.Identifier>source.peek()).getName()) {
+				switch ((<Tokens.Identifier>source.peek()).name) {
 					case "static":
 						modifier = FunctionModifier.Static
 						break

@@ -29,22 +29,22 @@ export class AssignmentTest extends Unit.Fixture {
 			var parser = new SyntaxTree.Parser(new Tokens.GapRemover(new Tokens.Lexer(new IO.StringReader("a = 'b'"), handler)), handler)
 			var statements = parser.next().getStatements()
 			var result = <SyntaxTree.Expressions.Assignment>statements.next()
-			this.expect(result.left.getName(), Is.equal.to("a"))
+			this.expect(result.left.name, Is.equal.to("a"))
 			this.expect((<SyntaxTree.Expressions.Literal.Character>result.right).value, Is.equal.to("b"))
 		})
 		this.add("number literal", () => {
 			var parser = new SyntaxTree.Parser(new Tokens.GapRemover(new Tokens.Lexer(new IO.StringReader("a = 12345"), handler)), handler)
 			var statements = parser.next().getStatements()
 			var result = <SyntaxTree.Expressions.Assignment>statements.next()
-			this.expect(result.left.getName(), Is.equal.to("a"))
+			this.expect(result.left.name, Is.equal.to("a"))
 			this.expect((<SyntaxTree.Expressions.Literal.Number>result.right).value, Is.equal.to(12345))
 		})
 		this.add("variable", () => {
 			var parser = new SyntaxTree.Parser(new Tokens.GapRemover(new Tokens.Lexer(new IO.StringReader("a = b"), handler)), handler)
 			var statements = parser.next().getStatements()
 			var result = <SyntaxTree.Expressions.Assignment>statements.next()
-			this.expect(result.left.getName(), Is.equal.to("a"))
-			this.expect((<SyntaxTree.Expressions.Identifier>result.right).getName(), Is.equal.to("b"))
+			this.expect(result.left.name, Is.equal.to("a"))
+			this.expect((<SyntaxTree.Expressions.Identifier>result.right).name, Is.equal.to("b"))
 		})
 	}
 }

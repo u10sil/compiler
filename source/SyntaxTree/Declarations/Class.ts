@@ -26,7 +26,7 @@ import { Block } from "../Block"
 
 export class Class extends Declaration {
 	constructor(symbol: Type.Name, private isAbstractClass: boolean, private typeParameters: Type.Name[], private extended: Type.Identifier, private implemented: Type.Identifier[], private block: Block, tokens: Tokens.Substance[]) {
-		super(symbol.getName(), tokens)
+		super(symbol.name, tokens)
 	}
 	isAbstract(): boolean {
 		return this.isAbstractClass

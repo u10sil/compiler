@@ -28,16 +28,13 @@ import { Expression } from "./Expression"
 //		DiscardedIdentifier	: (a, b, _), where '_' is the discarded identifier
 //
 export class Identifier extends Expression {
-	constructor(private name: string, tokens: Tokens.Substance[]) {
+	constructor(readonly name: string, tokens: Tokens.Substance[]) {
 		super(tokens)
-	}
-	getName(): string {
-		return this.name
 	}
 	static parse(source: Source): Identifier {
 		var result: Identifier
 		if (source.peek().isIdentifier() /*&& !source.peek(1).isOperator() && !source.peek(1).isSeparator()*/)
-			result = new Identifier((<Tokens.Identifier>source.next()).getName(), source.mark())
+			result = new Identifier((<Tokens.Identifier>source.next()).name, source.mark())
 		return result
 	}
 }

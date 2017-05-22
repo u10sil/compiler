@@ -22,11 +22,8 @@ import { Token } from "./Token"
 import { Substance } from "./Substance"
 
 export class Separator extends Substance {
-	constructor(private symbol: string, region: Error.Region) {
+	constructor(readonly symbol: string, region: Error.Region) {
 		super(region)
-	}
-	getSymbol(): string {
-		return this.symbol
 	}
 	isSeparator(symbol: string = null): boolean {
 		return !symbol || this.symbol == symbol

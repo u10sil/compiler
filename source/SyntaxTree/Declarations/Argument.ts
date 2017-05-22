@@ -37,12 +37,12 @@ export class Argument extends Declaration {
 			//
 			// TODO: Is this the correct way to go?
 			//
-			result = new Argument(assignment.getSymbol(), assignment.right, source.mark())
+			result = new Argument(assignment.symbol, assignment.right, source.mark())
 		} else if (source.peek().isIdentifier()) {
 			//
 			// handles cases "x" and "x: Type"
 			//
-			var symbol = (<Tokens.Identifier>source.next()).getName()
+			var symbol = (<Tokens.Identifier>source.next()).name
 			var type: Type.Expression;
 			if (source.peek().isSeparator(":")) {
 				source.next() // consume ":"
@@ -55,7 +55,7 @@ export class Argument extends Declaration {
 			// The type of the argument will have to be resolved later
 			//
 			source.next() // consume "=" or "."
-			result = new Argument((<Tokens.Identifier>source.next()).getName(), undefined, source.mark())
+			result = new Argument((<Tokens.Identifier>source.next()).name, undefined, source.mark())
 		}
 		return result
 	}
