@@ -1,0 +1,5 @@
+class Point {
+	let x: s32
+	let y: s32
+	get area => this.x * this.y
+}
