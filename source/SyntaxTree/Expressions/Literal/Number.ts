@@ -24,7 +24,12 @@ export class Number extends Expression {
 	constructor(readonly value: number, tokens: Tokens.Substance[]) {
 		super(tokens)
 	}
-	// tslint:disable:ban-types no-construct
+	serialize(): { class: string } & any {
+		return {
+			class: "literal.number",
+			value: this.value,
+		}
+	}	// tslint:disable:ban-types no-construct
 	static parse(source: Source): Number {
 		let result: Number
 		if (source.peek() instanceof Tokens.Literals.Number)

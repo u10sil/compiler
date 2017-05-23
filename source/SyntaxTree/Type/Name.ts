@@ -25,6 +25,12 @@ export class Name extends Expression {
 	constructor(readonly name: string, tokens: Tokens.Substance[]) {
 		super(tokens)
 	}
+	serialize(): { class: string } & any {
+		return {
+			class: "type.name",
+			name: this.name,
+		}
+	}
 	static parse(source: Source): Name {
 		return source.peek().isIdentifier() ? new Name((source.next() as Tokens.Identifier).name, source.mark()) : null
 	}

@@ -25,6 +25,13 @@ export class Assignment extends Expression {
 	constructor(readonly left: Identifier, readonly right: Expression, tokens: Tokens.Substance[]) {
 		super(tokens)
 	}
+	serialize(): { class: string } & any {
+		return {
+			class: "assignment",
+			left: this.left.serialize(),
+			right: this.right.serialize(),
+		}
+	}
 	static parse(source: Source): Assignment {
 		let result: Assignment
 		if (source.peek().isIdentifier() && source.peek(1).isOperator("=")) {

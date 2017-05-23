@@ -29,6 +29,13 @@ export class Identifier extends Name {
 	constructor(name: string, private typeParametersArray: Identifier[], tokens: Tokens.Substance[]) {
 		super(name, tokens)
 	}
+	serialize(): { class: string } & any {
+		return {
+			...super.serialize(),
+			class: "type.identifier",
+			arguments: this.typeParametersArray.map(t => t.serialize()),
+		}
+	}
 	static parse(source: Source): Identifier {
 		let result: Identifier
 		if (source.peek().isIdentifier()) {

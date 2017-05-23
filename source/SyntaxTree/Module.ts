@@ -31,6 +31,12 @@ export class Module extends Node {
 		super(tokens)
 		this.namespace = tokens[0].region.resource.split("/")
 	}
+	serialize(): { class: string } & any {
+		return {
+			class: "module",
+			statements: this.statementsArray.map(s => s.serialize()),
+		}
+	}
 	static parse(source: Source): Module {
 		let result: Module
 		if (source.peek()) {

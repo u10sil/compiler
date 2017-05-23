@@ -31,8 +31,19 @@ export class Class extends Declaration {
 	get implemented(): Utilities.Iterator<Type.Identifier> {
 		return new Utilities.ArrayIterator(this.implementedArray)
 	}
-	constructor(symbol: Type.Name, readonly isAbstract: boolean, private typeParametersArray: Type.Name[], readonly extended: Type.Identifier, private implementedArray: Type.Identifier[], readonly block: Block, tokens: Tokens.Substance[]) {
+	constructor(symbol: Type.Name, readonly isAbstract: boolean, private typeParametersArray: Type.Name[], readonly extended: Type.Identifier, private implementedArray: Type.Identifier[], readonly content: Block, tokens: Tokens.Substance[]) {
 		super(symbol.name, tokens)
+	}
+	serialize(): { class: string } & any {
+		return {
+			...super.serialize(),
+			class: "declarations.class",
+			isAbstract: this.isAbstract,
+			typeParameters: this.typeParametersArray.map(t => t.serialize()),
+			extends: this.extended.serialize(),
+			implements: this.implementedArray.map(i => i.serialize()),
+			content: this.content,
+		}
 	}
 	static parse(source: Source): Class {
 		let result: Class

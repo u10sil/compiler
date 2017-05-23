@@ -37,6 +37,14 @@ export class Assignment extends Declaration {
 	constructor(readonly left: Type.Name, readonly right: Expressions.Expression, readonly type: Type.Identifier, tokens: Tokens.Substance[]) {
 		super(left.name, tokens)
 	}
+	serialize(): { class: string } & any {
+		return {
+			...super.serialize(),
+			class: "assignment",
+			right: this.right.serialize(),
+			type: this.type.serialize(),
+		}
+	}
 	static parse(source: Source): Assignment {
 		let result: Assignment
 		let shorthand = false

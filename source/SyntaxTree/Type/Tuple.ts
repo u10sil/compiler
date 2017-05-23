@@ -28,6 +28,12 @@ export class Tuple extends Expression {
 	constructor(private childrenArray: Expression[], tokens: Tokens.Substance[]) {
 		super(tokens)
 	}
+	serialize(): { class: string } & any {
+		return {
+			class: "type.tuple",
+			children: this.childrenArray.map(c => c.serialize()),
+		}
+	}
 	static parse(source: Source): Expression {
 		let result: Expression
 		if (source.peek().isSeparator("(")) {

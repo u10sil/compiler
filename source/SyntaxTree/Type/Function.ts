@@ -27,4 +27,11 @@ export class Function extends Expression {
 	constructor(private argumentArray: Expression[], readonly result: Expression, tokens: Tokens.Substance[]) {
 		super(tokens)
 	}
+	serialize(): { class: string } & any {
+		return {
+			class: "type.function",
+			arguments: this.argumentArray.map(a => a.serialize()),
+			result: this.result.serialize(),
+		}
+	}
 }

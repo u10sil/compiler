@@ -25,4 +25,5 @@ export abstract class Node {
 	}
 	constructor(private tokensArray: Tokens.Substance[]) {
 	}
+	abstract serialize(): { class: string } & any
 }

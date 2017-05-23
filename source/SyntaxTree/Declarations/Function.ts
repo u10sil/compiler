@@ -36,6 +36,17 @@ export class Function extends Declaration {
 	constructor(symbol: Type.Name, readonly modifier: FunctionModifier, private typeParametersArray: Type.Name[], private argumentsArray: Argument[], readonly returnType: Type.Expression, readonly body: Block, tokens: Tokens.Substance[]) {
 		super(symbol.name, tokens)
 	}
+	serialize(): { class: string } & any {
+		return {
+			...super.serialize(),
+			class: "declarations.function",
+			modifier: this.modifier,
+			typeParameters: this.typeParametersArray.map(t => t.serialize()),
+			arguments: this.argumentsArray.map(a => a.serialize()),
+			returnType: this.returnType.serialize(),
+			body: this.body.serialize(),
+		}
+	}
 	// tslint:disable:ban-types
 	static parse(source: Source): Function {
 		let result: Function

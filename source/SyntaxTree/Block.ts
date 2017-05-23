@@ -28,6 +28,12 @@ export class Block extends Statement {
 	constructor(private statementsArray: Statement[], tokens: Tokens.Substance[]) {
 		super(tokens)
 	}
+	serialize(): { class: string } & any {
+		return {
+			class: "block",
+			statements: this.statementsArray.map(s => s.serialize()),
+		}
+	}
 	static parse(source: Source): Block {
 		let result: Block
 		if (source.peek().isSeparator("{")) {

@@ -27,6 +27,15 @@ export class Variable extends Declaration {
 	constructor(name: Type.Name, readonly isStatic: boolean, readonly isConstant: boolean, readonly type: Type.Expression, tokens: Tokens.Substance[]) {
 		super(name.name, tokens)
 	}
+	serialize(): { class: string } & any {
+		return {
+			...super.serialize(),
+			class: "declarations.variable",
+			isStatic: this.isStatic,
+			isConstant: this.isConstant,
+			type: this.type.serialize(),
+		}
+	}
 	static parse(source: Source): Variable {
 		let result: Variable
 		if (source.peek().isIdentifier() && source.peek(1).isSeparator(":")) {

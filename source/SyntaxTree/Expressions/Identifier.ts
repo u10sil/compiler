@@ -31,6 +31,12 @@ export class Identifier extends Expression {
 	constructor(readonly name: string, tokens: Tokens.Substance[]) {
 		super(tokens)
 	}
+	serialize(): { class: string } & any {
+		return {
+			class: "identifier",
+			name: this.name,
+		}
+	}
 	static parse(source: Source): Identifier {
 		let result: Identifier
 		if (source.peek().isIdentifier() /*&& !source.peek(1).isOperator() && !source.peek(1).isSeparator()*/)

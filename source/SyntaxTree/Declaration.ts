@@ -26,6 +26,12 @@ export class Declaration extends Statement {
 	constructor(readonly symbol: string, tokens: Tokens.Substance[]) {
 		super(tokens)
 	}
+	serialize(): { class: string } & any {
+		return {
+			class: "declaration",
+			symbol: this.symbol,
+		}
+	}
 	static parseTypeParameters(source: Source): Type.Name[] {
 		const result: Type.Name[] = []
 		if (source.peek().isOperator("<")) {

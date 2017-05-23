@@ -82,7 +82,7 @@ f := 50.5f
 }
 `
 			const classDeclaration = this.createDeclaration(program, handler)
-			const statements = classDeclaration.block.statements
+			const statements = classDeclaration.content.statements
 			const firstField = statements.next() as SyntaxTree.Declarations.Assignment
 			this.expect(firstField.left.name, Is.equal.to("i"))
 			this.expect(firstField.type.name, Is.equal.to("Int"))
@@ -107,7 +107,7 @@ f := 50.5f
 }
 `
 			const classDeclaration = this.createDeclaration(program, handler)
-			const statements = classDeclaration.block.statements
+			const statements = classDeclaration.content.statements
 			const countField = statements.next()
 			const constructor = statements.next() as SyntaxTree.Declarations.Function
 			this.expect(constructor.symbol, Is.equal.to("init"))

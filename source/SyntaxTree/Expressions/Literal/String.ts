@@ -24,7 +24,13 @@ export class String extends Expression {
 	constructor(readonly value: string, tokens: Tokens.Substance[]) {
 		super(tokens)
 	}
-		// tslint:disable:ban-types no-construct
+	serialize(): { class: string } & any {
+		return {
+			class: "literal.string",
+			value: this.value,
+		}
+	}
+	// tslint:disable:ban-types no-construct
 	static parse(source: Source): String {
 		let result: String
 		if (source.peek() instanceof Tokens.Literals.String)

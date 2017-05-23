@@ -24,6 +24,12 @@ export class Character extends Expression {
 	constructor(readonly value: string, tokens: Tokens.Substance[]) {
 		super(tokens)
 	}
+	serialize(): { class: string } & any {
+		return {
+			class: "literal.character",
+			value: this.value,
+		}
+	}
 	static parse(source: Source): Character {
 		let result: Character
 		if (source.peek() instanceof Tokens.Literals.Character)

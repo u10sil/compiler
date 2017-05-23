@@ -27,6 +27,13 @@ export class Argument extends Declaration {
 	constructor(symbol: string, public /* TODO: syntax tree should be immutable */ type: Type.Expression, tokens: Tokens.Substance[]) {
 		super(symbol, tokens)
 	}
+	serialize(): { class: string } & any {
+		return {
+			...super.serialize(),
+			class: "declarations.argument",
+			type: this.type.serialize(),
+		}
+	}
 	static parse(source: Source): Argument {
 		let result: Argument
 		let assignment: Assignment
