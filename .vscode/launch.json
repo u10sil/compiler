@@ -4,7 +4,7 @@
 		{
 			"type": "node",
 			"request": "launch",
-			"name": "Launch Program",
+			"name": "launch",
 			"program": "${workspaceRoot}/build/index.js",
 			"protocol": "inspector",
 			"preLaunchTask": "build",
@@ -14,7 +14,7 @@
 		{
 			"type": "node",
 			"request": "launch",
-			"name": "Launch Test",
+			"name": "unit tests",
 			"program": "${workspaceRoot}/build/index.test.js",
 			"args": [ "debug" ],
 			"protocol": "inspector",
