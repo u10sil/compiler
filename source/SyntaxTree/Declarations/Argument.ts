@@ -21,7 +21,6 @@ import * as Tokens from "../../Tokens"
 import { Statement } from "../Statement"
 import { Declaration } from "../Declaration"
 import * as Type from "../Type"
-import { Assignment } from "./Assignment"
 
 export class Argument extends Declaration {
 	constructor(symbol: string, public /* TODO: syntax tree should be immutable */ type: Type.Expression, tokens: Tokens.Substance[]) {
@@ -36,16 +35,7 @@ export class Argument extends Declaration {
 	}
 	static parse(source: Source): Argument {
 		let result: Argument
-		let assignment: Assignment
-		if ((assignment = Assignment.parse(source.clone()))) {
-			//
-			// handles syntactic sugar case "argument := value", since this is a declare-assign operation,
-			// we let the Assignment parser handle it.
-			//
-			// TODO: Is this the correct way to go?
-			//
-			result = new Argument(assignment.symbol, assignment.right, source.mark())
-		} else if (source.peek().isIdentifier()) {
+		if (source.peek().isIdentifier()) {
 			//
 			// handles cases "x" and "x: Type"
 			//

@@ -121,15 +121,6 @@ export class FunctionTest extends Unit.Fixture {
 			this.expect(argument.symbol, Is.equal.to("arg"))
 			this.expect(argument.type, Is.nullOrUndefined)
 		})
-		this.add("argument declare-assign", () => {
-			const functionDeclaration = this.createDeclaration("Empty: func (arg := 10)\n", handler)
-			const argument = functionDeclaration.argumentList.next() as SyntaxTree.Declarations.Argument
-			this.expect(argument.symbol, Is.equal.to("arg"))
-			//
-			// TODO: Fix this test
-			//
-			this.expect(argument.type, Is.not.nullOrUndefined)
-		})
 	}
 	createDeclaration(sourceString: string, handler: Error.Handler): SyntaxTree.Declarations.Function {
 		return SyntaxTree.Parser.parseFirst(sourceString, handler) as SyntaxTree.Declarations.Function

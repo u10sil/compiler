@@ -18,3 +18,4 @@
 
 import "./Declarations/index.test"
 import "./Expressions/index.test"
+import "./VariableDeclaration.test"

@@ -17,8 +17,6 @@
 //
 
 export { Argument } from "./Argument"
-export { Assignment } from "./Assignment"
 export { Class } from "./Class"
 export { Function } from "./Function"
 export { FunctionModifier } from "./FunctionModifier"
-export { Variable } from "./Variable"

@@ -27,6 +27,7 @@ import { Node } from "./Node"
 import { Parser } from "./Parser"
 import { Source } from "./Source"
 import { Statement } from "./Statement"
+import { VariableDeclaration } from "./VariableDeclaration"
 
 export {
 	Declarations,
@@ -39,4 +40,5 @@ export {
 	Parser,
 	Source,
 	Statement,
+	VariableDeclaration,
 }
