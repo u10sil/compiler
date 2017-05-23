@@ -33,7 +33,7 @@ export class Program {
 		return path.slice(-4) == ".syspl" ? new IO.FileReader(path) : new IO.FolderReader(path, "*.syspl")
 	}
 	private openLexer(path: string, handler: Error.Handler) {
-		return new Tokens.GapRemover(new Tokens.Lexer(this.openReader(path), handler))
+		return new Tokens.GapRemover(Tokens.Lexer.open(path, handler))
 	}
 	private runHelper(command: string, commands: string[]) {
 		const handler = new Error.ConsoleHandler()

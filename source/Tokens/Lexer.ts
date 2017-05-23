@@ -31,8 +31,8 @@ import { Whitespace } from "./Whitespace"
 
 export class Lexer implements Utilities.Iterator<Token> {
 	private source: Source
-	constructor(reader: IO.Reader, private errorHandler: Error.Handler) {
-		this.source = new Source(reader, errorHandler)
+	private constructor(reader: IO.Reader, private handler: Error.Handler) {
+		this.source = new Source(reader, handler)
 	}
 	next(): Token {
 		let result: Token
@@ -52,5 +52,11 @@ export class Lexer implements Utilities.Iterator<Token> {
 		))
 			this.source.raise("[Lexer]: Unrecognized token: " + this.source.peek())
 		return result
+	}
+	static create(code: string | IO.Reader, handler: Error.Handler): Utilities.Iterator<Token> {
+		return new Lexer(typeof code === "string" ? new IO.StringReader(code) : code, handler)
+	}
+	static open(path: string, handler: Error.Handler): Utilities.Iterator<Token> {
+		return Lexer.create(path.slice(-4) == ".syspl" ? new IO.FileReader(path) : new IO.FolderReader(path, "*.syspl"), handler)
 	}
 }

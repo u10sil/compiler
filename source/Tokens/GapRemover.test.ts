@@ -26,7 +26,7 @@ export class GapRemoverTest extends Unit.Fixture {
 		const errorHandler = new Error.ConsoleHandler()
 		this.add("common expression", () => {
 			const testString = "\t\ta := b / c\n"
-			const lexer = new Tokens.Lexer(new IO.StringReader(testString), errorHandler)
+			const lexer = Tokens.Lexer.create(testString, errorHandler)
 			const gapRemover = new Tokens.GapRemover(lexer)
 			let token: Tokens.Token
 			this.expect((token = gapRemover.next()) instanceof Tokens.Identifier)
@@ -42,7 +42,7 @@ export class GapRemoverTest extends Unit.Fixture {
 		})
 		this.add("verify gaps", () => {
 			const testString = "\t\t\ta := b**c\t\n"
-			const lexer = new Tokens.Lexer(new IO.StringReader(testString), errorHandler)
+			const lexer = Tokens.Lexer.create(testString, errorHandler)
 			const gapRemover = new Tokens.GapRemover(lexer)
 			let token: Tokens.Token
 			// PRE-GAP:	"\t\t\t"

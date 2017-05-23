@@ -26,21 +26,21 @@ export class AssignmentTest extends Unit.Fixture {
 		super("SyntaxTree.Expressions.Assignment")
 		const handler = new Error.ConsoleHandler()
 		this.add("character literal", () => {
-			const parser = new SyntaxTree.Parser(new Tokens.GapRemover(new Tokens.Lexer(new IO.StringReader("a = 'b'"), handler)), handler)
+			const parser = new SyntaxTree.Parser(new Tokens.GapRemover(Tokens.Lexer.create("a = 'b'", handler)), handler)
 			const statements = parser.next().statements
 			const result = statements.next() as SyntaxTree.Expressions.Assignment
 			this.expect(result.left.name, Is.equal.to("a"))
 			this.expect((result.right as SyntaxTree.Expressions.Literal.Character).value, Is.equal.to("b"))
 		})
 		this.add("number literal", () => {
-			const parser = new SyntaxTree.Parser(new Tokens.GapRemover(new Tokens.Lexer(new IO.StringReader("a = 12345"), handler)), handler)
+			const parser = new SyntaxTree.Parser(new Tokens.GapRemover(Tokens.Lexer.create("a = 12345", handler)), handler)
 			const statements = parser.next().statements
 			const result = statements.next() as SyntaxTree.Expressions.Assignment
 			this.expect(result.left.name, Is.equal.to("a"))
 			this.expect((result.right as SyntaxTree.Expressions.Literal.Number).value, Is.equal.to(12345))
 		})
 		this.add("variable", () => {
-			const parser = new SyntaxTree.Parser(new Tokens.GapRemover(new Tokens.Lexer(new IO.StringReader("a = b"), handler)), handler)
+			const parser = new SyntaxTree.Parser(new Tokens.GapRemover(Tokens.Lexer.create("a = b", handler)), handler)
 			const statements = parser.next().statements
 			const result = statements.next() as SyntaxTree.Expressions.Assignment
 			this.expect(result.left.name, Is.equal.to("a"))

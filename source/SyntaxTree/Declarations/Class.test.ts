@@ -126,8 +126,8 @@ f := 50.5f
 			this.expect(getCountFunctionStatement.name, Is.equal.to("count"))
 		})
 	}
-	createDeclaration(sourceString: string, errorHandler: Error.Handler): SyntaxTree.Declarations.Class {
-		const parser = new SyntaxTree.Parser(new Tokens.GapRemover(new Tokens.Lexer(new IO.StringReader(sourceString), errorHandler)), errorHandler)
+	createDeclaration(sourceString: string, handler: Error.Handler): SyntaxTree.Declarations.Class {
+		const parser = new SyntaxTree.Parser(new Tokens.GapRemover(Tokens.Lexer.create(sourceString, handler)), handler)
 		const statements = parser.next().statements
 		return statements.next() as SyntaxTree.Declarations.Class
 	}

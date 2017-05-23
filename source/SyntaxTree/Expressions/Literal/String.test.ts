@@ -26,7 +26,7 @@ export class StringTest extends Unit.Fixture {
 		super("SyntaxTree.Expressions.Literals.StringLiteral")
 		const handler = new Error.ConsoleHandler()
 		this.add("literal", () => {
-			const parser = new SyntaxTree.Parser(new Tokens.GapRemover(new Tokens.Lexer(new IO.StringReader("\"\\\"string\\\"\""), handler)), handler)
+			const parser = new SyntaxTree.Parser(new Tokens.GapRemover(Tokens.Lexer.create("\"\\\"string\\\"\"", handler)), handler)
 			const statements = parser.next().statements
 			const literal = statements.next()
 			this.expect(literal instanceof SyntaxTree.Expressions.Literal.String, Is.true)
