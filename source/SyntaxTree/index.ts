@@ -16,12 +16,12 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import * as Declarations from "./Declarations"
 import * as Expressions from "./Expressions"
 import * as Type from "./Type"
 
 import { ArgumentDeclaration } from "./ArgumentDeclaration"
 import { Block } from "./Block"
+import { ClassDeclaration } from "./ClassDeclaration"
 import { Declaration } from "./Declaration"
 import { FunctionDeclaration } from "./FunctionDeclaration"
 import { FunctionModifier } from "./FunctionModifier"
@@ -34,10 +34,10 @@ import { VariableDeclaration } from "./VariableDeclaration"
 
 export {
 	ArgumentDeclaration,
-	Declarations,
 	Expressions,
 	Type,
 	Block,
+	ClassDeclaration,
 	Declaration,
 	FunctionDeclaration,
 	FunctionModifier,

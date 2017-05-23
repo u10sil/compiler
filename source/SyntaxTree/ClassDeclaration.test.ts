@@ -17,44 +17,44 @@
 //
 
 import { Error, IO, Unit } from "@cogneco/mend"
-import * as Tokens from "../../Tokens"
-import * as SyntaxTree from "../"
+import * as Tokens from "../Tokens"
+import * as SyntaxTree from "./"
 
 import Is = Unit.Is
-export class ClassTest extends Unit.Fixture {
+export class ClassDeclarationTest extends Unit.Fixture {
 	constructor() {
-		super("SyntaxTree.Declarations.Class")
+		super("SyntaxTree.ClassDeclaration")
 		const handler = new Error.ConsoleHandler()
 		this.add("empty class", () => {
-			const classDeclaration = this.createDeclaration("Empty: class {}\n", handler)
+			const classDeclaration = this.createDeclaration("class Empty {}\n", handler)
 			this.expect(classDeclaration, Is.not.nullOrUndefined)
 			this.expect(classDeclaration.symbol, Is.equal.to("Empty"))
 		})
 		this.add("generic class #1", () => {
-			const classDeclaration = this.createDeclaration("Empty: class <T> {}\n", handler)
+			const classDeclaration = this.createDeclaration("class Empty<T> {}\n", handler)
 			this.expect(classDeclaration, Is.not.nullOrUndefined)
 			this.expect(classDeclaration.typeParameters.next().name, Is.equal.to("T"))
 		})
 		this.add("generic class #2", () => {
-			const classDeclaration = this.createDeclaration("Empty: class <T, S> {}\n", handler)
+			const classDeclaration = this.createDeclaration("class Empty<T, S> {}\n", handler)
 			this.expect(classDeclaration, Is.not.nullOrUndefined)
 			const typeParameters = classDeclaration.typeParameters
 			this.expect(typeParameters.next().name, Is.equal.to("T"))
 			this.expect(typeParameters.next().name, Is.equal.to("S"))
 		})
 		this.add("class extends", () => {
-			const classDeclaration = this.createDeclaration("Empty: class extends Full {}\n", handler)
+			const classDeclaration = this.createDeclaration("class Empty extends Full {}\n", handler)
 			this.expect(classDeclaration.extended.name, Is.equal.to("Full"))
 		})
 		this.add("class implements", () => {
-			const classDeclaration = this.createDeclaration("Empty: class implements Enumerable, Enumerator {}\n", handler)
+			const classDeclaration = this.createDeclaration("class Empty implements Enumerable, Enumerator {}\n", handler)
 			const implemented = classDeclaration.implemented
 			this.expect(implemented.next().name, Is.equal.to("Enumerable"))
 			this.expect(implemented.next().name, Is.equal.to("Enumerator"))
 			this.expect(implemented.next(), Is.nullOrUndefined)
 		})
 		this.add("generic class implements generic interfaces", () => {
-			const classDeclaration = this.createDeclaration("Empty: class <T, S> implements Interface1<T, S>, Interface2<T, S> {}\n", handler)
+			const classDeclaration = this.createDeclaration("class Empty<T, S> implements Interface1<T, S>, Interface2<T, S> {}\n", handler)
 			const implemented = classDeclaration.implemented
 			const interface1 = implemented.next()
 			this.expect(interface1.name, Is.equal.to("Interface1"))
@@ -71,14 +71,14 @@ export class ClassTest extends Unit.Fixture {
 			this.expect(implemented.next(), Is.nullOrUndefined)
 		})
 		this.add("abstract class", () => {
-			const classDeclaration = this.createDeclaration("Empty: abstract class {}\n", handler)
+			const classDeclaration = this.createDeclaration("abstract class Empty {}\n", handler)
 			this.expect(classDeclaration.isAbstract, Is.true)
 		})
 		this.add("member fields", () => {
 			const program: string =
-`Foobar: class {
-i: Int = 10
-f := 50.5f
+`class Foobar {
+var i: Int = 10
+var f = 50.5f
 }
 `
 			const classDeclaration = this.createDeclaration(program, handler)
@@ -95,13 +95,13 @@ f := 50.5f
 		})
 		this.add("member functions", () => {
 			const program: string =
-`Foobar: class {
-	count: Int = 0
-	init: func
-	updateCount: func (newCount: Int) {
+`class Foobar {
+	var count: Int = 0
+	func init
+	func updateCount(newCount: Int) {
 		count = newCount
 	}
-	getCount: func -> Int {
+	func getCount -> Int {
 		count
 	}
 }
@@ -126,8 +126,8 @@ f := 50.5f
 			this.expect(getCountFunctionStatement.name, Is.equal.to("count"))
 		})
 	}
-	createDeclaration(sourceString: string, handler: Error.Handler): SyntaxTree.Declarations.Class {
-		return SyntaxTree.Parser.parseFirst(sourceString, handler) as SyntaxTree.Declarations.Class
+	createDeclaration(sourceString: string, handler: Error.Handler): SyntaxTree.ClassDeclaration {
+		return SyntaxTree.Parser.parseFirst(sourceString, handler) as SyntaxTree.ClassDeclaration
 	}
 }
-// Unit.Fixture.add(new ClassTest())
+Unit.Fixture.add(new ClassDeclarationTest())

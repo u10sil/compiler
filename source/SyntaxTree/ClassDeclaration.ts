@@ -17,14 +17,14 @@
 //
 
 import { Error, Utilities } from "@cogneco/mend"
-import * as Tokens from "../../Tokens"
-import { Source } from "../Source"
-import { Statement } from "../Statement"
-import { Declaration } from "../Declaration"
-import * as Type from "../Type"
-import { Block } from "../Block"
+import * as Tokens from "../Tokens"
+import { Source } from "./Source"
+import { Statement } from "./Statement"
+import { Declaration } from "./Declaration"
+import * as Type from "./Type"
+import { Block } from "./Block"
 
-export class Class extends Declaration {
+export class ClassDeclaration extends Declaration {
 	get typeParameters(): Utilities.Iterator<Type.Name> {
 		return new Utilities.ArrayIterator(this.typeParametersArray)
 	}
@@ -37,7 +37,7 @@ export class Class extends Declaration {
 	serialize(): { class: string } & any {
 		return {
 			...super.serialize(),
-			class: "declarations.class",
+			class: "classDeclaration",
 			isAbstract: this.isAbstract,
 			typeParameters: this.typeParametersArray.map(t => t.serialize()),
 			extends: this.extended.serialize(),
@@ -45,17 +45,11 @@ export class Class extends Declaration {
 			content: this.content,
 		}
 	}
-	static parse(source: Source): Class {
-		let result: Class
-		let isAbstract = false
-		if (source.peek(0).isIdentifier() && source.peek(1).isSeparator(":") && (source.peek(2).isIdentifier("class") || source.peek(3).isIdentifier("class"))) {
+	static parse(source: Source): ClassDeclaration {
+		let result: ClassDeclaration
+		const isAbstract = source.peek().isIdentifier("abstract")
+		if (source.peek(isAbstract ? 1 : 0).isIdentifier("class") && source.next() && (!isAbstract || source.next())) {
 			const symbol = Type.Name.parse(source.clone())
-			source.next() // consume ":"
-			if (source.peek().isIdentifier("abstract")) {
-				isAbstract = true
-				source.next() // consume "abstract"
-			}
-			source.next() // consume "class"
 			const typeParameters = Declaration.parseTypeParameters(source.clone())
 			let extended: Type.Identifier
 			if (source.peek().isIdentifier("extends")) {
@@ -73,9 +67,9 @@ export class Class extends Declaration {
 					implemented.push(Type.Identifier.parse(source.clone()))
 				} while (source.peek().isSeparator(","))
 			const block = Block.parse(source.clone())
-			result = new Class(symbol, isAbstract, typeParameters, extended, implemented, block, source.mark())
+			result = new ClassDeclaration(symbol, isAbstract, typeParameters, extended, implemented, block, source.mark())
 		}
 		return result
 	}
 }
-Statement.addParser(Class.parse)
+Statement.addParser(ClassDeclaration.parse)
