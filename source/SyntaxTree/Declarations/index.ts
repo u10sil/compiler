@@ -18,5 +18,3 @@
 
 export { Argument } from "./Argument"
 export { Class } from "./Class"
-export { Function } from "./Function"
-export { FunctionModifier } from "./FunctionModifier"

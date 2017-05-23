@@ -16,6 +16,4 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import "./Assignment.test"
 import "./Class.test"
-import "./Function.test"

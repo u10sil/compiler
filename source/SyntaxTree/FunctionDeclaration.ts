@@ -17,16 +17,16 @@
 //
 
 import { Error, Utilities } from "@cogneco/mend"
-import * as Tokens from "../../Tokens"
-import { Source } from "../Source"
-import { Statement } from "../Statement"
-import { Declaration } from "../Declaration"
-import * as Type from "../Type"
-import { Argument } from "./Argument"
-import { Block } from "../Block"
+import * as Tokens from "../Tokens"
+import { Source } from "./Source"
+import { Statement } from "./Statement"
+import { Declaration } from "./Declaration"
+import * as Type from "./Type"
+import { Argument } from "./Declarations/Argument"
+import { Block } from "./Block"
 import { FunctionModifier } from "./FunctionModifier"
 
-export class Function extends Declaration {
+export class FunctionDeclaration extends Declaration {
 	get typeParameters(): Utilities.Iterator<Type.Name> {
 		return new Utilities.ArrayIterator(this.typeParametersArray)
 	}
@@ -39,7 +39,7 @@ export class Function extends Declaration {
 	serialize(): { class: string } & any {
 		return {
 			...super.serialize(),
-			class: "declarations.function",
+			class: "functionDeclaration",
 			modifier: this.modifier,
 			typeParameters: this.typeParametersArray.map(t => t.serialize()),
 			arguments: this.argumentsArray.map(a => a.serialize()),
@@ -47,48 +47,39 @@ export class Function extends Declaration {
 			body: this.body.serialize(),
 		}
 	}
-	// tslint:disable:ban-types
-	static parse(source: Source): Function {
-		let result: Function
-		if (source.peek(0).isIdentifier() && source.peek(1).isSeparator(":") && (source.peek(2).isIdentifier("func") || source.peek(3).isIdentifier("func"))) {
+	static parse(source: Source): FunctionDeclaration {
+		let result: FunctionDeclaration
+		let modifier = FunctionModifier.None
+		switch ((source.peek() as Tokens.Identifier).name) {
+			case "static":
+				modifier = FunctionModifier.Static
+				break
+			case "abstract":
+				modifier = FunctionModifier.Abstract
+				break
+			case "virtual":
+				modifier = FunctionModifier.Virtual
+				break
+			case "override":
+				modifier = FunctionModifier.Override
+				break
+			default:
+				break
+		}
+		if (source.peek(modifier == FunctionModifier.None ? 0 : 1).isIdentifier("func") && source.next() && (modifier == FunctionModifier.None || source.next())) {
 			const symbol = Type.Name.parse(source.clone())
-			let modifier = FunctionModifier.None
-			source.next() // consume ":"
-			if (!source.peek().isIdentifier("func")) {
-				//
-				// TODO: what about 'unmangled'? A function can be 'static unmangled'
-				//
-				switch ((source.peek() as Tokens.Identifier).name) {
-					case "static":
-						modifier = FunctionModifier.Static
-						break
-					case "abstract":
-						modifier = FunctionModifier.Abstract
-						break
-					case "virtual":
-						modifier = FunctionModifier.Virtual
-						break
-					case "override":
-						modifier = FunctionModifier.Override
-						break
-					default:
-						source.raise("Invalid modifier.", Error.Level.Critical)
-				}
-				source.next() // consume modifier
-			}
-			source.next() // consume "func"
 			// TODO: add overload name parsing: ~overloadName
-			const typeParameters = Declaration.parseTypeParameters(source)
-			const argumentList = Argument.parseAll(source)
+			const typeParameters = Declaration.parseTypeParameters(source.clone())
+			const argumentList = Argument.parseAll(source.clone())
 			let returnType: Type.Expression
 			if (source.peek().isOperator("->")) {
 				source.next() // consume "->"
 				returnType = Type.Expression.parse(source)
 			}
 			const body = Block.parse(source)
-			result = new Function(symbol, modifier, typeParameters, argumentList, returnType, body, source.mark())
+			result = new FunctionDeclaration(symbol, modifier, typeParameters, argumentList, returnType, body, source.mark())
 		}
 		return result
 	}
 }
-Statement.addParser(Function.parse)
+Statement.addParser(FunctionDeclaration.parse)

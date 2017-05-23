@@ -109,17 +109,17 @@ f := 50.5f
 			const classDeclaration = this.createDeclaration(program, handler)
 			const statements = classDeclaration.content.statements
 			const countField = statements.next()
-			const constructor = statements.next() as SyntaxTree.Declarations.Function
+			const constructor = statements.next() as SyntaxTree.FunctionDeclaration
 			this.expect(constructor.symbol, Is.equal.to("init"))
 			this.expect(constructor.body, Is.nullOrUndefined)
 			this.expect(constructor.returnType, Is.nullOrUndefined)
-			const updateCountFunction = statements.next() as SyntaxTree.Declarations.Function
+			const updateCountFunction = statements.next() as SyntaxTree.FunctionDeclaration
 			this.expect(updateCountFunction.symbol, Is.equal.to("updateCount"))
 			const updateCountArgument = updateCountFunction.argumentList.next() as SyntaxTree.Declarations.Argument
 			this.expect(updateCountArgument.symbol, Is.equal.to("newCount"))
 			this.expect((updateCountArgument.type as SyntaxTree.Type.Identifier).name, Is.equal.to("Int"))
 			this.expect(updateCountFunction.returnType, Is.nullOrUndefined)
-			const getCountFunction = statements.next() as SyntaxTree.Declarations.Function
+			const getCountFunction = statements.next() as SyntaxTree.FunctionDeclaration
 			this.expect(getCountFunction.symbol, Is.equal.to("getCount"))
 			this.expect((getCountFunction.returnType as SyntaxTree.Type.Identifier).name, Is.equal.to("Int"))
 			const getCountFunctionStatement = getCountFunction.body.statements.next() as SyntaxTree.Expressions.Identifier

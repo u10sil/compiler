@@ -17,42 +17,42 @@
 //
 
 import { Error, IO, Unit } from "@cogneco/mend"
-import * as Tokens from "../../Tokens"
-import * as SyntaxTree from "../"
+import * as Tokens from "../Tokens"
+import * as SyntaxTree from "./"
 
 import Is = Unit.Is
-export class FunctionTest extends Unit.Fixture {
+export class FunctionDeclarationTest extends Unit.Fixture {
 	constructor() {
-		super("SyntaxTree.Declarations.Function")
+		super("SyntaxTree.FunctionDeclaration")
 		const handler = new Error.ConsoleHandler()
 		//
 		// TODO: Construct a test for an argument list with no explicitly set types (type inference)
 		//
 		this.add("empty function", () => {
-			const functionDeclaration = this.createDeclaration("Empty: func\n", handler)
-			this.expect(functionDeclaration.symbol, Is.equal.to("Empty"))
+			const functionDeclaration = this.createDeclaration("func empty\n", handler)
+			this.expect(functionDeclaration.symbol, Is.equal.to("empty"))
 		})
 		this.add("static function", () => {
-			const functionDeclaration = this.createDeclaration("Empty: static func\n", handler)
-			this.expect(functionDeclaration.modifier, Is.equal.to(SyntaxTree.Declarations.FunctionModifier.Static))
+			const functionDeclaration = this.createDeclaration("static func empty\n", handler)
+			this.expect(functionDeclaration.modifier, Is.equal.to(SyntaxTree.FunctionModifier.Static))
 		})
 		this.add("abstract function", () => {
-			const functionDeclaration = this.createDeclaration("Empty: abstract func\n", handler)
-			this.expect(functionDeclaration.modifier, Is.equal.to(SyntaxTree.Declarations.FunctionModifier.Abstract))
+			const functionDeclaration = this.createDeclaration("abstract func empty\n", handler)
+			this.expect(functionDeclaration.modifier, Is.equal.to(SyntaxTree.FunctionModifier.Abstract))
 		})
 		this.add("virtual function", () => {
-			const functionDeclaration = this.createDeclaration("Empty: virtual func\n", handler)
-			this.expect(functionDeclaration.modifier, Is.equal.to(SyntaxTree.Declarations.FunctionModifier.Virtual))
+			const functionDeclaration = this.createDeclaration("virtual func empty\n", handler)
+			this.expect(functionDeclaration.modifier, Is.equal.to(SyntaxTree.FunctionModifier.Virtual))
 		})
 		this.add("override function", () => {
-			const functionDeclaration = this.createDeclaration("Empty: override func\n", handler)
-			this.expect(functionDeclaration.modifier, Is.equal.to(SyntaxTree.Declarations.FunctionModifier.Override))
+			const functionDeclaration = this.createDeclaration("override func empty\n", handler)
+			this.expect(functionDeclaration.modifier, Is.equal.to(SyntaxTree.FunctionModifier.Override))
 		})
 		this.add("empty function with parameters", () => {
-			const functionDeclaration = this.createDeclaration("Empty: func (i: Int, j: Float, k: Double)\n", handler)
+			const functionDeclaration = this.createDeclaration("func empty(i: Int, j: Float, k: Double)\n", handler)
 			const functionArguments = functionDeclaration.argumentList
 			let currentArgument: SyntaxTree.Declarations.Argument
-			this.expect(functionDeclaration.symbol, Is.equal.to("Empty"))
+			this.expect(functionDeclaration.symbol, Is.equal.to("empty"))
 			currentArgument = functionArguments.next()
 			this.expect(currentArgument.symbol, Is.equal.to("i"))
 			this.expect((currentArgument.type as SyntaxTree.Type.Identifier).name, Is.equal.to("Int"))
@@ -64,10 +64,10 @@ export class FunctionTest extends Unit.Fixture {
 			this.expect((currentArgument.type as SyntaxTree.Type.Identifier).name, Is.equal.to("Double"))
 		})
 		this.add("empty function with parameters reduced", () => {
-			const functionDeclaration = this.createDeclaration("Empty: func (w, h: Int, x, y, z: Float)\n", handler)
+			const functionDeclaration = this.createDeclaration("func empty(w, h: Int, x, y, z: Float)\n", handler)
 			const functionArguments = functionDeclaration.argumentList
 			let currentArgument: SyntaxTree.Declarations.Argument
-			this.expect(functionDeclaration.symbol, Is.equal.to("Empty"))
+			this.expect(functionDeclaration.symbol, Is.equal.to("empty"))
 			currentArgument = functionArguments.next()
 			this.expect(currentArgument.symbol, Is.equal.to("w"))
 			this.expect((currentArgument.type as SyntaxTree.Type.Identifier).name, Is.equal.to("Int"))
@@ -85,7 +85,7 @@ export class FunctionTest extends Unit.Fixture {
 			this.expect((currentArgument.type as SyntaxTree.Type.Identifier).name, Is.equal.to("Float"))
 		})
 		this.add("empty generic function with generic parameter types", () => {
-			const functionDeclaration = this.createDeclaration("Empty: func <T, S> (a, b: Generic<T>, x, y: Generic<S>)\n", handler)
+			const functionDeclaration = this.createDeclaration("func empty<T, S>(a, b: Generic<T>, x, y: Generic<S>)\n", handler)
 			const typeParameters = functionDeclaration.typeParameters
 			const functionArguments = functionDeclaration.argumentList
 			let currentArgument = functionArguments.next()
@@ -97,33 +97,21 @@ export class FunctionTest extends Unit.Fixture {
 			this.expect((currentArgument.type as SyntaxTree.Type.Identifier).typeParameters.next().name, Is.equal.to("S"))
 		})
 		this.add("empty function with return type", () => {
-			const functionDeclaration = this.createDeclaration("Empty: func -> ReturnType\n", handler)
-			this.expect(functionDeclaration.symbol, Is.equal.to("Empty"))
+			const functionDeclaration = this.createDeclaration("func empty -> ReturnType\n", handler)
+			this.expect(functionDeclaration.symbol, Is.equal.to("empty"))
 			this.expect((functionDeclaration.returnType as SyntaxTree.Type.Identifier).name, Is.equal.to("ReturnType"))
 		})
 		this.add("empty function with return type tuple", () => {
-			const functionDeclaration = this.createDeclaration("Empty: func -> (Int, Float, Double)\n", handler)
+			const functionDeclaration = this.createDeclaration("func empty -> (Int, Float, Double)\n", handler)
 			const tupleChildren = (functionDeclaration.returnType as SyntaxTree.Type.Tuple).children
-			this.expect(functionDeclaration.symbol, Is.equal.to("Empty"))
+			this.expect(functionDeclaration.symbol, Is.equal.to("empty"))
 			this.expect((tupleChildren.next() as SyntaxTree.Type.Identifier).name, Is.equal.to("Int"))
 			this.expect((tupleChildren.next() as SyntaxTree.Type.Identifier).name, Is.equal.to("Float"))
 			this.expect((tupleChildren.next() as SyntaxTree.Type.Identifier).name, Is.equal.to("Double"))
 		})
-		this.add("argument type copy", () => {
-			const functionDeclaration = this.createDeclaration("Empty: func (.arg)\n", handler)
-			const argument = functionDeclaration.argumentList.next() as SyntaxTree.Declarations.Argument
-			this.expect(argument.symbol, Is.equal.to("arg"))
-			this.expect(argument.type, Is.nullOrUndefined)
-		})
-		this.add("argument assign", () => {
-			const functionDeclaration = this.createDeclaration("Empty: func (=arg)\n", handler)
-			const argument = functionDeclaration.argumentList.next() as SyntaxTree.Declarations.Argument
-			this.expect(argument.symbol, Is.equal.to("arg"))
-			this.expect(argument.type, Is.nullOrUndefined)
-		})
 	}
-	createDeclaration(sourceString: string, handler: Error.Handler): SyntaxTree.Declarations.Function {
-		return SyntaxTree.Parser.parseFirst(sourceString, handler) as SyntaxTree.Declarations.Function
+	createDeclaration(sourceString: string, handler: Error.Handler): SyntaxTree.FunctionDeclaration {
+		return SyntaxTree.Parser.parseFirst(sourceString, handler) as SyntaxTree.FunctionDeclaration
 	}
 }
-Unit.Fixture.add(new FunctionTest())
+Unit.Fixture.add(new FunctionDeclarationTest())

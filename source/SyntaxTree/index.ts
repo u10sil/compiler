@@ -22,6 +22,8 @@ import * as Type from "./Type"
 
 import { Block } from "./Block"
 import { Declaration } from "./Declaration"
+import { FunctionDeclaration } from "./FunctionDeclaration"
+import { FunctionModifier } from "./FunctionModifier"
 import { Module } from "./Module"
 import { Node } from "./Node"
 import { Parser } from "./Parser"
@@ -35,6 +37,8 @@ export {
 	Type,
 	Block,
 	Declaration,
+	FunctionDeclaration,
+	FunctionModifier,
 	Module,
 	Node,
 	Parser,
