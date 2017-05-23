@@ -51,9 +51,7 @@ export class VariableTest extends Unit.Fixture {
 		})
 	}
 	createDeclaration(sourceString: string, handler: Error.Handler): SyntaxTree.Declarations.Variable {
-		const parser = SyntaxTree.Parser.create(sourceString, handler)
-		const statements = parser.next().statements
-		return statements.next() as SyntaxTree.Declarations.Variable
+		return SyntaxTree.Parser.parseFirst(sourceString, handler) as SyntaxTree.Declarations.Variable
 	}
 }
 Unit.Fixture.add(new VariableTest())

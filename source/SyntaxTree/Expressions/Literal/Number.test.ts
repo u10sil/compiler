@@ -33,30 +33,22 @@ export class NumberTest extends Unit.Fixture {
 			this.expect((literal as SyntaxTree.Expressions.Literal.Number).value, Is.equal.to(12345))
 		})
 		this.add("float", () => {
-			const parser = SyntaxTree.Parser.create("0.1234f", handler)
-			const statements = parser.next().statements
-			const literal = statements.next()
+			const literal = SyntaxTree.Parser.parseFirst("0.1234f", handler)
 			this.expect(literal instanceof SyntaxTree.Expressions.Literal.Number, Is.true)
 			this.expect((literal as SyntaxTree.Expressions.Literal.Number).value, Is.equal.to(0.1234))
 		})
 		this.add("binary", () => {
-			const parser = SyntaxTree.Parser.create("0b11000000111001", handler)
-			const statements = parser.next().statements
-			const literal = statements.next()
+			const literal = SyntaxTree.Parser.parseFirst("0b11000000111001", handler)
 			this.expect(literal instanceof SyntaxTree.Expressions.Literal.Number, Is.true)
 			this.expect((literal as SyntaxTree.Expressions.Literal.Number).value, Is.equal.to(12345))
 		})
 		this.add("octal", () => {
-			const parser = SyntaxTree.Parser.create("0c30071", handler)
-			const statements = parser.next().statements
-			const literal = statements.next()
+			const literal = SyntaxTree.Parser.parseFirst("0c30071", handler)
 			this.expect(literal instanceof SyntaxTree.Expressions.Literal.Number, Is.true)
 			this.expect((literal as SyntaxTree.Expressions.Literal.Number).value, Is.equal.to(12345))
 		})
 		this.add("hexadecimal", () => {
-			const parser = SyntaxTree.Parser.create("0xD431", handler)
-			const statements = parser.next().statements
-			const literal = statements.next()
+			const literal = SyntaxTree.Parser.parseFirst("0xD431", handler)
 			this.expect(literal instanceof SyntaxTree.Expressions.Literal.Number, Is.true)
 			this.expect((literal as SyntaxTree.Expressions.Literal.Number).value, Is.equal.to(54321))
 		})

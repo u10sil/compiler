@@ -26,23 +26,17 @@ export class AssignmentTest extends Unit.Fixture {
 		super("SyntaxTree.Expressions.Assignment")
 		const handler = new Error.ConsoleHandler()
 		this.add("character literal", () => {
-			const parser = SyntaxTree.Parser.create("a = 'b'", handler)
-			const statements = parser.next().statements
-			const result = statements.next() as SyntaxTree.Expressions.Assignment
+			const result = SyntaxTree.Parser.parseFirst("a = 'b'", handler) as SyntaxTree.Expressions.Assignment
 			this.expect(result.left.name, Is.equal.to("a"))
 			this.expect((result.right as SyntaxTree.Expressions.Literal.Character).value, Is.equal.to("b"))
 		})
 		this.add("number literal", () => {
-			const parser = SyntaxTree.Parser.create("a = 12345", handler)
-			const statements = parser.next().statements
-			const result = statements.next() as SyntaxTree.Expressions.Assignment
+			const result = SyntaxTree.Parser.parseFirst("a = 12345", handler) as SyntaxTree.Expressions.Assignment
 			this.expect(result.left.name, Is.equal.to("a"))
 			this.expect((result.right as SyntaxTree.Expressions.Literal.Number).value, Is.equal.to(12345))
 		})
 		this.add("variable", () => {
-			const parser = SyntaxTree.Parser.create("a = b", handler)
-			const statements = parser.next().statements
-			const result = statements.next() as SyntaxTree.Expressions.Assignment
+			const result = SyntaxTree.Parser.parseFirst("a = b", handler) as SyntaxTree.Expressions.Assignment
 			this.expect(result.left.name, Is.equal.to("a"))
 			this.expect((result.right as SyntaxTree.Expressions.Identifier).name, Is.equal.to("b"))
 		})

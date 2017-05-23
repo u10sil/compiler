@@ -26,9 +26,7 @@ export class StringTest extends Unit.Fixture {
 		super("SyntaxTree.Expressions.Literals.StringLiteral")
 		const handler = new Error.ConsoleHandler()
 		this.add("literal", () => {
-			const parser = SyntaxTree.Parser.create("\"\\\"string\\\"\"", handler)
-			const statements = parser.next().statements
-			const literal = statements.next()
+			const literal = SyntaxTree.Parser.parseFirst("\"\\\"string\\\"\"", handler)
 			this.expect(literal instanceof SyntaxTree.Expressions.Literal.String, Is.true)
 			this.expect((literal as SyntaxTree.Expressions.Literal.String).value, Is.equal.to("\"string\""))
 		})

@@ -26,9 +26,7 @@ export class CharacterTest extends Unit.Fixture {
 		super("SyntaxTree.Expressions.Literal.Character")
 		const handler = new Error.ConsoleHandler()
 		this.add("literal", () => {
-			const parser = SyntaxTree.Parser.create("'a'", handler)
-			const statements = parser.next().statements
-			const literal = statements.next()
+			const literal = SyntaxTree.Parser.parseFirst("'a'", handler)
 			this.expect(literal instanceof SyntaxTree.Expressions.Literal.Character, Is.true)
 			this.expect((literal as SyntaxTree.Expressions.Literal.Character).value, Is.equal.to("a"))
 		})

@@ -20,6 +20,7 @@ import { Error, Utilities } from "@cogneco/mend"
 import * as Tokens from "../Tokens"
 import { Source } from "./Source"
 import { Module } from "./Module"
+import { Statement } from "./Statement"
 
 export class Parser implements Utilities.Iterator<Module> {
 	source: Source
@@ -34,5 +35,10 @@ export class Parser implements Utilities.Iterator<Module> {
 	}
 	static open(path: string, handler: Error.Handler): Utilities.Iterator<Module> {
 		return Parser.create(Tokens.Lexer.open(path, handler), handler)
+	}
+	static parseFirst(tokens: string | Utilities.Iterator<Tokens.Token>, handler: Error.Handler): Statement {
+			const parser = Parser.create(tokens, handler)
+			const statements = parser.next().statements
+			return statements.next()
 	}
 }

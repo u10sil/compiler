@@ -26,27 +26,22 @@ export class AssignmentTest extends Unit.Fixture {
 		super("SyntaxTree.Declarations.Assignment")
 		const handler = new Error.ConsoleHandler()
 		this.add("a := b", () => {
-			const declareAssignStatement = this.createDeclaration("a := b", handler)
+			const declareAssignStatement = SyntaxTree.Parser.parseFirst("a := b", handler) as SyntaxTree.Declarations.Assignment
 			this.expect(declareAssignStatement.left.name, Is.equal.to("a"))
 			this.expect((declareAssignStatement.right as SyntaxTree.Expressions.Identifier).name, Is.equal.to("b"))
 		})
 		this.add("foo: Type = bar", () => {
-			const declareAssignStatement = this.createDeclaration("foo: Type = bar", handler)
+			const declareAssignStatement = SyntaxTree.Parser.parseFirst("foo: Type = bar", handler) as SyntaxTree.Declarations.Assignment
 			this.expect(declareAssignStatement.left.name, Is.equal.to("foo"))
 			this.expect(declareAssignStatement.type.name, Is.equal.to("Type"))
 			this.expect((declareAssignStatement.right as SyntaxTree.Expressions.Identifier).name, Is.equal.to("bar"))
 		})
 		this.add("foo: Float = 0.50f", () => {
-			const declareAssignStatement = this.createDeclaration("f: Float = 0.50f", handler)
+			const declareAssignStatement = SyntaxTree.Parser.parseFirst("f: Float = 0.50f", handler) as SyntaxTree.Declarations.Assignment
 			this.expect(declareAssignStatement.left.name, Is.equal.to("f"))
 			this.expect(declareAssignStatement.type.name, Is.equal.to("Float"))
 			this.expect((declareAssignStatement.right as SyntaxTree.Expressions.Literal.Number).value, Is.equal.to(0.5))
 		})
-	}
-	createDeclaration(sourceString: string, handler: Error.Handler): SyntaxTree.Declarations.Assignment {
-		const parser = SyntaxTree.Parser.create(sourceString, handler)
-		const statements = parser.next().statements
-		return statements.next() as SyntaxTree.Declarations.Assignment
 	}
 }
 Unit.Fixture.add(new AssignmentTest())
