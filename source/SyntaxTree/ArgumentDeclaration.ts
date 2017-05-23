@@ -16,25 +16,25 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Source } from "../Source"
-import * as Tokens from "../../Tokens"
-import { Statement } from "../Statement"
-import { Declaration } from "../Declaration"
-import * as Type from "../Type"
+import { Source } from "./Source"
+import * as Tokens from "../Tokens"
+import { Statement } from "./Statement"
+import { Declaration } from "./Declaration"
+import * as Type from "./Type"
 
-export class Argument extends Declaration {
+export class ArgumentDeclaration extends Declaration {
 	constructor(symbol: string, public /* TODO: syntax tree should be immutable */ type: Type.Expression, tokens: Tokens.Substance[]) {
 		super(symbol, tokens)
 	}
 	serialize(): { class: string } & any {
 		return {
 			...super.serialize(),
-			class: "declarations.argument",
+			class: "argumentDeclaration",
 			type: this.type.serialize(),
 		}
 	}
-	static parse(source: Source): Argument {
-		let result: Argument
+	static parse(source: Source): ArgumentDeclaration {
+		let result: ArgumentDeclaration
 		if (source.peek().isIdentifier()) {
 			//
 			// handles cases "x" and "x: Type"
@@ -45,23 +45,23 @@ export class Argument extends Declaration {
 				source.next() // consume ":"
 				type = Type.Expression.parse(source.clone())
 			}
-			result = new Argument(symbol, type, source.mark())
+			result = new ArgumentDeclaration(symbol, type, source.mark())
 		} else if (source.peek().isOperator("=") || source.peek().isSeparator(".")) {
 			//
 			// Handles syntactic sugar cases ".argument" and "=argument"
 			// The type of the argument will have to be resolved later
 			//
 			source.next() // consume "=" or "."
-			result = new Argument((source.next() as Tokens.Identifier).name, undefined, source.mark())
+			result = new ArgumentDeclaration((source.next() as Tokens.Identifier).name, undefined, source.mark())
 		}
 		return result
 	}
-	static parseAll(source: Source): Argument[] {
-		const result: Argument[] = []
+	static parseAll(source: Source): ArgumentDeclaration[] {
+		const result: ArgumentDeclaration[] = []
 		if (source.peek().isSeparator("(")) {
 			do {
 				source.next() // consume: ( or ,
-				result.push(Argument.parse(source.clone()))
+				result.push(ArgumentDeclaration.parse(source.clone()))
 			} while (source.peek().isSeparator(","))
 			if (!source.next().isSeparator(")"))
 				source.raise("Expected \")\"")

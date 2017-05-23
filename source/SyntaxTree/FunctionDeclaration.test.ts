@@ -51,7 +51,7 @@ export class FunctionDeclarationTest extends Unit.Fixture {
 		this.add("empty function with parameters", () => {
 			const functionDeclaration = this.createDeclaration("func empty(i: Int, j: Float, k: Double)\n", handler)
 			const functionArguments = functionDeclaration.argumentList
-			let currentArgument: SyntaxTree.Declarations.Argument
+			let currentArgument: SyntaxTree.ArgumentDeclaration
 			this.expect(functionDeclaration.symbol, Is.equal.to("empty"))
 			currentArgument = functionArguments.next()
 			this.expect(currentArgument.symbol, Is.equal.to("i"))
@@ -66,7 +66,7 @@ export class FunctionDeclarationTest extends Unit.Fixture {
 		this.add("empty function with parameters reduced", () => {
 			const functionDeclaration = this.createDeclaration("func empty(w, h: Int, x, y, z: Float)\n", handler)
 			const functionArguments = functionDeclaration.argumentList
-			let currentArgument: SyntaxTree.Declarations.Argument
+			let currentArgument: SyntaxTree.ArgumentDeclaration
 			this.expect(functionDeclaration.symbol, Is.equal.to("empty"))
 			currentArgument = functionArguments.next()
 			this.expect(currentArgument.symbol, Is.equal.to("w"))

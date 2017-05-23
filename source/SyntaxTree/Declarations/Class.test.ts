@@ -115,7 +115,7 @@ f := 50.5f
 			this.expect(constructor.returnType, Is.nullOrUndefined)
 			const updateCountFunction = statements.next() as SyntaxTree.FunctionDeclaration
 			this.expect(updateCountFunction.symbol, Is.equal.to("updateCount"))
-			const updateCountArgument = updateCountFunction.argumentList.next() as SyntaxTree.Declarations.Argument
+			const updateCountArgument = updateCountFunction.argumentList.next() as SyntaxTree.ArgumentDeclaration
 			this.expect(updateCountArgument.symbol, Is.equal.to("newCount"))
 			this.expect((updateCountArgument.type as SyntaxTree.Type.Identifier).name, Is.equal.to("Int"))
 			this.expect(updateCountFunction.returnType, Is.nullOrUndefined)

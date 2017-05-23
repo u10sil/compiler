@@ -20,6 +20,7 @@ import * as Declarations from "./Declarations"
 import * as Expressions from "./Expressions"
 import * as Type from "./Type"
 
+import { ArgumentDeclaration } from "./ArgumentDeclaration"
 import { Block } from "./Block"
 import { Declaration } from "./Declaration"
 import { FunctionDeclaration } from "./FunctionDeclaration"
@@ -32,6 +33,7 @@ import { Statement } from "./Statement"
 import { VariableDeclaration } from "./VariableDeclaration"
 
 export {
+	ArgumentDeclaration,
 	Declarations,
 	Expressions,
 	Type,

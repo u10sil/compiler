@@ -22,7 +22,7 @@ import { Source } from "./Source"
 import { Statement } from "./Statement"
 import { Declaration } from "./Declaration"
 import * as Type from "./Type"
-import { Argument } from "./Declarations/Argument"
+import { ArgumentDeclaration } from "./ArgumentDeclaration"
 import { Block } from "./Block"
 import { FunctionModifier } from "./FunctionModifier"
 
@@ -30,10 +30,10 @@ export class FunctionDeclaration extends Declaration {
 	get typeParameters(): Utilities.Iterator<Type.Name> {
 		return new Utilities.ArrayIterator(this.typeParametersArray)
 	}
-	get argumentList(): Utilities.Iterator<Argument> {
+	get argumentList(): Utilities.Iterator<ArgumentDeclaration> {
 		return new Utilities.ArrayIterator(this.argumentsArray)
 	}
-	constructor(symbol: Type.Name, readonly modifier: FunctionModifier, private typeParametersArray: Type.Name[], private argumentsArray: Argument[], readonly returnType: Type.Expression, readonly body: Block, tokens: Tokens.Substance[]) {
+	constructor(symbol: Type.Name, readonly modifier: FunctionModifier, private typeParametersArray: Type.Name[], private argumentsArray: ArgumentDeclaration[], readonly returnType: Type.Expression, readonly body: Block, tokens: Tokens.Substance[]) {
 		super(symbol.name, tokens)
 	}
 	serialize(): { class: string } & any {
@@ -70,7 +70,7 @@ export class FunctionDeclaration extends Declaration {
 			const symbol = Type.Name.parse(source.clone())
 			// TODO: add overload name parsing: ~overloadName
 			const typeParameters = Declaration.parseTypeParameters(source.clone())
-			const argumentList = Argument.parseAll(source.clone())
+			const argumentList = ArgumentDeclaration.parseAll(source.clone())
 			let returnType: Type.Expression
 			if (source.peek().isOperator("->")) {
 				source.next() // consume "->"

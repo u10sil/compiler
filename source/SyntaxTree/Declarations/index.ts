@@ -16,5 +16,4 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-export { Argument } from "./Argument"
 export { Class } from "./Class"
