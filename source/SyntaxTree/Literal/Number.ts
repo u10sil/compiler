@@ -16,20 +16,25 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Error, IO, Unit } from "@cogneco/mend"
-import * as Tokens from "../../../Tokens"
-import * as SyntaxTree from "../../"
+import * as Tokens from "../../Tokens"
+import { Source } from "../Source"
+import { Expression } from "../Expression"
 
-import Is = Unit.Is
-export class StringTest extends Unit.Fixture {
-	constructor() {
-		super("SyntaxTree.Expressions.Literals.StringLiteral")
-		const handler = new Error.ConsoleHandler()
-		this.add("literal", () => {
-			const literal = SyntaxTree.Parser.parseFirst("\"\\\"string\\\"\"", handler)
-			this.expect(literal instanceof SyntaxTree.Expressions.Literal.String, Is.true)
-			this.expect((literal as SyntaxTree.Expressions.Literal.String).value, Is.equal.to("\"string\""))
-		})
+export class Number extends Expression {
+	constructor(readonly value: number, tokens: Tokens.Substance[]) {
+		super(tokens)
+	}
+	serialize(): { class: string } & any {
+		return {
+			class: "literal.number",
+			value: this.value,
+		}
+	}	// tslint:disable:ban-types no-construct
+	static parse(source: Source): Number {
+		let result: Number
+		if (source.peek() instanceof Tokens.Literals.Number)
+			result = new Number((source.next() as Tokens.Literals.Number).value, source.mark())
+		return result
 	}
 }
-Unit.Fixture.add(new StringTest())
+Expression.addParser(Number.parse)

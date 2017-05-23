@@ -21,11 +21,11 @@ import * as Tokens from "../Tokens"
 import { Source } from "./Source"
 import { Statement } from "./Statement"
 import { Declaration } from "./Declaration"
-import * as Expressions from "./Expressions"
+import { Expression } from "./Expression"
 import * as Type from "./Type"
 
 export class VariableDeclaration extends Declaration {
-	constructor(name: Type.Name, readonly isStatic: boolean, readonly isConstant: boolean, readonly type: Type.Expression, readonly value: Expressions.Expression, tokens: Tokens.Substance[]) {
+	constructor(name: Type.Name, readonly isStatic: boolean, readonly isConstant: boolean, readonly type: Type.Expression, readonly value: Expression, tokens: Tokens.Substance[]) {
 		super(name.name, tokens)
 	}
 	serialize(): { class: string } & any {
@@ -49,9 +49,9 @@ export class VariableDeclaration extends Declaration {
 			source.next() // consume "var" or "let"
 			const name = Type.Name.parse(source.clone())
 			const type = source.peek().isSeparator(":") && source.next() ? Type.Expression.parse(source.clone()) : null
-			let value: Expressions.Expression
+			let value: Expression
 			if (source.peek().isOperator("=") && source.next())
-				value = Expressions.Expression.parse(source.clone())
+				value = Expression.parse(source.clone())
 			result = new VariableDeclaration(name, isStatic, isConstant, type, value, source.mark())
 		}
 		return result

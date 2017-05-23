@@ -52,19 +52,19 @@ export class VariableDeclarationTest extends Unit.Fixture {
 		this.add("var a = b", () => {
 			const variableDeclaration = SyntaxTree.Parser.parseFirst("var a = b", handler) as SyntaxTree.VariableDeclaration
 			this.expect(variableDeclaration.symbol, Is.equal.to("a"))
-			this.expect((variableDeclaration.value as SyntaxTree.Expressions.Identifier).name, Is.equal.to("b"))
+			this.expect((variableDeclaration.value as SyntaxTree.Identifier).name, Is.equal.to("b"))
 		})
 		this.add("var foo: Type = bar", () => {
 			const variableDeclaration = SyntaxTree.Parser.parseFirst("var foo: Type = bar", handler) as SyntaxTree.VariableDeclaration
 			this.expect(variableDeclaration.symbol, Is.equal.to("foo"))
 			this.expect((variableDeclaration.type as SyntaxTree.Type.Identifier).name, Is.equal.to("Type"))
-			this.expect((variableDeclaration.value as SyntaxTree.Expressions.Identifier).name, Is.equal.to("bar"))
+			this.expect((variableDeclaration.value as SyntaxTree.Identifier).name, Is.equal.to("bar"))
 		})
 		this.add("var foo: Float = 0.50f", () => {
 			const variableDeclaration = SyntaxTree.Parser.parseFirst("var f: Float = 0.50f", handler) as SyntaxTree.VariableDeclaration
 			this.expect(variableDeclaration.symbol, Is.equal.to("f"))
 			this.expect((variableDeclaration.type as SyntaxTree.Type.Identifier).name, Is.equal.to("Float"))
-			this.expect((variableDeclaration.value as SyntaxTree.Expressions.Literal.Number).value, Is.equal.to(0.5))
+			this.expect((variableDeclaration.value as SyntaxTree.Literal.Number).value, Is.equal.to(0.5))
 		})	}
 	createDeclaration(sourceString: string, handler: Error.Handler): SyntaxTree.VariableDeclaration {
 		return SyntaxTree.Parser.parseFirst(sourceString, handler) as SyntaxTree.VariableDeclaration

@@ -86,11 +86,11 @@ var f = 50.5f
 			const firstField = statements.next() as SyntaxTree.VariableDeclaration
 			this.expect(firstField.symbol, Is.equal.to("i"))
 			this.expect((firstField.type as SyntaxTree.Type.Identifier).name, Is.equal.to("Int"))
-			this.expect((firstField.value as SyntaxTree.Expressions.Literal.Number).value, Is.equal.to(10))
+			this.expect((firstField.value as SyntaxTree.Literal.Number).value, Is.equal.to(10))
 			const secondField = statements.next() as SyntaxTree.VariableDeclaration
 			this.expect(secondField.symbol, Is.equal.to("f"))
 			this.expect(secondField.type, Is.nullOrUndefined)
-			this.expect((secondField.value as SyntaxTree.Expressions.Literal.Number).value, Is.equal.to(50.5))
+			this.expect((secondField.value as SyntaxTree.Literal.Number).value, Is.equal.to(50.5))
 			this.expect(statements.next(), Is.nullOrUndefined)
 		})
 		this.add("member functions", () => {
@@ -122,7 +122,7 @@ var f = 50.5f
 			const getCountFunction = statements.next() as SyntaxTree.FunctionDeclaration
 			this.expect(getCountFunction.symbol, Is.equal.to("getCount"))
 			this.expect((getCountFunction.returnType as SyntaxTree.Type.Identifier).name, Is.equal.to("Int"))
-			const getCountFunctionStatement = getCountFunction.body.statements.next() as SyntaxTree.Expressions.Identifier
+			const getCountFunctionStatement = getCountFunction.body.statements.next() as SyntaxTree.Identifier
 			this.expect(getCountFunctionStatement.name, Is.equal.to("count"))
 		})
 	}

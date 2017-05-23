@@ -17,8 +17,8 @@
 //
 
 import { Error, IO, Unit } from "@cogneco/mend"
-import * as Tokens from "../../Tokens"
-import * as SyntaxTree from "../"
+import * as Tokens from "../Tokens"
+import * as SyntaxTree from "./"
 
 import Is = Unit.Is
 export class AssignmentTest extends Unit.Fixture {
@@ -26,19 +26,19 @@ export class AssignmentTest extends Unit.Fixture {
 		super("SyntaxTree.Expressions.Assignment")
 		const handler = new Error.ConsoleHandler()
 		this.add("character literal", () => {
-			const result = SyntaxTree.Parser.parseFirst("a = 'b'", handler) as SyntaxTree.Expressions.Assignment
+			const result = SyntaxTree.Parser.parseFirst("a = 'b'", handler) as SyntaxTree.Assignment
 			this.expect(result.left.name, Is.equal.to("a"))
-			this.expect((result.right as SyntaxTree.Expressions.Literal.Character).value, Is.equal.to("b"))
+			this.expect((result.right as SyntaxTree.Literal.Character).value, Is.equal.to("b"))
 		})
 		this.add("number literal", () => {
-			const result = SyntaxTree.Parser.parseFirst("a = 12345", handler) as SyntaxTree.Expressions.Assignment
+			const result = SyntaxTree.Parser.parseFirst("a = 12345", handler) as SyntaxTree.Assignment
 			this.expect(result.left.name, Is.equal.to("a"))
-			this.expect((result.right as SyntaxTree.Expressions.Literal.Number).value, Is.equal.to(12345))
+			this.expect((result.right as SyntaxTree.Literal.Number).value, Is.equal.to(12345))
 		})
 		this.add("variable", () => {
-			const result = SyntaxTree.Parser.parseFirst("a = b", handler) as SyntaxTree.Expressions.Assignment
+			const result = SyntaxTree.Parser.parseFirst("a = b", handler) as SyntaxTree.Assignment
 			this.expect(result.left.name, Is.equal.to("a"))
-			this.expect((result.right as SyntaxTree.Expressions.Identifier).name, Is.equal.to("b"))
+			this.expect((result.right as SyntaxTree.Identifier).name, Is.equal.to("b"))
 		})
 	}
 }

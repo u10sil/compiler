@@ -16,8 +16,8 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import * as Tokens from "../../Tokens"
-import { Source } from "../Source"
+import * as Tokens from "../Tokens"
+import { Source } from "./Source"
 import { Expression } from "./Expression"
 
 //

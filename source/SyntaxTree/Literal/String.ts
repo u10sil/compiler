@@ -18,29 +18,24 @@
 
 import * as Tokens from "../../Tokens"
 import { Source } from "../Source"
-import { Expression } from "./Expression"
-import { Identifier } from "./Identifier"
+import { Expression } from "../Expression"
 
-export class Assignment extends Expression {
-	constructor(readonly left: Identifier, readonly right: Expression, tokens: Tokens.Substance[]) {
+export class String extends Expression {
+	constructor(readonly value: string, tokens: Tokens.Substance[]) {
 		super(tokens)
 	}
 	serialize(): { class: string } & any {
 		return {
-			class: "assignment",
-			left: this.left.serialize(),
-			right: this.right.serialize(),
+			class: "literal.string",
+			value: this.value,
 		}
 	}
-	static parse(source: Source): Assignment {
-		let result: Assignment
-		if (source.peek().isIdentifier() && source.peek(1).isOperator("=")) {
-			const left = new Identifier((source.next() as Tokens.Identifier).name, source.mark())
-			source.next() // consume "="
-			const right = Expression.parse(source.clone())
-			result = new Assignment(left, right, source.mark())
-		}
+	// tslint:disable:ban-types no-construct
+	static parse(source: Source): String {
+		let result: String
+		if (source.peek() instanceof Tokens.Literals.String)
+			result = new String((source.next() as Tokens.Literals.String).value, source.mark())
 		return result
 	}
 }
-Expression.addParser(Assignment.parse)
+Expression.addParser(String.parse)

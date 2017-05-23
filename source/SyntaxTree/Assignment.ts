@@ -16,26 +16,31 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import * as Tokens from "../../../Tokens"
-import { Source } from "../../Source"
-import { Expression } from "../Expression"
+import * as Tokens from "../Tokens"
+import { Source } from "./Source"
+import { Expression } from "./Expression"
+import { Identifier } from "./Identifier"
 
-export class String extends Expression {
-	constructor(readonly value: string, tokens: Tokens.Substance[]) {
+export class Assignment extends Expression {
+	constructor(readonly left: Identifier, readonly right: Expression, tokens: Tokens.Substance[]) {
 		super(tokens)
 	}
 	serialize(): { class: string } & any {
 		return {
-			class: "literal.string",
-			value: this.value,
+			class: "assignment",
+			left: this.left.serialize(),
+			right: this.right.serialize(),
 		}
 	}
-	// tslint:disable:ban-types no-construct
-	static parse(source: Source): String {
-		let result: String
-		if (source.peek() instanceof Tokens.Literals.String)
-			result = new String((source.next() as Tokens.Literals.String).value, source.mark())
+	static parse(source: Source): Assignment {
+		let result: Assignment
+		if (source.peek().isIdentifier() && source.peek(1).isOperator("=")) {
+			const left = new Identifier((source.next() as Tokens.Identifier).name, source.mark())
+			source.next() // consume "="
+			const right = Expression.parse(source.clone())
+			result = new Assignment(left, right, source.mark())
+		}
 		return result
 	}
 }
-Expression.addParser(String.parse)
+Expression.addParser(Assignment.parse)

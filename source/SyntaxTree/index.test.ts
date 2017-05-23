@@ -16,7 +16,8 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import "./Expressions/index.test"
-import "./FunctionDeclaration.test"
-import "./VariableDeclaration.test"
 import "./ClassDeclaration.test"
+import "./Expression.test"
+import "./FunctionDeclaration.test"
+import "./Literal/index.test"
+import "./VariableDeclaration.test"

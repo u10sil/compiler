@@ -16,9 +16,9 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import * as Tokens from "../../Tokens"
-import { Statement } from "../Statement"
-import { Source } from "../Source"
+import * as Tokens from "../Tokens"
+import { Statement } from "./Statement"
+import { Source } from "./Source"
 
 export abstract class Expression extends Statement {
 	constructor(tokens: Tokens.Substance[]) {

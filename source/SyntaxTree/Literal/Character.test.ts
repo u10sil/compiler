@@ -16,25 +16,20 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import * as Tokens from "../../../Tokens"
-import { Source } from "../../Source"
-import { Expression } from "../Expression"
+import { Error, IO, Unit } from "@cogneco/mend"
+import * as Tokens from "../../Tokens"
+import * as SyntaxTree from "../"
 
-export class Character extends Expression {
-	constructor(readonly value: string, tokens: Tokens.Substance[]) {
-		super(tokens)
-	}
-	serialize(): { class: string } & any {
-		return {
-			class: "literal.character",
-			value: this.value,
-		}
-	}
-	static parse(source: Source): Character {
-		let result: Character
-		if (source.peek() instanceof Tokens.Literals.Character)
-			result = new Character((source.next() as Tokens.Literals.Character).value, source.mark())
-		return result
+import Is = Unit.Is
+export class CharacterTest extends Unit.Fixture {
+	constructor() {
+		super("SyntaxTree.Expressions.Literal.Character")
+		const handler = new Error.ConsoleHandler()
+		this.add("literal", () => {
+			const literal = SyntaxTree.Parser.parseFirst("'a'", handler)
+			this.expect(literal instanceof SyntaxTree.Literal.Character, Is.true)
+			this.expect((literal as SyntaxTree.Literal.Character).value, Is.equal.to("a"))
+		})
 	}
 }
-Expression.addParser(Character.parse)
+Unit.Fixture.add(new CharacterTest())
