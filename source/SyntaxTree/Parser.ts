@@ -23,10 +23,16 @@ import { Module } from "./Module"
 
 export class Parser implements Utilities.Iterator<Module> {
 	source: Source
-	constructor(tokens: Utilities.Iterator<Tokens.Substance>, errorHandler: Error.Handler) {
-		this.source = new Source(tokens, errorHandler)
+	private constructor(tokens: Utilities.Iterator<Tokens.Substance>, handler: Error.Handler) {
+		this.source = new Source(tokens, handler)
 	}
 	next(): Module {
 		return Module.parse(this.source)
+	}
+	static create(tokens: string | Utilities.Iterator<Tokens.Token>, handler: Error.Handler): Utilities.Iterator<Module> {
+		return new Parser(new Tokens.GapRemover(typeof tokens === "string" ? Tokens.Lexer.create(tokens, handler) : tokens), handler)
+	}
+	static open(path: string, handler: Error.Handler): Utilities.Iterator<Module> {
+		return Parser.create(Tokens.Lexer.open(path, handler), handler)
 	}
 }
