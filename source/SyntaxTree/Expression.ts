@@ -17,11 +17,12 @@
 //
 
 import * as Tokens from "../Tokens"
+import * as Type from "./Type"
 import { Statement } from "./Statement"
 import { Source } from "./Source"
 
 export abstract class Expression extends Statement {
-	constructor(tokens: Tokens.Substance[]) {
+	constructor(readonly type: Type.Expression | undefined, tokens: Tokens.Substance[]) {
 		super(tokens)
 	}
 	private static expressionParsers: { parse: ((source: Source) => Expression | undefined), priority: number }[] = []

@@ -23,7 +23,7 @@ import { Identifier } from "./Identifier"
 
 export class Assignment extends Expression {
 	constructor(readonly left: Identifier, readonly right: Expression, tokens: Tokens.Substance[]) {
-		super(tokens)
+		super(right.type, tokens)
 	}
 	serialize(): { class: string } & any {
 		return {
@@ -35,7 +35,7 @@ export class Assignment extends Expression {
 	static parse(source: Source): Assignment | undefined {
 		let result: Assignment | undefined
 		if (source.peek()!.isIdentifier() && source.peek(1)!.isOperator("=")) {
-			const left = new Identifier((source.next() as Tokens.Identifier).name, source.mark())
+			const left = new Identifier((source.next() as Tokens.Identifier).name, undefined, source.mark())
 			source.next() // consume "="
 			const right = Expression.parse(source.clone())
 			if (right)

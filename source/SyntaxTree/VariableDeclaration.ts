@@ -49,7 +49,7 @@ export class VariableDeclaration extends Declaration {
 			const name = Type.Name.parse(source.clone())
 			if (!name)
 				source.raise("Expected symbol in variable declaration.")
-			const type = source.peek()!.isSeparator(":") && source.next() ? Type.Expression.parse(source.clone()) : undefined
+			const type = Type.Expression.tryParse(source.clone())
 			let value: Expression | undefined
 			if (source.peek()!.isOperator("=") && source.next())
 				value = Expression.parse(source.clone())

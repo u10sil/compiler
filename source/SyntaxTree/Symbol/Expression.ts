@@ -1,4 +1,4 @@
-// Copyright (C) 2015, 2017  Simon Mika <simon@mika.se>
+// Copyright (C) 2017  Simon Mika <simon@mika.se>
 //
 // This file is part of SysPL.
 //
@@ -16,26 +16,29 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../../Tokens"
-import * as Type from "../Type"
-import { Source } from "../Source"
-import { Expression } from "../Expression"
 
-export class Number extends Expression {
-	constructor(readonly value: number, type: Type.Expression | undefined, tokens: Tokens.Substance[]) {
-		super(type, tokens)
+import { Source } from "../Source"
+import { Node } from "../Node"
+import { Statement } from "../Statement"
+
+export abstract class Expression extends Node {
+	constructor(tokens: Tokens.Substance[]) {
+		super(tokens)
 	}
-	serialize(): { class: string } & any {
-		return {
-			class: "literal.number",
-			value: this.value,
+	private static typeParsers: ((source: Source) => Expression)[] = []
+	static addParser(parser: (source: Source) => Expression) {
+		Expression.typeParsers.push(parser)
+	}
+	static parse(source: Source): Expression {
+		let result: Expression
+		if (Expression.typeParsers.length > 0) {
+			let i = 0
+			do
+				result = Expression.typeParsers[i++](source.clone())
+			while (!result && i < Expression.typeParsers.length)
 		}
-	}	// tslint:disable:ban-types no-construct
-	static parse(source: Source): Number | undefined {
-		let result: Number | undefined
-		if (source.peek() instanceof Tokens.Literals.Number)
-			result = new Number((source.next() as Tokens.Literals.Number).value, Type.Expression.tryParse(source.clone()), source.mark())
 		return result
 	}
 }
-Expression.addParser(Number.parse)

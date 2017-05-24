@@ -17,12 +17,13 @@
 //
 
 import * as Tokens from "../../Tokens"
+import * as Type from "../Type"
 import { Source } from "../Source"
 import { Expression } from "../Expression"
 
 export class String extends Expression {
-	constructor(readonly value: string, tokens: Tokens.Substance[]) {
-		super(tokens)
+	constructor(readonly value: string, type: Type.Expression | undefined, tokens: Tokens.Substance[]) {
+		super(type, tokens)
 	}
 	serialize(): { class: string } & any {
 		return {
@@ -34,7 +35,7 @@ export class String extends Expression {
 	static parse(source: Source): String | undefined {
 		let result: String | undefined
 		if (source.peek() instanceof Tokens.Literals.String)
-			result = new String((source.next() as Tokens.Literals.String).value, source.mark())
+			result = new String((source.next() as Tokens.Literals.String).value, Type.Expression.tryParse(source.clone()), source.mark())
 		return result
 	}
 }

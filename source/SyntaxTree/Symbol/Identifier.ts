@@ -1,4 +1,4 @@
-// Copyright (C) 2015, 2017  Simon Mika <simon@mika.se>
+// Copyright (C) 2017  Simon Mika <simon@mika.se>
 //
 // This file is part of SysPL.
 //
@@ -16,26 +16,24 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import * as Tokens from "../../Tokens"
-import * as Type from "../Type"
-import { Source } from "../Source"
-import { Expression } from "../Expression"
 
-export class Number extends Expression {
-	constructor(readonly value: number, type: Type.Expression | undefined, tokens: Tokens.Substance[]) {
-		super(type, tokens)
+import { Error, Utilities } from "@cogneco/mend"
+import { Source } from "../Source"
+import { Expression } from "./Expression"
+import * as Tokens from "../../Tokens"
+
+export class Identifier extends Expression {
+	constructor(readonly name: string, tokens: Tokens.Substance[]) {
+		super(tokens)
 	}
 	serialize(): { class: string } & any {
 		return {
-			class: "literal.number",
-			value: this.value,
+			class: "symbol.identifier",
+			name: this.name,
 		}
-	}	// tslint:disable:ban-types no-construct
-	static parse(source: Source): Number | undefined {
-		let result: Number | undefined
-		if (source.peek() instanceof Tokens.Literals.Number)
-			result = new Number((source.next() as Tokens.Literals.Number).value, Type.Expression.tryParse(source.clone()), source.mark())
-		return result
+	}
+	static parse(source: Source): Identifier {
+		return source.peek().isIdentifier() ? new Identifier((source.next() as Tokens.Identifier).name, source.mark()) : null
 	}
 }
-Expression.addParser(Number.parse)
+Expression.addParser(Identifier.parse)

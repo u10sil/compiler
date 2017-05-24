@@ -17,6 +17,7 @@
 //
 
 import * as Tokens from "../Tokens"
+import * as Type from "./Type"
 import { Source } from "./Source"
 import { Expression } from "./Expression"
 
@@ -28,8 +29,8 @@ import { Expression } from "./Expression"
 // 		DiscardedIdentifier	: (a, b, _), where '_' is the discarded identifier
 //
 export class Identifier extends Expression {
-	constructor(readonly name: string, tokens: Tokens.Substance[]) {
-		super(tokens)
+	constructor(readonly name: string, type: Type.Expression | undefined, tokens: Tokens.Substance[]) {
+		super(type, tokens)
 	}
 	serialize(): { class: string } & any {
 		return {
@@ -40,7 +41,7 @@ export class Identifier extends Expression {
 	static parse(source: Source): Identifier | undefined {
 		let result: Identifier | undefined
 		if (source.peek()!.isIdentifier() /*&& !source.peek(1).isOperator() && !source.peek(1).isSeparator()*/)
-			result = new Identifier((source.next() as Tokens.Identifier).name, source.mark())
+			result = new Identifier((source.next() as Tokens.Identifier).name, Type.Expression.tryParse(source.clone()), source.mark())
 		return result
 	}
 }
