@@ -54,9 +54,9 @@ export class Lexer implements Utilities.Iterator<Token> {
 		return result
 	}
 	static create(code: string | IO.Reader, handler: Error.Handler): Utilities.Iterator<Token> {
-		return new Lexer(typeof code === "string" ? new IO.StringReader(code) : code, handler)
+		return new Lexer(typeof code === "string" ? IO.StringReader.create(code) : code, handler)
 	}
 	static open(path: string, handler: Error.Handler): Utilities.Iterator<Token> {
-		return Lexer.create(path.slice(-4) == ".syspl" ? new IO.FileReader(path) : new IO.FolderReader(path, "*.syspl"), handler)
+		return Lexer.create(path.slice(-4) == ".syspl" ? IO.FileReader.open(path) : IO.FolderReader.open(path, "*.syspl"), handler)
 	}
 }

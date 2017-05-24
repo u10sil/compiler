@@ -34,7 +34,7 @@ export class SeparatorTest extends Unit.Fixture {
 			this.expect(separator2.isSeparator("::"), Is.false)
 		})
 		this.add("scan separators", () => {
-			const source = new Tokens.Source(new IO.StringReader(".:;,[](){}"), errorHandler)
+			const source = new Tokens.Source(IO.StringReader.create(".:;,[](){}"), errorHandler)
 			let token: Tokens.Token
 			this.expect((token = Tokens.Separator.scan(source)) instanceof Tokens.Separator)
 			this.expect((token as Tokens.Separator).symbol, Is.equal.to("."))

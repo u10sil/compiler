@@ -30,7 +30,7 @@ export class Program {
 		}
 	}
 	private openReader(path: string) {
-		return path.slice(-4) == ".syspl" ? new IO.FileReader(path) : new IO.FolderReader(path, "*.syspl")
+		return path.slice(-4) == ".syspl" ? IO.FileReader.open(path) : IO.FolderReader.open(path, "*.syspl")
 	}
 	private openLexer(path: string, handler: Error.Handler) {
 		return new Tokens.GapRemover(Tokens.Lexer.open(path, handler))

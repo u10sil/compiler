@@ -25,10 +25,10 @@ export class WhitespaceTest extends Unit.Fixture {
 		super("Tokens.Whitespace")
 		const errorHandler = new Error.ConsoleHandler()
 		this.add("whitespace", () => {
-			const sourceNewline = new Tokens.Source(new IO.StringReader("\n"), errorHandler)
-			const sourceCarriageReturn = new Tokens.Source(new IO.StringReader("\r"), errorHandler)
-			const sourceTab = new Tokens.Source(new IO.StringReader("\t"), errorHandler)
-			const sourceSpace = new Tokens.Source(new IO.StringReader(" "), errorHandler)
+			const sourceNewline = new Tokens.Source(IO.StringReader.create("\n"), errorHandler)
+			const sourceCarriageReturn = new Tokens.Source(IO.StringReader.create("\r"), errorHandler)
+			const sourceTab = new Tokens.Source(IO.StringReader.create("\t"), errorHandler)
+			const sourceSpace = new Tokens.Source(IO.StringReader.create(" "), errorHandler)
 			let token: Tokens.Token
 			this.expect((token = Tokens.Whitespace.scan(sourceNewline)) instanceof Tokens.Whitespace)
 			this.expect((token as Tokens.Whitespace).endsLine, Is.true)

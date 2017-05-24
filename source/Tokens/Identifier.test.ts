@@ -34,7 +34,7 @@ export class IdentifierTest extends Unit.Fixture {
 			this.expect(identifier2.isIdentifier("foo"), Is.false)
 		})
 		this.add("scan identifier", () => {
-			const source = new Tokens.Source(new IO.StringReader("identifier"), errorHandler)
+			const source = new Tokens.Source(IO.StringReader.create("identifier"), errorHandler)
 			const token = Tokens.Identifier.scan(source)
 			this.expect(token instanceof Tokens.Identifier)
 			this.expect(token.isIdentifier())
