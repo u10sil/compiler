@@ -20,6 +20,7 @@ import { Error } from "@cogneco/mend"
 
 export abstract class Token {
 	constructor(readonly region?: Error.Region) { }
+	abstract serialize(): { class: string } & any
 	toString() {
 		return this.region ? this.region.toString() : ""
 	}

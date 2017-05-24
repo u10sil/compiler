@@ -25,6 +25,12 @@ export class Identifier extends Substance {
 	constructor(readonly name: string, region: Error.Region) {
 		super(region)
 	}
+	serialize(): { class: string } & any {
+		return {
+			class: "identifier",
+			name: this.name,
+		}
+	}
 	isIdentifier(name?: string): boolean {
 		return !name || name == this.name
 	}

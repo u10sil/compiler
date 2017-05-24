@@ -25,6 +25,11 @@ export class EndOfFile extends Substance {
 	constructor(region: Error.Region) {
 		super(region)
 	}
+	serialize(): { class: string } & any {
+		return {
+			class: "endOfFile",
+		}
+	}
 	static scan(source: Source): Token | undefined {
 		let result: Token | undefined
 		switch (source.peek()) {

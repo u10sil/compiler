@@ -25,6 +25,12 @@ export class Whitespace extends Gap {
 	constructor(readonly endsLine: boolean, region: Error.Region) {
 		super(region)
 	}
+	serialize(): { class: string } & any {
+		return {
+			class: "whitespace",
+			endsLine: this.endsLine,
+		}
+	}
 	static scan(source: Source): Token | undefined {
 		let result: Token | undefined
 		if (Whitespace.isWhitespace(source.peek())) {

@@ -25,6 +25,12 @@ export class String extends Literal {
 	constructor(readonly value: string, region: Error.Region) {
 		super(region)
 	}
+	serialize(): { class: string } & any {
+		return {
+			class: "string",
+			value: this.value,
+		}
+	}
 	static scan(source: Source): Token | undefined {
 		let result: string | undefined
 		if (source.peek() == "\"") {

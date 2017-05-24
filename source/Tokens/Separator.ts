@@ -25,6 +25,12 @@ export class Separator extends Substance {
 	constructor(readonly symbol: string, region?: Error.Region) {
 		super(region)
 	}
+	serialize(): { class: string } & any {
+		return {
+			class: "separator",
+			symbol: this.symbol,
+		}
+	}
 	isSeparator(symbol?: string): boolean {
 		return !symbol || this.symbol == symbol
 	}

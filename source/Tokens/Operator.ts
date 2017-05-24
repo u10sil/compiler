@@ -25,6 +25,12 @@ export class Operator extends Substance {
 	constructor(readonly symbol: string, region?: Error.Region) {
 		super(region)
 	}
+	serialize(): { class: string } & any {
+		return {
+			class: "character",
+			symbol: this.symbol,
+		}
+	}
 	isOperator(symbol?: string): boolean {
 		return !symbol || symbol == this.symbol
 	}

@@ -25,6 +25,12 @@ export class Comment extends Gap {
 	constructor(readonly content: string, region: Error.Region) {
 		super(region)
 	}
+	serialize(): { class: string } & any {
+		return {
+			class: "comment",
+			content: this.content,
+		}
+	}
 	static scan(source: Source): Token | undefined {
 		let result: string | undefined
 		switch (source.peek(2)) {

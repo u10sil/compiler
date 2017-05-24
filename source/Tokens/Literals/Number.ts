@@ -22,8 +22,15 @@ import { Token } from "../Token"
 import { Literal } from "../Literal"
 
 export class Number extends Literal {
-	constructor(readonly value: number, original: string, region: Error.Region) {
+	constructor(readonly value: number, readonly original: string, region: Error.Region) {
 		super(region)
+	}
+	serialize(): { class: string } & any {
+		return {
+			class: "number",
+			value: this.value,
+			original: this.original,
+		}
 	}
 	static scan(source: Source): Token | undefined {
 		return this.scanBinary(source) ||
