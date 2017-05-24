@@ -16,7 +16,7 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Error, Utilities } from "@cogneco/mend"
+import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../Tokens"
 import { Source } from "./Source"
 import { Statement } from "./Statement"
@@ -29,7 +29,7 @@ export class Module extends Node {
 	}
 	constructor(private statementsArray: Statement[], tokens: Tokens.Substance[]) {
 		super(tokens)
-		this.namespace = tokens[0].region.resource.split("/")
+		this.namespace = tokens[0].region!.resource.split("/")
 	}
 	serialize(): { class: string } & any {
 		return {
@@ -37,11 +37,11 @@ export class Module extends Node {
 			statements: this.statementsArray.map(s => s.serialize()),
 		}
 	}
-	static parse(source: Source): Module {
-		let result: Module
+	static parse(source: Source): Module | undefined {
+		let result: Module | undefined
 		if (source.peek()) {
 			const statements: Statement[] = []
-			let next: Statement
+			let next: Statement | undefined
 			while (next = Statement.parse(source.clone()))
 				statements.push(next)
 			if (!(source.next() as Tokens.EndOfFile))

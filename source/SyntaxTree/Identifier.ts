@@ -37,9 +37,9 @@ export class Identifier extends Expression {
 			name: this.name,
 		}
 	}
-	static parse(source: Source): Identifier {
-		let result: Identifier
-		if (source.peek().isIdentifier() /*&& !source.peek(1).isOperator() && !source.peek(1).isSeparator()*/)
+	static parse(source: Source): Identifier | undefined {
+		let result: Identifier | undefined
+		if (source.peek()!.isIdentifier() /*&& !source.peek(1).isOperator() && !source.peek(1).isSeparator()*/)
 			result = new Identifier((source.next() as Tokens.Identifier).name, source.mark())
 		return result
 	}

@@ -16,31 +16,25 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Error, IO, Unit, Uri, Utilities } from "@cogneco/mend"
-import * as Tokens from "./Tokens"
+import { Error, Unit } from "@cogneco/mend"
+import * as SyntaxTree from "./SyntaxTree"
 
 export class Program {
 	readonly version = "0.1.1"
 	private defaultCommand = "build"
-	constructor(private commands: string[]) {
+	constructor(private commands: (string | undefined)[]) {
 		this.commands = this.commands.slice(2)
 		if (this.commands.length == 0) {
 			this.commands.push(this.defaultCommand)
 			this.commands.push(".")
 		}
 	}
-	private openReader(path: string) {
-		return path.slice(-4) == ".syspl" ? IO.FileReader.open(path) : IO.FolderReader.open(path, "*.syspl")
-	}
-	private openLexer(path: string, handler: Error.Handler) {
-		return new Tokens.GapRemover(Tokens.Lexer.open(path, handler))
-	}
-	private runHelper(command: string, commands: string[]) {
+	private runHelper(command: string | undefined, commands: (string | undefined)[]) {
 		const handler = new Error.ConsoleHandler()
 		switch (command) {
 			case "build":
 				console.log("build")
-				new Tokens.Consumer(this.openLexer(commands.pop(), handler)).run()
+				SyntaxTree.Parser.open(commands.pop(), handler)!.next()
 				break
 			case "self-test":
 				process.exitCode = Unit.Fixture.run() ? 0 : 1
@@ -61,7 +55,7 @@ export class Program {
 			this.defaultCommand = command
 	}
 	run() {
-		let command: string
+		let command: string | undefined
 		while (command = this.commands.shift()) {
 			this.runHelper(command, this.commands)
 		}

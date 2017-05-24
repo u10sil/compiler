@@ -16,8 +16,7 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Error, IO, Unit } from "@cogneco/mend"
-import * as Tokens from "../../Tokens"
+import { Error, Unit } from "@cogneco/mend"
 import * as SyntaxTree from "../"
 
 import Is = Unit.Is

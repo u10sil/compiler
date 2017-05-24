@@ -30,8 +30,8 @@ export class Character extends Expression {
 			value: this.value,
 		}
 	}
-	static parse(source: Source): Character {
-		let result: Character
+	static parse(source: Source): Character | undefined {
+		let result: Character | undefined
 		if (source.peek() instanceof Tokens.Literals.Character)
 			result = new Character((source.next() as Tokens.Literals.Character).value, source.mark())
 		return result

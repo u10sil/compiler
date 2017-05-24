@@ -19,9 +19,9 @@
 import { Error } from "@cogneco/mend"
 
 export abstract class Token {
-	constructor(readonly region: Error.Region) { }
+	constructor(readonly region?: Error.Region) { }
 	toString() {
-		return this.region.toString()
+		return this.region ? this.region.toString() : ""
 	}
 	isSeparator(symbol?: string): boolean {
 		return false

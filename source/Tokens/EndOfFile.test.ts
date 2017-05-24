@@ -19,7 +19,6 @@
 import { Error, IO, Unit } from "@cogneco/mend"
 import * as Tokens from "./"
 
-import Is = Unit.Is
 export class EndOfFileTest extends Unit.Fixture {
 	constructor() {
 		super("Tokens.EndOfFile")

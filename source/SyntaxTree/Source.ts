@@ -30,12 +30,13 @@ export class Source implements Utilities.Iterator<Tokens.Substance>, Error.Handl
 	clone(): Source {
 		return new Source(this.tokens, this.errorHandler)
 	}
-	peek(position: number = 0): Tokens.Substance {
+	peek(position: number = 0): Tokens.Substance | undefined {
 		return this.tokens.peek(position)
 	}
-	next(): Tokens.Substance {
+	next(): Tokens.Substance | undefined {
 		const result = this.tokens.next()
-		this.lastTokens.push(result)
+		if (result)
+			this.lastTokens.push(result)
 		return result
 	}
 	mark(): Tokens.Substance[] {
@@ -46,7 +47,7 @@ export class Source implements Utilities.Iterator<Tokens.Substance>, Error.Handl
 	raise(message: string | Error.Message, level: Error.Level = Error.Level.Critical, type: Error.Type = Error.Type.Gramatical, region?: Error.Region): void {
 		if (typeof message == "string") {
 			if (!region)
-				region = this.peek().region
+				region = this.peek()!.region
 			message = new Error.Message(message as string, level, type, region)
 		}
 		this.errorHandler.raise(message as Error.Message)

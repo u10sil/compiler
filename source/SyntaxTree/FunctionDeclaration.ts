@@ -16,7 +16,7 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Error, Utilities } from "@cogneco/mend"
+import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../Tokens"
 import { Source } from "./Source"
 import { Statement } from "./Statement"
@@ -33,7 +33,7 @@ export class FunctionDeclaration extends Declaration {
 	get argumentList(): Utilities.Iterator<ArgumentDeclaration> {
 		return new Utilities.ArrayIterator(this.argumentsArray)
 	}
-	constructor(symbol: Type.Name, readonly modifier: FunctionModifier, private typeParametersArray: Type.Name[], private argumentsArray: ArgumentDeclaration[], readonly returnType: Type.Expression, readonly body: Block, tokens: Tokens.Substance[]) {
+	constructor(symbol: Type.Name, readonly modifier: FunctionModifier, private typeParametersArray: Type.Name[], private argumentsArray: ArgumentDeclaration[], readonly returnType: Type.Expression | undefined, readonly body: Block | undefined, tokens: Tokens.Substance[]) {
 		super(symbol.name, tokens)
 	}
 	serialize(): { class: string } & any {
@@ -43,12 +43,12 @@ export class FunctionDeclaration extends Declaration {
 			modifier: this.modifier,
 			typeParameters: this.typeParametersArray.map(t => t.serialize()),
 			arguments: this.argumentsArray.map(a => a.serialize()),
-			returnType: this.returnType.serialize(),
-			body: this.body.serialize(),
+			returnType: this.returnType && this.returnType.serialize(),
+			body: this.body && this.body.serialize(),
 		}
 	}
-	static parse(source: Source): FunctionDeclaration {
-		let result: FunctionDeclaration
+	static parse(source: Source): FunctionDeclaration | undefined {
+		let result: FunctionDeclaration | undefined
 		let modifier = FunctionModifier.None
 		switch ((source.peek() as Tokens.Identifier).name) {
 			case "static":
@@ -66,18 +66,20 @@ export class FunctionDeclaration extends Declaration {
 			default:
 				break
 		}
-		if (source.peek(modifier == FunctionModifier.None ? 0 : 1).isIdentifier("func") && source.next() && (modifier == FunctionModifier.None || source.next())) {
+		if (source.peek(modifier == FunctionModifier.None ? 0 : 1)!.isIdentifier("func") && source.next() && (modifier == FunctionModifier.None || source.next())) {
 			const symbol = Type.Name.parse(source.clone())
+			if (!symbol)
+				source.raise("Expected symbol in function declaration.")
 			// TODO: add overload name parsing: ~overloadName
 			const typeParameters = Declaration.parseTypeParameters(source.clone())
 			const argumentList = ArgumentDeclaration.parseAll(source.clone())
-			let returnType: Type.Expression
-			if (source.peek().isOperator("->")) {
+			let returnType: Type.Expression | undefined
+			if (source.peek()!.isOperator("->")) {
 				source.next() // consume "->"
 				returnType = Type.Expression.parse(source)
 			}
 			const body = Block.parse(source)
-			result = new FunctionDeclaration(symbol, modifier, typeParameters, argumentList, returnType, body, source.mark())
+			result = new FunctionDeclaration(symbol!, modifier, typeParameters, argumentList, returnType, body, source.mark())
 		}
 		return result
 	}

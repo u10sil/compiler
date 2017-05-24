@@ -31,8 +31,8 @@ export class String extends Expression {
 		}
 	}
 	// tslint:disable:ban-types no-construct
-	static parse(source: Source): String {
-		let result: String
+	static parse(source: Source): String | undefined {
+		let result: String | undefined
 		if (source.peek() instanceof Tokens.Literals.String)
 			result = new String((source.next() as Tokens.Literals.String).value, source.mark())
 		return result

@@ -25,8 +25,8 @@ export class EndOfFile extends Substance {
 	constructor(region: Error.Region) {
 		super(region)
 	}
-	static scan(source: Source): Token {
-		let result: Token
+	static scan(source: Source): Token | undefined {
+		let result: Token | undefined
 		switch (source.peek()) {
 			case undefined:
 			case "\0":
@@ -34,7 +34,6 @@ export class EndOfFile extends Substance {
 				result = new EndOfFile(source.mark())
 				break
 			default:
-				result = null
 		}
 		return result
 	}

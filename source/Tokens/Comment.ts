@@ -25,8 +25,8 @@ export class Comment extends Gap {
 	constructor(readonly content: string, region: Error.Region) {
 		super(region)
 	}
-	static scan(source: Source): Token {
-		let result: string
+	static scan(source: Source): Token | undefined {
+		let result: string | undefined
 		switch (source.peek(2)) {
 			case "//":
 				result = ""
@@ -42,8 +42,7 @@ export class Comment extends Gap {
 				source.read(2)
 				break
 			default:
-				result = null
 		}
-		return result ? new Comment(result, source.mark()) : null
+		return result != undefined ? new Comment(result, source.mark()) : undefined
 	}
 }

@@ -24,16 +24,16 @@ export abstract class Statement extends Node {
 	constructor(tokens: Tokens.Substance[]) {
 		super(tokens)
 	}
-	private static statementParsers: { parse: ((source: Source) => Statement), priority: number }[] = []
-	static addParser(parser: (source: Source) => Statement, priority: number = 0) {
+	private static statementParsers: { parse: ((source: Source) => Statement | undefined), priority: number }[] = []
+	static addParser(parser: (source: Source) => Statement | undefined, priority: number = 0) {
 		Statement.statementParsers.push({
 			parse: parser,
 			priority,
 		})
 		Statement.statementParsers.sort((left, right) => left.priority < right.priority ? -1 : left.priority > right.priority ? 1 : 0)
 	}
-	static parse(source: Source): Statement {
-		let result: Statement
+	static parse(source: Source): Statement | undefined {
+		let result: Statement | undefined
 		if (Statement.statementParsers.length > 0) {
 			let i = 0
 			do {

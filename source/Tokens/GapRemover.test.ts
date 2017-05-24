@@ -16,7 +16,7 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Error, IO, Unit } from "@cogneco/mend"
+import { Error, Unit } from "@cogneco/mend"
 import * as Tokens from "./"
 
 import Is = Unit.Is
@@ -49,14 +49,13 @@ export class GapRemoverTest extends Unit.Fixture {
 			// POST-GAP: " "
 			this.expect((token = gapRemover.next()) instanceof Tokens.Identifier)
 			this.expect((token as Tokens.Identifier).name, Is.equal.to("a"))
-			this.expect((token as Tokens.Identifier).pregap[0].region.content, Is.equal.to("\t\t\t"))
-			this.expect((token as Tokens.Identifier).postgap[0].region.content, Is.equal.to(" "))
-			// PRE-GAP: <none>
+			this.expect((token as Tokens.Identifier).pregap[0].region!.content, Is.equal.to("\t\t\t"))
+			this.expect((token as Tokens.Identifier).postgap[0].region!.content, Is.equal.to(" "))			// PRE-GAP: <none>
 			// POST-GAP: " "
 			this.expect((token = gapRemover.next()) instanceof Tokens.Operator)
 			this.expect((token as Tokens.Operator).symbol, Is.equal.to(":="))
 			this.expect((token as Tokens.Operator).pregap.length, Is.equal.to(0))
-			this.expect((token as Tokens.Operator).postgap[0].region.content, Is.equal.to(" "))
+			this.expect((token as Tokens.Operator).postgap[0].region!.content, Is.equal.to(" "))
 			// PRE-GAP: <none>
 			// POST-GAP: <none>
 			this.expect((token = gapRemover.next()) instanceof Tokens.Identifier)
@@ -74,7 +73,7 @@ export class GapRemoverTest extends Unit.Fixture {
 			this.expect((token = gapRemover.next()) instanceof Tokens.Identifier)
 			this.expect((token as Tokens.Identifier).name, Is.equal.to("c"))
 			this.expect((token as Tokens.Identifier).pregap.length, Is.equal.to(0))
-			this.expect((token as Tokens.Identifier).postgap[0].region.content, Is.equal.to("\t\n"))
+			this.expect((token as Tokens.Identifier).postgap[0].region!.content, Is.equal.to("\t\n"))
 		})
 	}
 }

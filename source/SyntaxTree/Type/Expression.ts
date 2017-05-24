@@ -16,7 +16,6 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../../Tokens"
 
 import { Source } from "../Source"
@@ -27,12 +26,12 @@ export abstract class Expression extends Node {
 	constructor(tokens: Tokens.Substance[]) {
 		super(tokens)
 	}
-	private static typeParsers: ((source: Source) => Expression)[] = []
-	static addParser(parser: (source: Source) => Expression) {
+	private static typeParsers: ((source: Source) => Expression | undefined)[] = []
+	static addParser(parser: (source: Source) => Expression | undefined) {
 		Expression.typeParsers.push(parser)
 	}
-	static parse(source: Source): Expression {
-		let result: Expression
+	static parse(source: Source): Expression | undefined {
+		let result: Expression | undefined
 		if (Expression.typeParsers.length > 0) {
 			let i = 0
 			do

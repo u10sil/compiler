@@ -16,8 +16,7 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Error, IO, Unit } from "@cogneco/mend"
-import * as Tokens from "../../Tokens"
+import { Error, Unit } from "@cogneco/mend"
 import * as SyntaxTree from "../"
 
 import Is = Unit.Is
@@ -27,7 +26,7 @@ export class NumberTest extends Unit.Fixture {
 		const handler = new Error.ConsoleHandler()
 		this.add("integer", () => {
 			const parser = SyntaxTree.Parser.create("12345", handler)
-			const statements = parser.next().statements
+			const statements = parser.next()!.statements
 			const literal = statements.next()
 			this.expect(literal instanceof SyntaxTree.Literal.Number, Is.true)
 			this.expect((literal as SyntaxTree.Literal.Number).value, Is.equal.to(12345))

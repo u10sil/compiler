@@ -22,14 +22,14 @@ import { Token } from "./Token"
 import { Substance } from "./Substance"
 
 export class Separator extends Substance {
-	constructor(readonly symbol: string, region: Error.Region) {
+	constructor(readonly symbol: string, region?: Error.Region) {
 		super(region)
 	}
-	isSeparator(symbol: string = null): boolean {
+	isSeparator(symbol?: string): boolean {
 		return !symbol || this.symbol == symbol
 	}
-	static scan(source: Source): Token {
-		let result: Token
+	static scan(source: Source): Token | undefined {
+		let result: Token | undefined
 		switch (source.peek()) {
 			case ".":
 			case ":":
@@ -41,10 +41,9 @@ export class Separator extends Substance {
 			case ")":
 			case "{":
 			case "}":
-				result = new Separator(source.read(), source.mark())
+				result = new Separator(source.read()!, source.mark())
 				break
 			default:
-				result = null
 		}
 		return result
 	}

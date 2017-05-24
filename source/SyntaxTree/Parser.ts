@@ -27,18 +27,22 @@ export class Parser implements Utilities.Iterator<Module> {
 	private constructor(tokens: Utilities.Iterator<Tokens.Substance>, handler: Error.Handler) {
 		this.source = new Source(tokens, handler)
 	}
-	next(): Module {
+	next(): Module | undefined {
 		return Module.parse(this.source)
 	}
-	static create(tokens: string | Utilities.Iterator<Tokens.Token>, handler: Error.Handler): Utilities.Iterator<Module> {
-		return new Parser(new Tokens.GapRemover(typeof tokens === "string" ? Tokens.Lexer.create(tokens, handler) : tokens), handler)
+	static create(tokens: undefined, handler: Error.Handler): undefined
+	static create(tokens: Utilities.Iterator<Tokens.Token> | string, handler: Error.Handler): Utilities.Iterator<Module>
+	static create(tokens: Utilities.Iterator<Tokens.Token> | string | undefined, handler: Error.Handler): Utilities.Iterator<Module> | undefined
+	static create(tokens: string | Utilities.Iterator<Tokens.Token> | undefined, handler: Error.Handler): Utilities.Iterator<Module> | undefined {
+		return tokens == undefined ? undefined : new Parser(new Tokens.GapRemover(typeof tokens === "string" ? Tokens.Lexer.create(tokens, handler) : tokens), handler)
 	}
-	static open(path: string, handler: Error.Handler): Utilities.Iterator<Module> {
-		return Parser.create(Tokens.Lexer.open(path, handler), handler)
+	static open(path: string | undefined, handler: Error.Handler): Utilities.Iterator<Module> | undefined {
+		return path ? Parser.create(Tokens.Lexer.open(path, handler), handler) : undefined
 	}
-	static parseFirst(tokens: string | Utilities.Iterator<Tokens.Token>, handler: Error.Handler): Statement {
+	static parseFirst(tokens: string | Utilities.Iterator<Tokens.Token>, handler: Error.Handler): Statement | undefined {
 			const parser = Parser.create(tokens, handler)
-			const statements = parser.next().statements
-			return statements.next()
+			let module: Module | undefined
+			let statements: Utilities.Iterator<Statement>
+			return parser != undefined && (module = parser.next()) && (statements = module.statements) ? statements.next() : undefined
 	}
 }

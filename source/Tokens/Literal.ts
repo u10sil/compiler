@@ -17,7 +17,6 @@
 //
 
 import { Error } from "@cogneco/mend"
-import { Token } from "./Token"
 import { Substance } from "./Substance"
 
 export abstract class Literal extends Substance {

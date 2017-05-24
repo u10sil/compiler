@@ -25,19 +25,18 @@ export class Number extends Literal {
 	constructor(readonly value: number, original: string, region: Error.Region) {
 		super(region)
 	}
-	static scan(source: Source): Token {
-		let result: Token
-		return (result = this.scanBinary(source)) ||
-		(result = this.scanOctal(source)) ||
-		(result = this.scanHexadecimal(source)) ||
-		(result = this.scanDecimal(source)) ? result : null
+	static scan(source: Source): Token | undefined {
+		return this.scanBinary(source) ||
+		this.scanOctal(source) ||
+		this.scanHexadecimal(source) ||
+		this.scanDecimal(source)
 	}
-	private static scanHexadecimal(reader: IO.BufferedReader): Token {
-		let result: Token
+	private static scanHexadecimal(reader: IO.BufferedReader): Token | undefined {
+		let result: Token | undefined
 		if (reader.peek(2) == "0x") {
-			let original = reader.read(2)
-			let value: number = 0
-			let divisor: number
+			let original = reader.read(2) || ""
+			let value = 0
+			let divisor: number | undefined
 			while (!result) {
 				switch (reader.peek()) {
 					case ".":
@@ -69,18 +68,16 @@ export class Number extends Literal {
 				if (divisor)
 					divisor *= 16
 			}
-		} else {
-			result = null
 		}
 		return result
 	}
-	private static scanDecimal(reader: IO.BufferedReader): Token {
-		let result: Token
-		const c = reader.peek()
-		if (Number.isNumber(c) || c == "." && Number.isNumber(reader.peek(2).slice(1, 2))) {
+	private static scanDecimal(reader: IO.BufferedReader): Token | undefined {
+		let result: Token | undefined
+		let peeked = reader.peek()
+		if (peeked && (Number.isNumber(peeked) || peeked == "." && (peeked = reader.peek(2)) && Number.isNumber(peeked.slice(1, 2)))) {
 			let original: string = ""
-			let value: number = 0
-			let divisor: number
+			let value = 0
+			let divisor: number | undefined
 			while (!result) {
 				switch (reader.peek()) {
 					case ".":
@@ -114,21 +111,19 @@ export class Number extends Literal {
 				if (divisor)
 					divisor *= 10
 			}
-		} else {
-			result = null
 		}
 		return result
 	}
-	private static scanOctal(reader: IO.BufferedReader): Token {
-		let result: Token
+	private static scanOctal(reader: IO.BufferedReader): Token | undefined {
+		let result: Token | undefined
 		if (reader.peek(2) == "0c") {
-			let original = reader.read(2)
-			let value: number = 0
-			let divisor: number
+			let original = reader.read(2) || ""
+			let value = 0
+			let divisor: number | undefined
 			while (!result) {
 				switch (reader.peek()) {
 					case ".":
-						original += reader.read()
+						original += reader.read() || ""
 						if (divisor)
 							result = new Number(divisor ? value / divisor : value, original, reader.mark())
 						else
@@ -148,17 +143,15 @@ export class Number extends Literal {
 				if (divisor)
 					divisor *= 8
 			}
-		} else {
-			result = null
 		}
 		return result
 	}
-	private static scanBinary(reader: IO.BufferedReader): Token {
-		let result: Token
+	private static scanBinary(reader: IO.BufferedReader): Token | undefined {
+		let result: Token | undefined
 		if (reader.peek(2) == "0b") {
-			let original = reader.read(2)
-			let value: number = 0
-			let divisor: number
+			let original = reader.read(2) || ""
+			let value = 0
+			let divisor: number | undefined
 			while (!result) {
 				switch (reader.peek()) {
 					case ".":
@@ -176,8 +169,6 @@ export class Number extends Literal {
 				if (divisor)
 					divisor *= 2
 			}
-		} else {
-			result = null
 		}
 		return result
 	}

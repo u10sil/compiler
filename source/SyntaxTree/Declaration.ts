@@ -16,7 +16,6 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Error, Utilities } from "@cogneco/mend"
 import * as Tokens from "../Tokens"
 import * as Type from "./Type"
 import { Source } from "./Source"
@@ -34,13 +33,13 @@ export class Declaration extends Statement {
 	}
 	static parseTypeParameters(source: Source): Type.Name[] {
 		const result: Type.Name[] = []
-		if (source.peek().isOperator("<")) {
+		if (source.peek()!.isOperator("<")) {
 			do {
 				source.next() // consume "<" or ","
-				if (!source.peek().isIdentifier())
+				if (!source.peek()!.isIdentifier())
 					source.raise("Expected type parameter")
-				result.push(Type.Name.parse(source.clone()))
-			} while (source.peek().isSeparator(","))
+				result.push(Type.Name.parse(source.clone())!)
+			} while (source.peek()!.isSeparator(","))
 			source.next() // consume ">"
 		}
 		return result

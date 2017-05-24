@@ -32,13 +32,16 @@ export class Assignment extends Expression {
 			right: this.right.serialize(),
 		}
 	}
-	static parse(source: Source): Assignment {
-		let result: Assignment
-		if (source.peek().isIdentifier() && source.peek(1).isOperator("=")) {
+	static parse(source: Source): Assignment | undefined {
+		let result: Assignment | undefined
+		if (source.peek()!.isIdentifier() && source.peek(1)!.isOperator("=")) {
 			const left = new Identifier((source.next() as Tokens.Identifier).name, source.mark())
 			source.next() // consume "="
 			const right = Expression.parse(source.clone())
-			result = new Assignment(left, right, source.mark())
+			if (right)
+				result = new Assignment(left, right, source.mark())
+			else
+				source.raise("Missing right hand of assignment expression")
 		}
 		return result
 	}

@@ -16,8 +16,7 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Error, IO, Unit } from "@cogneco/mend"
-import * as Tokens from "../Tokens"
+import { Error, Unit } from "@cogneco/mend"
 import * as SyntaxTree from "./"
 
 import Is = Unit.Is
@@ -33,40 +32,40 @@ export class ClassDeclarationTest extends Unit.Fixture {
 		this.add("generic class #1", () => {
 			const classDeclaration = this.createDeclaration("class Empty<T> {}\n", handler)
 			this.expect(classDeclaration, Is.not.nullOrUndefined)
-			this.expect(classDeclaration.typeParameters.next().name, Is.equal.to("T"))
+			this.expect(classDeclaration.typeParameters.next()!.name, Is.equal.to("T"))
 		})
 		this.add("generic class #2", () => {
 			const classDeclaration = this.createDeclaration("class Empty<T, S> {}\n", handler)
 			this.expect(classDeclaration, Is.not.nullOrUndefined)
 			const typeParameters = classDeclaration.typeParameters
-			this.expect(typeParameters.next().name, Is.equal.to("T"))
-			this.expect(typeParameters.next().name, Is.equal.to("S"))
+			this.expect(typeParameters.next()!.name, Is.equal.to("T"))
+			this.expect(typeParameters.next()!.name, Is.equal.to("S"))
 		})
 		this.add("class extends", () => {
 			const classDeclaration = this.createDeclaration("class Empty extends Full {}\n", handler)
-			this.expect(classDeclaration.extended.name, Is.equal.to("Full"))
+			this.expect(classDeclaration.extended!.name, Is.equal.to("Full"))
 		})
 		this.add("class implements", () => {
 			const classDeclaration = this.createDeclaration("class Empty implements Enumerable, Enumerator {}\n", handler)
 			const implemented = classDeclaration.implemented
-			this.expect(implemented.next().name, Is.equal.to("Enumerable"))
-			this.expect(implemented.next().name, Is.equal.to("Enumerator"))
+			this.expect(implemented.next()!.name, Is.equal.to("Enumerable"))
+			this.expect(implemented.next()!.name, Is.equal.to("Enumerator"))
 			this.expect(implemented.next(), Is.nullOrUndefined)
 		})
 		this.add("generic class implements generic interfaces", () => {
 			const classDeclaration = this.createDeclaration("class Empty<T, S> implements Interface1<T, S>, Interface2<T, S> {}\n", handler)
 			const implemented = classDeclaration.implemented
-			const interface1 = implemented.next()
+			const interface1 = implemented.next()!
 			this.expect(interface1.name, Is.equal.to("Interface1"))
 			const typeParameters1 = interface1.typeParameters
-			this.expect(typeParameters1.next().name, Is.equal.to("T"))
-			this.expect(typeParameters1.next().name, Is.equal.to("S"))
+			this.expect(typeParameters1.next()!.name, Is.equal.to("T"))
+			this.expect(typeParameters1.next()!.name, Is.equal.to("S"))
 			this.expect(typeParameters1.next(), Is.nullOrUndefined)
-			const interface2 = implemented.next()
+			const interface2 = implemented.next()!
 			this.expect(interface2.name, Is.equal.to("Interface2"))
 			const typeParameters2 = interface2.typeParameters
-			this.expect(typeParameters2.next().name, Is.equal.to("T"))
-			this.expect(typeParameters2.next().name, Is.equal.to("S"))
+			this.expect(typeParameters2.next()!.name, Is.equal.to("T"))
+			this.expect(typeParameters2.next()!.name, Is.equal.to("S"))
 			this.expect(typeParameters2.next(), Is.nullOrUndefined)
 			this.expect(implemented.next(), Is.nullOrUndefined)
 		})
@@ -108,7 +107,8 @@ var f = 50.5f
 `
 			const classDeclaration = this.createDeclaration(program, handler)
 			const statements = classDeclaration.content.statements
-			const countField = statements.next()
+			const countField = statements.next() as SyntaxTree.VariableDeclaration
+			this.expect(countField.symbol, Is.equal.to("count"))
 			const constructor = statements.next() as SyntaxTree.FunctionDeclaration
 			this.expect(constructor.symbol, Is.equal.to("init"))
 			this.expect(constructor.body, Is.nullOrUndefined)
@@ -122,7 +122,7 @@ var f = 50.5f
 			const getCountFunction = statements.next() as SyntaxTree.FunctionDeclaration
 			this.expect(getCountFunction.symbol, Is.equal.to("getCount"))
 			this.expect((getCountFunction.returnType as SyntaxTree.Type.Identifier).name, Is.equal.to("Int"))
-			const getCountFunctionStatement = getCountFunction.body.statements.next() as SyntaxTree.Identifier
+			const getCountFunctionStatement = getCountFunction.body!.statements.next() as SyntaxTree.Identifier
 			this.expect(getCountFunctionStatement.name, Is.equal.to("count"))
 		})
 	}

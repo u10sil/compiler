@@ -16,7 +16,7 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Error, Utilities } from "@cogneco/mend"
+import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../Tokens"
 import { Source } from "./Source"
 import { Statement } from "./Statement"
@@ -34,16 +34,16 @@ export class Block extends Statement {
 			statements: this.statementsArray.map(s => s.serialize()),
 		}
 	}
-	static parse(source: Source): Block {
-		let result: Block
-		if (source.peek().isSeparator("{")) {
+	static parse(source: Source): Block | undefined {
+		let result: Block | undefined
+		if (source.peek()!.isSeparator("{")) {
 			source.next() // consume: {
 			const statements: Statement[] = []
-			let next: Statement
-			while (source.peek() &&	!source.peek().isSeparator("}") && (next = Statement.parse(source.clone()))) {
+			let next: Statement | undefined
+			while (source.peek() &&	!source.peek()!.isSeparator("}") && (next = Statement.parse(source.clone()))) {
 				statements.push(next)
 			}
-			if (!source.next().isSeparator("}"))
+			if (!source.next()!.isSeparator("}"))
 				source.raise("Expected \"}\"")
 			result = new Block(statements, source.mark())
 		}

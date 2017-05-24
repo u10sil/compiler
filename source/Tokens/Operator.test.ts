@@ -25,8 +25,8 @@ export class OperatorTest extends Unit.Fixture {
 		super("Tokens.Operator")
 		const errorHandler = new Error.ConsoleHandler()
 		this.add("isOperator()", () => {
-			const operator1 = new Tokens.Operator(null, null)
-			const operator2 = new Tokens.Operator(">", null)
+			const operator1 = new Tokens.Operator("")
+			const operator2 = new Tokens.Operator(">")
 			this.expect(operator1.isOperator())
 			this.expect(operator1.isOperator(""), Is.true)
 			this.expect(operator1.isOperator("+"), Is.false)
@@ -36,14 +36,14 @@ export class OperatorTest extends Unit.Fixture {
 		})
 		this.add("scan operator", () => {
 			const source = new Tokens.Source(IO.StringReader.create("<==>"), errorHandler)
-			const token = Tokens.Operator.scan(source)
+			const token = Tokens.Operator.scan(source)!
 			this.expect(token instanceof Tokens.Operator)
 			this.expect(token.isOperator())
 			this.expect((token as Tokens.Operator).symbol, Is.equal.to("<==>"))
 		})
 		this.add("arithmetic", () => {
 			const source = new Tokens.Source(IO.StringReader.create("+-*/**%++***"), errorHandler)
-			let token: Tokens.Token
+			let token: Tokens.Token | undefined
 			this.expect((token = Tokens.Operator.scan(source)) instanceof Tokens.Operator)
 			this.expect((token as Tokens.Operator).symbol, Is.equal.to("+"))
 			this.expect((token = Tokens.Operator.scan(source)) instanceof Tokens.Operator)
@@ -65,7 +65,7 @@ export class OperatorTest extends Unit.Fixture {
 		})
 		this.add("binary/bitwise and logical", () => {
 			const source = new Tokens.Source(IO.StringReader.create("<<>>^&|||&&??"), errorHandler)
-			let token: Tokens.Token
+			let token: Tokens.Token | undefined
 			this.expect((token = Tokens.Operator.scan(source)) instanceof Tokens.Operator)
 			this.expect((token as Tokens.Operator).symbol, Is.equal.to("<<"))
 			this.expect((token = Tokens.Operator.scan(source)) instanceof Tokens.Operator)
@@ -85,7 +85,7 @@ export class OperatorTest extends Unit.Fixture {
 		})
 		this.add("assignment", () => {
 			const source = new Tokens.Source(IO.StringReader.create("=-=*=/=**=%=<<=>>=^=&=|=:=::="), errorHandler)
-			let token: Tokens.Token
+			let token: Tokens.Token | undefined
 			this.expect((token = Tokens.Operator.scan(source)) instanceof Tokens.Operator)
 			this.expect((token as Tokens.Operator).symbol, Is.equal.to("="))
 			this.expect((token = Tokens.Operator.scan(source)) instanceof Tokens.Operator)
@@ -115,7 +115,7 @@ export class OperatorTest extends Unit.Fixture {
 		})
 		this.add("comparison", () => {
 			const source = new Tokens.Source(IO.StringReader.create("==<><=:==<==>>=!="), errorHandler)
-			let token: Tokens.Token
+			let token: Tokens.Token | undefined
 			this.expect((token = Tokens.Operator.scan(source)) instanceof Tokens.Operator)
 			this.expect((token as Tokens.Operator).symbol, Is.equal.to("=="))
 			this.expect((token = Tokens.Operator.scan(source)) instanceof Tokens.Operator)
@@ -135,7 +135,7 @@ export class OperatorTest extends Unit.Fixture {
 		})
 		this.add("unary", () => {
 			const source = new Tokens.Source(IO.StringReader.create("!@~?"), errorHandler)
-			let token: Tokens.Token
+			let token: Tokens.Token | undefined
 			this.expect((token = Tokens.Operator.scan(source)) instanceof Tokens.Operator)
 			this.expect((token as Tokens.Operator).symbol, Is.equal.to("!"))
 			this.expect((token = Tokens.Operator.scan(source)) instanceof Tokens.Operator)
@@ -147,7 +147,7 @@ export class OperatorTest extends Unit.Fixture {
 		})
 		this.add("misfits", () => {
 			const source = new Tokens.Source(IO.StringReader.create("..->=>..."), errorHandler)
-			let token: Tokens.Token
+			let token: Tokens.Token | undefined
 			this.expect((token = Tokens.Operator.scan(source)) instanceof Tokens.Operator)
 			this.expect((token as Tokens.Operator).symbol, Is.equal.to(".."))
 			this.expect((token = Tokens.Operator.scan(source)) instanceof Tokens.Operator)

@@ -25,8 +25,8 @@ export class Whitespace extends Gap {
 	constructor(readonly endsLine: boolean, region: Error.Region) {
 		super(region)
 	}
-	static scan(source: Source): Token {
-		let result: Token = null
+	static scan(source: Source): Token | undefined {
+		let result: Token | undefined
 		if (Whitespace.isWhitespace(source.peek())) {
 			do {
 				switch (source.peek()) {
@@ -48,9 +48,9 @@ export class Whitespace extends Gap {
 		return result
 	}
 	isWhitespace(content?: string): boolean {
-		return !content || content == this.region.content
+		return !content || !!this.region && content == this.region.content
 	}
-	private static isWhitespace(character: string) {
+	private static isWhitespace(character: string | undefined) {
 		return character === "\n" || character === "\r" || character === "\t" || character === " "
 	}
 }

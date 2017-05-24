@@ -16,8 +16,7 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Error, IO, Unit } from "@cogneco/mend"
-import * as Tokens from "../Tokens"
+import { Error, Unit } from "@cogneco/mend"
 import * as SyntaxTree from "./"
 
 import Is = Unit.Is
@@ -53,13 +52,13 @@ export class FunctionDeclarationTest extends Unit.Fixture {
 			const functionArguments = functionDeclaration.argumentList
 			let currentArgument: SyntaxTree.ArgumentDeclaration
 			this.expect(functionDeclaration.symbol, Is.equal.to("empty"))
-			currentArgument = functionArguments.next()
+			currentArgument = functionArguments.next()!
 			this.expect(currentArgument.symbol, Is.equal.to("i"))
 			this.expect((currentArgument.type as SyntaxTree.Type.Identifier).name, Is.equal.to("Int"))
-			currentArgument = functionArguments.next()
+			currentArgument = functionArguments.next()!
 			this.expect(currentArgument.symbol, Is.equal.to("j"))
 			this.expect((currentArgument.type as SyntaxTree.Type.Identifier).name, Is.equal.to("Float"))
-			currentArgument = functionArguments.next()
+			currentArgument = functionArguments.next()!
 			this.expect(currentArgument.symbol, Is.equal.to("k"))
 			this.expect((currentArgument.type as SyntaxTree.Type.Identifier).name, Is.equal.to("Double"))
 		})
@@ -68,19 +67,19 @@ export class FunctionDeclarationTest extends Unit.Fixture {
 			const functionArguments = functionDeclaration.argumentList
 			let currentArgument: SyntaxTree.ArgumentDeclaration
 			this.expect(functionDeclaration.symbol, Is.equal.to("empty"))
-			currentArgument = functionArguments.next()
+			currentArgument = functionArguments.next()!
 			this.expect(currentArgument.symbol, Is.equal.to("w"))
 			this.expect((currentArgument.type as SyntaxTree.Type.Identifier).name, Is.equal.to("Int"))
-			currentArgument = functionArguments.next()
+			currentArgument = functionArguments.next()!
 			this.expect(currentArgument.symbol, Is.equal.to("h"))
 			this.expect((currentArgument.type as SyntaxTree.Type.Identifier).name, Is.equal.to("Int"))
-			currentArgument = functionArguments.next()
+			currentArgument = functionArguments.next()!
 			this.expect(currentArgument.symbol, Is.equal.to("x"))
 			this.expect((currentArgument.type as SyntaxTree.Type.Identifier).name, Is.equal.to("Float"))
-			currentArgument = functionArguments.next()
+			currentArgument = functionArguments.next()!
 			this.expect(currentArgument.symbol, Is.equal.to("y"))
 			this.expect((currentArgument.type as SyntaxTree.Type.Identifier).name, Is.equal.to("Float"))
-			currentArgument = functionArguments.next()
+			currentArgument = functionArguments.next()!
 			this.expect(currentArgument.symbol, Is.equal.to("z"))
 			this.expect((currentArgument.type as SyntaxTree.Type.Identifier).name, Is.equal.to("Float"))
 		})
@@ -88,13 +87,13 @@ export class FunctionDeclarationTest extends Unit.Fixture {
 			const functionDeclaration = this.createDeclaration("func empty<T, S>(a, b: Generic<T>, x, y: Generic<S>)\n", handler)
 			const typeParameters = functionDeclaration.typeParameters
 			const functionArguments = functionDeclaration.argumentList
-			let currentArgument = functionArguments.next()
-			this.expect(typeParameters.next().name, Is.equal.to("T"))
-			this.expect(typeParameters.next().name, Is.equal.to("S"))
-			this.expect((currentArgument.type as SyntaxTree.Type.Identifier).typeParameters.next().name, Is.equal.to("T"))
+			let currentArgument = functionArguments.next()!
+			this.expect(typeParameters.next()!.name, Is.equal.to("T"))
+			this.expect(typeParameters.next()!.name, Is.equal.to("S"))
+			this.expect((currentArgument.type as SyntaxTree.Type.Identifier).typeParameters.next()!.name, Is.equal.to("T"))
 			functionArguments.next() // consume "b: Generic<T>"
-			currentArgument = functionArguments.next()
-			this.expect((currentArgument.type as SyntaxTree.Type.Identifier).typeParameters.next().name, Is.equal.to("S"))
+			currentArgument = functionArguments.next()!
+			this.expect((currentArgument.type as SyntaxTree.Type.Identifier).typeParameters.next()!.name, Is.equal.to("S"))
 		})
 		this.add("empty function with return type", () => {
 			const functionDeclaration = this.createDeclaration("func empty -> ReturnType\n", handler)

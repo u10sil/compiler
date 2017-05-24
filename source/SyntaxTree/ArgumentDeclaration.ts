@@ -18,35 +18,34 @@
 
 import { Source } from "./Source"
 import * as Tokens from "../Tokens"
-import { Statement } from "./Statement"
 import { Declaration } from "./Declaration"
 import * as Type from "./Type"
 
 export class ArgumentDeclaration extends Declaration {
-	constructor(symbol: string, public /* TODO: syntax tree should be immutable */ type: Type.Expression, tokens: Tokens.Substance[]) {
+	constructor(symbol: string, public /* TODO: syntax tree should be immutable */ type: Type.Expression | undefined, tokens: Tokens.Substance[]) {
 		super(symbol, tokens)
 	}
 	serialize(): { class: string } & any {
 		return {
 			...super.serialize(),
 			class: "argumentDeclaration",
-			type: this.type.serialize(),
+			type: this.type && this.type.serialize(),
 		}
 	}
-	static parse(source: Source): ArgumentDeclaration {
-		let result: ArgumentDeclaration
-		if (source.peek().isIdentifier()) {
+	static parse(source: Source): ArgumentDeclaration | undefined {
+		let result: ArgumentDeclaration | undefined
+		if (source.peek()!.isIdentifier()) {
 			//
 			// handles cases "x" and "x: Type"
 			//
 			const symbol = (source.next() as Tokens.Identifier).name
-			let type: Type.Expression
-			if (source.peek().isSeparator(":")) {
+			let type: Type.Expression | undefined
+			if (source.peek()!.isSeparator(":")) {
 				source.next() // consume ":"
 				type = Type.Expression.parse(source.clone())
 			}
 			result = new ArgumentDeclaration(symbol, type, source.mark())
-		} else if (source.peek().isOperator("=") || source.peek().isSeparator(".")) {
+		} else if (source.peek()!.isOperator("=") || source.peek()!.isSeparator(".")) {
 			//
 			// Handles syntactic sugar cases ".argument" and "=argument"
 			// The type of the argument will have to be resolved later
@@ -58,12 +57,12 @@ export class ArgumentDeclaration extends Declaration {
 	}
 	static parseAll(source: Source): ArgumentDeclaration[] {
 		const result: ArgumentDeclaration[] = []
-		if (source.peek().isSeparator("(")) {
+		if (source.peek()!.isSeparator("(")) {
 			do {
 				source.next() // consume: ( or ,
-				result.push(ArgumentDeclaration.parse(source.clone()))
-			} while (source.peek().isSeparator(","))
-			if (!source.next().isSeparator(")"))
+				result.push(ArgumentDeclaration.parse(source.clone())!)
+			} while (source.peek()!.isSeparator(","))
+			if (!source.next()!.isSeparator(")"))
 				source.raise("Expected \")\"")
 			//
 			// Iterate through the argument list and assign a type to arguments whose type are not set explicitly.

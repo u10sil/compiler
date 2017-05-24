@@ -30,8 +30,8 @@ export class Number extends Expression {
 			value: this.value,
 		}
 	}	// tslint:disable:ban-types no-construct
-	static parse(source: Source): Number {
-		let result: Number
+	static parse(source: Source): Number | undefined {
+		let result: Number | undefined
 		if (source.peek() instanceof Tokens.Literals.Number)
 			result = new Number((source.next() as Tokens.Literals.Number).value, source.mark())
 		return result

@@ -34,15 +34,15 @@ export class Tuple extends Expression {
 			children: this.childrenArray.map(c => c.serialize()),
 		}
 	}
-	static parse(source: Source): Expression {
-		let result: Expression
-		if (source.peek().isSeparator("(")) {
+	static parse(source: Source): Expression | undefined {
+		let result: Expression | undefined
+		if (source.peek()!.isSeparator("(")) {
 			const children: Expression[] = []
 			do {
 				source.next() // consume "(" or ","
-				children.push(Expression.parse(source.clone()))
-			} while (source.peek().isSeparator(","))
-			if (!source.next().isSeparator(")"))
+				children.push(Expression.parse(source.clone())!)
+			} while (source.peek()!.isSeparator(","))
+			if (!source.next()!.isSeparator(")"))
 				source.raise("Expected \")\"")
 			result = new Tuple(children, source.mark())
 		}

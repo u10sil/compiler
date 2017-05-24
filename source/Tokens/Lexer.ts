@@ -23,7 +23,6 @@ import { Token } from "./Token"
 import { Comment } from "./Comment"
 import { EndOfFile } from "./EndOfFile"
 import { Identifier } from "./Identifier"
-import { Literal } from "./Literal"
 import * as Literals from "./Literals"
 import { Operator } from "./Operator"
 import { Separator } from "./Separator"
@@ -31,32 +30,30 @@ import { Whitespace } from "./Whitespace"
 
 export class Lexer implements Utilities.Iterator<Token> {
 	private source: Source
-	private constructor(reader: IO.Reader, private handler: Error.Handler) {
+	private constructor(reader: IO.Reader, handler: Error.Handler) {
 		this.source = new Source(reader, handler)
 	}
-	next(): Token {
-		let result: Token
-		if (!this.source)
-			result = undefined
-		else if (!(
-			(result = EndOfFile.scan(this.source)) ||
-			(result = Whitespace.scan(this.source)) ||
-			(result = Comment.scan(this.source)) ||
-			(result = Operator.scan(this.source)) ||
-			(result = Separator.scan(this.source)) ||
-			(result = Literals.String.scan(this.source)) ||
-			(result = Literals.Number.scan(this.source)) ||
-			(result = Literals.Character.scan(this.source)) ||
-			(result = Identifier.scan(this.source)) ||
-			false
-		))
+	next(): Token | undefined {
+		const result = EndOfFile.scan(this.source) ||
+			Whitespace.scan(this.source) ||
+			Comment.scan(this.source) ||
+			Operator.scan(this.source) ||
+			Separator.scan(this.source) ||
+			Literals.String.scan(this.source) ||
+			Literals.Number.scan(this.source) ||
+			Literals.Character.scan(this.source) ||
+			Identifier.scan(this.source)
+		if (!result)
 			this.source.raise("[Lexer]: Unrecognized token: " + this.source.peek())
 		return result
 	}
-	static create(code: string | IO.Reader, handler: Error.Handler): Utilities.Iterator<Token> {
-		return new Lexer(typeof code === "string" ? IO.StringReader.create(code) : code, handler)
+	static create(code: undefined, handler: Error.Handler): undefined
+	static create(code: string | IO.Reader, handler: Error.Handler): Utilities.Iterator<Token>
+	static create(code: string | IO.Reader | undefined, handler: Error.Handler): Utilities.Iterator<Token> | undefined
+	static create(code: string | IO.Reader | undefined, handler: Error.Handler): Utilities.Iterator<Token> | undefined {
+		return code == undefined ? undefined : new Lexer(typeof code === "string" ? IO.StringReader.create(code) : code, handler)
 	}
-	static open(path: string, handler: Error.Handler): Utilities.Iterator<Token> {
+	static open(path: string, handler: Error.Handler): Utilities.Iterator<Token> | undefined {
 		return Lexer.create(path.slice(-4) == ".syspl" ? IO.FileReader.open(path) : IO.FolderReader.open(path, "*.syspl"), handler)
 	}
 }

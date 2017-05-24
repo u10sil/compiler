@@ -36,18 +36,18 @@ export class Identifier extends Name {
 			arguments: this.typeParametersArray.map(t => t.serialize()),
 		}
 	}
-	static parse(source: Source): Identifier {
-		let result: Identifier
-		if (source.peek().isIdentifier()) {
+	static parse(source: Source): Identifier | undefined {
+		let result: Identifier | undefined
+		if (source.peek()!.isIdentifier()) {
 			const name = (source.next() as Tokens.Identifier).name
 			const typeParameters: Identifier[] = []
-			if (source.peek().isOperator("<")) {
+			if (source.peek()!.isOperator("<")) {
 				do {
 					source.next() // consume "<" or ","
-					if (!source.peek().isIdentifier())
+					if (!source.peek()!.isIdentifier())
 						source.raise("Expected type parameter")
-					typeParameters.push(Identifier.parse(source.clone()))
-				} while (source.peek().isSeparator(","))
+					typeParameters.push(Identifier.parse(source.clone())!)
+				} while (source.peek()!.isSeparator(","))
 				source.next() // consume ">"
 			}
 			result = new Identifier(name, typeParameters, source.mark())

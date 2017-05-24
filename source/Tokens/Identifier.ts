@@ -25,22 +25,22 @@ export class Identifier extends Substance {
 	constructor(readonly name: string, region: Error.Region) {
 		super(region)
 	}
-	isIdentifier(name: string = null): boolean {
+	isIdentifier(name?: string): boolean {
 		return !name || name == this.name
 	}
-	static scan(source: Source): Token {
+	static scan(source: Source): Token | undefined {
 		let result: string = ""
 		if (Identifier.isValidFirstCharacter(source.peek())) {
 			do {
 				result += source.read()
 			} while (Identifier.isValidWithinCharacter(source.peek()))
 		}
-		return result ? new Identifier(result, source.mark()) : null
+		return result ? new Identifier(result, source.mark()) : undefined
 	}
-	private static isValidFirstCharacter(character: string): boolean {
-		return character >= "A" && character <= "Z" || character >= "a" && character <= "z" || character == "_"
+	private static isValidFirstCharacter(character: string | undefined): boolean {
+		return !!character && (character >= "A" && character <= "Z" || character >= "a" && character <= "z" || character == "_")
 	}
-	private static isValidWithinCharacter(character: string): boolean {
-		return Identifier.isValidFirstCharacter(character) || character >= "0" && character <= "9"
+	private static isValidWithinCharacter(character: string | undefined): boolean {
+		return !!character && (Identifier.isValidFirstCharacter(character) || character >= "0" && character <= "9")
 	}
 }

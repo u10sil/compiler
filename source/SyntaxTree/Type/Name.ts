@@ -16,7 +16,6 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Error, Utilities } from "@cogneco/mend"
 import { Source } from "../Source"
 import { Expression } from "./Expression"
 import * as Tokens from "../../Tokens"
@@ -31,7 +30,7 @@ export class Name extends Expression {
 			name: this.name,
 		}
 	}
-	static parse(source: Source): Name {
-		return source.peek().isIdentifier() ? new Name((source.next() as Tokens.Identifier).name, source.mark()) : null
+	static parse(source: Source): Name | undefined {
+		return source.peek()!.isIdentifier() ? new Name((source.next() as Tokens.Identifier).name, source.mark()) : undefined
 	}
 }

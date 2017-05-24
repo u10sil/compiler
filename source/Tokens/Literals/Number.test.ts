@@ -24,7 +24,7 @@ export class NumberTest extends Unit.Fixture {
 	constructor() {
 		super("Tokens.Literals.Number")
 		const errorHandler = new Error.ConsoleHandler()
-		let token: Tokens.Token
+		let token: Tokens.Token | undefined
 		this.add("integer #1", () => {
 			const numberString = "000012"
 			const source = new Tokens.Source(IO.StringReader.create(numberString), errorHandler)

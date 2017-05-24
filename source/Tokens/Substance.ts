@@ -23,7 +23,7 @@ import { Gap } from "./Gap"
 export abstract class Substance extends Token {
 	pregap: Gap[] = []
 	postgap: Gap[] = []
-	constructor(region: Error.Region) {
+	constructor(region?: Error.Region) {
 		super(region)
 	}
 }

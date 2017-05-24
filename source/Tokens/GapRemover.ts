@@ -31,16 +31,16 @@ export class GapRemover implements Utilities.Iterator<Substance> {
 	next(): Substance {
 		const pre: Gap[] = []
 		while (this.backend.peek() instanceof Gap) {
-			pre.push(this.backend.next())
+			pre.push(this.backend.next()!)
 		}
 		let result: Substance
 		if (!(this.backend.peek() instanceof Substance))
-			throw new Error.Message(" Missing end of file token.", Error.Level.Recoverable, Error.Type.Lexical, this.backend.peek().region)
+			throw new Error.Message(" Missing end of file token.", Error.Level.Recoverable, Error.Type.Lexical, this.backend.peek()!.region)
 		result = this.backend.next() as Substance
 		const post: Gap[] = []
 		while (this.backend.peek() instanceof Gap) {
 			const next = this.backend.next()
-			post.push(next)
+			post.push(next!)
 			if (next instanceof Whitespace && (next as Whitespace).endsLine) {
 				break
 			}

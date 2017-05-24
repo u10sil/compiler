@@ -16,10 +16,10 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { IO, Error, Unit } from "@cogneco/mend"
+import { IO, Error } from "@cogneco/mend"
 
 export class Source extends IO.BufferedReader implements Error.Handler {
-	constructor(reader: IO.Reader, private errorHandler: Error.Handler) {
+	constructor(reader: IO.Reader, private handler: Error.Handler) {
 		super(reader)
 	}
 	raise(message: string | Error.Message, level: Error.Level = Error.Level.Critical, type: Error.Type = Error.Type.Lexical, region?: Error.Region): void {
@@ -29,6 +29,6 @@ export class Source extends IO.BufferedReader implements Error.Handler {
 			}
 			message = new Error.Message(message as string, level, type, region)
 		}
-		console.log(message.toString())
+		this.handler.raise(message)
 	}
 }

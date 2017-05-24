@@ -24,7 +24,7 @@ export class StringTest extends Unit.Fixture {
 	constructor() {
 		super("Tokens.Literals.String")
 		const errorHandler = new Error.ConsoleHandler()
-		let token: Tokens.Token
+		let token: Tokens.Token | undefined
 		this.add("empty", () => {
 			const s = "\"\""
 			const source = new Tokens.Source(IO.StringReader.create(s), errorHandler)

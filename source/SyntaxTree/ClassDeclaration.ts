@@ -16,7 +16,7 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Error, Utilities } from "@cogneco/mend"
+import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../Tokens"
 import { Source } from "./Source"
 import { Statement } from "./Statement"
@@ -31,7 +31,7 @@ export class ClassDeclaration extends Declaration {
 	get implemented(): Utilities.Iterator<Type.Identifier> {
 		return new Utilities.ArrayIterator(this.implementedArray)
 	}
-	constructor(symbol: Type.Name, readonly isAbstract: boolean, private typeParametersArray: Type.Name[], readonly extended: Type.Identifier, private implementedArray: Type.Identifier[], readonly content: Block, tokens: Tokens.Substance[]) {
+	constructor(symbol: Type.Name, readonly isAbstract: boolean, private typeParametersArray: Type.Name[], readonly extended: Type.Identifier | undefined, private implementedArray: Type.Identifier[], readonly content: Block, tokens: Tokens.Substance[]) {
 		super(symbol.name, tokens)
 	}
 	serialize(): { class: string } & any {
@@ -40,34 +40,38 @@ export class ClassDeclaration extends Declaration {
 			class: "classDeclaration",
 			isAbstract: this.isAbstract,
 			typeParameters: this.typeParametersArray.map(t => t.serialize()),
-			extends: this.extended.serialize(),
+			extends: this.extended && this.extended.serialize(),
 			implements: this.implementedArray.map(i => i.serialize()),
 			content: this.content,
 		}
 	}
-	static parse(source: Source): ClassDeclaration {
-		let result: ClassDeclaration
-		const isAbstract = source.peek().isIdentifier("abstract")
-		if (source.peek(isAbstract ? 1 : 0).isIdentifier("class") && source.next() && (!isAbstract || source.next())) {
+	static parse(source: Source): ClassDeclaration | undefined {
+		let result: ClassDeclaration | undefined
+		const isAbstract = source.peek()!.isIdentifier("abstract")
+		if (source.peek(isAbstract ? 1 : 0)!.isIdentifier("class") && source.next() && (!isAbstract || source.next())) {
 			const symbol = Type.Name.parse(source.clone())
+			if (!symbol)
+				source.raise("Expected symbol in class declaration.")
 			const typeParameters = Declaration.parseTypeParameters(source.clone())
-			let extended: Type.Identifier
-			if (source.peek().isIdentifier("extends")) {
+			let extended: Type.Identifier | undefined
+			if (source.peek()!.isIdentifier("extends")) {
 				source.next() // consume "extends"
-				if (!source.peek().isIdentifier())
+				if (!source.peek()!.isIdentifier())
 					source.raise("Expected identifier with name of class to extend.")
 				extended = Type.Identifier.parse(source.clone())
 			}
 			const implemented: Type.Identifier[] = []
-			if (source.peek().isIdentifier("implements"))
+			if (source.peek()!.isIdentifier("implements"))
 				do {
 					source.next() // consume "implements" or ","
-					if (!source.peek().isIdentifier())
+					if (!source.peek()!.isIdentifier())
 						source.raise("Expected identifier with name of interface to extend.")
-					implemented.push(Type.Identifier.parse(source.clone()))
-				} while (source.peek().isSeparator(","))
+					implemented.push(Type.Identifier.parse(source.clone())!)
+				} while (source.peek()!.isSeparator(","))
 			const block = Block.parse(source.clone())
-			result = new ClassDeclaration(symbol, isAbstract, typeParameters, extended, implemented, block, source.mark())
+			if (!block)
+				source.raise("Expected block in class declaration.")
+			result = new ClassDeclaration(symbol!, isAbstract, typeParameters, extended, implemented, block!, source.mark())
 		}
 		return result
 	}

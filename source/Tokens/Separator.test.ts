@@ -25,8 +25,8 @@ export class SeparatorTest extends Unit.Fixture {
 		super("Tokens.Separator")
 		const errorHandler = new Error.ConsoleHandler()
 		this.add("isSeparator()", () => {
-			const separator1 = new Tokens.Separator(null, null)
-			const separator2 = new Tokens.Separator(":", null)
+			const separator1 = new Tokens.Separator("")
+			const separator2 = new Tokens.Separator(":")
 			this.expect(separator1.isSeparator())
 			this.expect(separator1.isSeparator(""), Is.true)
 			this.expect(separator1.isSeparator("."), Is.false)
@@ -35,7 +35,7 @@ export class SeparatorTest extends Unit.Fixture {
 		})
 		this.add("scan separators", () => {
 			const source = new Tokens.Source(IO.StringReader.create(".:;,[](){}"), errorHandler)
-			let token: Tokens.Token
+			let token: Tokens.Token | undefined
 			this.expect((token = Tokens.Separator.scan(source)) instanceof Tokens.Separator)
 			this.expect((token as Tokens.Separator).symbol, Is.equal.to("."))
 			this.expect((token = Tokens.Separator.scan(source)) instanceof Tokens.Separator)

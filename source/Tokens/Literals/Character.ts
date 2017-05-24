@@ -25,8 +25,8 @@ export class Character extends Literal {
 	constructor(readonly value: string, region: Error.Region) {
 		super(region)
 	}
-	static scan(source: Source): Token {
-		let result: string
+	static scan(source: Source): Token | undefined {
+		let result: string | undefined
 		if (source.peek() == "'") {
 			source.read()
 			result = ""
@@ -48,6 +48,6 @@ export class Character extends Literal {
 			}
 			source.read() // Consume last '
 		}
-		return result || result == "" ? new Character(result, source.mark()) : null
+		return result || result == "" ? new Character(result, source.mark()) : undefined
 	}
 }
