@@ -22,17 +22,19 @@ import { Token } from "./Token"
 import { Gap } from "./Gap"
 
 export class Comment extends Gap {
-	constructor(readonly content: string, region: Error.Region) {
+	constructor(readonly content: string, readonly isBlock: boolean, region: Error.Region) {
 		super(region)
 	}
 	serialize(): { class: string } & any {
 		return {
 			class: "comment",
 			content: this.content,
+			isBlock: this.isBlock,
 		}
 	}
 	static scan(source: Source): Token | undefined {
 		let result: string | undefined
+		let isBlock = false
 		switch (source.peek(2)) {
 			case "//":
 				result = ""
@@ -46,9 +48,10 @@ export class Comment extends Gap {
 				while (source.peek(2) != "*/" && source.peek() != "\0")
 					result += source.read()
 				source.read(2)
+				isBlock = true
 				break
 			default:
 		}
-		return result != undefined ? new Comment(result, source.mark()) : undefined
+		return result != undefined ? new Comment(result, isBlock, source.mark()) : undefined
 	}
 }

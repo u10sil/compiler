@@ -32,12 +32,16 @@ export class WhitespaceTest extends Unit.Fixture {
 			let token: Tokens.Token | undefined
 			this.expect((token = Tokens.Whitespace.scan(sourceNewline)) instanceof Tokens.Whitespace)
 			this.expect((token as Tokens.Whitespace).endsLine, Is.true)
+			this.expect(token!.serialize(), Is.equal.to({ class: "whitespace", endsLine: true }))
 			this.expect((token = Tokens.Whitespace.scan(sourceCarriageReturn)) instanceof Tokens.Whitespace)
 			this.expect((token as Tokens.Whitespace).endsLine, Is.false)
+			this.expect(token!.serialize(), Is.equal.to({ class: "whitespace", endsLine: false }))
 			this.expect((token = Tokens.Whitespace.scan(sourceTab)) instanceof Tokens.Whitespace)
 			this.expect((token as Tokens.Whitespace).endsLine, Is.false)
+			this.expect(token!.serialize(), Is.equal.to({ class: "whitespace", endsLine: false }))
 			this.expect((token = Tokens.Whitespace.scan(sourceSpace)) instanceof Tokens.Whitespace)
 			this.expect((token as Tokens.Whitespace).endsLine, Is.false)
+			this.expect(token!.serialize(), Is.equal.to({ class: "whitespace", endsLine: false }))
 		})
 	}
 }

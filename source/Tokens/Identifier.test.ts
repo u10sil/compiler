@@ -30,8 +30,10 @@ export class IdentifierTest extends Unit.Fixture {
 			this.expect(identifier1.isIdentifier())
 			this.expect(identifier1.isIdentifier(""), Is.true)
 			this.expect(identifier1.isIdentifier("foo"), Is.false)
+			this.expect(identifier1.serialize(), Is.equal.to({ class: "identifier", name: "" }))
 			this.expect(identifier2.isIdentifier())
 			this.expect(identifier2.isIdentifier("foo"), Is.false)
+			this.expect(identifier2.serialize(), Is.equal.to({ class: "identifier", name: "foo" }))
 		})
 		this.add("scan identifier", () => {
 			const source = new Tokens.Source(IO.StringReader.create("identifier"), errorHandler)
@@ -39,6 +41,7 @@ export class IdentifierTest extends Unit.Fixture {
 			this.expect(token instanceof Tokens.Identifier)
 			this.expect(token.isIdentifier())
 			this.expect((token as Tokens.Identifier).name, Is.equal.to("identifier"))
+			this.expect(token.serialize(), Is.equal.to({ class: "identifier", name: "identifier" }))
 		})
 	}
 }

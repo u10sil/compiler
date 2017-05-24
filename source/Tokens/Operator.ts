@@ -27,7 +27,7 @@ export class Operator extends Substance {
 	}
 	serialize(): { class: string } & any {
 		return {
-			class: "character",
+			class: "operator",
 			symbol: this.symbol,
 		}
 	}

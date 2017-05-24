@@ -105,13 +105,6 @@ export class Number extends Literal {
 					case "7": value = value * 10 + 7; original += reader.read(); break
 					case "8": value = value * 10 + 8; original += reader.read(); break
 					case "9": value = value * 10 + 9; original += reader.read(); break
-					//
-					// Handle suffixes
-					// TODO:	This will probably not be sufficient once we enable more of them.
-					// 			How will we differentiate between float and double?
-					//
-					case "f": reader.read()
-						// FALL-THROUGH
 					default:
 						result = new Number(divisor ? value / divisor : value, original, reader.mark()); continue
 				}

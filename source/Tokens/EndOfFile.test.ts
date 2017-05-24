@@ -19,6 +19,7 @@
 import { Error, IO, Unit } from "@cogneco/mend"
 import * as Tokens from "./"
 
+import Is = Unit.Is
 export class EndOfFileTest extends Unit.Fixture {
 	constructor() {
 		super("Tokens.EndOfFile")
@@ -27,11 +28,13 @@ export class EndOfFileTest extends Unit.Fixture {
 			const source = new Tokens.Source(IO.StringReader.create(""), errorHandler)
 			const token = Tokens.EndOfFile.scan(source)
 			this.expect(token instanceof Tokens.EndOfFile)
+			this.expect(token!.serialize(), Is.equal.to({ class: "endOfFile" }))
 		})
 		this.add("null string", () => {
 			const source = new Tokens.Source(IO.StringReader.create("\0"), errorHandler)
 			const token = Tokens.EndOfFile.scan(source)
 			this.expect(token instanceof Tokens.EndOfFile)
+			this.expect(token!.serialize(), Is.equal.to({ class: "endOfFile" }))
 		})
 	}
 }

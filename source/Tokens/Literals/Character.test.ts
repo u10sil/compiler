@@ -30,18 +30,21 @@ export class CharacterTest extends Unit.Fixture {
 			const source = new Tokens.Source(IO.StringReader.create(s), errorHandler)
 			this.expect((token = Tokens.Literals.Character.scan(source)) instanceof Tokens.Literals.Character, Is.true)
 			this.expect((token as Tokens.Literals.Character).value, Is.equal.to(""))
+			this.expect(token!.serialize(), Is.equal.to({ class: "character", value: "" }))
 		})
 		this.add("newline", () => {
 			const s = "'\\n'"
 			const source = new Tokens.Source(IO.StringReader.create(s), errorHandler)
 			this.expect((token = Tokens.Literals.Character.scan(source)) instanceof Tokens.Literals.Character, Is.true)
 			this.expect((token as Tokens.Literals.Character).value, Is.equal.to("\n"))
+			this.expect(token!.serialize(), Is.equal.to({ class: "character", value: "\n" }))
 		})
 		this.add("double quote", () => {
 			const s = "'\\\"'"
 			const source = new Tokens.Source(IO.StringReader.create(s), errorHandler)
 			this.expect((token = Tokens.Literals.Character.scan(source)) instanceof Tokens.Literals.Character, Is.true)
 			this.expect((token as Tokens.Literals.Character).value, Is.equal.to("\""))
+			this.expect(token!.serialize(), Is.equal.to({ class: "character", value: "\"" }))
 		})
 	}
 }

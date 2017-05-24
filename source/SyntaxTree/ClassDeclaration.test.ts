@@ -77,7 +77,7 @@ export class ClassDeclarationTest extends Unit.Fixture {
 			const program: string =
 `class Foobar {
 var i: Int = 10
-var f = 50.5f
+var f = 50.5
 }
 `
 			const classDeclaration = this.createDeclaration(program, handler)
