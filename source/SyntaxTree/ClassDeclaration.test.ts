@@ -28,11 +28,18 @@ export class ClassDeclarationTest extends Unit.Fixture {
 			const classDeclaration = this.createDeclaration("class Empty {}\n", handler)
 			this.expect(classDeclaration, Is.not.nullOrUndefined)
 			this.expect(classDeclaration.symbol, Is.equal.to("Empty"))
+			this.expect(classDeclaration.serialize(), Is.equal.to({ class: "classDeclaration", symbol: "Empty", content: { class: "block" } }))
 		})
 		this.add("generic class #1", () => {
 			const classDeclaration = this.createDeclaration("class Empty<T> {}\n", handler)
 			this.expect(classDeclaration, Is.not.nullOrUndefined)
 			this.expect(classDeclaration.typeParameters.next()!.name, Is.equal.to("T"))
+			this.expect(classDeclaration.serialize(), Is.equal.to({
+				class: "classDeclaration", symbol: "Empty", typeParameters: [
+					{ class: "type.name", name: "T" },
+				],
+				content: { class: "block" },
+			}))
 		})
 		this.add("generic class #2", () => {
 			const classDeclaration = this.createDeclaration("class Empty<T, S> {}\n", handler)
@@ -40,10 +47,18 @@ export class ClassDeclarationTest extends Unit.Fixture {
 			const typeParameters = classDeclaration.typeParameters
 			this.expect(typeParameters.next()!.name, Is.equal.to("T"))
 			this.expect(typeParameters.next()!.name, Is.equal.to("S"))
+			this.expect(classDeclaration.serialize(), Is.equal.to({
+				class: "classDeclaration", symbol: "Empty", typeParameters: [
+					{ class: "type.name", name: "T" },
+					{ class: "type.name", name: "S" },
+				],
+				content: { class: "block" },
+			}))
 		})
 		this.add("class extends", () => {
 			const classDeclaration = this.createDeclaration("class Empty extends Full {}\n", handler)
 			this.expect(classDeclaration.extended!.name, Is.equal.to("Full"))
+			this.expect(classDeclaration.serialize(), Is.equal.to({ class: "classDeclaration", symbol: "Empty", extends: { class: "type.identifier", name: "Full" }, content: { class: "block" } }))
 		})
 		this.add("class implements", () => {
 			const classDeclaration = this.createDeclaration("class Empty implements Enumerable, Enumerator {}\n", handler)
@@ -51,6 +66,13 @@ export class ClassDeclarationTest extends Unit.Fixture {
 			this.expect(implemented.next()!.name, Is.equal.to("Enumerable"))
 			this.expect(implemented.next()!.name, Is.equal.to("Enumerator"))
 			this.expect(implemented.next(), Is.nullOrUndefined)
+			this.expect(classDeclaration.serialize(), Is.equal.to({
+				class: "classDeclaration", symbol: "Empty", implements: [
+					{ class: "type.identifier", name: "Enumerable" },
+					{ class: "type.identifier", name: "Enumerator" },
+				],
+				content: { class: "block" },
+			}))
 		})
 		this.add("generic class implements generic interfaces", () => {
 			const classDeclaration = this.createDeclaration("class Empty<T, S> implements Interface1<T, S>, Interface2<T, S> {}\n", handler)
@@ -68,10 +90,20 @@ export class ClassDeclarationTest extends Unit.Fixture {
 			this.expect(typeParameters2.next()!.name, Is.equal.to("S"))
 			this.expect(typeParameters2.next(), Is.nullOrUndefined)
 			this.expect(implemented.next(), Is.nullOrUndefined)
+			this.expect(classDeclaration.serialize(), Is.equal.to({
+				class: "classDeclaration", symbol: "Empty",
+				typeParameters: [{ class: "type.name", name: "T" }, { class: "type.name", name: "S" }],
+				implements: [
+					{ class: "type.identifier", name: "Interface1", arguments: [{ class: "type.identifier", name: "T" }, { class: "type.identifier", name: "S" }] },
+					{ class: "type.identifier", name: "Interface2", arguments: [{ class: "type.identifier", name: "T" }, { class: "type.identifier", name: "S" }] },
+				],
+				content: { class: "block" },
+			}))
 		})
 		this.add("abstract class", () => {
 			const classDeclaration = this.createDeclaration("abstract class Empty {}\n", handler)
 			this.expect(classDeclaration.isAbstract, Is.true)
+			this.expect(classDeclaration.serialize(), Is.equal.to({ class: "classDeclaration", symbol: "Empty", isAbstract: true, content: { class: "block" } }))
 		})
 		this.add("member fields", () => {
 			const program: string =
@@ -91,6 +123,15 @@ var f = 50.5
 			this.expect(secondField.type, Is.nullOrUndefined)
 			this.expect((secondField.value as SyntaxTree.Literal.Number).value, Is.equal.to(50.5))
 			this.expect(statements.next(), Is.nullOrUndefined)
+			this.expect(classDeclaration.serialize(), Is.equal.to({
+				class: "classDeclaration", symbol: "Foobar", content: {
+					class: "block",
+					statements: [
+						{ class: "variableDeclaration", symbol: "i", type: { class: "type.identifier", name: "Int"} , value: { class: "literal.number", value: 10 } },
+						{ class: "variableDeclaration", symbol: "f", value: { class: "literal.number", value: 50.5 } },
+					],
+				},
+			}))
 		})
 		this.add("member functions", () => {
 			const program: string =
@@ -124,6 +165,29 @@ var f = 50.5
 			this.expect((getCountFunction.returnType as SyntaxTree.Type.Identifier).name, Is.equal.to("Int"))
 			const getCountFunctionStatement = getCountFunction.body!.statements.next() as SyntaxTree.Identifier
 			this.expect(getCountFunctionStatement.name, Is.equal.to("count"))
+			this.expect(classDeclaration.serialize(), Is.equal.to({
+				class: "classDeclaration", symbol: "Foobar", content: {
+					class: "block",
+					statements: [
+						{ class: "variableDeclaration", symbol: "count", type: { class: "type.identifier", name: "Int" }, value: { class: "literal.number", value: 0 } },
+						{ class: "functionDeclaration", symbol: "init" },
+						{
+							class: "functionDeclaration", symbol: "updateCount", arguments: [{ class: "argumentDeclaration", symbol: "newCount", type: { class: "type.identifier", name: "Int" } }], body: {
+								class: "block", statements: [
+									{ class: "assignment", left: { class: "identifier", name: "count" }, right: { class: "identifier", name: "newCount" } },
+								],
+							},
+						},
+						{
+							class: "functionDeclaration", symbol: "getCount", returnType: { class: "type.identifier", name: "Int" }, body: {
+								class: "block", statements: [
+									{ class: "identifier", name: "count" },
+								],
+							},
+						},
+					],
+				},
+			}))
 		})
 	}
 	createDeclaration(sourceString: string, handler: Error.Handler): SyntaxTree.ClassDeclaration {

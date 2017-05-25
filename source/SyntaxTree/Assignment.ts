@@ -23,7 +23,7 @@ import { Identifier } from "./Identifier"
 
 export class Assignment extends Expression {
 	constructor(readonly left: Identifier, readonly right: Expression, tokens: Tokens.Substance[]) {
-		super(right.type, tokens)
+		super(undefined, tokens)
 	}
 	serialize(): { class: string } & any {
 		return {

@@ -28,6 +28,7 @@ export class CharacterTest extends Unit.Fixture {
 			const literal = SyntaxTree.Parser.parseFirst("'a'", handler)
 			this.expect(literal instanceof SyntaxTree.Literal.Character, Is.true)
 			this.expect((literal as SyntaxTree.Literal.Character).value, Is.equal.to("a"))
+			this.expect(literal!.serialize(), Is.equal.to({ class: "literal.character", value: "a" }))
 		})
 	}
 }

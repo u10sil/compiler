@@ -28,6 +28,7 @@ export class StringTest extends Unit.Fixture {
 			const literal = SyntaxTree.Parser.parseFirst("\"\\\"string\\\"\"", handler)
 			this.expect(literal instanceof SyntaxTree.Literal.String, Is.true)
 			this.expect((literal as SyntaxTree.Literal.String).value, Is.equal.to("\"string\""))
+			this.expect(literal!.serialize(), Is.equal.to({ class: "literal.string", value: "\"string\"" }))
 		})
 	}
 }

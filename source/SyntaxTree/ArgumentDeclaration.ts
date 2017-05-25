@@ -60,19 +60,6 @@ export class ArgumentDeclaration extends Declaration {
 			} while (source.peek()!.isSeparator(","))
 			if (!source.next()!.isSeparator(")"))
 				source.raise("Expected \")\"")
-			//
-			// Iterate through the argument list and assign a type to arguments whose type are not set explicitly.
-			// This is useful for cases where the argument list is written in reduced form.
-			// 	Example: foo: func (width, height: Int, x, y, z: Float)
-			//
-			let previousArgumentType = result[result.length - 1].type
-			for (let i = result.length - 1; i >= 0; i--) {
-				const currentArgumentType = result[i].type
-				if (currentArgumentType && currentArgumentType !== previousArgumentType)
-					previousArgumentType = currentArgumentType
-				if (!currentArgumentType)
-					result[i].type = previousArgumentType
-			}
 		}
 		return result
 	}

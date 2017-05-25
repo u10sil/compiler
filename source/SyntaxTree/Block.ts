@@ -31,7 +31,7 @@ export class Block extends Statement {
 	serialize(): { class: string } & any {
 		return {
 			class: "block",
-			statements: this.statementsArray.map(s => s.serialize()),
+			statements: this.statementsArray.length > 0 ? this.statementsArray.map(s => s.serialize()) : undefined,
 		}
 	}
 	static parse(source: Source): Block | undefined {

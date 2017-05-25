@@ -38,11 +38,11 @@ export class ClassDeclaration extends Declaration {
 		return {
 			...super.serialize(),
 			class: "classDeclaration",
-			isAbstract: this.isAbstract,
-			typeParameters: this.typeParametersArray.map(t => t.serialize()),
+			isAbstract: this.isAbstract || undefined,
+			typeParameters: this.typeParametersArray.length > 0 ? this.typeParametersArray.map(t => t.serialize()) : undefined,
 			extends: this.extended && this.extended.serialize(),
-			implements: this.implementedArray.map(i => i.serialize()),
-			content: this.content,
+			implements: this.implementedArray.length > 0 ? this.implementedArray.map(i => i.serialize()) : undefined,
+			content: this.content.serialize(),
 		}
 	}
 	static parse(source: Source): ClassDeclaration | undefined {

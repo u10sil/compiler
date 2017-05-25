@@ -33,7 +33,7 @@ export class Identifier extends Name {
 		return {
 			...super.serialize(),
 			class: "type.identifier",
-			arguments: this.typeParametersArray.map(t => t.serialize()),
+			arguments: this.typeParametersArray.length > 0 ? this.typeParametersArray.map(t => t.serialize()) : undefined,
 		}
 	}
 	static parse(source: Source): Identifier | undefined {

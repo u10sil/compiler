@@ -40,32 +40,39 @@ export class FunctionDeclaration extends Declaration {
 		return {
 			...super.serialize(),
 			class: "functionDeclaration",
-			modifier: this.modifier,
-			typeParameters: this.typeParametersArray.map(t => t.serialize()),
-			arguments: this.argumentsArray.map(a => a.serialize()),
+			modifier: this.modifier != FunctionModifier.None ? FunctionDeclaration.modifierToString(this.modifier) : undefined,
+			typeParameters: this.typeParametersArray.length > 0 ? this.typeParametersArray.map(t => t.serialize()) : undefined,
+			arguments: this.argumentsArray.length > 0 ? this.argumentsArray.map(a => a.serialize()) : undefined,
 			returnType: this.returnType && this.returnType.serialize(),
 			body: this.body && this.body.serialize(),
 		}
 	}
+	static modifierToString(modifier: FunctionModifier): string {
+		let result: string
+		switch (modifier) {
+			case FunctionModifier.Abstract: result = "abstract"; break
+			default:
+			case FunctionModifier.None: result = ""; break
+			case FunctionModifier.Override: result = "override"; break
+			case FunctionModifier.Static: result = "static"; break
+			case FunctionModifier.Virtual: result = "virtual"; break
+		}
+		return result
+	}
+	static parseModifier(modifier: string): FunctionModifier {
+		let result: FunctionModifier
+		switch (modifier) {
+			case "abstract": result = FunctionModifier.Abstract; break
+			default: result = FunctionModifier.None; break
+			case "override": result = FunctionModifier.Override; break
+			case "static": result = FunctionModifier.Static; break
+			case "virtual": result = FunctionModifier.Virtual; break
+		}
+		return result
+	}
 	static parse(source: Source): FunctionDeclaration | undefined {
 		let result: FunctionDeclaration | undefined
-		let modifier = FunctionModifier.None
-		switch ((source.peek() as Tokens.Identifier).name) {
-			case "static":
-				modifier = FunctionModifier.Static
-				break
-			case "abstract":
-				modifier = FunctionModifier.Abstract
-				break
-			case "virtual":
-				modifier = FunctionModifier.Virtual
-				break
-			case "override":
-				modifier = FunctionModifier.Override
-				break
-			default:
-				break
-		}
+		const modifier = FunctionDeclaration.parseModifier((source.peek() as Tokens.Identifier).name)
 		if (source.peek(modifier == FunctionModifier.None ? 0 : 1)!.isIdentifier("func") && source.next() && (modifier == FunctionModifier.None || source.next())) {
 			const symbol = Type.Name.parse(source.clone())
 			if (!symbol)

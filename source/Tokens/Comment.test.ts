@@ -29,7 +29,7 @@ export class CommentTest extends Unit.Fixture {
 			const token = Tokens.Comment.scan(source)
 			this.expect(token instanceof Tokens.Comment)
 			this.expect((token as Tokens.Comment).content, Is.equal.to("this is a line comment"))
-			this.expect(token!.serialize(), Is.equal.to({ class: "comment", content: "this is a line comment", isBlock: false }))
+			this.expect(token!.serialize(), Is.equal.to({ class: "comment", content: "this is a line comment" }))
 		})
 		this.add("block comment, single line", () => {
 			const source = new Tokens.Source(IO.StringReader.create("/*this is a block comment*/"), errorHandler)

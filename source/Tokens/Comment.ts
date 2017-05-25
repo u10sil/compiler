@@ -29,7 +29,7 @@ export class Comment extends Gap {
 		return {
 			class: "comment",
 			content: this.content,
-			isBlock: this.isBlock,
+			isBlock: this.isBlock || undefined,
 		}
 	}
 	static scan(source: Source): Token | undefined {

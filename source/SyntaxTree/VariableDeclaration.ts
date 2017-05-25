@@ -30,9 +30,9 @@ export class VariableDeclaration extends Declaration {
 	serialize(): { class: string } & any {
 		return {
 			...super.serialize(),
-			class: "VariableDeclaration",
-			isStatic: this.isStatic,
-			isConstant: this.isConstant,
+			class: "variableDeclaration",
+			isStatic: this.isStatic || undefined,
+			isConstant: this.isConstant || undefined,
 			type: this.type && this.type.serialize(),
 			value: this.value && this.value.serialize(),
 		}
