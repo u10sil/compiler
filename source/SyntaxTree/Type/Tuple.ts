@@ -36,12 +36,15 @@ export class Tuple extends Expression {
 	}
 	static parse(source: Source): Expression | undefined {
 		let result: Expression | undefined
-		if (source.peek()!.isSeparator("(")) {
+		if (source.peek()!.isSeparator("(") && source.next()) {
 			const children: Expression[] = []
-			do {
-				source.next() // consume "(" or ","
-				children.push(Expression.parse(source.clone())!)
-			} while (source.peek()!.isSeparator(","))
+			let child: Expression | undefined
+			while (child = Expression.parse(source.clone())) {
+				children.push(child)
+				if (!source.peek()!.isSeparator(","))
+					break
+				source.next() // consume ,
+			}
 			if (!source.next()!.isSeparator(")"))
 				source.raise("Expected \")\"")
 			result = new Tuple(children, source.mark())

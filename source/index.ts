@@ -33,8 +33,25 @@ export class Program {
 		const handler = new Error.ConsoleHandler()
 		switch (command) {
 			case "build":
-				console.log("build")
-				SyntaxTree.Parser.open(commands.pop(), handler)!.next()
+				{
+					console.log("build")
+					const parser = SyntaxTree.Parser.open(commands.pop(), handler)
+					if (parser) {
+						let module: SyntaxTree.Module | undefined
+						while (module = parser.next())
+							;
+					}
+				}
+				break
+			case "json":
+				{
+					const parser = SyntaxTree.Parser.open(commands.pop(), handler)
+					if (parser) {
+						let module: SyntaxTree.Module | undefined
+						while (module = parser.next())
+							console.log(JSON.stringify(module.serialize(), undefined, "\t"))
+					}
+				}
 				break
 			case "self-test":
 				process.exitCode = Unit.Fixture.run() ? 0 : 1
@@ -62,10 +79,6 @@ export class Program {
 	}
 }
 
-try {
-	const syspl = new Program(process.argv)
-	syspl.run()
-	console.log("syspl " + syspl.version)
-} catch (Error) {
-	console.log(Error.toString())
-}
+const syspl = new Program(process.argv)
+syspl.run()
+console.log("syspl " + syspl.version)

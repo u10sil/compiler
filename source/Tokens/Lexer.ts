@@ -54,6 +54,6 @@ export class Lexer implements Utilities.Iterator<Token> {
 		return code == undefined ? undefined : new Lexer(typeof code === "string" ? IO.StringReader.create(code) : code, handler)
 	}
 	static open(path: string, handler: Error.Handler): Utilities.Iterator<Token> | undefined {
-		return Lexer.create(path.slice(-4) == ".syspl" ? IO.FileReader.open(path) : IO.FolderReader.open(path, "*.syspl"), handler)
+		return Lexer.create(path.slice(-6) == ".syspl" ? IO.FileReader.open(path) : IO.FolderReader.open(path, "syspl"), handler)
 	}
 }

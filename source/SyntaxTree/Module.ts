@@ -39,12 +39,13 @@ export class Module extends Node {
 	}
 	static parse(source: Source): Module | undefined {
 		let result: Module | undefined
-		if (source.peek()) {
+		const peeked = source.peek()
+		if (peeked != undefined && !(peeked instanceof Tokens.EndOfFile)) {
 			const statements: Statement[] = []
 			let next: Statement | undefined
 			while (next = Statement.parse(source.clone()))
 				statements.push(next)
-			if (!(source.next() as Tokens.EndOfFile))
+			if (!(source.next() instanceof Tokens.EndOfFile))
 				source.raise("Missing end of file.")
 			result = new Module(statements, source.mark())
 		}

@@ -14,6 +14,17 @@
 		{
 			"type": "node",
 			"request": "launch",
+			"name": "json",
+			"program": "${workspaceRoot}/build/index.js",
+			"args": [ "json", "${workspaceRoot}/example" ],
+			"protocol": "inspector",
+			"preLaunchTask": "build",
+			"sourceMaps": true,
+			"outFiles": [ "${workspaceRoot}/build/**/*.js" ]
+		},
+		{
+			"type": "node",
+			"request": "launch",
 			"name": "unit tests",
 			"program": "${workspaceRoot}/build/index.test.js",
 			"args": [ "debug" ],
