@@ -31,7 +31,7 @@ export abstract class Expression extends Node {
 		Expression.typeParsers.push(parser)
 	}
 	static tryParse(source: Source): Expression | undefined {
-		return source.peek()!.isSeparator(":") && source.next() ? Expression.parse(source.clone()) : undefined
+		return source.peek()!.isSeparator(":") && source.next() ? Expression.parse(source) : undefined
 	}
 	static parse(source: Source): Expression | undefined {
 		let result: Expression | undefined

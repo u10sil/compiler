@@ -20,8 +20,9 @@ import * as Tokens from "../../Tokens"
 import * as Type from "../Type"
 import { Source } from "../Source"
 import { Expression } from "../Expression"
+import { Abstract } from "./Abstract"
 
-export class Character extends Expression {
+export class Character extends Abstract {
 	constructor(readonly value: string, type: Type.Expression | undefined, tokens: Tokens.Substance[]) {
 		super(type, tokens)
 	}
@@ -31,11 +32,13 @@ export class Character extends Expression {
 			value: this.value,
 		}
 	}
-	static parse(source: Source): Character | undefined {
-		let result: Character | undefined
-		if (source.peek() instanceof Tokens.Literals.Character)
-			result = new Character((source.next() as Tokens.Literals.Character).value, Type.Expression.tryParse(source.clone()), source.mark())
+	static parse(source: Source, precedance: number, previous?: Expression): Expression | undefined {
+		let result: Expression | undefined
+		if (!previous && source.peek() instanceof Tokens.Literals.Character) {
+			result = new Character((source.next() as Tokens.Literals.Character).value, Type.Expression.tryParse(source), source.mark())
+			result = Expression.parse(source, result.precedence, result)
+		}
 		return result
 	}
 }
-Expression.addParser(Character.parse)
+Expression.addExpressionParser(Character.parse)

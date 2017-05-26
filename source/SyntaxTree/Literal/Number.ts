@@ -20,8 +20,9 @@ import * as Tokens from "../../Tokens"
 import * as Type from "../Type"
 import { Source } from "../Source"
 import { Expression } from "../Expression"
+import { Abstract } from "./Abstract"
 
-export class Number extends Expression {
+export class Number extends Abstract {
 	constructor(readonly value: number, type: Type.Expression | undefined, tokens: Tokens.Substance[]) {
 		super(type, tokens)
 	}
@@ -31,11 +32,13 @@ export class Number extends Expression {
 			value: this.value,
 		}
 	}	// tslint:disable:ban-types no-construct
-	static parse(source: Source): Number | undefined {
-		let result: Number | undefined
-		if (source.peek() instanceof Tokens.Literals.Number)
-			result = new Number((source.next() as Tokens.Literals.Number).value, Type.Expression.tryParse(source.clone()), source.mark())
+	static parse(source: Source, precedance: number, previous?: Expression): Expression | undefined {
+		let result: Expression | undefined
+		if (!previous && source.peek() instanceof Tokens.Literals.Number) {
+			result = new Number((source.next() as Tokens.Literals.Number).value, Type.Expression.tryParse(source), source.mark())
+			result = Expression.parse(source, result.precedence, result)
+		}
 		return result
 	}
 }
-Expression.addParser(Number.parse)
+Expression.addExpressionParser(Number.parse)

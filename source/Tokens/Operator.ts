@@ -31,8 +31,8 @@ export class Operator extends Substance {
 			symbol: this.symbol,
 		}
 	}
-	isOperator(symbol?: string): boolean {
-		return !symbol || symbol == this.symbol
+	isOperator(symbol?: string | ((symbol: string) => boolean)): boolean {
+		return symbol == undefined || (typeof(symbol) == "string" ? symbol == this.symbol : symbol(this.symbol))
 	}
 	static scan(source: Source): Token | undefined {
 		let result: Token | undefined
@@ -151,7 +151,7 @@ export class Operator extends Substance {
 				break
 			case ".":
 				switch (source.peek(2)) {
-					default: /* separator */ break
+					default: result = new Operator(source.read()!, source.mark()); break
 					case "..":
 						switch (source.peek(3)) {
 							default: result = new Operator(source.read(2)!, source.mark()); break

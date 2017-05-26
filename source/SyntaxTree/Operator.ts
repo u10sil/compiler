@@ -1,4 +1,4 @@
-// Copyright (C) 2015, 2017  Simon Mika <simon@mika.se>
+// Copyright (C) 2017  Simon Mika <simon@mika.se>
 //
 // This file is part of SysPL.
 //
@@ -16,27 +16,12 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Error } from "@cogneco/mend"
+import * as Tokens from "../Tokens"
+import * as Type from "./Type"
+import { Expression } from "./Expression"
 
-export abstract class Token {
-	constructor(readonly region?: Error.Region) { }
-	abstract serialize(): { class: string } & any
-	toString() {
-		return this.region ? this.region.toString() : ""
-	}
-	isSeparator(symbol?: string): boolean {
-		return false
-	}
-	isIdentifier(name?: string): boolean {
-		return false
-	}
-	isOperator(symbol?: string | ((symbol: string) => boolean)): boolean {
-		return false
-	}
-	isWhitespace(content?: string): boolean {
-		return false
-	}
-	isLiteral(): boolean {
-		return false
+export abstract class Operator extends Expression {
+	constructor(type: Type.Expression | undefined, tokens: Tokens.Substance[]) {
+		super(type, tokens)
 	}
 }

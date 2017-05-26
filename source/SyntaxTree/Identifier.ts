@@ -29,6 +29,7 @@ import { Expression } from "./Expression"
 // 		DiscardedIdentifier	: (a, b, _), where '_' is the discarded identifier
 //
 export class Identifier extends Expression {
+	get precedence() { return Number.MAX_VALUE }
 	constructor(readonly name: string, type: Type.Expression | undefined, tokens: Tokens.Substance[]) {
 		super(type, tokens)
 	}
@@ -38,11 +39,11 @@ export class Identifier extends Expression {
 			name: this.name,
 		}
 	}
-	static parse(source: Source): Identifier | undefined {
-		let result: Identifier | undefined
-		if (source.peek()!.isIdentifier() /*&& !source.peek(1).isOperator() && !source.peek(1).isSeparator()*/)
-			result = new Identifier((source.next() as Tokens.Identifier).name, Type.Expression.tryParse(source.clone()), source.mark())
+	static parse(source: Source, precedance: number, previous?: Expression): Expression | undefined {
+		let result: Expression | undefined
+		if (!previous && source.peek()!.isIdentifier() /*&& !source.peek(1).isOperator() && !source.peek(1).isSeparator()*/)
+			result = Expression.parse(source, precedance, new Identifier((source.next() as Tokens.Identifier).name, Type.Expression.tryParse(source), source.mark()))
 		return result
 	}
 }
-Expression.addParser(Identifier.parse, 10)
+Expression.addExpressionParser(Identifier.parse, 10)

@@ -17,7 +17,6 @@
 //
 
 import { ArgumentDeclaration } from "./ArgumentDeclaration"
-import { Assignment } from "./Assignment"
 import { Block } from "./Block"
 import { ClassDeclaration } from "./ClassDeclaration"
 import { Declaration } from "./Declaration"
@@ -25,6 +24,7 @@ import { Expression } from "./Expression"
 import { FunctionDeclaration } from "./FunctionDeclaration"
 import { FunctionModifier } from "./FunctionModifier"
 import { Identifier } from "./Identifier"
+import { InfixOperator } from "./InfixOperator"
 import * as Literal from "./Literal"
 import { Module } from "./Module"
 import { Node } from "./Node"
@@ -36,7 +36,6 @@ import { VariableDeclaration } from "./VariableDeclaration"
 
 export {
 	ArgumentDeclaration,
-	Assignment,
 	Block,
 	ClassDeclaration,
 	Declaration,
@@ -44,6 +43,7 @@ export {
 	FunctionDeclaration,
 	FunctionModifier,
 	Identifier,
+	InfixOperator,
 	Literal,
 	Module,
 	Node,

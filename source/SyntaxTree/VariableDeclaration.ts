@@ -52,7 +52,7 @@ export class VariableDeclaration extends Declaration {
 			const type = Type.Expression.tryParse(source.clone())
 			let value: Expression | undefined
 			if (source.peek()!.isOperator("=") && source.next())
-				value = Expression.parse(source.clone())
+				value = Expression.parse(source, 90)
 			result = new VariableDeclaration(name!, isStatic, isConstant, type, value, source.mark())
 		}
 		return result

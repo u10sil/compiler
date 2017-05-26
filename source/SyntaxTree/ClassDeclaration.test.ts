@@ -174,7 +174,7 @@ var f = 50.5
 						{
 							class: "functionDeclaration", symbol: "updateCount", arguments: [{ class: "argumentDeclaration", symbol: "newCount", type: { class: "type.identifier", name: "Int" } }], body: {
 								class: "block", statements: [
-									{ class: "assignment", left: { class: "identifier", name: "count" }, right: { class: "identifier", name: "newCount" } },
+									{ class: "infixOperator", symbol: "=", left: { class: "identifier", name: "count" }, right: { class: "identifier", name: "newCount" } },
 								],
 							},
 						},

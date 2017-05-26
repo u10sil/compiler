@@ -39,7 +39,7 @@ export class ArgumentDeclaration extends Declaration {
 			// handles cases "x" and "x: Type"
 			//
 			const symbol = (source.next() as Tokens.Identifier).name
-			const type = Type.Expression.tryParse(source.clone())
+			const type = Type.Expression.tryParse(source)
 			result = new ArgumentDeclaration(symbol, type, source.mark())
 		} else if (source.peek()!.isOperator("=") || source.peek()!.isSeparator(".")) {
 			//
