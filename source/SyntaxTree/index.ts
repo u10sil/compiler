@@ -21,6 +21,7 @@ import { Block } from "./Block"
 import { ClassDeclaration } from "./ClassDeclaration"
 import { Declaration } from "./Declaration"
 import { Expression } from "./Expression"
+import { FunctionCall } from "./FunctionCall"
 import { FunctionDeclaration } from "./FunctionDeclaration"
 import { FunctionModifier } from "./FunctionModifier"
 import { Identifier } from "./Identifier"
@@ -32,6 +33,7 @@ import { Parser } from "./Parser"
 import { Source } from "./Source"
 import { Statement } from "./Statement"
 import * as Type from "./Type"
+import { Tuple } from "./Tuple"
 import { VariableDeclaration } from "./VariableDeclaration"
 
 export {
@@ -40,6 +42,7 @@ export {
 	ClassDeclaration,
 	Declaration,
 	Expression,
+	FunctionCall,
 	FunctionDeclaration,
 	FunctionModifier,
 	Identifier,
@@ -50,6 +53,7 @@ export {
 	Parser,
 	Source,
 	Statement,
+	Tuple,
 	Type,
 	VariableDeclaration,
 }

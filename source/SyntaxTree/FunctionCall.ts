@@ -1,4 +1,4 @@
-// Copyright (C) 2015, 2017  Simon Mika <simon@mika.se>
+// Copyright (C) 2017  Simon Mika <simon@mika.se>
 //
 // This file is part of SysPL.
 //
@@ -20,23 +20,28 @@ import * as Tokens from "../Tokens"
 import * as Type from "./Type"
 import { Source } from "./Source"
 import { Expression } from "./Expression"
+import { Tuple } from "./Tuple"
 
-export class Identifier extends Expression {
+export class FunctionCall extends Expression {
 	get precedence() { return Number.MAX_VALUE }
-	constructor(readonly name: string, type: Type.Expression | undefined, tokens: Tokens.Substance[]) {
+	constructor(readonly functionExpression: Expression, readonly argumentArray: Expression[], type: Type.Expression | undefined, tokens: Tokens.Substance[]) {
 		super(type, tokens)
 	}
 	serialize(): { class: string } & any {
 		return {
-			class: "identifier",
-			name: this.name,
+			class: "functionCall",
+			function: this.functionExpression,
+			arguments: this.argumentArray.length > 0 ? this.argumentArray.map(e => e.serialize()) : undefined,
 		}
 	}
 	static parse(source: Source, precedance: number, previous?: Expression): Expression | undefined {
 		let result: Expression | undefined
-		if (!previous && source.peek()!.isIdentifier())
-			result = Expression.parse(source, precedance, new Identifier((source.next() as Tokens.Identifier).name, Type.Expression.tryParse(source), source.mark()))
+		if (previous && source.peek()!.isSeparator("(")) {
+			const elements = Tuple.parseElements(source)
+			result = Expression.parse(source, precedance, new FunctionCall(previous, elements, Type.Expression.tryParse(source), source.mark()))
+		}
+		result = undefined
 		return result
 	}
 }
-Expression.addExpressionParser(Identifier.parse, 10)
+Expression.addExpressionParser(FunctionCall.parse, 10)
