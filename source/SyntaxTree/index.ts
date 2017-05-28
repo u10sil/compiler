@@ -30,6 +30,8 @@ import * as Literal from "./Literal"
 import { Module } from "./Module"
 import { Node } from "./Node"
 import { Parser } from "./Parser"
+import { PostfixOperator } from "./PostfixOperator"
+import { PrefixOperator } from "./PrefixOperator"
 import { Source } from "./Source"
 import { Statement } from "./Statement"
 import * as Type from "./Type"
@@ -51,6 +53,8 @@ export {
 	Module,
 	Node,
 	Parser,
+	PostfixOperator,
+	PrefixOperator,
 	Source,
 	Statement,
 	Tuple,

@@ -173,7 +173,7 @@ export class OperatorTest extends Unit.Fixture {
 			this.expect(token!.serialize(), Is.equal.to({ class: "operator", symbol: "!=" }))
 		})
 		this.add("unary", () => {
-			const source = new Tokens.Source(IO.StringReader.create("!@~?"), errorHandler)
+			const source = new Tokens.Source(IO.StringReader.create("!@~--?++"), errorHandler)
 			let token: Tokens.Token | undefined
 			this.expect((token = Tokens.Operator.scan(source)) instanceof Tokens.Operator)
 			this.expect((token as Tokens.Operator).symbol, Is.equal.to("!"))
@@ -185,8 +185,14 @@ export class OperatorTest extends Unit.Fixture {
 			this.expect((token as Tokens.Operator).symbol, Is.equal.to("~"))
 			this.expect(token!.serialize(), Is.equal.to({ class: "operator", symbol: "~" }))
 			this.expect((token = Tokens.Operator.scan(source)) instanceof Tokens.Operator)
+			this.expect((token as Tokens.Operator).symbol, Is.equal.to("--"))
+			this.expect(token!.serialize(), Is.equal.to({ class: "operator", symbol: "--" }))
+			this.expect((token = Tokens.Operator.scan(source)) instanceof Tokens.Operator)
 			this.expect((token as Tokens.Operator).symbol, Is.equal.to("?"))
 			this.expect(token!.serialize(), Is.equal.to({ class: "operator", symbol: "?" }))
+			this.expect((token = Tokens.Operator.scan(source)) instanceof Tokens.Operator)
+			this.expect((token as Tokens.Operator).symbol, Is.equal.to("++"))
+			this.expect(token!.serialize(), Is.equal.to({ class: "operator", symbol: "++" }))
 		})
 		this.add("misfits", () => {
 			const source = new Tokens.Source(IO.StringReader.create("..->=>..."), errorHandler)

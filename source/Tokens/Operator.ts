@@ -37,7 +37,7 @@ export class Operator extends Substance {
 	static scan(source: Source): Token | undefined {
 		let result: Token | undefined
 		switch (source.peek()) {
-				case "@": result = new Operator(source.read()!, source.mark()); break
+			case "@": result = new Operator(source.read()!, source.mark()); break
 			case "+":
 				switch (source.peek(2)) {
 					default: result = new Operator(source.read()!, source.mark()); break
@@ -48,6 +48,7 @@ export class Operator extends Substance {
 			case "-":
 				switch (source.peek(2)) {
 					default: result = new Operator(source.read()!, source.mark()); break
+					case "--": result = new Operator(source.read(2)!, source.mark()); break
 					case "-=": result = new Operator(source.read(2)!, source.mark()); break
 					case "->": result = new Operator(source.read(2)!, source.mark()); break
 				}

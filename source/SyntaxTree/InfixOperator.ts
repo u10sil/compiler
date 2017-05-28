@@ -36,7 +36,7 @@ export class InfixOperator extends Expression {
 	static parse(source: Source, precedance: number, previous?: Expression): Expression | undefined {
 		let result: Expression | undefined
 		let properties: [number, Associativity] | undefined
-		if (source.peek()!.isOperator(o => (properties = InfixOperator.getProperties(o)) != undefined) && precedance < properties![0]) {
+		if (previous && source.peek()!.isOperator(o => (properties = InfixOperator.getProperties(o)) != undefined) && precedance < properties![0]) {
 			const symbol = (source.next() as Tokens.Operator).symbol
 			if (!previous)
 				source.raise("Missing left hand of infix operator " + symbol)
