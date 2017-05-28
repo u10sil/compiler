@@ -23,24 +23,23 @@ import { Expression } from "./Expression"
 import { Tuple } from "./Tuple"
 
 export class FunctionCall extends Expression {
-	get precedence() { return Number.MAX_VALUE }
+	get precedence() { return 200 }
 	constructor(readonly functionExpression: Expression, readonly argumentArray: Expression[], type: Type.Expression | undefined, tokens: Tokens.Substance[]) {
 		super(type, tokens)
 	}
 	serialize(): { class: string } & any {
 		return {
 			class: "functionCall",
-			function: this.functionExpression,
+			function: this.functionExpression.serialize(),
 			arguments: this.argumentArray.length > 0 ? this.argumentArray.map(e => e.serialize()) : undefined,
 		}
 	}
 	static parse(source: Source, precedance: number, previous?: Expression): Expression | undefined {
 		let result: Expression | undefined
-		if (previous && source.peek()!.isSeparator("(")) {
+		if (previous && source.peek()!.isSeparator("(") && precedance < 200) {
 			const elements = Tuple.parseElements(source)
 			result = Expression.parse(source, precedance, new FunctionCall(previous, elements, Type.Expression.tryParse(source), source.mark()))
 		}
-		result = undefined
 		return result
 	}
 }

@@ -33,6 +33,8 @@ export class Tuple extends Expression {
 		}
 	}
 	static parseElements(source: Source) {
+		if (!source.next()!.isSeparator("("))
+			source.raise("Expected start parenthesis.")
 		const result: Expression[] = []
 		if (!source.peek()!.isSeparator(")"))
 			do {
@@ -48,12 +50,11 @@ export class Tuple extends Expression {
 	}
 	static parse(source: Source, precedance: number, previous?: Expression): Expression | undefined {
 		let result: Expression | undefined
-		if (!previous && source.peek()!.isSeparator("(") && source.next()) {
+		if (!previous && source.peek()!.isSeparator("(")) {
 			const elements = Tuple.parseElements(source)
 			result = elements.length == 1 ? elements[0] : new Tuple(elements, Type.Expression.tryParse(source), source.mark())
 			result = Expression.parse(source, precedance, result)
 		}
-		result = undefined
 		return result
 	}
 }
