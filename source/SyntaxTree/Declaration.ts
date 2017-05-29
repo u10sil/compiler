@@ -21,7 +21,7 @@ import * as Type from "./Type"
 import { Source } from "./Source"
 import { Statement } from "./Statement"
 
-export class Declaration extends Statement {
+export abstract class Declaration extends Statement {
 	constructor(readonly symbol: string, tokens: Tokens.Substance[]) {
 		super(tokens)
 	}
