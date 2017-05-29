@@ -24,7 +24,7 @@ export class Function extends Expression {
 	get arguments(): Utilities.Iterator<Expression> {
 		return new Utilities.ArrayIterator(this.argumentArray)
 	}
-	constructor(private argumentArray: Expression[], readonly result: Expression, tokens: Tokens.Substance[]) {
+	constructor(private argumentArray: Expression[], readonly result: Expression, tokens: () => Utilities.Iterator<Tokens.Substance>) {
 		super(tokens)
 	}
 	serialize(): { class: string } & any {

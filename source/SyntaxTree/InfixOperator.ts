@@ -16,13 +16,14 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../Tokens"
 import { Source } from "./Source"
 import { Expression } from "./Expression"
 import { Associativity } from "./Associativity"
 
 export class InfixOperator extends Expression {
-	constructor(readonly symbol: string, readonly precedence: number, readonly associativity: Associativity, readonly left: Expression, readonly right: Expression, tokens: Tokens.Substance[]) {
+	constructor(readonly symbol: string, readonly precedence: number, readonly associativity: Associativity, readonly left: Expression, readonly right: Expression, tokens: () => Utilities.Iterator<Tokens.Substance>) {
 		super(undefined, tokens)
 	}
 	serialize(): { class: string } & any {

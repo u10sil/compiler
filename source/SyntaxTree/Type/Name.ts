@@ -16,12 +16,13 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+import { Utilities } from "@cogneco/mend"
 import { Source } from "../Source"
 import { Expression } from "./Expression"
 import * as Tokens from "../../Tokens"
 
 export class Name extends Expression {
-	constructor(readonly name: string, tokens: Tokens.Substance[]) {
+	constructor(readonly name: string, tokens: () => Utilities.Iterator<Tokens.Substance>) {
 		super(tokens)
 	}
 	serialize(): { class: string } & any {

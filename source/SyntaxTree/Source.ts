@@ -39,10 +39,10 @@ export class Source implements Utilities.Iterator<Tokens.Substance>, Error.Handl
 			this.lastTokens.push(result)
 		return result
 	}
-	mark(): Tokens.Substance[] {
+	mark(): () => Utilities.Iterator<Tokens.Substance> {
 		const result = this.lastTokens
 		this.lastTokens = []
-		return result
+		return () => new Utilities.ArrayIterator(result)
 	}
 	raise(message: string | Error.Message, level: Error.Level = Error.Level.Critical, type: Error.Type = Error.Type.Gramatical, region?: Error.Region): void {
 		if (typeof message == "string") {

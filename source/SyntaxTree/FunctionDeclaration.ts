@@ -33,7 +33,7 @@ export class FunctionDeclaration extends SymbolDeclaration {
 	get argumentList(): Utilities.Iterator<ArgumentDeclaration> {
 		return new Utilities.ArrayIterator(this.argumentsArray)
 	}
-	constructor(symbol: Type.Name, readonly modifier: FunctionModifier, private typeParametersArray: Type.Name[], private argumentsArray: ArgumentDeclaration[], readonly returnType: Type.Expression | undefined, readonly body: Block | undefined, tokens: Tokens.Substance[]) {
+	constructor(symbol: Type.Name, readonly modifier: FunctionModifier, private typeParametersArray: Type.Name[], private argumentsArray: ArgumentDeclaration[], readonly returnType: Type.Expression | undefined, readonly body: Block | undefined, tokens: () => Utilities.Iterator<Tokens.Substance>) {
 		super(symbol.name, tokens)
 	}
 	serialize(): { class: string } & any {

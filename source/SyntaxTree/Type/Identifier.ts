@@ -26,7 +26,7 @@ export class Identifier extends Name {
 	get typeParameters(): Utilities.Iterator<Identifier> {
 		return new Utilities.ArrayIterator(this.typeParametersArray)
 	}
-	constructor(name: string, private typeParametersArray: Identifier[], tokens: Tokens.Substance[]) {
+	constructor(name: string, private typeParametersArray: Identifier[], tokens: () => Utilities.Iterator<Tokens.Substance>) {
 		super(name, tokens)
 	}
 	serialize(): { class: string } & any {

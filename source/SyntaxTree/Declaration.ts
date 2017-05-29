@@ -16,13 +16,14 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../Tokens"
 import * as Type from "./Type"
 import { Source } from "./Source"
 import { Statement } from "./Statement"
 
 export abstract class Declaration extends Statement {
-	constructor(readonly symbol: string, tokens: Tokens.Substance[]) {
+	constructor(readonly symbol: string, tokens: () => Utilities.Iterator<Tokens.Substance>) {
 		super(tokens)
 	}
 	serialize(): { class: string } & any {

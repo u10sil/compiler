@@ -16,13 +16,14 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+import { Utilities } from "@cogneco/mend"
 import { Source } from "./Source"
 import * as Tokens from "../Tokens"
 import { Declaration } from "./Declaration"
 import * as Type from "./Type"
 
 export class ArgumentDeclaration extends Declaration {
-	constructor(symbol: string, public /* TODO: syntax tree should be immutable */ type: Type.Expression | undefined, tokens: Tokens.Substance[]) {
+	constructor(symbol: string, public /* TODO: syntax tree should be immutable */ type: Type.Expression | undefined, tokens: () => Utilities.Iterator<Tokens.Substance>) {
 		super(symbol, tokens)
 	}
 	serialize(): { class: string } & any {

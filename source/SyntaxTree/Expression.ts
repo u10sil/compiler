@@ -16,6 +16,7 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../Tokens"
 import * as Type from "./Type"
 import { Statement } from "./Statement"
@@ -23,7 +24,7 @@ import { Source } from "./Source"
 
 export abstract class Expression extends Statement {
 	abstract get precedence(): number
-	constructor(readonly type: Type.Expression | undefined, tokens: Tokens.Substance[]) {
+	constructor(readonly type: Type.Expression | undefined, tokens: () => Utilities.Iterator<Tokens.Substance>) {
 		super(tokens)
 	}
 	private static expressionParsers: { parse: ((source: Source, precedence: number, previous: Expression | undefined) => Expression | undefined), priority: number }[] = []

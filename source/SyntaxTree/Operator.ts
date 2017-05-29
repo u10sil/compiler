@@ -16,12 +16,13 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../Tokens"
 import * as Type from "./Type"
 import { Expression } from "./Expression"
 
 export abstract class Operator extends Expression {
-	constructor(type: Type.Expression | undefined, tokens: Tokens.Substance[]) {
+	constructor(type: Type.Expression | undefined, tokens: () => Utilities.Iterator<Tokens.Substance>) {
 		super(type, tokens)
 	}
 }

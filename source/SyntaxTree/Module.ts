@@ -23,13 +23,11 @@ import { Statement } from "./Statement"
 import { Node } from "./Node"
 
 export class Module extends Node {
-	private namespace: string[]
 	get statements(): Utilities.Iterator<Statement> {
 		return new Utilities.ArrayIterator(this.statementsArray)
 	}
-	constructor(private statementsArray: Statement[], tokens: Tokens.Substance[]) {
+	constructor(private statementsArray: Statement[], tokens: () => Utilities.Iterator<Tokens.Substance>) {
 		super(tokens)
-		this.namespace = tokens[0].region!.resource.split("/")
 	}
 	serialize(): { class: string } & any {
 		return {

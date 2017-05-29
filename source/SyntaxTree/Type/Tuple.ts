@@ -25,7 +25,7 @@ export class Tuple extends Expression {
 	get children(): Utilities.Iterator<Expression> {
 		return new Utilities.ArrayIterator(this.childrenArray)
 	}
-	constructor(private childrenArray: Expression[], tokens: Tokens.Substance[]) {
+	constructor(private childrenArray: Expression[], tokens: () => Utilities.Iterator<Tokens.Substance>) {
 		super(tokens)
 	}
 	serialize(): { class: string } & any {

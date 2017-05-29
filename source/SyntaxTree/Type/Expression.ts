@@ -16,14 +16,14 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../../Tokens"
-
 import { Source } from "../Source"
 import { Node } from "../Node"
 import { Statement } from "../Statement"
 
 export abstract class Expression extends Node {
-	constructor(tokens: Tokens.Substance[]) {
+	constructor(tokens: () => Utilities.Iterator<Tokens.Substance>) {
 		super(tokens)
 	}
 	private static typeParsers: ((source: Source) => Expression | undefined)[] = []

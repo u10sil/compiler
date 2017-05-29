@@ -16,12 +16,13 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+import { Utilities } from "@cogneco/mend"
 import { Source } from "./Source"
 import { Node } from "./Node"
 import * as Tokens from "../Tokens"
 
 export abstract class Statement extends Node {
-	constructor(tokens: Tokens.Substance[]) {
+	constructor(tokens: () => Utilities.Iterator<Tokens.Substance>) {
 		super(tokens)
 	}
 	private static statementParsers: { parse: ((source: Source) => Statement | undefined), priority: number }[] = []

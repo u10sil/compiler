@@ -16,6 +16,7 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../Tokens"
 import { Source } from "./Source"
 import { Statement } from "./Statement"
@@ -24,7 +25,7 @@ import { Expression } from "./Expression"
 import * as Type from "./Type"
 
 export class VariableDeclaration extends SymbolDeclaration {
-	constructor(name: Type.Name, readonly isStatic: boolean, readonly isConstant: boolean, readonly type: Type.Expression | undefined, readonly value: Expression | undefined, tokens: Tokens.Substance[]) {
+	constructor(name: Type.Name, readonly isStatic: boolean, readonly isConstant: boolean, readonly type: Type.Expression | undefined, readonly value: Expression | undefined, tokens: () => Utilities.Iterator<Tokens.Substance>) {
 		super(name.name, tokens)
 	}
 	serialize(): { class: string } & any {

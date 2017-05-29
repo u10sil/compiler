@@ -16,11 +16,12 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../Tokens"
 import { Declaration } from "./Declaration"
 
 export abstract class TypeDeclaration extends Declaration {
-	constructor(symbol: string, tokens: Tokens.Substance[]) {
+	constructor(symbol: string, tokens: () => Utilities.Iterator<Tokens.Substance>) {
 		super(symbol, tokens)
 	}
 }
