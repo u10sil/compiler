@@ -20,13 +20,13 @@ import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../Tokens"
 import { Source } from "./Source"
 import { Statement } from "./Statement"
-import { Declaration } from "./Declaration"
+import { SymbolDeclaration } from "./SymbolDeclaration"
 import * as Type from "./Type"
 import { ArgumentDeclaration } from "./ArgumentDeclaration"
 import { Block } from "./Block"
 import { FunctionModifier } from "./FunctionModifier"
 
-export class FunctionDeclaration extends Declaration {
+export class FunctionDeclaration extends SymbolDeclaration {
 	get typeParameters(): Utilities.Iterator<Type.Name> {
 		return new Utilities.ArrayIterator(this.typeParametersArray)
 	}
@@ -78,7 +78,7 @@ export class FunctionDeclaration extends Declaration {
 			if (!symbol)
 				source.raise("Expected symbol in function declaration.")
 			// TODO: add overload name parsing: ~overloadName
-			const typeParameters = Declaration.parseTypeParameters(source.clone())
+			const typeParameters = SymbolDeclaration.parseTypeParameters(source.clone())
 			const argumentList = ArgumentDeclaration.parseAll(source.clone())
 			let returnType: Type.Expression | undefined
 			if (source.peek()!.isOperator("->")) {

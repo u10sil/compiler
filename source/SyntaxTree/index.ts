@@ -34,8 +34,10 @@ import { PostfixOperator } from "./PostfixOperator"
 import { PrefixOperator } from "./PrefixOperator"
 import { Source } from "./Source"
 import { Statement } from "./Statement"
+import { SymbolDeclaration } from "./SymbolDeclaration"
 import * as Type from "./Type"
 import { Tuple } from "./Tuple"
+import { TypeDeclaration } from "./TypeDeclaration"
 import { VariableDeclaration } from "./VariableDeclaration"
 
 export {
@@ -57,7 +59,9 @@ export {
 	PrefixOperator,
 	Source,
 	Statement,
+	SymbolDeclaration,
 	Tuple,
 	Type,
+	TypeDeclaration,
 	VariableDeclaration,
 }

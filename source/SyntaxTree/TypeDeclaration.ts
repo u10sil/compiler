@@ -17,30 +17,10 @@
 //
 
 import * as Tokens from "../Tokens"
-import * as Type from "./Type"
-import { Source } from "./Source"
-import { Statement } from "./Statement"
+import { Declaration } from "./Declaration"
 
-export abstract class Declaration extends Statement {
-	constructor(readonly symbol: string, tokens: Tokens.Substance[]) {
-		super(tokens)
-	}
-	serialize(): { class: string } & any {
-		return {
-			symbol: this.symbol,
-		}
-	}
-	static parseTypeParameters(source: Source): Type.Name[] {
-		const result: Type.Name[] = []
-		if (source.peek()!.isOperator("<")) {
-			do {
-				source.next() // consume "<" or ","
-				if (!source.peek()!.isIdentifier())
-					source.raise("Expected type parameter")
-				result.push(Type.Name.parse(source.clone())!)
-			} while (source.peek()!.isSeparator(","))
-			source.next() // consume ">"
-		}
-		return result
+export abstract class TypeDeclaration extends Declaration {
+	constructor(symbol: string, tokens: Tokens.Substance[]) {
+		super(symbol, tokens)
 	}
 }

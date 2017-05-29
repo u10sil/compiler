@@ -19,11 +19,11 @@
 import * as Tokens from "../Tokens"
 import { Source } from "./Source"
 import { Statement } from "./Statement"
-import { Declaration } from "./Declaration"
+import { SymbolDeclaration } from "./SymbolDeclaration"
 import { Expression } from "./Expression"
 import * as Type from "./Type"
 
-export class VariableDeclaration extends Declaration {
+export class VariableDeclaration extends SymbolDeclaration {
 	constructor(name: Type.Name, readonly isStatic: boolean, readonly isConstant: boolean, readonly type: Type.Expression | undefined, readonly value: Expression | undefined, tokens: Tokens.Substance[]) {
 		super(name.name, tokens)
 	}

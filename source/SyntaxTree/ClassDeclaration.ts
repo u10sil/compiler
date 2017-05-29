@@ -20,11 +20,11 @@ import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../Tokens"
 import { Source } from "./Source"
 import { Statement } from "./Statement"
-import { Declaration } from "./Declaration"
+import { TypeDeclaration } from "./TypeDeclaration"
 import * as Type from "./Type"
 import { Block } from "./Block"
 
-export class ClassDeclaration extends Declaration {
+export class ClassDeclaration extends TypeDeclaration {
 	get typeParameters(): Utilities.Iterator<Type.Name> {
 		return new Utilities.ArrayIterator(this.typeParametersArray)
 	}
@@ -45,14 +45,14 @@ export class ClassDeclaration extends Declaration {
 			content: this.content.serialize(),
 		}
 	}
-	static parse(source: Source): ClassDeclaration | undefined {
-		let result: ClassDeclaration | undefined
+	static parse(source: Source): Statement | undefined {
+		let result: Statement | undefined
 		const isAbstract = source.peek()!.isIdentifier("abstract")
 		if (source.peek(isAbstract ? 1 : 0)!.isIdentifier("class") && source.next() && (!isAbstract || source.next())) {
 			const symbol = Type.Name.parse(source.clone())
 			if (!symbol)
 				source.raise("Expected symbol in class declaration.")
-			const typeParameters = Declaration.parseTypeParameters(source.clone())
+			const typeParameters = TypeDeclaration.parseTypeParameters(source.clone())
 			let extended: Type.Identifier | undefined
 			if (source.peek()!.isIdentifier("extends")) {
 				source.next() // consume "extends"
