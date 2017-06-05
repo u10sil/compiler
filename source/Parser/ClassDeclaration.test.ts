@@ -17,7 +17,8 @@
 //
 
 import { Error, Unit } from "@cogneco/mend"
-import * as SyntaxTree from "./"
+import * as SyntaxTree from "../SyntaxTree"
+import * as Parser from "./"
 
 import Is = Unit.Is
 export class ClassDeclarationTest extends Unit.Fixture {
@@ -191,7 +192,7 @@ var f = 50.5
 		})
 	}
 	createDeclaration(sourceString: string, handler: Error.Handler): SyntaxTree.ClassDeclaration {
-		return SyntaxTree.Parser.parseFirst(sourceString, handler) as SyntaxTree.ClassDeclaration
+		return Parser.parseFirst(sourceString, handler) as SyntaxTree.ClassDeclaration
 	}
 }
 Unit.Fixture.add(new ClassDeclarationTest())

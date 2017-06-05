@@ -19,9 +19,7 @@
 import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../Tokens"
 import * as Type from "./Type"
-import { Source } from "./Source"
 import { Expression } from "./Expression"
-import { Tuple } from "./Tuple"
 
 export class FunctionCall extends Expression {
 	get precedence() { return 200 }
@@ -35,13 +33,4 @@ export class FunctionCall extends Expression {
 			arguments: this.argumentArray.length > 0 ? this.argumentArray.map(e => e.serialize()) : undefined,
 		}
 	}
-	static parse(source: Source, precedance: number, previous?: Expression): Expression | undefined {
-		let result: Expression | undefined
-		if (previous && source.peek()!.isSeparator("(") && precedance < 200) {
-			const elements = Tuple.parseElements(source)
-			result = Expression.parse(source, precedance, new FunctionCall(previous, elements, Type.Expression.tryParse(source), source.mark()))
-		}
-		return result
-	}
 }
-Expression.addExpressionParser(FunctionCall.parse, 10)

@@ -16,9 +16,18 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Unit } from "@cogneco/mend"
+import * as Type from "./Type"
+import { Source } from "./Source"
+import * as Expression from "./Expression"
+import * as Tuple from "./Tuple"
+import * as SyntaxTree from "../SyntaxTree"
 
-import "./Tokens/index.test"
-import "./Parser/index.test"
-
-process.exit(Unit.Fixture.run(process.argv.length > 2 && process.argv[2] == "debug") ? 0 : 1)
+export function parse(source: Source, precedance: number, previous?: SyntaxTree.Expression): SyntaxTree.Expression | undefined {
+	let result: SyntaxTree.Expression | undefined
+	if (previous && source.peek()!.isSeparator("(") && precedance < 200) {
+		const elements = Tuple.parseElements(source)
+		result = Expression.parse(source, precedance, new SyntaxTree.FunctionCall(previous, elements, Type.tryParse(source), source.mark()))
+	}
+	return result
+}
+Expression.addExpressionParser(parse, 10)

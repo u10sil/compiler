@@ -23,30 +23,30 @@ import { Gap } from "./Gap"
 import { Substance } from "./Substance"
 import { Whitespace } from "./Whitespace"
 
-export class GapRemover implements Utilities.Iterator<Substance> {
+export class GapRemover extends Utilities.Iterator<Substance> {
 	private backend: Utilities.BufferedIterator<Token>
 	constructor(backend: Utilities.Iterator<Token>) {
-		this.backend = new Utilities.BufferedIterator(backend)
-	}
-	next(): Substance {
-		const pre: Gap[] = []
-		while (this.backend.peek() instanceof Gap) {
-			pre.push(this.backend.next()!)
-		}
-		let result: Substance
-		if (!(this.backend.peek() instanceof Substance))
-			throw new Error.Message(" Missing end of file token.", Error.Level.Recoverable, Error.Type.Lexical, this.backend.peek()!.region)
-		result = this.backend.next() as Substance
-		const post: Gap[] = []
-		while (this.backend.peek() instanceof Gap) {
-			const next = this.backend.next()
-			post.push(next!)
-			if (next instanceof Whitespace && (next as Whitespace).endsLine) {
-				break
+		super(() => {
+			const pre: Gap[] = []
+			while (this.backend.peek() instanceof Gap) {
+				pre.push(this.backend.next()!)
 			}
-		}
-		result.pregap = pre
-		result.postgap = post
-		return result
+			let result: Substance
+			if (!(this.backend.peek() instanceof Substance))
+				throw new Error.Message(" Missing end of file token.", Error.Level.Recoverable, Error.Type.Lexical, this.backend.peek()!.region)
+			result = this.backend.next() as Substance
+			const post: Gap[] = []
+			while (this.backend.peek() instanceof Gap) {
+				const next = this.backend.next()
+				post.push(next!)
+				if (next instanceof Whitespace && (next as Whitespace).endsLine) {
+					break
+				}
+			}
+			result.pregap = pre
+			result.postgap = post
+			return result
+		})
+		this.backend = new Utilities.BufferedIterator(backend)
 	}
 }

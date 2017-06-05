@@ -16,22 +16,21 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Utilities } from "@cogneco/mend"
-import * as Tokens from "../Tokens"
-import { Statement } from "./Statement"
-import { Node } from "./Node"
+import { Error, Unit } from "@cogneco/mend"
+import * as SyntaxTree from "../../SyntaxTree"
+import * as Parser from "../"
 
-export class Module extends Node {
-	get statements(): Utilities.Iterator<Statement> {
-		return new Utilities.ArrayIterator(this.statementsArray)
-	}
-	constructor(private statementsArray: Statement[], tokens: () => Utilities.Iterator<Tokens.Substance>) {
-		super(tokens)
-	}
-	serialize(): { class: string } & any {
-		return {
-			class: "module",
-			statements: this.statementsArray.map(s => s.serialize()),
-		}
+import Is = Unit.Is
+export class StringTest extends Unit.Fixture {
+	constructor() {
+		super("SyntaxTree.Expressions.Literals.StringLiteral")
+		const handler = new Error.ConsoleHandler()
+		this.add("literal", () => {
+			const literal = Parser.parseFirst("\"\\\"string\\\"\"", handler)
+			this.expect(literal instanceof SyntaxTree.Literal.String, Is.true)
+			this.expect((literal as SyntaxTree.Literal.String).value, Is.equal.to("\"string\""))
+			this.expect(literal!.serialize(), Is.equal.to({ class: "literal.string", value: "\"string\"" }))
+		})
 	}
 }
+Unit.Fixture.add(new StringTest())

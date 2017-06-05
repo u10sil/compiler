@@ -18,8 +18,6 @@
 
 import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../../Tokens"
-import { Source } from "../Source"
-import { Expression } from "./Expression"
 import { Name } from "./Name"
 
 export class Identifier extends Name {
@@ -36,23 +34,4 @@ export class Identifier extends Name {
 			arguments: this.typeParametersArray.length > 0 ? this.typeParametersArray.map(t => t.serialize()) : undefined,
 		}
 	}
-	static parse(source: Source): Identifier | undefined {
-		let result: Identifier | undefined
-		if (source.peek()!.isIdentifier()) {
-			const name = (source.next() as Tokens.Identifier).name
-			const typeParameters: Identifier[] = []
-			if (source.peek()!.isOperator("<")) {
-				do {
-					source.next() // consume "<" or ","
-					if (!source.peek()!.isIdentifier())
-						source.raise("Expected type parameter")
-					typeParameters.push(Identifier.parse(source.clone())!)
-				} while (source.peek()!.isSeparator(","))
-				source.next() // consume ">"
-			}
-			result = new Identifier(name, typeParameters, source.mark())
-		}
-		return result
-	}
 }
-Expression.addParser(Identifier.parse)

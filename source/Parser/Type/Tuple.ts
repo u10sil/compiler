@@ -16,22 +16,25 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Utilities } from "@cogneco/mend"
-import * as Tokens from "../Tokens"
-import { Statement } from "./Statement"
-import { Node } from "./Node"
+import * as Type from "./"
+import { Source } from "../Source"
+import * as SyntaxTree from "../../SyntaxTree"
 
-export class Module extends Node {
-	get statements(): Utilities.Iterator<Statement> {
-		return new Utilities.ArrayIterator(this.statementsArray)
-	}
-	constructor(private statementsArray: Statement[], tokens: () => Utilities.Iterator<Tokens.Substance>) {
-		super(tokens)
-	}
-	serialize(): { class: string } & any {
-		return {
-			class: "module",
-			statements: this.statementsArray.map(s => s.serialize()),
+function parse(source: Source): SyntaxTree.Type.Expression | undefined {
+	let result: SyntaxTree.Type.Expression | undefined
+	if (source.peek()!.isSeparator("(") && source.next()) {
+		const children: SyntaxTree.Type.Expression[] = []
+		let child: SyntaxTree.Type.Expression | undefined
+		while (child = Type.parse(source.clone())) {
+			children.push(child)
+			if (!source.peek()!.isSeparator(","))
+				break
+			source.next() // consume ,
 		}
+		if (!source.next()!.isSeparator(")"))
+			source.raise("Expected \")\"")
+		result = new SyntaxTree.Type.Tuple(children, source.mark())
 	}
+	return result
 }
+Type.addParser(parse)

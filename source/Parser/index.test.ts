@@ -16,14 +16,14 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import "./ClassDeclaration.test"
-import "./Expression.test"
-import "./FunctionCall.test"
-import "./FunctionDeclaration.test"
-import "./InfixOperator.test"
 import "./Literal/index.test"
-import "./Module.test"
+import "./VariableDeclaration.test"
+import "./FunctionDeclaration.test"
+import "./FunctionCall.test"
 import "./PostfixOperator.test"
 import "./PrefixOperator.test"
+import "./InfixOperator.test"
 import "./Tuple.test"
-import "./VariableDeclaration.test"
+import "./Expression.test"
+import "./ClassDeclaration.test"
+import "./Module.test"

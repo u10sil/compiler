@@ -17,6 +17,7 @@
 //
 
 import { ArgumentDeclaration } from "./ArgumentDeclaration"
+import { Associativity } from "./Associativity"
 import { Block } from "./Block"
 import { ClassDeclaration } from "./ClassDeclaration"
 import { Declaration } from "./Declaration"
@@ -29,10 +30,9 @@ import { InfixOperator } from "./InfixOperator"
 import * as Literal from "./Literal"
 import { Module } from "./Module"
 import { Node } from "./Node"
-import { Parser } from "./Parser"
+import { Operator } from "./Operator"
 import { PostfixOperator } from "./PostfixOperator"
 import { PrefixOperator } from "./PrefixOperator"
-import { Source } from "./Source"
 import { Statement } from "./Statement"
 import { SymbolDeclaration } from "./SymbolDeclaration"
 import * as Type from "./Type"
@@ -42,6 +42,7 @@ import { VariableDeclaration } from "./VariableDeclaration"
 
 export {
 	ArgumentDeclaration,
+	Associativity,
 	Block,
 	ClassDeclaration,
 	Declaration,
@@ -54,10 +55,9 @@ export {
 	Literal,
 	Module,
 	Node,
-	Parser,
+	Operator,
 	PostfixOperator,
 	PrefixOperator,
-	Source,
 	Statement,
 	SymbolDeclaration,
 	Tuple,

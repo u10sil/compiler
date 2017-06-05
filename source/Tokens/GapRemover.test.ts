@@ -28,7 +28,7 @@ export class GapRemoverTest extends Unit.Fixture {
 			const testString = "\t\ta := b / c\n"
 			const lexer = Tokens.Lexer.create(testString, errorHandler)
 			const gapRemover = new Tokens.GapRemover(lexer)
-			let token: Tokens.Token
+			let token: Tokens.Substance | undefined
 			this.expect((token = gapRemover.next()) instanceof Tokens.Identifier)
 			this.expect((token as Tokens.Identifier).name, Is.equal.to("a"))
 			this.expect((token = gapRemover.next()) instanceof Tokens.Operator)
@@ -44,7 +44,7 @@ export class GapRemoverTest extends Unit.Fixture {
 			const testString = "\t\t\ta := b**c\t\n"
 			const lexer = Tokens.Lexer.create(testString, errorHandler)
 			const gapRemover = new Tokens.GapRemover(lexer)
-			let token: Tokens.Token
+			let token: Tokens.Substance | undefined
 			// PRE-GAP:	"\t\t\t"
 			// POST-GAP: " "
 			this.expect((token = gapRemover.next()) instanceof Tokens.Identifier)

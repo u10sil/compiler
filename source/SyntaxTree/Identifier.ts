@@ -19,7 +19,6 @@
 import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../Tokens"
 import * as Type from "./Type"
-import { Source } from "./Source"
 import { Expression } from "./Expression"
 
 export class Identifier extends Expression {
@@ -33,11 +32,4 @@ export class Identifier extends Expression {
 			name: this.name,
 		}
 	}
-	static parse(source: Source, precedance: number, previous?: Expression): Expression | undefined {
-		let result: Expression | undefined
-		if (!previous && source.peek()!.isIdentifier())
-			result = Expression.parse(source, precedance, new Identifier((source.next() as Tokens.Identifier).name, Type.Expression.tryParse(source), source.mark()))
-		return result
-	}
 }
-Expression.addExpressionParser(Identifier.parse, 10)

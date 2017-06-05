@@ -17,7 +17,8 @@
 //
 
 import { Error, Unit } from "@cogneco/mend"
-import * as SyntaxTree from "../"
+import * as SyntaxTree from "../../SyntaxTree"
+import * as Parser from "../"
 
 import Is = Unit.Is
 export class NumberTest extends Unit.Fixture {
@@ -25,7 +26,7 @@ export class NumberTest extends Unit.Fixture {
 		super("SyntaxTree.Expressions.Literal.Number")
 		const handler = new Error.ConsoleHandler()
 		this.add("integer", () => {
-			const parser = SyntaxTree.Parser.create("12345", handler)
+			const parser = Parser.create("12345", handler)
 			const statements = parser.next()!.statements
 			const literal = statements.next()
 			this.expect(literal instanceof SyntaxTree.Literal.Number, Is.true)
@@ -33,25 +34,25 @@ export class NumberTest extends Unit.Fixture {
 			this.expect(literal!.serialize(), Is.equal.to({ class: "literal.number", value: 12345 }))
 		})
 		this.add("float", () => {
-			const literal = SyntaxTree.Parser.parseFirst("0.1234", handler)
+			const literal = Parser.parseFirst("0.1234", handler)
 			this.expect(literal instanceof SyntaxTree.Literal.Number, Is.true)
 			this.expect((literal as SyntaxTree.Literal.Number).value, Is.equal.to(0.1234))
 			this.expect(literal!.serialize(), Is.equal.to({ class: "literal.number", value: 0.1234 }))
 		})
 		this.add("binary", () => {
-			const literal = SyntaxTree.Parser.parseFirst("0b11000000111001", handler)
+			const literal = Parser.parseFirst("0b11000000111001", handler)
 			this.expect(literal instanceof SyntaxTree.Literal.Number, Is.true)
 			this.expect((literal as SyntaxTree.Literal.Number).value, Is.equal.to(12345))
 			this.expect(literal!.serialize(), Is.equal.to({ class: "literal.number", value: 12345 }))
 		})
 		this.add("octal", () => {
-			const literal = SyntaxTree.Parser.parseFirst("0c30071", handler)
+			const literal = Parser.parseFirst("0c30071", handler)
 			this.expect(literal instanceof SyntaxTree.Literal.Number, Is.true)
 			this.expect((literal as SyntaxTree.Literal.Number).value, Is.equal.to(12345))
 			this.expect(literal!.serialize(), Is.equal.to({ class: "literal.number", value: 12345 }))
 		})
 		this.add("hexadecimal", () => {
-			const literal = SyntaxTree.Parser.parseFirst("0xD431", handler)
+			const literal = Parser.parseFirst("0xD431", handler)
 			this.expect(literal instanceof SyntaxTree.Literal.Number, Is.true)
 			this.expect((literal as SyntaxTree.Literal.Number).value, Is.equal.to(54321))
 			this.expect(literal!.serialize(), Is.equal.to({ class: "literal.number", value: 54321 }))

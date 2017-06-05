@@ -1,4 +1,4 @@
-// Copyright (C) 2015, 2017  Simon Mika <simon@mika.se>
+// Copyright (C) 2017  Simon Mika <simon@mika.se>
 //
 // This file is part of SysPL.
 //
@@ -16,22 +16,6 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Utilities } from "@cogneco/mend"
-import * as Tokens from "../Tokens"
-import { Statement } from "./Statement"
-import { Node } from "./Node"
-
-export class Module extends Node {
-	get statements(): Utilities.Iterator<Statement> {
-		return new Utilities.ArrayIterator(this.statementsArray)
-	}
-	constructor(private statementsArray: Statement[], tokens: () => Utilities.Iterator<Tokens.Substance>) {
-		super(tokens)
-	}
-	serialize(): { class: string } & any {
-		return {
-			class: "module",
-			statements: this.statementsArray.map(s => s.serialize()),
-		}
-	}
-}
+import "./Character"
+import "./Number"
+import "./String"

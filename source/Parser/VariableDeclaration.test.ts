@@ -17,7 +17,8 @@
 //
 
 import { Error, Unit } from "@cogneco/mend"
-import * as SyntaxTree from "./"
+import * as SyntaxTree from "../SyntaxTree"
+import * as Parser from "./"
 
 import Is = Unit.Is
 export class VariableDeclarationTest extends Unit.Fixture {
@@ -53,27 +54,27 @@ export class VariableDeclarationTest extends Unit.Fixture {
 			this.expect(variableDeclaration.serialize(), Is.equal.to({ class: "variableDeclaration", isStatic: true, isConstant: true, symbol: "i", type: { class: "type.identifier", name: "Int"} }))
 		})
 		this.add("var a = b", () => {
-			const variableDeclaration = SyntaxTree.Parser.parseFirst("var a = b", handler) as SyntaxTree.VariableDeclaration
+			const variableDeclaration = Parser.parseFirst("var a = b", handler) as SyntaxTree.VariableDeclaration
 			this.expect(variableDeclaration.symbol, Is.equal.to("a"))
 			this.expect((variableDeclaration.value as SyntaxTree.Identifier).name, Is.equal.to("b"))
 			this.expect(variableDeclaration.serialize(), Is.equal.to({ class: "variableDeclaration", symbol: "a", value: { class: "identifier", name: "b" } }))
 		})
 		this.add("var foo: Type = bar", () => {
-			const variableDeclaration = SyntaxTree.Parser.parseFirst("var foo: Type = bar", handler) as SyntaxTree.VariableDeclaration
+			const variableDeclaration = Parser.parseFirst("var foo: Type = bar", handler) as SyntaxTree.VariableDeclaration
 			this.expect(variableDeclaration.symbol, Is.equal.to("foo"))
 			this.expect((variableDeclaration.type as SyntaxTree.Type.Identifier).name, Is.equal.to("Type"))
 			this.expect((variableDeclaration.value as SyntaxTree.Identifier).name, Is.equal.to("bar"))
 			this.expect(variableDeclaration.serialize(), Is.equal.to({ class: "variableDeclaration", symbol: "foo", type: { class: "type.identifier", name: "Type"} , value: { class: "identifier", name: "bar" } }))
 		})
 		this.add("var foo: Float = 0.50", () => {
-			const variableDeclaration = SyntaxTree.Parser.parseFirst("var f: Float = 0.50", handler) as SyntaxTree.VariableDeclaration
+			const variableDeclaration = Parser.parseFirst("var f: Float = 0.50", handler) as SyntaxTree.VariableDeclaration
 			this.expect(variableDeclaration.symbol, Is.equal.to("f"))
 			this.expect((variableDeclaration.type as SyntaxTree.Type.Identifier).name, Is.equal.to("Float"))
 			this.expect((variableDeclaration.value as SyntaxTree.Literal.Number).value, Is.equal.to(0.5))
 			this.expect(variableDeclaration.serialize(), Is.equal.to({ class: "variableDeclaration", symbol: "f", type: { class: "type.identifier", name: "Float"} , value: { class: "literal.number", value: 0.5 } }))
 		})	}
 	createDeclaration(sourceString: string, handler: Error.Handler): SyntaxTree.VariableDeclaration {
-		return SyntaxTree.Parser.parseFirst(sourceString, handler) as SyntaxTree.VariableDeclaration
+		return Parser.parseFirst(sourceString, handler) as SyntaxTree.VariableDeclaration
 	}
 }
 Unit.Fixture.add(new VariableDeclarationTest())

@@ -19,7 +19,6 @@
 import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../Tokens"
 import * as Type from "./Type"
-import { Source } from "./Source"
 import { Expression } from "./Expression"
 
 export class PrefixOperator extends Expression {
@@ -32,18 +31,6 @@ export class PrefixOperator extends Expression {
 			symbol: this.symbol,
 			argument: this.argument.serialize(),
 		}
-	}
-	static parse(source: Source, precedence: number, previous?: Expression): Expression | undefined {
-		let result: Expression | undefined
-		let operatorPrecedence: number | undefined
-		if (!previous && source.peek()!.isOperator(o => (operatorPrecedence = PrefixOperator.getPrecedence(o)) != undefined) && precedence < operatorPrecedence!) {
-			const symbol = (source.next() as Tokens.Operator).symbol
-			const argument = Expression.parse(source, operatorPrecedence)
-			if (!argument)
-				source.raise("Missing argument to prefix operator " + symbol)
-			result = Expression.parse(source, precedence, new PrefixOperator(symbol, operatorPrecedence!, argument!, Type.Expression.tryParse(source), source.mark()))
-		}
-		return result
 	}
 	static getPrecedence(symbol: string): number | undefined {
 		let result: number | undefined
@@ -62,4 +49,3 @@ export class PrefixOperator extends Expression {
 		return result
 	}
 }
-Expression.addExpressionParser(PrefixOperator.parse, 10)

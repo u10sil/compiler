@@ -17,7 +17,6 @@
 //
 
 import { Utilities } from "@cogneco/mend"
-import { Source } from "../Source"
 import { Expression } from "./Expression"
 import * as Tokens from "../../Tokens"
 
@@ -30,8 +29,5 @@ export class Name extends Expression {
 			class: "type.name",
 			name: this.name,
 		}
-	}
-	static parse(source: Source): Name | undefined {
-		return source.peek()!.isIdentifier() ? new Name((source.next() as Tokens.Identifier).name, source.mark()) : undefined
 	}
 }

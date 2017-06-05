@@ -19,10 +19,16 @@
 import { Error, Utilities } from "@cogneco/mend"
 import * as Tokens from "../Tokens"
 
-export class Source implements Utilities.Iterator<Tokens.Substance>, Error.Handler {
+export class Source extends Utilities.Iterator<Tokens.Substance> implements Error.Handler {
 	private tokens: Utilities.BufferedIterator<Tokens.Substance>
 	private lastTokens: Tokens.Substance[] = []
 	constructor(tokens: Utilities.Iterator<Tokens.Substance>, private errorHandler: Error.Handler) {
+		super(() => {
+			const result = this.tokens.next()
+			if (result)
+				this.lastTokens.push(result)
+			return result
+		})
 		if (!(tokens instanceof Utilities.BufferedIterator))
 			tokens = new Utilities.BufferedIterator(tokens)
 		this.tokens = tokens as Utilities.BufferedIterator<Tokens.Substance>
@@ -32,12 +38,6 @@ export class Source implements Utilities.Iterator<Tokens.Substance>, Error.Handl
 	}
 	peek(position: number = 0): Tokens.Substance | undefined {
 		return this.tokens.peek(position)
-	}
-	next(): Tokens.Substance | undefined {
-		const result = this.tokens.next()
-		if (result)
-			this.lastTokens.push(result)
-		return result
 	}
 	mark(): () => Utilities.Iterator<Tokens.Substance> {
 		const result = this.lastTokens

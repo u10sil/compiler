@@ -17,7 +17,7 @@
 //
 
 import { Error, Unit } from "@cogneco/mend"
-import * as SyntaxTree from "./"
+import * as Parser from "./"
 
 import Is = Unit.Is
 export class ExpressionTest extends Unit.Fixture {
@@ -25,7 +25,7 @@ export class ExpressionTest extends Unit.Fixture {
 		super("SyntaxTree.Expression")
 		const handler = new Error.ConsoleHandler()
 		this.add("a 'b'", () => {
-			const parser = SyntaxTree.Parser.create("a 'b'", handler)
+			const parser = Parser.create("a 'b'", handler)
 			this.expect(parser.next()!.serialize(), Is.equal.to({
 				class: "module",
 				statements: [
@@ -35,7 +35,7 @@ export class ExpressionTest extends Unit.Fixture {
 			}))
 		})
 		this.add("a b c", () => {
-			const parser = SyntaxTree.Parser.create("a b c", handler)
+			const parser = Parser.create("a b c", handler)
 			this.expect(parser.next()!.serialize(), Is.equal.to({
 				class: "module",
 				statements: [
@@ -46,7 +46,7 @@ export class ExpressionTest extends Unit.Fixture {
 			}))
 		})
 		this.add("a + b + c", () => {
-			const parser = SyntaxTree.Parser.create("a + b + c", handler)
+			const parser = Parser.create("a + b + c", handler)
 			this.expect(parser.next()!.serialize(), Is.equal.to({
 				class: "module",
 				statements: [
@@ -62,7 +62,7 @@ export class ExpressionTest extends Unit.Fixture {
 			}))
 		})
 		this.add("a.b.c", () => {
-			const parser = SyntaxTree.Parser.create("a.b.c", handler)
+			const parser = Parser.create("a.b.c", handler)
 			this.expect(parser.next()!.serialize(), Is.equal.to({
 				class: "module",
 				statements: [
@@ -78,7 +78,7 @@ export class ExpressionTest extends Unit.Fixture {
 			}))
 		})
 		this.add("a.b c", () => {
-			const parser = SyntaxTree.Parser.create("a.b c", handler)
+			const parser = Parser.create("a.b c", handler)
 			this.expect(parser.next()!.serialize(), Is.equal.to({
 				class: "module",
 				statements: [
@@ -92,7 +92,7 @@ export class ExpressionTest extends Unit.Fixture {
 			}))
 		})
 		this.add("a b = c", () => {
-			const parser = SyntaxTree.Parser.create("a b = c", handler)
+			const parser = Parser.create("a b = c", handler)
 			this.expect(parser.next()!.serialize(), Is.equal.to({
 				class: "module",
 				statements: [
@@ -106,7 +106,7 @@ export class ExpressionTest extends Unit.Fixture {
 			}))
 		})
 		this.add("a + b * c", () => {
-			const parser = SyntaxTree.Parser.create("a + b * c", handler)
+			const parser = Parser.create("a + b * c", handler)
 			this.expect(parser.next()!.serialize(), Is.equal.to({
 				class: "module",
 				statements: [
@@ -123,7 +123,7 @@ export class ExpressionTest extends Unit.Fixture {
 			}))
 		})
 		this.add("a * b + c", () => {
-			const parser = SyntaxTree.Parser.create("a * b + c", handler)
+			const parser = Parser.create("a * b + c", handler)
 			this.expect(parser.next()!.serialize(), Is.equal.to({
 				class: "module",
 				statements: [

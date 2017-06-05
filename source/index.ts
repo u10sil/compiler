@@ -18,6 +18,7 @@
 
 import { Error, Unit } from "@cogneco/mend"
 import * as SyntaxTree from "./SyntaxTree"
+import * as Parser from "./Parser"
 
 export class Program {
 	readonly version = "0.1.1"
@@ -35,7 +36,7 @@ export class Program {
 			case "build":
 				{
 					console.log("build")
-					const parser = SyntaxTree.Parser.open(commands.pop(), handler)
+					const parser = Parser.open(commands.pop(), handler)
 					if (parser) {
 						let module: SyntaxTree.Module | undefined
 						while (module = parser.next())
@@ -45,7 +46,7 @@ export class Program {
 				break
 			case "json":
 				{
-					const parser = SyntaxTree.Parser.open(commands.pop(), handler)
+					const parser = Parser.open(commands.pop(), handler)
 					if (parser) {
 						let module: SyntaxTree.Module | undefined
 						while (module = parser.next())

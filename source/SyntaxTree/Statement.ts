@@ -17,30 +17,11 @@
 //
 
 import { Utilities } from "@cogneco/mend"
-import { Source } from "./Source"
 import { Node } from "./Node"
 import * as Tokens from "../Tokens"
 
 export abstract class Statement extends Node {
 	constructor(tokens: () => Utilities.Iterator<Tokens.Substance>) {
 		super(tokens)
-	}
-	private static statementParsers: { parse: ((source: Source) => Statement | undefined), priority: number }[] = []
-	static addParser(parser: (source: Source) => Statement | undefined, priority: number = 0) {
-		Statement.statementParsers.push({
-			parse: parser,
-			priority,
-		})
-		Statement.statementParsers.sort((left, right) => left.priority < right.priority ? -1 : left.priority > right.priority ? 1 : 0)
-	}
-	static parse(source: Source): Statement | undefined {
-		let result: Statement | undefined
-		if (Statement.statementParsers.length > 0) {
-			let i = 0
-			do {
-				result = Statement.statementParsers[i++].parse(source)
-			} while (!result && i < Statement.statementParsers.length)
-		}
-		return result
 	}
 }

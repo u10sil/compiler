@@ -17,13 +17,12 @@
 //
 
 import { Utilities } from "@cogneco/mend"
-import { Source } from "./Source"
 import * as Tokens from "../Tokens"
 import { Declaration } from "./Declaration"
 import * as Type from "./Type"
 
 export class ArgumentDeclaration extends Declaration {
-	constructor(symbol: string, public /* TODO: syntax tree should be immutable */ type: Type.Expression | undefined, tokens: () => Utilities.Iterator<Tokens.Substance>) {
+	constructor(symbol: string, readonly type: Type.Expression | undefined, tokens: () => Utilities.Iterator<Tokens.Substance>) {
 		super(symbol, tokens)
 	}
 	serialize(): { class: string } & any {
@@ -32,36 +31,5 @@ export class ArgumentDeclaration extends Declaration {
 			class: "argumentDeclaration",
 			type: this.type && this.type.serialize(),
 		}
-	}
-	static parse(source: Source): ArgumentDeclaration | undefined {
-		let result: ArgumentDeclaration | undefined
-		if (source.peek()!.isIdentifier()) {
-			//
-			// handles cases "x" and "x: Type"
-			//
-			const symbol = (source.next() as Tokens.Identifier).name
-			const type = Type.Expression.tryParse(source)
-			result = new ArgumentDeclaration(symbol, type, source.mark())
-		} else if (source.peek()!.isOperator("=") || source.peek()!.isSeparator(".")) {
-			//
-			// Handles syntactic sugar cases ".argument" and "=argument"
-			// The type of the argument will have to be resolved later
-			//
-			source.next() // consume "=" or "."
-			result = new ArgumentDeclaration((source.next() as Tokens.Identifier).name, undefined, source.mark())
-		}
-		return result
-	}
-	static parseAll(source: Source): ArgumentDeclaration[] {
-		const result: ArgumentDeclaration[] = []
-		if (source.peek()!.isSeparator("(")) {
-			do {
-				source.next() // consume: ( or ,
-				result.push(ArgumentDeclaration.parse(source.clone())!)
-			} while (source.peek()!.isSeparator(","))
-			if (!source.next()!.isSeparator(")"))
-				source.raise("Expected \")\"")
-		}
-		return result
 	}
 }

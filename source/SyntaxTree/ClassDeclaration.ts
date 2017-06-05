@@ -18,8 +18,6 @@
 
 import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../Tokens"
-import { Source } from "./Source"
-import { Statement } from "./Statement"
 import { TypeDeclaration } from "./TypeDeclaration"
 import * as Type from "./Type"
 import { Block } from "./Block"
@@ -45,35 +43,4 @@ export class ClassDeclaration extends TypeDeclaration {
 			content: this.content.serialize(),
 		}
 	}
-	static parse(source: Source): Statement | undefined {
-		let result: Statement | undefined
-		const isAbstract = source.peek()!.isIdentifier("abstract")
-		if (source.peek(isAbstract ? 1 : 0)!.isIdentifier("class") && source.next() && (!isAbstract || source.next())) {
-			const symbol = Type.Name.parse(source.clone())
-			if (!symbol)
-				source.raise("Expected symbol in class declaration.")
-			const typeParameters = TypeDeclaration.parseTypeParameters(source.clone())
-			let extended: Type.Identifier | undefined
-			if (source.peek()!.isIdentifier("extends")) {
-				source.next() // consume "extends"
-				if (!source.peek()!.isIdentifier())
-					source.raise("Expected identifier with name of class to extend.")
-				extended = Type.Identifier.parse(source.clone())
-			}
-			const implemented: Type.Identifier[] = []
-			if (source.peek()!.isIdentifier("implements"))
-				do {
-					source.next() // consume "implements" or ","
-					if (!source.peek()!.isIdentifier())
-						source.raise("Expected identifier with name of interface to extend.")
-					implemented.push(Type.Identifier.parse(source.clone())!)
-				} while (source.peek()!.isSeparator(","))
-			const block = Block.parse(source.clone())
-			if (!block)
-				source.raise("Expected block in class declaration.")
-			result = new ClassDeclaration(symbol!, isAbstract, typeParameters, extended, implemented, block!, source.mark())
-		}
-		return result
-	}
 }
-Statement.addParser(ClassDeclaration.parse)

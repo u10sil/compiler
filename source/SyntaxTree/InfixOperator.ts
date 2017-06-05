@@ -18,7 +18,6 @@
 
 import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../Tokens"
-import { Source } from "./Source"
 import { Expression } from "./Expression"
 import { Associativity } from "./Associativity"
 
@@ -33,20 +32,6 @@ export class InfixOperator extends Expression {
 			left: this.left.serialize(),
 			right: this.right.serialize(),
 		}
-	}
-	static parse(source: Source, precedance: number, previous?: Expression): Expression | undefined {
-		let result: Expression | undefined
-		let properties: [number, Associativity] | undefined
-		if (previous && source.peek()!.isOperator(o => (properties = InfixOperator.getProperties(o)) != undefined) && precedance < properties![0]) {
-			const symbol = (source.next() as Tokens.Operator).symbol
-			if (!previous)
-				source.raise("Missing left hand of infix operator " + symbol)
-			const right = Expression.parse(source, properties![0])
-			if (!right)
-				source.raise("Missing right hand of infix operator " + symbol)
-			result = Expression.parse(source, precedance, new InfixOperator(symbol, properties![0], properties![1], previous!, right!, source.mark()))
-		}
-		return result
 	}
 	static getProperties(symbol: string): [number, Associativity] | undefined {
 		let result: [number, Associativity] | undefined
@@ -135,4 +120,3 @@ export class InfixOperator extends Expression {
 		return result
 	}
 }
-Expression.addExpressionParser(InfixOperator.parse)

@@ -17,19 +17,20 @@
 //
 
 import { Error, Unit } from "@cogneco/mend"
-import * as SyntaxTree from "../"
+import * as SyntaxTree from "../../SyntaxTree"
+import * as Parser from "../"
 
 import Is = Unit.Is
-export class StringTest extends Unit.Fixture {
+export class CharacterTest extends Unit.Fixture {
 	constructor() {
-		super("SyntaxTree.Expressions.Literals.StringLiteral")
+		super("SyntaxTree.Expressions.Literal.Character")
 		const handler = new Error.ConsoleHandler()
 		this.add("literal", () => {
-			const literal = SyntaxTree.Parser.parseFirst("\"\\\"string\\\"\"", handler)
-			this.expect(literal instanceof SyntaxTree.Literal.String, Is.true)
-			this.expect((literal as SyntaxTree.Literal.String).value, Is.equal.to("\"string\""))
-			this.expect(literal!.serialize(), Is.equal.to({ class: "literal.string", value: "\"string\"" }))
+			const literal = Parser.parseFirst("'a'", handler)
+			this.expect(literal instanceof SyntaxTree.Literal.Character, Is.true)
+			this.expect((literal as SyntaxTree.Literal.Character).value, Is.equal.to("a"))
+			this.expect(literal!.serialize(), Is.equal.to({ class: "literal.character", value: "a" }))
 		})
 	}
 }
-Unit.Fixture.add(new StringTest())
+Unit.Fixture.add(new CharacterTest())

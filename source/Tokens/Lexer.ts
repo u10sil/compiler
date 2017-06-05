@@ -28,24 +28,24 @@ import { Operator } from "./Operator"
 import { Separator } from "./Separator"
 import { Whitespace } from "./Whitespace"
 
-export class Lexer implements Utilities.Iterator<Token> {
+export class Lexer extends Utilities.Iterator<Token> {
 	private source: Source
 	private constructor(reader: IO.Reader, handler: Error.Handler) {
+		super(() => {
+			const result = EndOfFile.scan(this.source) ||
+				Whitespace.scan(this.source) ||
+				Comment.scan(this.source) ||
+				Operator.scan(this.source) ||
+				Separator.scan(this.source) ||
+				Literals.String.scan(this.source) ||
+				Literals.Number.scan(this.source) ||
+				Literals.Character.scan(this.source) ||
+				Identifier.scan(this.source)
+			if (!result)
+				this.source.raise("[Lexer]: Unrecognized token: " + this.source.peek())
+			return result
+		})
 		this.source = new Source(reader, handler)
-	}
-	next(): Token | undefined {
-		const result = EndOfFile.scan(this.source) ||
-			Whitespace.scan(this.source) ||
-			Comment.scan(this.source) ||
-			Operator.scan(this.source) ||
-			Separator.scan(this.source) ||
-			Literals.String.scan(this.source) ||
-			Literals.Number.scan(this.source) ||
-			Literals.Character.scan(this.source) ||
-			Identifier.scan(this.source)
-		if (!result)
-			this.source.raise("[Lexer]: Unrecognized token: " + this.source.peek())
-		return result
 	}
 	static create(code: undefined, handler: Error.Handler): undefined
 	static create(code: string | IO.Reader, handler: Error.Handler): Utilities.Iterator<Token>

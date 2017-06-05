@@ -18,8 +18,6 @@
 
 import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../Tokens"
-import { Source } from "./Source"
-import { Statement } from "./Statement"
 import { SymbolDeclaration } from "./SymbolDeclaration"
 import { Expression } from "./Expression"
 import * as Type from "./Type"
@@ -38,25 +36,4 @@ export class VariableDeclaration extends SymbolDeclaration {
 			value: this.value && this.value.serialize(),
 		}
 	}
-	static parse(source: Source): VariableDeclaration | undefined {
-		let result: VariableDeclaration | undefined
-		const isStatic = source.peek()!.isIdentifier("static")
-		const next = source.peek(isStatic ? 1 : 0)
-		let isConstant = false
-		if (!!next && next.isIdentifier("var") || (isConstant = next!.isIdentifier("let"))) {
-			if (isStatic)
-				source.next() // consume "static"
-			source.next() // consume "var" or "let"
-			const name = Type.Name.parse(source.clone())
-			if (!name)
-				source.raise("Expected symbol in variable declaration.")
-			const type = Type.Expression.tryParse(source.clone())
-			let value: Expression | undefined
-			if (source.peek()!.isOperator("=") && source.next())
-				value = Expression.parse(source, 90)
-			result = new VariableDeclaration(name!, isStatic, isConstant, type, value, source.mark())
-		}
-		return result
-	}
 }
-Statement.addParser(VariableDeclaration.parse)

@@ -16,20 +16,18 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Error, Unit } from "@cogneco/mend"
-import * as SyntaxTree from "../"
+import * as Tokens from "../../Tokens"
+import * as Type from "../Type"
+import { Source } from "../Source"
+import * as Expression from "../Expression"
+import * as SyntaxTree from "../../SyntaxTree"
 
-import Is = Unit.Is
-export class CharacterTest extends Unit.Fixture {
-	constructor() {
-		super("SyntaxTree.Expressions.Literal.Character")
-		const handler = new Error.ConsoleHandler()
-		this.add("literal", () => {
-			const literal = SyntaxTree.Parser.parseFirst("'a'", handler)
-			this.expect(literal instanceof SyntaxTree.Literal.Character, Is.true)
-			this.expect((literal as SyntaxTree.Literal.Character).value, Is.equal.to("a"))
-			this.expect(literal!.serialize(), Is.equal.to({ class: "literal.character", value: "a" }))
-		})
+function parse(source: Source, precedance: number, previous?: SyntaxTree.Expression): SyntaxTree.Expression | undefined {
+	let result: SyntaxTree.Expression | undefined
+	if (!previous && source.peek() instanceof Tokens.Literals.String) {
+		result = new SyntaxTree.Literal.String((source.next() as Tokens.Literals.String).value, Type.tryParse(source), source.mark())
+		result = Expression.parse(source, result.precedence, result)
 	}
+	return result
 }
-Unit.Fixture.add(new CharacterTest())
+Expression.addExpressionParser(parse)

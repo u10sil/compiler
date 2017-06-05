@@ -19,8 +19,6 @@
 import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../../Tokens"
 import * as Type from "../Type"
-import { Source } from "../Source"
-import { Expression } from "../Expression"
 import { Abstract } from "./Abstract"
 
 export class String extends Abstract {
@@ -33,14 +31,4 @@ export class String extends Abstract {
 			value: this.value,
 		}
 	}
-	// tslint:disable:ban-types no-construct
-	static parse(source: Source, precedance: number, previous?: Expression): Expression | undefined {
-		let result: Expression | undefined
-		if (!previous && source.peek() instanceof Tokens.Literals.String) {
-			result = new String((source.next() as Tokens.Literals.String).value, Type.Expression.tryParse(source), source.mark())
-			result = Expression.parse(source, result.precedence, result)
-		}
-		return result
-	}
 }
-Expression.addExpressionParser(String.parse)

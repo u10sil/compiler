@@ -19,7 +19,6 @@
 import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../../Tokens"
 import { Expression } from "./Expression"
-import { Source } from "../Source"
 
 export class Tuple extends Expression {
 	get children(): Utilities.Iterator<Expression> {
@@ -34,22 +33,4 @@ export class Tuple extends Expression {
 			children: this.childrenArray.map(c => c.serialize()),
 		}
 	}
-	static parse(source: Source): Expression | undefined {
-		let result: Expression | undefined
-		if (source.peek()!.isSeparator("(") && source.next()) {
-			const children: Expression[] = []
-			let child: Expression | undefined
-			while (child = Expression.parse(source.clone())) {
-				children.push(child)
-				if (!source.peek()!.isSeparator(","))
-					break
-				source.next() // consume ,
-			}
-			if (!source.next()!.isSeparator(")"))
-				source.raise("Expected \")\"")
-			result = new Tuple(children, source.mark())
-		}
-		return result
-	}
 }
-Expression.addParser(Tuple.parse)

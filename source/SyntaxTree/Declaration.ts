@@ -18,8 +18,6 @@
 
 import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../Tokens"
-import * as Type from "./Type"
-import { Source } from "./Source"
 import { Statement } from "./Statement"
 
 export abstract class Declaration extends Statement {
@@ -30,18 +28,5 @@ export abstract class Declaration extends Statement {
 		return {
 			symbol: this.symbol,
 		}
-	}
-	static parseTypeParameters(source: Source): Type.Name[] {
-		const result: Type.Name[] = []
-		if (source.peek()!.isOperator("<")) {
-			do {
-				source.next() // consume "<" or ","
-				if (!source.peek()!.isIdentifier())
-					source.raise("Expected type parameter")
-				result.push(Type.Name.parse(source.clone())!)
-			} while (source.peek()!.isSeparator(","))
-			source.next() // consume ">"
-		}
-		return result
 	}
 }

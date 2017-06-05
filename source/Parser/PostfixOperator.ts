@@ -16,32 +16,17 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../Tokens"
 import * as Type from "./Type"
-import { Expression } from "./Expression"
+import * as Expression from "./Expression"
+import { Source } from "./Source"
+import * as SyntaxTree from "../SyntaxTree"
 
-export class PostfixOperator extends Expression {
-	constructor(readonly symbol: string, readonly precedence: number, readonly argument: Expression, type: Type.Expression | undefined, tokens: () => Utilities.Iterator<Tokens.Substance>) {
-		super(type, tokens)
-	}
-	serialize(): { class: string } & any {
-		return {
-			class: "postfixOperator",
-			symbol: this.symbol,
-			argument: this.argument.serialize(),
-		}
-	}
-	static getPrecedence(symbol: string): number | undefined {
-		let result: number | undefined
-		switch (symbol) {
-			default:
-				break
-			case "++":
-			case "--":
-				result = 250
-				break
-		}
-		return result
-	}
+export function parse(source: Source, precedence: number, previous?: SyntaxTree.Expression): SyntaxTree.Expression | undefined {
+	let result: SyntaxTree.Expression | undefined
+	let operatorPrecedence: number | undefined
+	if (previous && source.peek()!.isOperator(o => (operatorPrecedence = SyntaxTree.PostfixOperator.getPrecedence(o)) != undefined) && precedence < operatorPrecedence!)
+		result = Expression.parse(source, precedence, new SyntaxTree.PostfixOperator((source.next() as Tokens.Operator).symbol, operatorPrecedence!, previous, Type.tryParse(source), source.mark()))
+	return result
 }
+Expression.addExpressionParser(parse, 10)

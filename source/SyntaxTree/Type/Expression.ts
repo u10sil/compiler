@@ -18,30 +18,10 @@
 
 import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../../Tokens"
-import { Source } from "../Source"
 import { Node } from "../Node"
-import { Statement } from "../Statement"
 
 export abstract class Expression extends Node {
 	constructor(tokens: () => Utilities.Iterator<Tokens.Substance>) {
 		super(tokens)
 	}
-	private static typeParsers: ((source: Source) => Expression | undefined)[] = []
-	static addParser(parser: (source: Source) => Expression | undefined) {
-		Expression.typeParsers.push(parser)
-	}
-	static tryParse(source: Source): Expression | undefined {
-		return source.peek()!.isSeparator(":") && source.next() ? Expression.parse(source) : undefined
-	}
-	static parse(source: Source): Expression | undefined {
-		let result: Expression | undefined
-		if (Expression.typeParsers.length > 0) {
-			let i = 0
-			do
-				result = Expression.typeParsers[i++](source.clone())
-			while (!result && i < Expression.typeParsers.length)
-		}
-		return result
-	}
 }
-Statement.addParser(Expression.parse, 20)

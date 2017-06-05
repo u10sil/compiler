@@ -17,7 +17,7 @@
 //
 
 import { Error, Unit } from "@cogneco/mend"
-import * as SyntaxTree from "./"
+import * as Parser from "./"
 
 import Is = Unit.Is
 export class PostfixOperatorTest extends Unit.Fixture {
@@ -25,7 +25,7 @@ export class PostfixOperatorTest extends Unit.Fixture {
 		super("SyntaxTree.PostfixOperator")
 		const handler = new Error.ConsoleHandler()
 		this.add("a--", () => {
-			const result = SyntaxTree.Parser.parseFirst("a--", handler)
+			const result = Parser.parseFirst("a--", handler)
 			this.expect(result, Is.not.undefined)
 			this.expect(result!.serialize(), Is.equal.to({
 				class: "postfixOperator",
@@ -34,7 +34,7 @@ export class PostfixOperatorTest extends Unit.Fixture {
 			}))
 		})
 		this.add("a++", () => {
-			const result = SyntaxTree.Parser.parseFirst("a++", handler)
+			const result = Parser.parseFirst("a++", handler)
 			this.expect(result, Is.not.undefined)
 			this.expect(result!.serialize(), Is.equal.to({
 				class: "postfixOperator",
@@ -43,7 +43,7 @@ export class PostfixOperatorTest extends Unit.Fixture {
 			}))
 		})
 		this.add("a + a--", () => {
-			const result = SyntaxTree.Parser.parseFirst("a + a--", handler)
+			const result = Parser.parseFirst("a + a--", handler)
 			this.expect(result, Is.not.undefined)
 			this.expect(result!.serialize(), Is.equal.to({
 				class: "infixOperator",
@@ -57,7 +57,7 @@ export class PostfixOperatorTest extends Unit.Fixture {
 			}))
 		})
 		this.add("a-- + a", () => {
-			const result = SyntaxTree.Parser.parseFirst("a-- + a", handler)
+			const result = Parser.parseFirst("a-- + a", handler)
 			this.expect(result, Is.not.undefined)
 			this.expect(result!.serialize(), Is.equal.to({
 				class: "infixOperator",

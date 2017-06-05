@@ -19,7 +19,6 @@
 import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../Tokens"
 import * as Type from "./Type"
-import { Source } from "./Source"
 import { Expression } from "./Expression"
 
 export class Tuple extends Expression {
@@ -33,30 +32,4 @@ export class Tuple extends Expression {
 			elements: this.elements.length > 0 ? this.elements.map(e => e.serialize()) : undefined,
 		}
 	}
-	static parseElements(source: Source) {
-		if (!source.next()!.isSeparator("("))
-			source.raise("Expected start parenthesis.")
-		const result: Expression[] = []
-		if (!source.peek()!.isSeparator(")"))
-			do {
-				const element = Expression.parse(source)
-				if (element)
-					result.push(element)
-				else
-					source.raise("Expected expression in tuple.")
-			} while (source.peek()!.isSeparator(",") && source.next())
-		if (!source.next()!.isSeparator(")"))
-			source.raise("Expected end parenthesis.")
-		return result
-	}
-	static parse(source: Source, precedance: number, previous?: Expression): Expression | undefined {
-		let result: Expression | undefined
-		if (!previous && source.peek()!.isSeparator("(")) {
-			const elements = Tuple.parseElements(source)
-			result = elements.length == 1 ? elements[0] : new Tuple(elements, Type.Expression.tryParse(source), source.mark())
-			result = Expression.parse(source, precedance, result)
-		}
-		return result
-	}
 }
-Expression.addExpressionParser(Tuple.parse, 10)

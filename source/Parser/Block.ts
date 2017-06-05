@@ -16,22 +16,24 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Utilities } from "@cogneco/mend"
-import * as Tokens from "../Tokens"
-import { Statement } from "./Statement"
-import { Node } from "./Node"
+import { Source } from "./Source"
+import * as Statement from "./Statement"
+import * as SyntaxTree from "../SyntaxTree"
 
-export class Module extends Node {
-	get statements(): Utilities.Iterator<Statement> {
-		return new Utilities.ArrayIterator(this.statementsArray)
-	}
-	constructor(private statementsArray: Statement[], tokens: () => Utilities.Iterator<Tokens.Substance>) {
-		super(tokens)
-	}
-	serialize(): { class: string } & any {
-		return {
-			class: "module",
-			statements: this.statementsArray.map(s => s.serialize()),
+export function parse(source: Source): SyntaxTree.Block | undefined {
+	let result: SyntaxTree.Block | undefined
+	if (source.peek()!.isSeparator("{")) {
+		source.next() // consume: {
+		const statements: SyntaxTree.Statement[] = []
+		let next: SyntaxTree.Statement | undefined
+		while (source.peek() &&	!source.peek()!.isSeparator("}") && (next = Statement.parse(source.clone()))) {
+			statements.push(next)
 		}
+		if (!source.next()!.isSeparator("}"))
+			source.raise("Expected \"}\"")
+		result = new SyntaxTree.Block(statements, source.mark())
 	}
+	return result
 }
+
+Statement.addParser(parse)
