@@ -28,4 +28,4 @@ export function parse(source: Source, precedance: number, previous?: SyntaxTree.
 		result = Expression.parse(source, precedance, new SyntaxTree.Identifier((source.next() as Tokens.Identifier).name, Type.tryParse(source), source.mark()))
 	return result
 }
-Expression.addExpressionParser(parse, 10)
+Expression.addParser(parse, 10)

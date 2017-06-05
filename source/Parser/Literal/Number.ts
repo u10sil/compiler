@@ -30,4 +30,4 @@ function parse(source: Source, precedance: number, previous?: SyntaxTree.Express
 	}
 	return result
 }
-Expression.addExpressionParser(parse)
+Expression.addParser(parse)

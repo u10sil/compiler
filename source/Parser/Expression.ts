@@ -21,7 +21,7 @@ import { Source } from "./Source"
 import * as SyntaxTree from "../SyntaxTree"
 
 const expressionParsers: { parse: ((source: Source, precedence: number, previous: SyntaxTree.Expression | undefined) => SyntaxTree.Expression | undefined), priority: number }[] = []
-export function addExpressionParser(parser: (source: Source, precedence: number, previous: SyntaxTree.Expression | undefined) => SyntaxTree.Expression | undefined, priority: number = 0) {
+export function addParser(parser: (source: Source, precedence: number, previous: SyntaxTree.Expression | undefined) => SyntaxTree.Expression | undefined, priority: number = 0) {
 	expressionParsers.push({
 		parse: parser,
 		priority,

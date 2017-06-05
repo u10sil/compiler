@@ -29,4 +29,4 @@ export function parse(source: Source, precedence: number, previous?: SyntaxTree.
 		result = Expression.parse(source, precedence, new SyntaxTree.PostfixOperator((source.next() as Tokens.Operator).symbol, operatorPrecedence!, previous, Type.tryParse(source), source.mark()))
 	return result
 }
-Expression.addExpressionParser(parse, 10)
+Expression.addParser(parse, 10)

@@ -35,4 +35,4 @@ export function parse(source: Source, precedance: number, previous?: SyntaxTree.
 	}
 	return result
 }
-Expression.addExpressionParser(parse)
+Expression.addParser(parse)

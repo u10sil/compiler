@@ -36,4 +36,4 @@ export function parse(source: Source): SyntaxTree.Block | undefined {
 	}
 	return result
 }
-Expression.addExpressionParser(parse)
+Expression.addParser(parse)
