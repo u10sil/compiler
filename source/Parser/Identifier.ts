@@ -25,7 +25,7 @@ import * as SyntaxTree from "../SyntaxTree"
 export function parse(source: Source, precedance: number, previous?: SyntaxTree.Expression): SyntaxTree.Expression | undefined {
 	let result: SyntaxTree.Expression | undefined
 	if (!previous && source.peek()!.isIdentifier())
-		result = Expression.parse(source, precedance, new SyntaxTree.Identifier((source.next() as Tokens.Identifier).name, Type.tryParse(source), source.mark()))
+		result = Expression.parse(source, precedance, new SyntaxTree.Identifier((source.next() as Tokens.Identifier).name, undefined, Type.tryParse(source), source.mark()))
 	return result
 }
 Expression.addParser(parse, 10)

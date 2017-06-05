@@ -19,12 +19,13 @@
 import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../../Tokens"
 import { Name } from "./Name"
+import { TypeDeclaration } from "../TypeDeclaration"
 
 export class Identifier extends Name {
 	get typeParameters(): Utilities.Iterator<Identifier> {
 		return new Utilities.ArrayIterator(this.typeParametersArray)
 	}
-	constructor(name: string, private typeParametersArray: Identifier[], tokens: () => Utilities.Iterator<Tokens.Substance>) {
+	constructor(name: string, readonly declaration: TypeDeclaration | undefined, private typeParametersArray: Identifier[], tokens: () => Utilities.Iterator<Tokens.Substance>) {
 		super(name, tokens)
 	}
 	serialize(): { class: string } & any {

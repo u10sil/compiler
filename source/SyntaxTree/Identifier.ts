@@ -20,10 +20,11 @@ import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../Tokens"
 import * as Type from "./Type"
 import { Expression } from "./Expression"
+import { Declaration } from "./Declaration"
 
 export class Identifier extends Expression {
 	get precedence() { return Number.MAX_VALUE }
-	constructor(readonly name: string, type: Type.Expression | undefined, tokens: () => Utilities.Iterator<Tokens.Substance>) {
+	constructor(readonly name: string, readonly declaration: Declaration | undefined, type: Type.Expression | undefined, tokens: () => Utilities.Iterator<Tokens.Substance>) {
 		super(type, tokens)
 	}
 	serialize(): { class: string } & any {
