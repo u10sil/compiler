@@ -18,6 +18,7 @@
 
 import { Source } from "./Source"
 import * as Statement from "./Statement"
+import * as Expression from "./Expression"
 import * as SyntaxTree from "../SyntaxTree"
 
 export function parse(source: Source): SyntaxTree.Block | undefined {
@@ -35,5 +36,4 @@ export function parse(source: Source): SyntaxTree.Block | undefined {
 	}
 	return result
 }
-
-Statement.addParser(parse)
+Expression.addExpressionParser(parse)
