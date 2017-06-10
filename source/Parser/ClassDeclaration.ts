@@ -30,7 +30,7 @@ export function parse(source: Source): SyntaxTree.Statement | undefined {
 		const symbol = Type.Name.parse(source.clone())
 		if (!symbol)
 			source.raise("Expected symbol in class declaration.")
-		const typeParameters = Declaration.parseTypeParameters(source.clone())
+		const parameters = Declaration.parseParameters(source.clone())
 		let extended: SyntaxTree.Type.Identifier | undefined
 		if (source.peek()!.isIdentifier("extends")) {
 			source.next() // consume "extends"
@@ -49,7 +49,7 @@ export function parse(source: Source): SyntaxTree.Statement | undefined {
 		const block = Block.parse(source.clone())
 		if (!block)
 			source.raise("Expected block in class declaration.")
-		result = new SyntaxTree.ClassDeclaration(symbol!, isAbstract, typeParameters, extended, implemented, block!, source.mark())
+		result = new SyntaxTree.ClassDeclaration(symbol!, isAbstract, parameters, extended, implemented, block!, source.mark())
 	}
 	return result
 }

@@ -39,6 +39,7 @@ import * as Type from "./Type"
 import { Tuple } from "./Tuple"
 import { TypeDeclaration } from "./TypeDeclaration"
 import { VariableDeclaration } from "./VariableDeclaration"
+import { deserialize } from "./deserialize"
 
 export {
 	ArgumentDeclaration,
@@ -64,4 +65,5 @@ export {
 	Type,
 	TypeDeclaration,
 	VariableDeclaration,
+	deserialize,
 }

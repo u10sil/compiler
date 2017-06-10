@@ -21,9 +21,10 @@ import * as Tokens from "../Tokens"
 import { SymbolDeclaration } from "./SymbolDeclaration"
 import { Expression } from "./Expression"
 import * as Type from "./Type"
+import { addDeserializer, deserialize } from "./deserialize"
 
 export class VariableDeclaration extends SymbolDeclaration {
-	constructor(name: Type.Name, readonly isStatic: boolean, readonly isConstant: boolean, readonly type: Type.Expression | undefined, readonly value: Expression | undefined, tokens: () => Utilities.Iterator<Tokens.Substance>) {
+	constructor(name: Type.Name, readonly isStatic: boolean, readonly isConstant: boolean, readonly type: Type.Expression | undefined, readonly value: Expression | undefined, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
 		super(name.name, tokens)
 	}
 	serialize(): { class: string } & any {
@@ -37,3 +38,4 @@ export class VariableDeclaration extends SymbolDeclaration {
 		}
 	}
 }
+addDeserializer(data => data.class == "variableDeclaration" && data.hasOwnProperty("symbol") ? new VariableDeclaration(data.symbol, data.isStatic, data.isConstant, deserialize<Type.Expression>(data.type), deserialize<Expression>(data.value)) : undefined)

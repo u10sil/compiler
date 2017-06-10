@@ -25,26 +25,15 @@ import * as ArgumentDeclaration from "./ArgumentDeclaration"
 import * as Block from "./Block"
 import * as SyntaxTree from "../SyntaxTree"
 
-function parseModifier(modifier: string): SyntaxTree.FunctionModifier {
-	let result: SyntaxTree.FunctionModifier
-	switch (modifier) {
-		case "abstract": result = SyntaxTree.FunctionModifier.Abstract; break
-		default: result = SyntaxTree.FunctionModifier.None; break
-		case "override": result = SyntaxTree.FunctionModifier.Override; break
-		case "static": result = SyntaxTree.FunctionModifier.Static; break
-		case "virtual": result = SyntaxTree.FunctionModifier.Virtual; break
-	}
-	return result
-}
 export function parse(source: Source): SyntaxTree.FunctionDeclaration | undefined {
 	let result: SyntaxTree.FunctionDeclaration | undefined
-	const modifier = parseModifier((source.peek() as Tokens.Identifier).name)
+	const modifier = SyntaxTree.FunctionDeclaration.parseModifier((source.peek() as Tokens.Identifier).name)
 	if (source.peek(modifier == SyntaxTree.FunctionModifier.None ? 0 : 1)!.isIdentifier("func") && source.next() && (modifier == SyntaxTree.FunctionModifier.None || source.next())) {
 		const symbol = Type.Name.parse(source.clone())
 		if (!symbol)
 			source.raise("Expected symbol in function declaration.")
 		// TODO: add overload name parsing: ~overloadName
-		const typeParameters = Declaration.parseTypeParameters(source.clone())
+		const parameters = Declaration.parseParameters(source.clone())
 		const argumentList = ArgumentDeclaration.parseAll(source.clone())
 		let returnType: SyntaxTree.Type.Expression | undefined
 		if (source.peek()!.isOperator("->")) {
@@ -52,7 +41,7 @@ export function parse(source: Source): SyntaxTree.FunctionDeclaration | undefine
 			returnType = Type.parse(source)
 		}
 		const body = Block.parse(source)
-		result = new SyntaxTree.FunctionDeclaration(symbol!, modifier, typeParameters, argumentList, returnType, body, source.mark())
+		result = new SyntaxTree.FunctionDeclaration(symbol!, modifier, parameters, argumentList, returnType, body, source.mark())
 	}
 	return result
 }

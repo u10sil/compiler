@@ -20,9 +20,10 @@ import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../Tokens"
 import { Expression } from "./Expression"
 import { Associativity } from "./Associativity"
+import { addDeserializer, deserialize } from "./deserialize"
 
 export class InfixOperator extends Expression {
-	constructor(readonly symbol: string, readonly precedence: number, readonly associativity: Associativity, readonly left: Expression, readonly right: Expression, tokens: () => Utilities.Iterator<Tokens.Substance>) {
+	constructor(readonly symbol: string, readonly precedence: number, readonly associativity: Associativity, readonly left: Expression, readonly right: Expression, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
 		super(undefined, tokens)
 	}
 	serialize(): { class: string } & any {
@@ -120,3 +121,12 @@ export class InfixOperator extends Expression {
 		return result
 	}
 }
+addDeserializer(data => {
+	let result: InfixOperator | undefined
+	if (data.class == "infixOperator" && data.hasOwnProperty("symbol") && data.hasOwnProperty("left") && data.hasOwnProperty("right")) {
+		const properties = InfixOperator.getProperties(data.symbol)
+		if (properties)
+			result = new InfixOperator(data.symbol, properties[0], properties[1], deserialize<Expression>(data.left)!, deserialize<Expression>(data.right)!)
+	}
+	return result
+})

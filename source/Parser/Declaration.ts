@@ -20,7 +20,7 @@ import * as Type from "./Type"
 import { Source } from "./Source"
 import * as SyntaxTree from "../SyntaxTree"
 
-export function parseTypeParameters(source: Source): SyntaxTree.Type.Name[] {
+export function parseParameters(source: Source): SyntaxTree.Type.Name[] {
 	const result: SyntaxTree.Type.Name[] = []
 	if (source.peek()!.isOperator("<")) {
 		do {

@@ -20,9 +20,10 @@ import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../../Tokens"
 import * as Type from "../Type"
 import { Abstract } from "./Abstract"
+import { addDeserializer } from "../deserialize"
 
 export class Number extends Abstract {
-	constructor(readonly value: number, type: Type.Expression | undefined, tokens: () => Utilities.Iterator<Tokens.Substance>) {
+	constructor(readonly value: number, type?: Type.Expression | undefined, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
 		super(type, tokens)
 	}
 	serialize(): { class: string } & any {
@@ -32,3 +33,5 @@ export class Number extends Abstract {
 		}
 	}
 }
+// tslint:disable no-construct
+addDeserializer(data => data.class == "literal.number" && data.hasOwnProperty("value") ? new Number(data.value) : undefined)

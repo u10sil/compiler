@@ -19,12 +19,13 @@
 import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../../Tokens"
 import { Expression } from "./Expression"
+import { addDeserializer, deserialize } from "../deserialize"
 
 export class Function extends Expression {
 	get arguments(): Utilities.Iterator<Expression> {
 		return new Utilities.ArrayIterator(this.argumentArray)
 	}
-	constructor(private argumentArray: Expression[], readonly result: Expression, tokens: () => Utilities.Iterator<Tokens.Substance>) {
+	constructor(private argumentArray: Expression[], readonly result: Expression, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
 		super(tokens)
 	}
 	serialize(): { class: string } & any {
@@ -35,3 +36,4 @@ export class Function extends Expression {
 		}
 	}
 }
+addDeserializer(data => data.class == "type.function" && data.hasOwnProperty("value") ? new Function(deserialize<Expression>(data.arguments as ({ class: string } & any)[]), deserialize(data.result)!) : undefined)

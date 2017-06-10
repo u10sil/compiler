@@ -20,9 +20,10 @@ import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../Tokens"
 import { Declaration } from "./Declaration"
 import * as Type from "./Type"
+import { addDeserializer, deserialize } from "./deserialize"
 
 export class ArgumentDeclaration extends Declaration {
-	constructor(symbol: string, readonly type: Type.Expression | undefined, tokens: () => Utilities.Iterator<Tokens.Substance>) {
+	constructor(symbol: string, readonly type?: Type.Expression | undefined, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
 		super(symbol, tokens)
 	}
 	serialize(): { class: string } & any {
@@ -33,3 +34,4 @@ export class ArgumentDeclaration extends Declaration {
 		}
 	}
 }
+addDeserializer(data => data.class == "argumentDeclaration" && data.hasOwnProperty("symbol") ? new ArgumentDeclaration(data.symbol, deserialize(data.type)) : undefined)

@@ -20,9 +20,10 @@ import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../Tokens"
 import * as Type from "./Type"
 import { Expression } from "./Expression"
+import { addDeserializer, deserialize } from "./deserialize"
 
 export class PostfixOperator extends Expression {
-	constructor(readonly symbol: string, readonly precedence: number, readonly argument: Expression, type: Type.Expression | undefined, tokens: () => Utilities.Iterator<Tokens.Substance>) {
+	constructor(readonly symbol: string, readonly precedence: number, readonly argument: Expression, type?: Type.Expression | undefined, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
 		super(type, tokens)
 	}
 	serialize(): { class: string } & any {
@@ -45,3 +46,7 @@ export class PostfixOperator extends Expression {
 		return result
 	}
 }
+addDeserializer(data => {
+	let precedence: number | undefined
+	return data.class == "postfixOperator" && data.hasOwnProperty("symbol") && data.hasOwnProperty("argument") && (precedence = PostfixOperator.getPrecedence(data.symbol)) ? new PostfixOperator(data.symbol, precedence, deserialize<Expression>(data.argument)!) : undefined
+})

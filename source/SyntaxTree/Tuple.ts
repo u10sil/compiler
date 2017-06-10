@@ -20,10 +20,11 @@ import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../Tokens"
 import * as Type from "./Type"
 import { Expression } from "./Expression"
+import { addDeserializer, deserialize } from "./deserialize"
 
 export class Tuple extends Expression {
 	get precedence() { return Number.MAX_VALUE }
-	constructor(readonly elements: Expression[], type: Type.Expression | undefined, tokens: () => Utilities.Iterator<Tokens.Substance>) {
+	constructor(readonly elements: Expression[], type?: Type.Expression | undefined, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
 		super(type, tokens)
 	}
 	serialize(): { class: string } & any {
@@ -33,3 +34,4 @@ export class Tuple extends Expression {
 		}
 	}
 }
+addDeserializer(data => data.class == "tuple" ? new Tuple(deserialize<Expression>(data.elements as ({ class: string } & any)[])) : undefined)

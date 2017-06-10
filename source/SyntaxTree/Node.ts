@@ -20,7 +20,7 @@ import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../Tokens"
 
 export abstract class Node {
-	constructor(readonly tokens: () => Utilities.Iterator<Tokens.Substance>) {
+	constructor(readonly tokens?: () => Utilities.Iterator<Tokens.Substance>) {
 	}
 	abstract serialize(): { class: string } & any
 }

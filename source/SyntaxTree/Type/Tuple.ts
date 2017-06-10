@@ -19,18 +19,20 @@
 import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../../Tokens"
 import { Expression } from "./Expression"
+import { addDeserializer, deserialize } from "../deserialize"
 
 export class Tuple extends Expression {
-	get children(): Utilities.Iterator<Expression> {
-		return new Utilities.ArrayIterator(this.childrenArray)
+	get elements(): Utilities.Iterator<Expression> {
+		return new Utilities.ArrayIterator(this.elementsArray)
 	}
-	constructor(private childrenArray: Expression[], tokens: () => Utilities.Iterator<Tokens.Substance>) {
+	constructor(private elementsArray: Expression[], tokens?: () => Utilities.Iterator<Tokens.Substance>) {
 		super(tokens)
 	}
 	serialize(): { class: string } & any {
 		return {
 			class: "type.tuple",
-			children: this.childrenArray.map(c => c.serialize()),
+			elements: this.elementsArray.map(c => c.serialize()),
 		}
 	}
 }
+addDeserializer(data => data.class == "type.name" ? new Tuple(deserialize<Expression>(data.elements as ({ class: string } & any)[])) : undefined)

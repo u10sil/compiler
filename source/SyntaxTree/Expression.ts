@@ -23,7 +23,7 @@ import { Statement } from "./Statement"
 
 export abstract class Expression extends Statement {
 	abstract get precedence(): number
-	constructor(readonly type: Type.Expression | undefined, tokens: () => Utilities.Iterator<Tokens.Substance>) {
+	constructor(readonly type: Type.Expression | undefined, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
 		super(tokens)
 	}
 }

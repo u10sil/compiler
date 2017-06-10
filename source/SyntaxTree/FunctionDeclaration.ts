@@ -23,10 +23,11 @@ import * as Type from "./Type"
 import { ArgumentDeclaration } from "./ArgumentDeclaration"
 import { Block } from "./Block"
 import { FunctionModifier } from "./FunctionModifier"
+import { addDeserializer, deserialize } from "./deserialize"
 
 export class FunctionDeclaration extends SymbolDeclaration {
-	get typeParameters(): Utilities.Iterator<Type.Name> {
-		return new Utilities.ArrayIterator(this.typeParametersArray)
+	get parameters(): Utilities.Iterator<Type.Name> {
+		return new Utilities.ArrayIterator(this.parametersArray)
 	}
 	get argumentList(): Utilities.Iterator<ArgumentDeclaration> {
 		return new Utilities.ArrayIterator(this.argumentsArray)
@@ -43,7 +44,7 @@ export class FunctionDeclaration extends SymbolDeclaration {
 		}
 		return result
 	}
-	constructor(symbol: Type.Name, readonly modifier: FunctionModifier, private typeParametersArray: Type.Name[], private argumentsArray: ArgumentDeclaration[], readonly returnType: Type.Expression | undefined, readonly body: Block | undefined, tokens: () => Utilities.Iterator<Tokens.Substance>) {
+	constructor(symbol: Type.Name, readonly modifier: FunctionModifier, private parametersArray: Type.Name[], private argumentsArray: ArgumentDeclaration[], readonly returnType: Type.Expression | undefined, readonly body: Block | undefined, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
 		super(symbol.name, tokens)
 	}
 	serialize(): { class: string } & any {
@@ -51,10 +52,30 @@ export class FunctionDeclaration extends SymbolDeclaration {
 			...super.serialize(),
 			class: "functionDeclaration",
 			modifier: this.modifier != FunctionModifier.None ? this.modifierAsString : undefined,
-			typeParameters: this.typeParametersArray.length > 0 ? this.typeParametersArray.map(t => t.serialize()) : undefined,
+			parameters: this.parametersArray.length > 0 ? this.parametersArray.map(t => t.serialize()) : undefined,
 			arguments: this.argumentsArray.length > 0 ? this.argumentsArray.map(a => a.serialize()) : undefined,
 			returnType: this.returnType && this.returnType.serialize(),
 			body: this.body && this.body.serialize(),
 		}
 	}
+	static parseModifier(modifier: string): FunctionModifier {
+		let result: FunctionModifier
+		switch (modifier) {
+			case "abstract": result = FunctionModifier.Abstract; break
+			default: result = FunctionModifier.None; break
+			case "override": result = FunctionModifier.Override; break
+			case "static": result = FunctionModifier.Static; break
+			case "virtual": result = FunctionModifier.Virtual; break
+		}
+		return result
+	}
 }
+addDeserializer(data => data.class == "functionDeclaration" && data.hasOwnProperty("symbol") ?
+	new FunctionDeclaration(
+		data.symbol,
+		FunctionDeclaration.parseModifier(data.modifier),
+		deserialize<Type.Name>(data.parameters as ({ class: string } & any)[]),
+		deserialize<ArgumentDeclaration>(data.arguments as ({ class: string } & any)[]),
+		deserialize<Type.Expression>(data.returnType),
+		deserialize<Block>(data.Block))
+	: undefined)

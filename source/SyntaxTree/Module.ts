@@ -20,12 +20,13 @@ import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../Tokens"
 import { Statement } from "./Statement"
 import { Node } from "./Node"
+import { addDeserializer, deserialize } from "./deserialize"
 
 export class Module extends Node {
 	get statements(): Utilities.Iterator<Statement> {
 		return new Utilities.ArrayIterator(this.statementsArray)
 	}
-	constructor(private statementsArray: Statement[], tokens: () => Utilities.Iterator<Tokens.Substance>) {
+	constructor(private statementsArray: Statement[], tokens?: () => Utilities.Iterator<Tokens.Substance>) {
 		super(tokens)
 	}
 	serialize(): { class: string } & any {
@@ -35,3 +36,4 @@ export class Module extends Node {
 		}
 	}
 }
+addDeserializer(data => data.class == "module" && data.hasOwnProperty("statements") ? new Module(deserialize<Statement>(data.statements as ({ class: string } & any)[])) : undefined)

@@ -20,9 +20,10 @@ import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../Tokens"
 import * as Type from "./Type"
 import { Expression } from "./Expression"
+import { addDeserializer, deserialize } from "./deserialize"
 
 export class PrefixOperator extends Expression {
-	constructor(readonly symbol: string, readonly precedence: number, readonly argument: Expression, type: Type.Expression | undefined, tokens: () => Utilities.Iterator<Tokens.Substance>) {
+	constructor(readonly symbol: string, readonly precedence: number, readonly argument: Expression, type?: Type.Expression | undefined, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
 		super(type, tokens)
 	}
 	serialize(): { class: string } & any {
@@ -49,3 +50,7 @@ export class PrefixOperator extends Expression {
 		return result
 	}
 }
+addDeserializer(data => {
+	let precedence: number | undefined
+	return data.class == "prefixOperator" && data.hasOwnProperty("symbol") && data.hasOwnProperty("argument") && (precedence = PrefixOperator.getPrecedence(data.symbol)) ? new PrefixOperator(data.symbol, precedence, deserialize<Expression>(data.argument)!) : undefined
+})

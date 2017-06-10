@@ -19,9 +19,10 @@
 import { Utilities } from "@cogneco/mend"
 import { Expression } from "./Expression"
 import * as Tokens from "../../Tokens"
+import { addDeserializer } from "../deserialize"
 
 export class Name extends Expression {
-	constructor(readonly name: string, tokens: () => Utilities.Iterator<Tokens.Substance>) {
+	constructor(readonly name: string, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
 		super(tokens)
 	}
 	serialize(): { class: string } & any {
@@ -31,3 +32,4 @@ export class Name extends Expression {
 		}
 	}
 }
+addDeserializer(data => data.class == "type.name" && data.hasOwnProperty("name") ? new Name(data.name) : undefined)

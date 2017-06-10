@@ -20,9 +20,10 @@ import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../../Tokens"
 import * as Type from "../Type"
 import { Abstract } from "./Abstract"
+import { addDeserializer } from "../deserialize"
 
 export class Character extends Abstract {
-	constructor(readonly value: string, type: Type.Expression | undefined, tokens: () => Utilities.Iterator<Tokens.Substance>) {
+	constructor(readonly value: string, type?: Type.Expression | undefined, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
 		super(type, tokens)
 	}
 	serialize(): { class: string } & any {
@@ -32,3 +33,4 @@ export class Character extends Abstract {
 		}
 	}
 }
+addDeserializer(data => data.class == "literal.character" && data.hasOwnProperty("value") ? new Character(data.value) : undefined)

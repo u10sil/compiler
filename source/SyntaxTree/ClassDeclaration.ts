@@ -21,15 +21,16 @@ import * as Tokens from "../Tokens"
 import { TypeDeclaration } from "./TypeDeclaration"
 import * as Type from "./Type"
 import { Block } from "./Block"
+import { addDeserializer, deserialize } from "./deserialize"
 
 export class ClassDeclaration extends TypeDeclaration {
-	get typeParameters(): Utilities.Iterator<Type.Name> {
-		return new Utilities.ArrayIterator(this.typeParametersArray)
+	get parameters(): Utilities.Iterator<Type.Name> {
+		return new Utilities.ArrayIterator(this.parametersArray)
 	}
 	get implemented(): Utilities.Iterator<Type.Identifier> {
 		return new Utilities.ArrayIterator(this.implementedArray)
 	}
-	constructor(symbol: Type.Name, readonly isAbstract: boolean, private typeParametersArray: Type.Name[], readonly extended: Type.Identifier | undefined, private implementedArray: Type.Identifier[], readonly content: Block, tokens: () => Utilities.Iterator<Tokens.Substance>) {
+	constructor(symbol: Type.Name, readonly isAbstract: boolean, private parametersArray: Type.Name[], readonly extended: Type.Identifier | undefined, private implementedArray: Type.Identifier[], readonly content: Block, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
 		super(symbol.name, tokens)
 	}
 	serialize(): { class: string } & any {
@@ -37,10 +38,14 @@ export class ClassDeclaration extends TypeDeclaration {
 			...super.serialize(),
 			class: "classDeclaration",
 			isAbstract: this.isAbstract || undefined,
-			typeParameters: this.typeParametersArray.length > 0 ? this.typeParametersArray.map(t => t.serialize()) : undefined,
+			parameters: this.parametersArray.length > 0 ? this.parametersArray.map(t => t.serialize()) : undefined,
 			extends: this.extended && this.extended.serialize(),
 			implements: this.implementedArray.length > 0 ? this.implementedArray.map(i => i.serialize()) : undefined,
 			content: this.content.serialize(),
 		}
 	}
 }
+addDeserializer(data =>
+	data.class == "classDeclaration" && data.hasOwnProperty("name") && data.hasOwnProperty("content") ?
+	new ClassDeclaration(data.name, data.isAbstract, deserialize<Type.Name>(data.parameters as ({ class: string } & any)[]), deserialize<Type.Identifier>(data.extends), deserialize<Type.Identifier>(data.implements as ({ class: string } & any)[]), deserialize<Block>(data.content)!) :
+	undefined)

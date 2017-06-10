@@ -20,19 +20,21 @@ import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../../Tokens"
 import { Name } from "./Name"
 import { TypeDeclaration } from "../TypeDeclaration"
+import { addDeserializer, deserialize } from "../deserialize"
 
 export class Identifier extends Name {
-	get typeParameters(): Utilities.Iterator<Identifier> {
-		return new Utilities.ArrayIterator(this.typeParametersArray)
+	get parameters(): Utilities.Iterator<Identifier> {
+		return new Utilities.ArrayIterator(this.parametersArray)
 	}
-	constructor(name: string, readonly declaration: TypeDeclaration | undefined, private typeParametersArray: Identifier[], tokens: () => Utilities.Iterator<Tokens.Substance>) {
+	constructor(name: string, private parametersArray: Identifier[], readonly declaration?: TypeDeclaration, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
 		super(name, tokens)
 	}
 	serialize(): { class: string } & any {
 		return {
 			...super.serialize(),
 			class: "type.identifier",
-			arguments: this.typeParametersArray.length > 0 ? this.typeParametersArray.map(t => t.serialize()) : undefined,
+			parameters: this.parametersArray.length > 0 ? this.parametersArray.map(t => t.serialize()) : undefined,
 		}
 	}
 }
+addDeserializer(data => data.class == "type.identifier" && data.hasOwnProperty("name") ? new Identifier(data.name, deserialize<Identifier>(data.parameters as ({ class: string } & any)[])) : undefined)

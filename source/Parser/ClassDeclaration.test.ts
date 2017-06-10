@@ -34,9 +34,9 @@ export class ClassDeclarationTest extends Unit.Fixture {
 		this.add("generic class #1", () => {
 			const classDeclaration = this.createDeclaration("class Empty<T> {}\n", handler)
 			this.expect(classDeclaration, Is.not.nullOrUndefined)
-			this.expect(classDeclaration.typeParameters.next()!.name, Is.equal.to("T"))
+			this.expect(classDeclaration.parameters.next()!.name, Is.equal.to("T"))
 			this.expect(classDeclaration.serialize(), Is.equal.to({
-				class: "classDeclaration", symbol: "Empty", typeParameters: [
+				class: "classDeclaration", symbol: "Empty", parameters: [
 					{ class: "type.name", name: "T" },
 				],
 				content: { class: "block" },
@@ -45,11 +45,11 @@ export class ClassDeclarationTest extends Unit.Fixture {
 		this.add("generic class #2", () => {
 			const classDeclaration = this.createDeclaration("class Empty<T, S> {}\n", handler)
 			this.expect(classDeclaration, Is.not.nullOrUndefined)
-			const typeParameters = classDeclaration.typeParameters
-			this.expect(typeParameters.next()!.name, Is.equal.to("T"))
-			this.expect(typeParameters.next()!.name, Is.equal.to("S"))
+			const parameters = classDeclaration.parameters
+			this.expect(parameters.next()!.name, Is.equal.to("T"))
+			this.expect(parameters.next()!.name, Is.equal.to("S"))
 			this.expect(classDeclaration.serialize(), Is.equal.to({
-				class: "classDeclaration", symbol: "Empty", typeParameters: [
+				class: "classDeclaration", symbol: "Empty", parameters: [
 					{ class: "type.name", name: "T" },
 					{ class: "type.name", name: "S" },
 				],
@@ -80,23 +80,23 @@ export class ClassDeclarationTest extends Unit.Fixture {
 			const implemented = classDeclaration.implemented
 			const interface1 = implemented.next()!
 			this.expect(interface1.name, Is.equal.to("Interface1"))
-			const typeParameters1 = interface1.typeParameters
-			this.expect(typeParameters1.next()!.name, Is.equal.to("T"))
-			this.expect(typeParameters1.next()!.name, Is.equal.to("S"))
-			this.expect(typeParameters1.next(), Is.nullOrUndefined)
+			const parameters1 = interface1.parameters
+			this.expect(parameters1.next()!.name, Is.equal.to("T"))
+			this.expect(parameters1.next()!.name, Is.equal.to("S"))
+			this.expect(parameters1.next(), Is.nullOrUndefined)
 			const interface2 = implemented.next()!
 			this.expect(interface2.name, Is.equal.to("Interface2"))
-			const typeParameters2 = interface2.typeParameters
-			this.expect(typeParameters2.next()!.name, Is.equal.to("T"))
-			this.expect(typeParameters2.next()!.name, Is.equal.to("S"))
-			this.expect(typeParameters2.next(), Is.nullOrUndefined)
+			const parameters2 = interface2.parameters
+			this.expect(parameters2.next()!.name, Is.equal.to("T"))
+			this.expect(parameters2.next()!.name, Is.equal.to("S"))
+			this.expect(parameters2.next(), Is.nullOrUndefined)
 			this.expect(implemented.next(), Is.nullOrUndefined)
 			this.expect(classDeclaration.serialize(), Is.equal.to({
 				class: "classDeclaration", symbol: "Empty",
-				typeParameters: [{ class: "type.name", name: "T" }, { class: "type.name", name: "S" }],
+				parameters: [{ class: "type.name", name: "T" }, { class: "type.name", name: "S" }],
 				implements: [
-					{ class: "type.identifier", name: "Interface1", arguments: [{ class: "type.identifier", name: "T" }, { class: "type.identifier", name: "S" }] },
-					{ class: "type.identifier", name: "Interface2", arguments: [{ class: "type.identifier", name: "T" }, { class: "type.identifier", name: "S" }] },
+					{ class: "type.identifier", name: "Interface1", parameters: [{ class: "type.identifier", name: "T" }, { class: "type.identifier", name: "S" }] },
+					{ class: "type.identifier", name: "Interface2", parameters: [{ class: "type.identifier", name: "T" }, { class: "type.identifier", name: "S" }] },
 				],
 				content: { class: "block" },
 			}))

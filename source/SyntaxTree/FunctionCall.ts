@@ -20,10 +20,11 @@ import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../Tokens"
 import * as Type from "./Type"
 import { Expression } from "./Expression"
+import { addDeserializer, deserialize } from "./deserialize"
 
 export class FunctionCall extends Expression {
 	get precedence() { return 200 }
-	constructor(readonly functionExpression: Expression, readonly argumentArray: Expression[], type: Type.Expression | undefined, tokens: () => Utilities.Iterator<Tokens.Substance>) {
+	constructor(readonly functionExpression: Expression, readonly argumentArray: Expression[], type?: Type.Expression | undefined, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
 		super(type, tokens)
 	}
 	serialize(): { class: string } & any {
@@ -34,3 +35,4 @@ export class FunctionCall extends Expression {
 		}
 	}
 }
+addDeserializer(data => data.class == "functionCall" && data.hasOwnProperty("function") ? new FunctionCall(deserialize<Expression>(data.value)!, deserialize<Expression>(data.arguments as ({ class: string } & any)[])) : undefined)

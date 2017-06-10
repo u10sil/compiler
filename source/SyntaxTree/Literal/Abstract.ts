@@ -23,7 +23,7 @@ import { Expression } from "../Expression"
 
 export abstract class Abstract extends Expression {
 	get precedence() { return Number.MAX_VALUE }
-	constructor(type: Type.Expression | undefined, tokens: () => Utilities.Iterator<Tokens.Substance>) {
+	constructor(type: Type.Expression | undefined, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
 		super(type, tokens)
 	}
 }

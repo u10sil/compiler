@@ -21,6 +21,7 @@ import * as Tokens from "../Tokens"
 import { Statement } from "./Statement"
 import { Expression } from "./Expression"
 import * as Type from "./Type"
+import { addDeserializer, deserialize } from "./deserialize"
 
 export class Block extends Expression {
 	get precedence(): number {
@@ -29,7 +30,7 @@ export class Block extends Expression {
 	get statements(): Utilities.Iterator<Statement> {
 		return new Utilities.ArrayIterator(this.statementsArray)
 	}
-	constructor(private statementsArray: Statement[], tokens: () => Utilities.Iterator<Tokens.Substance>) {
+	constructor(private statementsArray: Statement[], tokens?: () => Utilities.Iterator<Tokens.Substance>) {
 		super(Block.typeOfLast(statementsArray), tokens)
 	}
 	serialize(): { class: string } & any {
@@ -43,3 +44,4 @@ export class Block extends Expression {
 		return last instanceof Expression ? last.type : undefined
 	}
 }
+addDeserializer(data => data.class == "block" && data.hasOwnProperty("statements") ? new Block(deserialize<Statement>(data.statements as ({ class: string } & any)[])) : undefined)
