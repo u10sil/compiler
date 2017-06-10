@@ -23,7 +23,7 @@ import * as Parser from "./"
 import Is = Unit.Is
 export class VariableDeclarationTest extends Unit.Fixture {
 	constructor() {
-		super("SyntaxTree.VariableDeclaration")
+		super("Parser.VariableDeclaration")
 		const handler = new Error.ConsoleHandler()
 		this.add("simple declaration", () => {
 			const variableDeclaration = this.createDeclaration("var i: Int\n", handler)

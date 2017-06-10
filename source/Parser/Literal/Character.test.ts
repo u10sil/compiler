@@ -23,7 +23,7 @@ import * as Parser from "../"
 import Is = Unit.Is
 export class CharacterTest extends Unit.Fixture {
 	constructor() {
-		super("SyntaxTree.Expressions.Literal.Character")
+		super("Parser.Expressions.Literal.Character")
 		const handler = new Error.ConsoleHandler()
 		this.add("literal", () => {
 			const literal = Parser.parseFirst("'a'", handler)

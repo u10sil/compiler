@@ -22,7 +22,7 @@ import * as Parser from "./"
 import Is = Unit.Is
 export class PrefixOperatorTest extends Unit.Fixture {
 	constructor() {
-		super("SyntaxTree.PrefixOperator")
+		super("Parser.PrefixOperator")
 		const handler = new Error.ConsoleHandler()
 		this.add("-a", () => {
 			const result = Parser.parseFirst("-a", handler)

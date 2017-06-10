@@ -22,7 +22,7 @@ import * as Parser from "./"
 import Is = Unit.Is
 export class PostfixOperatorTest extends Unit.Fixture {
 	constructor() {
-		super("SyntaxTree.PostfixOperator")
+		super("Parser.PostfixOperator")
 		const handler = new Error.ConsoleHandler()
 		this.add("a--", () => {
 			const result = Parser.parseFirst("a--", handler)

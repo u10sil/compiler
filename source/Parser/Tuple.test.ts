@@ -22,7 +22,7 @@ import * as Parser from "./"
 import Is = Unit.Is
 export class TupleTest extends Unit.Fixture {
 	constructor() {
-		super("SyntaxTree.Tuple")
+		super("Parser.Tuple")
 		const handler = new Error.ConsoleHandler()
 		this.add("(a, b)", () => {
 			const result = Parser.parseFirst("(a, b)", handler)

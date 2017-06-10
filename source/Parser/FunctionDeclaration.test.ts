@@ -23,7 +23,7 @@ import * as Parser from "./"
 import Is = Unit.Is
 export class FunctionDeclarationTest extends Unit.Fixture {
 	constructor() {
-		super("SyntaxTree.FunctionDeclaration")
+		super("Parser.FunctionDeclaration")
 		const handler = new Error.ConsoleHandler()
 		//
 		// TODO: Construct a test for an argument list with no explicitly set types (type inference)

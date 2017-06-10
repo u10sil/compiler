@@ -23,7 +23,7 @@ import * as Parser from "../"
 import Is = Unit.Is
 export class NumberTest extends Unit.Fixture {
 	constructor() {
-		super("SyntaxTree.Expressions.Literal.Number")
+		super("Parser.Expressions.Literal.Number")
 		const handler = new Error.ConsoleHandler()
 		this.add("integer", () => {
 			const parser = Parser.create("12345", handler)

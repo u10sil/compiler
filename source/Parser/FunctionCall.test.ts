@@ -22,7 +22,7 @@ import * as Parser from "./"
 import Is = Unit.Is
 export class FunctionCallTest extends Unit.Fixture {
 	constructor() {
-		super("SyntaxTree.FunctionCall")
+		super("Parser.FunctionCall")
 		const handler = new Error.ConsoleHandler()
 		this.add("function()", () => {
 			const result = Parser.parseFirst("function()", handler)

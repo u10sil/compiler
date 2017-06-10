@@ -23,7 +23,7 @@ import * as Parser from "./"
 import Is = Unit.Is
 export class InfixOperatorTest extends Unit.Fixture {
 	constructor() {
-		super("SyntaxTree.InfixOperator")
+		super("Parser.InfixOperator")
 		const handler = new Error.ConsoleHandler()
 		this.add("a = 'b'", () => {
 			const result = Parser.parseFirst("a = 'b'", handler) as SyntaxTree.InfixOperator

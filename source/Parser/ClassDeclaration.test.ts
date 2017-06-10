@@ -23,7 +23,7 @@ import * as Parser from "./"
 import Is = Unit.Is
 export class ClassDeclarationTest extends Unit.Fixture {
 	constructor() {
-		super("SyntaxTree.ClassDeclaration")
+		super("Parser.ClassDeclaration")
 		const handler = new Error.ConsoleHandler()
 		this.add("empty class", () => {
 			const classDeclaration = this.createDeclaration("class Empty {}\n", handler)

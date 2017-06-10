@@ -22,7 +22,7 @@ import * as Parser from "./"
 import Is = Unit.Is
 export class ModuleTest extends Unit.Fixture {
 	constructor() {
-		super("SyntaxTree.Module")
+		super("Parser.Module")
 		const handler = new Error.ConsoleHandler()
 		this.add("simple declaration", () => {
 			const module = Parser.create("var i: Int\n", handler).next()!

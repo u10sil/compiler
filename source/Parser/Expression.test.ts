@@ -22,7 +22,7 @@ import * as Parser from "./"
 import Is = Unit.Is
 export class ExpressionTest extends Unit.Fixture {
 	constructor() {
-		super("SyntaxTree.Expression")
+		super("Parser.Expression")
 		const handler = new Error.ConsoleHandler()
 		this.add("a 'b'", () => {
 			const parser = Parser.create("a 'b'", handler)
