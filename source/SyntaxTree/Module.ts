@@ -23,6 +23,7 @@ import { Node } from "./Node"
 import { addDeserializer, deserialize } from "./deserialize"
 
 export class Module extends Node {
+	get class() { return "module" }
 	get statements(): Utilities.Iterator<Statement> {
 		return new Utilities.ArrayIterator(this.statementsArray)
 	}
@@ -31,7 +32,7 @@ export class Module extends Node {
 	}
 	serialize(): { class: string } & any {
 		return {
-			class: "module",
+			...super.serialize(),
 			statements: this.statementsArray.map(s => s.serialize()),
 		}
 	}

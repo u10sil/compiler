@@ -23,13 +23,14 @@ import { Expression } from "./Expression"
 import { addDeserializer, deserialize } from "./deserialize"
 
 export class FunctionCall extends Expression {
+	get class() { return "functionCall" }
 	get precedence() { return 200 }
 	constructor(readonly functionExpression: Expression, readonly argumentArray: Expression[], type?: Type.Expression | undefined, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
 		super(type, tokens)
 	}
 	serialize(): { class: string } & any {
 		return {
-			class: "functionCall",
+			...super.serialize(),
 			function: this.functionExpression.serialize(),
 			arguments: this.argumentArray.length > 0 ? this.argumentArray.map(e => e.serialize()) : undefined,
 		}

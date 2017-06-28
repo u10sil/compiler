@@ -23,12 +23,13 @@ import { Abstract } from "./Abstract"
 import { addDeserializer } from "../deserialize"
 
 export class Character extends Abstract {
+	get class() { return "literal.character" }
 	constructor(readonly value: string, type?: Type.Expression | undefined, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
 		super(type, tokens)
 	}
 	serialize(): { class: string } & any {
 		return {
-			class: "literal.character",
+			...super.serialize(),
 			value: this.value,
 		}
 	}

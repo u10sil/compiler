@@ -22,6 +22,7 @@ import { Expression } from "./Expression"
 import { addDeserializer, deserialize } from "../deserialize"
 
 export class Tuple extends Expression {
+	get class() { return "type.tuple" }
 	get elements(): Utilities.Iterator<Expression> {
 		return new Utilities.ArrayIterator(this.elementsArray)
 	}
@@ -30,7 +31,7 @@ export class Tuple extends Expression {
 	}
 	serialize(): { class: string } & any {
 		return {
-			class: "type.tuple",
+			...super.serialize(),
 			elements: this.elementsArray.map(c => c.serialize()),
 		}
 	}

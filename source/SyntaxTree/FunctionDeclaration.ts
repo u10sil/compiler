@@ -26,6 +26,7 @@ import { FunctionModifier } from "./FunctionModifier"
 import { addDeserializer, deserialize } from "./deserialize"
 
 export class FunctionDeclaration extends SymbolDeclaration {
+	get class() { return "functionDeclaration" }
 	get parameters(): Utilities.Iterator<Type.Name> {
 		return new Utilities.ArrayIterator(this.parametersArray)
 	}
@@ -50,7 +51,6 @@ export class FunctionDeclaration extends SymbolDeclaration {
 	serialize(): { class: string } & any {
 		return {
 			...super.serialize(),
-			class: "functionDeclaration",
 			modifier: this.modifier != FunctionModifier.None ? this.modifierAsString : undefined,
 			parameters: this.parametersArray.length > 0 ? this.parametersArray.map(t => t.serialize()) : undefined,
 			arguments: this.argumentsArray.length > 0 ? this.argumentsArray.map(a => a.serialize()) : undefined,

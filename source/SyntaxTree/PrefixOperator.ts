@@ -23,12 +23,13 @@ import { Expression } from "./Expression"
 import { addDeserializer, deserialize } from "./deserialize"
 
 export class PrefixOperator extends Expression {
+	get class() { return "prefixOperator" }
 	constructor(readonly symbol: string, readonly precedence: number, readonly argument: Expression, type?: Type.Expression | undefined, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
 		super(type, tokens)
 	}
 	serialize(): { class: string } & any {
 		return {
-			class: "prefixOperator",
+			...super.serialize(),
 			symbol: this.symbol,
 			argument: this.argument.serialize(),
 		}

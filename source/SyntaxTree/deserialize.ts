@@ -18,7 +18,7 @@
 
 import { Node } from "./Node"
 
-const deserializers: {[className: string]: (data: { class: string } & any) => Node | undefined } = {}
+const deserializers: { [className: string]: (data: { class: string } & any) => Node | undefined } = {}
 export function addDeserializer(className: string, deserializer: (data: { class: string } & any) => Node | undefined) {
 	deserializers[className] = deserializer
 }

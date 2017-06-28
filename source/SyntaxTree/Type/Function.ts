@@ -22,6 +22,7 @@ import { Expression } from "./Expression"
 import { addDeserializer, deserialize } from "../deserialize"
 
 export class Function extends Expression {
+	get class() { return "type.function" }
 	get arguments(): Utilities.Iterator<Expression> {
 		return new Utilities.ArrayIterator(this.argumentArray)
 	}
@@ -30,7 +31,7 @@ export class Function extends Expression {
 	}
 	serialize(): { class: string } & any {
 		return {
-			class: "type.function",
+			...super.serialize(),
 			arguments: this.argumentArray.map(a => a.serialize()),
 			result: this.result.serialize(),
 		}

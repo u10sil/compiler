@@ -23,6 +23,7 @@ import { TypeDeclaration } from "../TypeDeclaration"
 import { addDeserializer, deserialize } from "../deserialize"
 
 export class Identifier extends Name {
+	get class() { return "type.identifier" }
 	get parameters(): Utilities.Iterator<Identifier> {
 		return new Utilities.ArrayIterator(this.parametersArray)
 	}
@@ -32,9 +33,8 @@ export class Identifier extends Name {
 	serialize(): { class: string } & any {
 		return {
 			...super.serialize(),
-			class: "type.identifier",
 			parameters: this.parametersArray.length > 0 ? this.parametersArray.map(t => t.serialize()) : undefined,
 		}
 	}
 }
-addDeserializer("type.identifier", data => data.hasOwnProperty("name") ? new Identifier(data.name, deserialize<Identifier>(data.parameters as ({ class: string } & any)[])) : undefined)
+addDeserializer("type.identifier", data => data.hasOwnProperty("name") ? new Identifier(data.name, deserialize<Identifier>(data.parameters as ({ class: string } & any)[] || [])) : undefined)

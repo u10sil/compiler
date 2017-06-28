@@ -26,7 +26,9 @@ export abstract class Declaration extends Statement {
 	}
 	serialize(): { class: string } & any {
 		return {
+			...super.serialize(),
 			symbol: this.symbol,
-		}
+			class: this.class,
+	}
 	}
 }

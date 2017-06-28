@@ -24,6 +24,7 @@ import { Block } from "./Block"
 import { addDeserializer, deserialize } from "./deserialize"
 
 export class ClassDeclaration extends TypeDeclaration {
+	get class() { return "classDeclaration" }
 	get parameters(): Utilities.Iterator<Type.Name> {
 		return new Utilities.ArrayIterator(this.parametersArray)
 	}
@@ -36,7 +37,6 @@ export class ClassDeclaration extends TypeDeclaration {
 	serialize(): { class: string } & any {
 		return {
 			...super.serialize(),
-			class: "classDeclaration",
 			isAbstract: this.isAbstract || undefined,
 			parameters: this.parametersArray.length > 0 ? this.parametersArray.map(t => t.serialize()) : undefined,
 			extends: this.extended && this.extended.serialize(),

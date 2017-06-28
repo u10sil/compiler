@@ -24,13 +24,13 @@ import * as Type from "./Type"
 import { addDeserializer, deserialize } from "./deserialize"
 
 export class VariableDeclaration extends SymbolDeclaration {
+	get class() { return "variableDeclaration" }
 	constructor(name: Type.Name, readonly isStatic: boolean, readonly isConstant: boolean, readonly type: Type.Expression | undefined, readonly value: Expression | undefined, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
 		super(name.name, tokens)
 	}
 	serialize(): { class: string } & any {
 		return {
 			...super.serialize(),
-			class: "variableDeclaration",
 			isStatic: this.isStatic || undefined,
 			isConstant: this.isConstant || undefined,
 			type: this.type && this.type.serialize(),

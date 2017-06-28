@@ -24,6 +24,7 @@ import * as Type from "./Type"
 import { addDeserializer, deserialize } from "./deserialize"
 
 export class Block extends Expression {
+	get class() { return "block" }
 	get precedence(): number {
 		return Number.MAX_VALUE
 	}
@@ -35,7 +36,7 @@ export class Block extends Expression {
 	}
 	serialize(): { class: string } & any {
 		return {
-			class: "block",
+			...super.serialize(),
 			statements: this.statementsArray.length > 0 ? this.statementsArray.map(s => s.serialize()) : undefined,
 		}
 	}

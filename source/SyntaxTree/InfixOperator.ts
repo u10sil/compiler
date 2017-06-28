@@ -23,12 +23,13 @@ import { Associativity } from "./Associativity"
 import { addDeserializer, deserialize } from "./deserialize"
 
 export class InfixOperator extends Expression {
+	get class() { return "infixOperator" }
 	constructor(readonly symbol: string, readonly precedence: number, readonly associativity: Associativity, readonly left: Expression, readonly right: Expression, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
 		super(undefined, tokens)
 	}
 	serialize(): { class: string } & any {
 		return {
-			class: "infixOperator",
+			...super.serialize(),
 			symbol: this.symbol,
 			left: this.left.serialize(),
 			right: this.right.serialize(),
