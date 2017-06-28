@@ -36,4 +36,4 @@ export class Module extends Node {
 		}
 	}
 }
-addDeserializer(data => data.class == "module" && data.hasOwnProperty("statements") ? new Module(deserialize<Statement>(data.statements as ({ class: string } & any)[])) : undefined)
+addDeserializer("module", data => data.hasOwnProperty("statements") ? new Module(deserialize<Statement>(data.statements as ({ class: string } & any)[])) : undefined)

@@ -121,9 +121,9 @@ export class InfixOperator extends Expression {
 		return result
 	}
 }
-addDeserializer(data => {
+addDeserializer("infixOperator", data => {
 	let result: InfixOperator | undefined
-	if (data.class == "infixOperator" && data.hasOwnProperty("symbol") && data.hasOwnProperty("left") && data.hasOwnProperty("right")) {
+	if (data.hasOwnProperty("symbol") && data.hasOwnProperty("left") && data.hasOwnProperty("right")) {
 		const properties = InfixOperator.getProperties(data.symbol)
 		if (properties)
 			result = new InfixOperator(data.symbol, properties[0], properties[1], deserialize<Expression>(data.left)!, deserialize<Expression>(data.right)!)

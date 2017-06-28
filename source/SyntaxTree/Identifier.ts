@@ -35,4 +35,4 @@ export class Identifier extends Expression {
 		}
 	}
 }
-addDeserializer(data => data.class == "identifier" && data.hasOwnProperty("name") ? new Identifier(data.name) : undefined)
+addDeserializer("identifier", data => data.hasOwnProperty("name") ? new Identifier(data.name) : undefined)

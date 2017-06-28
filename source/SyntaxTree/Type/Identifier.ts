@@ -37,4 +37,4 @@ export class Identifier extends Name {
 		}
 	}
 }
-addDeserializer(data => data.class == "type.identifier" && data.hasOwnProperty("name") ? new Identifier(data.name, deserialize<Identifier>(data.parameters as ({ class: string } & any)[])) : undefined)
+addDeserializer("type.identifier", data => data.hasOwnProperty("name") ? new Identifier(data.name, deserialize<Identifier>(data.parameters as ({ class: string } & any)[])) : undefined)

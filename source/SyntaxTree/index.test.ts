@@ -1,4 +1,4 @@
-// Copyright (C) 2015, 2017  Simon Mika <simon@mika.se>
+// Copyright (C) 2017  Simon Mika <simon@mika.se>
 //
 // This file is part of SysPL.
 //
@@ -16,20 +16,4 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Utilities } from "@cogneco/mend"
-import { Expression } from "./Expression"
-import * as Tokens from "../../Tokens"
-import { addDeserializer } from "../deserialize"
-
-export class Name extends Expression {
-	constructor(readonly name: string, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
-		super(tokens)
-	}
-	serialize(): { class: string } & any {
-		return {
-			class: "type.name",
-			name: this.name,
-		}
-	}
-}
-addDeserializer("type.name", data => data.hasOwnProperty("name") ? new Name(data.name) : undefined)
+import "./deserialize.test"

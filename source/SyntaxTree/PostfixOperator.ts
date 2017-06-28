@@ -46,7 +46,7 @@ export class PostfixOperator extends Expression {
 		return result
 	}
 }
-addDeserializer(data => {
+addDeserializer("postfixOperator", data => {
 	let precedence: number | undefined
-	return data.class == "postfixOperator" && data.hasOwnProperty("symbol") && data.hasOwnProperty("argument") && (precedence = PostfixOperator.getPrecedence(data.symbol)) ? new PostfixOperator(data.symbol, precedence, deserialize<Expression>(data.argument)!) : undefined
+	return data.hasOwnProperty("symbol") && data.hasOwnProperty("argument") && (precedence = PostfixOperator.getPrecedence(data.symbol)) ? new PostfixOperator(data.symbol, precedence, deserialize<Expression>(data.argument)!) : undefined
 })

@@ -44,8 +44,8 @@ export class FunctionDeclaration extends SymbolDeclaration {
 		}
 		return result
 	}
-	constructor(symbol: Type.Name, readonly modifier: FunctionModifier, private parametersArray: Type.Name[], private argumentsArray: ArgumentDeclaration[], readonly returnType: Type.Expression | undefined, readonly body: Block | undefined, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
-		super(symbol.name, tokens)
+	constructor(symbol: Type.Name | string, readonly modifier: FunctionModifier, private parametersArray: Type.Name[], private argumentsArray: ArgumentDeclaration[], readonly returnType: Type.Expression | undefined, readonly body: Block | undefined, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
+		super(typeof(symbol) == "string" ? symbol : symbol.name, tokens)
 	}
 	serialize(): { class: string } & any {
 		return {
@@ -70,7 +70,7 @@ export class FunctionDeclaration extends SymbolDeclaration {
 		return result
 	}
 }
-addDeserializer(data => data.class == "functionDeclaration" && data.hasOwnProperty("symbol") ?
+addDeserializer("functionDeclaration", data => data.hasOwnProperty("symbol") ?
 	new FunctionDeclaration(
 		data.symbol,
 		FunctionDeclaration.parseModifier(data.modifier),

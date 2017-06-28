@@ -50,7 +50,7 @@ export class PrefixOperator extends Expression {
 		return result
 	}
 }
-addDeserializer(data => {
+addDeserializer("prefixOperator", data => {
 	let precedence: number | undefined
-	return data.class == "prefixOperator" && data.hasOwnProperty("symbol") && data.hasOwnProperty("argument") && (precedence = PrefixOperator.getPrecedence(data.symbol)) ? new PrefixOperator(data.symbol, precedence, deserialize<Expression>(data.argument)!) : undefined
+	return data.hasOwnProperty("symbol") && data.hasOwnProperty("argument") && (precedence = PrefixOperator.getPrecedence(data.symbol)) ? new PrefixOperator(data.symbol, precedence, deserialize<Expression>(data.argument)!) : undefined
 })

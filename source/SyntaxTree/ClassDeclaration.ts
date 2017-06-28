@@ -45,7 +45,7 @@ export class ClassDeclaration extends TypeDeclaration {
 		}
 	}
 }
-addDeserializer(data =>
-	data.class == "classDeclaration" && data.hasOwnProperty("name") && data.hasOwnProperty("content") ?
+addDeserializer("classDeclaration", data =>
+	data.hasOwnProperty("name") && data.hasOwnProperty("content") ?
 	new ClassDeclaration(data.name, data.isAbstract, deserialize<Type.Name>(data.parameters as ({ class: string } & any)[]), deserialize<Type.Identifier>(data.extends), deserialize<Type.Identifier>(data.implements as ({ class: string } & any)[]), deserialize<Block>(data.content)!) :
 	undefined)

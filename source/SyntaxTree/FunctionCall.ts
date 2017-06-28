@@ -35,4 +35,4 @@ export class FunctionCall extends Expression {
 		}
 	}
 }
-addDeserializer(data => data.class == "functionCall" && data.hasOwnProperty("function") ? new FunctionCall(deserialize<Expression>(data.value)!, deserialize<Expression>(data.arguments as ({ class: string } & any)[])) : undefined)
+addDeserializer("functionCall", data => data.hasOwnProperty("function") ? new FunctionCall(deserialize<Expression>(data.value)!, deserialize<Expression>(data.arguments as ({ class: string } & any)[])) : undefined)

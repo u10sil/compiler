@@ -36,4 +36,4 @@ export class Function extends Expression {
 		}
 	}
 }
-addDeserializer(data => data.class == "type.function" && data.hasOwnProperty("value") ? new Function(deserialize<Expression>(data.arguments as ({ class: string } & any)[]), deserialize(data.result)!) : undefined)
+addDeserializer("type.function", data => data.hasOwnProperty("value") ? new Function(deserialize<Expression>(data.arguments as ({ class: string } & any)[]), deserialize(data.result)!) : undefined)

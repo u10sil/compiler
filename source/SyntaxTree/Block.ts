@@ -44,4 +44,4 @@ export class Block extends Expression {
 		return last instanceof Expression ? last.type : undefined
 	}
 }
-addDeserializer(data => data.class == "block" && data.hasOwnProperty("statements") ? new Block(deserialize<Statement>(data.statements as ({ class: string } & any)[])) : undefined)
+addDeserializer("block", data => data.hasOwnProperty("statements") ? new Block(deserialize<Statement>(data.statements as ({ class: string } & any)[])) : undefined)

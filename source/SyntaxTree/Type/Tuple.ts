@@ -35,4 +35,4 @@ export class Tuple extends Expression {
 		}
 	}
 }
-addDeserializer(data => data.class == "type.name" ? new Tuple(deserialize<Expression>(data.elements as ({ class: string } & any)[])) : undefined)
+addDeserializer("type.tuple", data => new Tuple(deserialize<Expression>(data.elements as ({ class: string } & any)[])))

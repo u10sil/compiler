@@ -19,6 +19,7 @@
 import { Unit } from "@cogneco/mend"
 
 import "./Tokens/index.test"
+import "./SyntaxTree/index.test"
 import "./Parser/index.test"
 
 process.exit(Unit.Fixture.run(process.argv.length > 2 && process.argv[2] == "debug") ? 0 : 1)

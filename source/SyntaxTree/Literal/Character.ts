@@ -33,4 +33,4 @@ export class Character extends Abstract {
 		}
 	}
 }
-addDeserializer(data => data.class == "literal.character" && data.hasOwnProperty("value") ? new Character(data.value) : undefined)
+addDeserializer("literal.character", data => data.hasOwnProperty("value") ? new Character(data.value) : undefined)

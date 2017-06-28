@@ -34,4 +34,4 @@ export class Number extends Abstract {
 	}
 }
 // tslint:disable no-construct
-addDeserializer(data => data.class == "literal.number" && data.hasOwnProperty("value") ? new Number(data.value) : undefined)
+addDeserializer("literal.number", data => data.hasOwnProperty("value") ? new Number(data.value) : undefined)

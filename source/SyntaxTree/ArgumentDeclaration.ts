@@ -34,4 +34,4 @@ export class ArgumentDeclaration extends Declaration {
 		}
 	}
 }
-addDeserializer(data => data.class == "argumentDeclaration" && data.hasOwnProperty("symbol") ? new ArgumentDeclaration(data.symbol, deserialize(data.type)) : undefined)
+addDeserializer("argumentDeclaration", data => data.hasOwnProperty("symbol") ? new ArgumentDeclaration(data.symbol, deserialize(data.type)) : undefined)

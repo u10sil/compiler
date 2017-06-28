@@ -18,9 +18,9 @@
 
 import { Node } from "./Node"
 
-const deserializers: ((data: { class: string } & any) => Node | undefined)[] = []
-export function addDeserializer(deserializer: (data: { class: string } & any) => Node | undefined) {
-	deserializers.push(deserializer)
+const deserializers: {[className: string]: (data: { class: string } & any) => Node | undefined } = {}
+export function addDeserializer(className: string, deserializer: (data: { class: string } & any) => Node | undefined) {
+	deserializers[className] = deserializer
 }
 export function deserialize<T extends Node>(data: ({ class: string } & any)[]): T[]
 export function deserialize<T extends Node>(data: { class: string } & any): T | undefined
@@ -28,15 +28,9 @@ export function deserialize<T extends Node>(data: ({ class: string } & any)[] | 
 	return data instanceof Array ? deserializeArray<T>(data) : deserializeNode(data) as T | undefined
 }
 function deserializeArray<T>(data: ({ class: string } & any)[]): T[] {
-	return data.map(node => deserializeNode(node) as T | undefined).filter(node => !node) as T[]
+	return data.map(node => deserializeNode(node) as T | undefined).filter(node => node) as T[]
 }
 function deserializeNode(data: { class: string } & any): Node | undefined {
-	let result: Node | undefined
-	if (deserializers.length > 0) {
-		let i = 0
-		do
-			result = deserializers[i++](data)
-		while (!result && i < deserializers.length)
-	}
-	return result
+	const deserializer = data && deserializers[data.class]
+	return deserializer && deserializer(data)
 }

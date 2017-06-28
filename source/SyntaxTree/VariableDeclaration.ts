@@ -38,4 +38,4 @@ export class VariableDeclaration extends SymbolDeclaration {
 		}
 	}
 }
-addDeserializer(data => data.class == "variableDeclaration" && data.hasOwnProperty("symbol") ? new VariableDeclaration(data.symbol, data.isStatic, data.isConstant, deserialize<Type.Expression>(data.type), deserialize<Expression>(data.value)) : undefined)
+addDeserializer("variableDeclaration", data => data.hasOwnProperty("symbol") ? new VariableDeclaration(data.symbol, data.isStatic, data.isConstant, deserialize<Type.Expression>(data.type), deserialize<Expression>(data.value)) : undefined)
