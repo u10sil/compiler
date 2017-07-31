@@ -19,9 +19,12 @@
 import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../Tokens"
 
+export type Iterator<T> = Utilities.Iterator<T>
 export abstract class Node {
 	abstract get class(): string
-	constructor(readonly tokens?: () => Utilities.Iterator<Tokens.Substance>) {
+	readonly tokens?: () => Iterator<Tokens.Substance>
+	constructor(tokens?: () => Iterator<Tokens.Substance>) {
+		this.tokens = tokens
 	}
 	serialize(): { class: string } & any {
 		return { class: this.class }

@@ -22,10 +22,13 @@ import { Declaration } from "./Declaration"
 import * as Type from "./Type"
 import { addDeserializer, deserialize } from "./deserialize"
 
+export type Expression = Type.Expression
 export class ArgumentDeclaration extends Declaration {
 	get class() { return "argumentDeclaration" }
-	constructor(symbol: string, readonly type?: Type.Expression | undefined, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
+	readonly type: Expression | undefined
+	constructor(symbol: string, type?: Expression, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
 		super(symbol, tokens)
+		this.type = type
 	}
 	serialize(): { class: string } & any {
 		return {
