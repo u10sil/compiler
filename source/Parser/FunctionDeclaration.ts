@@ -29,7 +29,7 @@ export function parse(source: Source): SyntaxTree.FunctionDeclaration | undefine
 	let result: SyntaxTree.FunctionDeclaration | undefined
 	const modifier = SyntaxTree.FunctionDeclaration.parseModifier((source.peek() as Tokens.Identifier).name)
 	if (source.peek(modifier == SyntaxTree.FunctionModifier.None ? 0 : 1)!.isIdentifier("func") && source.next() && (modifier == SyntaxTree.FunctionModifier.None || source.next())) {
-		const symbol = Type.Name.parse(source.clone())
+		const symbol = Declaration.parseIdentifier(source)
 		if (!symbol)
 			source.raise("Expected symbol in function declaration.")
 		// TODO: add overload name parsing: ~overloadName

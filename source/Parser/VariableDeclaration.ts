@@ -21,6 +21,7 @@ import * as Statement from "./Statement"
 import * as Expression from "./Expression"
 import * as Type from "./Type"
 import * as SyntaxTree from "../SyntaxTree"
+import * as Declaration from "./Declaration"
 
 export function parse(source: Source): SyntaxTree.VariableDeclaration | undefined {
 	let result: SyntaxTree.VariableDeclaration | undefined
@@ -31,14 +32,14 @@ export function parse(source: Source): SyntaxTree.VariableDeclaration | undefine
 		if (isStatic)
 			source.next() // consume "static"
 		source.next() // consume "var" or "let"
-		const name = Type.Name.parse(source.clone())
-		if (!name)
+		const symbol = Declaration.parseIdentifier(source)
+		if (!symbol)
 			source.raise("Expected symbol in variable declaration.")
 		const type = Type.tryParse(source.clone())
 		let value: SyntaxTree.Expression | undefined
 		if (source.peek()!.isOperator("=") && source.next())
 			value = Expression.parse(source, 90)
-		result = new SyntaxTree.VariableDeclaration(name!, isStatic, isConstant, type, value, source.mark())
+		result = new SyntaxTree.VariableDeclaration(symbol!, isStatic, isConstant, type, value, source.mark())
 	}
 	return result
 }

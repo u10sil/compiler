@@ -25,8 +25,8 @@ import { addDeserializer, deserialize } from "./deserialize"
 
 export class VariableDeclaration extends SymbolDeclaration {
 	get class() { return "variableDeclaration" }
-	constructor(name: Type.Name, readonly isStatic: boolean, readonly isConstant: boolean, readonly type: Type.Expression | undefined, readonly value: Expression | undefined, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
-		super(name.name, tokens)
+	constructor(symbol: string, readonly isStatic: boolean, readonly isConstant: boolean, readonly type: Type.Expression | undefined, readonly value: Expression | undefined, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
+		super(symbol, tokens)
 	}
 	serialize(): { class: string } & any {
 		return {

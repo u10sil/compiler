@@ -18,6 +18,7 @@
 
 import * as Type from "./Type"
 import { Source } from "./Source"
+import * as Tokens from "../Tokens"
 import * as SyntaxTree from "../SyntaxTree"
 
 export function parseParameters(source: Source): SyntaxTree.Type.Name[] {
@@ -32,4 +33,7 @@ export function parseParameters(source: Source): SyntaxTree.Type.Name[] {
 		source.next() // consume ">"
 	}
 	return result
+}
+export function parseIdentifier(source: Source): string | null {
+	return source.peek()!.isIdentifier() ? (source.next() as Tokens.Identifier).name : null
 }
