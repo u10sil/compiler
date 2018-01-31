@@ -20,13 +20,14 @@ import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../Tokens"
 import * as Type from "./Type"
 import { Expression } from "./Expression"
+import { Declaration } from "./Declaration"
 import { UnaryOperator } from "./UnaryOperator"
 import { addDeserializer, deserialize } from "./deserialize"
 
 export class PrefixOperator extends UnaryOperator {
 	get class() { return "prefixOperator" }
-	constructor(symbol: string, precedence: number, argument: Expression, type?: Type.Expression | undefined, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
-		super(symbol, precedence, argument, type, tokens)
+	constructor(symbol: string, precedence: number, argument: Expression, readonly declaration?: Declaration, type?: Type.Expression | undefined, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
+		super(symbol, precedence, argument, declaration, type, tokens)
 	}
 	serialize(): { class: string } & any {
 		return {

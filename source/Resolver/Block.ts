@@ -16,18 +16,10 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-export class SymbolTable<T extends { symbol: string }> {
-	symbols: { [symbol: string]: T[] } = {}
-	constructor() {
-	}
-	get(symbol: string): T[] {
-		const result = this.symbols[symbol]
-		return result ? result : []
-	}
-	append(declaration: T) {
-		if (this.symbols[declaration.symbol])
-			this.symbols[declaration.symbol].push(declaration)
-		else
-			this.symbols[declaration.symbol] = [declaration]
-	}
+import * as SyntaxTree from "../SyntaxTree"
+import { Scope, addResolver } from "./Scope"
+
+function resolve(block: SyntaxTree.Block, scope: Scope): SyntaxTree.Block {
+	return new SyntaxTree.Block(scope.resolve(block.statements), block.tokens)
 }
+addResolver("block", (statement: SyntaxTree.Statement, scope: Scope) => resolve(statement as SyntaxTree.Block, scope))

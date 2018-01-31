@@ -1,4 +1,4 @@
-// Copyright (C) 2018 Simon Mika <simon@mika.se>
+// Copyright (C) 2017  Simon Mika <simon@mika.se>
 //
 // This file is part of SysPL.
 //
@@ -16,15 +16,11 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Utilities } from "@cogneco/mend"
-import * as Tokens from "../Tokens"
-import * as Type from "./Type"
-import { Declaration } from "./Declaration"
-import { Expression } from "./Expression"
-import { Operator } from "./Operator"
+import * as SyntaxTree from "../SyntaxTree"
+import { Scope, addResolver } from "./Scope"
 
-export abstract class UnaryOperator extends Operator {
-	constructor(symbol: string, precedence: number, readonly argument: Expression, readonly declaration?: Declaration, type?: Type.Expression, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
-		super(symbol, precedence, declaration, type, tokens)
-	}
+function resolve(declaration: SyntaxTree.VariableDeclaration, scope: Scope): SyntaxTree.VariableDeclaration {
+	scope.add(declaration)
+	return new SyntaxTree.VariableDeclaration(declaration.symbol, declaration.isStatic, declaration.isConstant, scope.resolve(declaration.type), scope.resolve(declaration.value), declaration.tokens)
 }
+addResolver("variableDeclaration", (statement: SyntaxTree.Statement, scope: Scope) => resolve(statement as SyntaxTree.VariableDeclaration, scope))

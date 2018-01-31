@@ -1,4 +1,4 @@
-// Copyright (C) 2017  Simon Mika <simon@mika.se>
+// Copyright (C) 2018 Simon Mika <simon@mika.se>
 //
 // This file is part of SysPL.
 //
@@ -16,10 +16,17 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import * as SyntaxTree from "../SyntaxTree"
-import { Scope, addResolver } from "./Scope"
+import { Declaration } from "./Declaration"
 
-function resolve(block: SyntaxTree.Block, scope: Scope): SyntaxTree.Block {
-	return new SyntaxTree.Block(scope.resolve(block.statements), block.tokens)
+export class Declarations extends Declaration {
+	get class() { return "declarations" }
+	constructor(private declarationArray: Declaration[]) {
+		super(declarationArray.length > 0 && declarationArray[0] ? declarationArray[0].symbol : "", undefined)
+	}
+	serialize(): { class: string } & any {
+		return {
+			...super.serialize(),
+			declarations: this.declarationArray.length > 0 ? this.declarationArray.map(a => a.serialize()) : undefined,
+		}
+	}
 }
-addResolver("block", resolve)

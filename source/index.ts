@@ -19,7 +19,7 @@
 import { Error, Unit } from "@cogneco/mend"
 import * as SyntaxTree from "./SyntaxTree"
 import * as Parser from "./Parser"
-import * as SymbolResolver from "./SymbolResolver"
+import * as Resolver from "./Resolver"
 
 export class Program {
 	readonly version = "0.1.1"
@@ -39,7 +39,7 @@ export class Program {
 					console.log("build")
 					const parser = Parser.open(commands.pop(), handler)
 					if (parser) {
-						parser.map(module => SymbolResolver.resolve(module)).toArray()
+						parser.map(module => Resolver.resolve(module)).toArray()
 					}
 				}
 				break

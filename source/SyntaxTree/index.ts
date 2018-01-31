@@ -21,6 +21,7 @@ import { Associativity } from "./Associativity"
 import { Block } from "./Block"
 import { ClassDeclaration } from "./ClassDeclaration"
 import { Declaration } from "./Declaration"
+import { Declarations } from "./Declarations"
 import { Expression } from "./Expression"
 import { FunctionCall } from "./FunctionCall"
 import { FunctionDeclaration } from "./FunctionDeclaration"
@@ -48,6 +49,7 @@ export {
 	Block,
 	ClassDeclaration,
 	Declaration,
+	Declarations,
 	Expression,
 	FunctionCall,
 	FunctionDeclaration,

@@ -31,7 +31,7 @@ export function parse(source: Source, precedance: number, previous?: SyntaxTree.
 		const right = Expression.parse(source, properties![0])
 		if (!right)
 			source.raise("Missing right hand of infix operator " + symbol)
-		result = Expression.parse(source, precedance, new SyntaxTree.InfixOperator(symbol, properties![0], properties![1], previous!, right!, source.mark()))
+		result = Expression.parse(source, precedance, new SyntaxTree.InfixOperator(symbol, properties![0], properties![1], previous!, right!, undefined, source.mark()))
 	}
 	return result
 }

@@ -19,8 +19,8 @@
 import * as SyntaxTree from "../SyntaxTree"
 import { Scope, addResolver } from "./Scope"
 
-function resolve(declaration: SyntaxTree.VariableDeclaration, scope: Scope): SyntaxTree.VariableDeclaration {
-	const value = scope.resolve(declaration.value)
-	return new SyntaxTree.VariableDeclaration(declaration.symbol, declaration.isStatic, declaration.isConstant, declaration.type ? declaration.type : value ? value.type : undefined, value, declaration.tokens)
+function resolve(module: SyntaxTree.Module, scope: Scope): SyntaxTree.Module {
+	scope = scope.create()
+	return new SyntaxTree.Module(scope.resolve(module.statements), module.tokens)
 }
-addResolver("variableDeclaration", resolve)
+addResolver("module", (statement: SyntaxTree.Statement, scope: Scope) => resolve(statement as SyntaxTree.Module, scope))

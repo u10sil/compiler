@@ -20,8 +20,6 @@ import * as SyntaxTree from "../SyntaxTree"
 import { Scope, addResolver } from "./Scope"
 
 function resolve(operator: SyntaxTree.PrefixOperator, scope: Scope): SyntaxTree.PrefixOperator {
-	const declaration = scope.find(operator.symbol)
-	const argument = scope.resolve(operator.argument)
-	return new SyntaxTree.PrefixOperator(operator.symbol, operator.precedence, argument, operator.type, operator.tokens)
+	return new SyntaxTree.PrefixOperator(operator.symbol, operator.precedence, scope.resolve(operator.argument), scope.find(operator.symbol), operator.type, operator.tokens)
 }
 addResolver("prefixOperator", resolve)

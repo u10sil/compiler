@@ -23,11 +23,17 @@ import { SymbolTable } from "./SymbolTable"
 export class Scope {
 	private constructor(private symbols: SymbolTable<SyntaxTree.SymbolDeclaration>, private types: SymbolTable<SyntaxTree.TypeDeclaration>, private parent?: Scope) {
 	}
-	find(name: string): SyntaxTree.Declaration[] {
+	private findHelper(name: string): SyntaxTree.Declaration[] {
 		let result: SyntaxTree.Declaration[] = [...this.symbols.get(name), ...this.types.get(name)]
 		if (this.parent)
-			result = result.concat(this.parent.find(name))
+			result = result.concat(this.parent.findHelper(name))
 		return result
+	}
+	find(name: string): SyntaxTree.Declaration | undefined {
+		const result = this.findHelper(name)
+		return result.length > 1 ? new SyntaxTree.Declarations(result) :
+			result.length > 0 ? result[0] :
+			undefined
 	}
 	findType(name: string): SyntaxTree.TypeDeclaration[] {
 		let result: SyntaxTree.TypeDeclaration[] = [...this.types.get(name)]
@@ -51,15 +57,25 @@ export class Scope {
 		const scope = Scope.create(statements, this)
 		return statements.map(statement => scope.resolveStatement(statement)).toArray()
 	}
-	static create(statements: Utilities.Iterator<SyntaxTree.Statement>, parent?: Scope): Scope {
+	add(declaration: SyntaxTree.SymbolDeclaration | SyntaxTree.TypeDeclaration) {
+		if (declaration instanceof SyntaxTree.SymbolDeclaration)
+			this.symbols.append(declaration)
+		else if (declaration instanceof SyntaxTree.TypeDeclaration)
+			this.types.append(declaration)
+	}
+	create(statements?: Utilities.Iterator<SyntaxTree.Statement>): Scope {
+		return Scope.create(statements, this)
+	}
+	static create(statements?: Utilities.Iterator<SyntaxTree.Statement>, parent?: Scope): Scope {
 		const symbols = new SymbolTable<SyntaxTree.SymbolDeclaration>()
 		const types = new SymbolTable<SyntaxTree.TypeDeclaration>()
-		statements.apply(statement => {
-			if (statement instanceof SyntaxTree.SymbolDeclaration)
-				symbols.append(statement)
-			else if (statement instanceof SyntaxTree.TypeDeclaration)
-				types.append(statement)
-		})
+		if (statements)
+			statements.apply(statement => {
+				if (statement instanceof SyntaxTree.FunctionDeclaration) // No variable declarations here as they should only be used after they are declared.
+					symbols.append(statement)
+				else if (statement instanceof SyntaxTree.TypeDeclaration)
+					types.append(statement)
+			})
 		return new Scope(symbols, types, parent)
 	}
 	static get empty(): Scope {

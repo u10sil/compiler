@@ -19,10 +19,11 @@
 import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../Tokens"
 import * as Type from "./Type"
+import { Declaration } from "./Declaration"
 import { Expression } from "./Expression"
 
 export abstract class Operator extends Expression {
-	constructor(readonly symbol: string, readonly precedence: number, type: Type.Expression | undefined, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
+	constructor(readonly symbol: string, readonly precedence: number, readonly declaration?: Declaration, type?: Type.Expression, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
 		super(type, tokens)
 	}
 }

@@ -16,10 +16,17 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import * as SyntaxTree from "../SyntaxTree"
-import { Scope, addResolver } from "./Scope"
-
-function resolve(module: SyntaxTree.Module, scope: Scope): SyntaxTree.Module {
-	return new SyntaxTree.Module(scope.resolve(module.statements), module.tokens)
+export class SymbolTable<T extends { symbol: string }> {
+	symbols: { [symbol: string]: T[] } = {}
+	constructor() {
+	}
+	get(symbol: string): T[] {
+		return this.symbols[symbol] || []
+	}
+	append(declaration: T) {
+		if (this.symbols[declaration.symbol])
+			this.symbols[declaration.symbol].push(declaration)
+		else
+			this.symbols[declaration.symbol] = [declaration]
+	}
 }
-addResolver("module", resolve)
