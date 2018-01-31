@@ -35,17 +35,21 @@ export class Scope {
 			result = result.concat(this.parent.findType(name))
 		return result
 	}
-	resolve(statement: SyntaxTree.Statement): SyntaxTree.Statement
+	resolve(statement: SyntaxTree.Expression | undefined): SyntaxTree.Expression | undefined
+	resolve(statement: SyntaxTree.Expression[]): SyntaxTree.Expression[]
+	resolve(statement: SyntaxTree.Statement | undefined): SyntaxTree.Statement
 	resolve(statements: Utilities.Iterator<SyntaxTree.Statement>): SyntaxTree.Statement[]
-	resolve(statement: SyntaxTree.Statement | Utilities.Iterator<SyntaxTree.Statement>): SyntaxTree.Statement | SyntaxTree.Statement[] {
-		return statement instanceof SyntaxTree.Statement ? this.resolveStatement(statement) : this.resolveStatements(statement).toArray()
+	resolve(statement: SyntaxTree.Statement | undefined | SyntaxTree.Statement[] | Utilities.Iterator<SyntaxTree.Statement>): SyntaxTree.Statement | undefined | SyntaxTree.Statement[] {
+		return !statement ? undefined :
+			statement instanceof SyntaxTree.Statement ? this.resolveStatement(statement) :
+			this.resolveStatements(statement instanceof Array ? new Utilities.ArrayIterator(statement) : statement)
 	}
 	private resolveStatement(statement: SyntaxTree.Statement): SyntaxTree.Statement {
 		return resolvers[statement.class](statement, this)
 	}
-	private resolveStatements(statements: Utilities.Iterator<SyntaxTree.Statement>): Utilities.Iterator<SyntaxTree.Statement> {
+	private resolveStatements(statements: Utilities.Iterator<SyntaxTree.Statement>): SyntaxTree.Statement[] {
 		const scope = Scope.create(statements, this)
-		return statements.map(statement => scope.resolveStatement(statement))
+		return statements.map(statement => scope.resolveStatement(statement)).toArray()
 	}
 	static create(statements: Utilities.Iterator<SyntaxTree.Statement>, parent?: Scope): Scope {
 		const symbols = new SymbolTable<SyntaxTree.SymbolDeclaration>()

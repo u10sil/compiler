@@ -16,14 +16,11 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Scope } from "./Scope"
 import * as SyntaxTree from "../SyntaxTree"
+import { Scope, addResolver } from "./Scope"
 
-export function resolve(module: SyntaxTree.Module): SyntaxTree.Module
-export function resolve(statement: SyntaxTree.Statement): SyntaxTree.Statement {
-	return Scope.empty.resolve(statement)
+function resolve(declaration: SyntaxTree.VariableDeclaration, scope: Scope): SyntaxTree.VariableDeclaration {
+	const value = scope.resolve(declaration.value)
+	return new SyntaxTree.VariableDeclaration(declaration.symbol, declaration.isStatic, declaration.isConstant, declaration.type ? declaration.type : value ? value.type : undefined, value, declaration.tokens)
 }
-
-import "./Module"
-import "./Block"
-import "./VariableDeclaration"
+addResolver("variableDeclaration", resolve)

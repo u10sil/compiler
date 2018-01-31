@@ -16,14 +16,13 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Scope } from "./Scope"
 import * as SyntaxTree from "../SyntaxTree"
+import { Scope, addResolver } from "./Scope"
 
-export function resolve(module: SyntaxTree.Module): SyntaxTree.Module
-export function resolve(statement: SyntaxTree.Statement): SyntaxTree.Statement {
-	return Scope.empty.resolve(statement)
+function resolve(operator: SyntaxTree.InfixOperator, scope: Scope): SyntaxTree.InfixOperator {
+	const declaration = scope.find(operator.symbol)
+	const left = scope.resolve(operator.left)
+	const right = scope.resolve(operator.right)
+	return new SyntaxTree.InfixOperator(operator.symbol, operator.precedence, operator.precedence, left, right, operator.tokens)
 }
-
-import "./Module"
-import "./Block"
-import "./VariableDeclaration"
+addResolver("InfixOperator", resolve)

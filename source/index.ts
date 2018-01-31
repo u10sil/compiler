@@ -39,9 +39,7 @@ export class Program {
 					console.log("build")
 					const parser = Parser.open(commands.pop(), handler)
 					if (parser) {
-						let module: SyntaxTree.Module | undefined
-						while (module = parser.next())
-							module = SymbolResolver.resolve(module)
+						parser.map(module => SymbolResolver.resolve(module)).toArray()
 					}
 				}
 				break
