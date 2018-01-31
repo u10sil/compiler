@@ -21,11 +21,12 @@ import * as Tokens from "../Tokens"
 import * as Type from "./Type"
 import { Expression } from "./Expression"
 import { addDeserializer, deserialize } from "./deserialize"
+import { UnaryOperator } from "./UnaryOperator"
 
-export class PostfixOperator extends Expression {
+export class PostfixOperator extends UnaryOperator {
 	get class() { return "postfixOperator" }
-	constructor(readonly symbol: string, readonly precedence: number, readonly argument: Expression, type?: Type.Expression | undefined, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
-		super(type, tokens)
+	constructor(symbol: string, precedence: number, argument: Expression, type?: Type.Expression | undefined, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
+		super(symbol, precedence, argument, type, tokens)
 	}
 	serialize(): { class: string } & any {
 		return {

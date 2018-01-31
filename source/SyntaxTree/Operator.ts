@@ -22,7 +22,7 @@ import * as Type from "./Type"
 import { Expression } from "./Expression"
 
 export abstract class Operator extends Expression {
-	constructor(type: Type.Expression | undefined, tokens: () => Utilities.Iterator<Tokens.Substance>) {
+	constructor(readonly symbol: string, readonly precedence: number, type: Type.Expression | undefined, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
 		super(type, tokens)
 	}
 }

@@ -19,13 +19,14 @@
 import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../Tokens"
 import { Expression } from "./Expression"
+import { Operator } from "./Operator"
 import { Associativity } from "./Associativity"
 import { addDeserializer, deserialize } from "./deserialize"
 
-export class InfixOperator extends Expression {
+export class InfixOperator extends Operator {
 	get class() { return "infixOperator" }
-	constructor(readonly symbol: string, readonly precedence: number, readonly associativity: Associativity, readonly left: Expression, readonly right: Expression, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
-		super(undefined, tokens)
+	constructor(symbol: string, precedence: number, readonly associativity: Associativity, readonly left: Expression, readonly right: Expression, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
+		super(symbol, precedence, undefined, tokens)
 	}
 	serialize(): { class: string } & any {
 		return {

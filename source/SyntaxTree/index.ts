@@ -38,6 +38,7 @@ import { SymbolDeclaration } from "./SymbolDeclaration"
 import * as Type from "./Type"
 import { Tuple } from "./Tuple"
 import { TypeDeclaration } from "./TypeDeclaration"
+import { UnaryOperator } from "./UnaryOperator"
 import { VariableDeclaration } from "./VariableDeclaration"
 import { deserialize } from "./deserialize"
 
@@ -64,6 +65,7 @@ export {
 	Tuple,
 	Type,
 	TypeDeclaration,
+	UnaryOperator,
 	VariableDeclaration,
 	deserialize,
 }

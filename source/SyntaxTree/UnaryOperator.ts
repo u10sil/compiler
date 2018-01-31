@@ -1,4 +1,4 @@
-// Copyright (C) 2017  Simon Mika <simon@mika.se>
+// Copyright (C) 2018 Simon Mika <simon@mika.se>
 //
 // This file is part of SysPL.
 //
@@ -16,7 +16,14 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-export { Abstract } from "./Abstract"
-export { Character } from "./Character"
-export { Number } from "./Number"
-export { String } from "./String"
+import { Utilities } from "@cogneco/mend"
+import * as Tokens from "../Tokens"
+import * as Type from "./Type"
+import { Expression } from "./Expression"
+import { Operator } from "./Operator"
+
+export abstract class UnaryOperator extends Operator {
+	constructor(symbol: string, precedence: number, readonly argument: Expression, type: Type.Expression | undefined, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
+		super(symbol, precedence, type, tokens)
+	}
+}

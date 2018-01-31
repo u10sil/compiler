@@ -25,14 +25,17 @@ import { addDeserializer, deserialize } from "./deserialize"
 export class FunctionCall extends Expression {
 	get class() { return "functionCall" }
 	get precedence() { return 200 }
-	constructor(readonly functionExpression: Expression, readonly argumentArray: Expression[], type?: Type.Expression | undefined, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
+	get argumentList(): Utilities.Iterator<Expression> {
+		return new Utilities.ArrayIterator(this.argumentsArray)
+	}
+	constructor(readonly functionExpression: Expression, readonly argumentsArray: Expression[], type?: Type.Expression | undefined, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
 		super(type, tokens)
 	}
 	serialize(): { class: string } & any {
 		return {
 			...super.serialize(),
 			function: this.functionExpression.serialize(),
-			arguments: this.argumentArray.length > 0 ? this.argumentArray.map(e => e.serialize()) : undefined,
+			arguments: this.argumentsArray.length > 0 ? this.argumentsArray.map(e => e.serialize()) : undefined,
 		}
 	}
 }
