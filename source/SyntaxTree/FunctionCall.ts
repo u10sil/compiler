@@ -28,7 +28,7 @@ export class FunctionCall extends Expression {
 	get argumentList(): Utilities.Iterator<Expression> {
 		return new Utilities.ArrayIterator(this.argumentsArray)
 	}
-	constructor(readonly functionExpression: Expression, readonly argumentsArray: Expression[], type?: Type.Expression | undefined, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
+	constructor(readonly functionExpression: Expression, private argumentsArray: Expression[], type?: Type.Expression | undefined, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
 		super(type, tokens)
 	}
 	serialize(): { class: string } & any {

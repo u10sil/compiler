@@ -1,4 +1,4 @@
-// Copyright (C) 2017  Simon Mika <simon@mika.se>
+// Copyright (C) 2018 Simon Mika <simon@mika.se>
 //
 // This file is part of SysPL.
 //
@@ -14,13 +14,11 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
-//
 
-import * as SyntaxTree from "../SyntaxTree"
-import { Scope, addResolver } from "./Scope"
+import * as SyntaxTree from "../../SyntaxTree"
+import { Scope, addResolver } from "../Scope"
 
-function resolve(module: SyntaxTree.Module, scope: Scope): SyntaxTree.Module {
-	scope = scope.create(module.statements)
-	return new SyntaxTree.Module(scope.resolve(module.statements), module.tokens)
+function resolve(identifier: SyntaxTree.Type.Identifier, scope: Scope): SyntaxTree.Type.Identifier {
+	return new SyntaxTree.Type.Identifier(identifier.name, scope.resolve(identifier.parameters), scope.find(identifier.name), identifier.tokens)
 }
-addResolver("module", (statement: SyntaxTree.Statement, scope: Scope) => resolve(statement as SyntaxTree.Module, scope))
+addResolver("type.identifier", (statement: SyntaxTree.Statement, scope: Scope) => resolve(statement as SyntaxTree.Type.Identifier, scope))

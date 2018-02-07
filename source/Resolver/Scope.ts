@@ -41,10 +41,10 @@ export class Scope {
 			result = result.concat(this.parent.findType(name))
 		return result
 	}
-	resolve(statement: SyntaxTree.Expression | undefined): SyntaxTree.Expression | undefined
-	resolve(statement: SyntaxTree.Expression[]): SyntaxTree.Expression[]
-	resolve(statement: SyntaxTree.Statement | undefined): SyntaxTree.Statement
-	resolve(statements: Utilities.Iterator<SyntaxTree.Statement>): SyntaxTree.Statement[]
+	resolve(statement: undefined): undefined
+	resolve<T extends SyntaxTree.Statement>(statement: T): T
+	resolve<T extends SyntaxTree.Statement>(statement: T | undefined): T | undefined
+	resolve<T extends SyntaxTree.Statement>(statements: T[] | Utilities.Iterator<T>): T[]
 	resolve(statement: SyntaxTree.Statement | undefined | SyntaxTree.Statement[] | Utilities.Iterator<SyntaxTree.Statement>): SyntaxTree.Statement | undefined | SyntaxTree.Statement[] {
 		return !statement ? undefined :
 			statement instanceof SyntaxTree.Statement ? this.resolveStatement(statement) :

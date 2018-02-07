@@ -1,4 +1,4 @@
-// Copyright (C) 2017  Simon Mika <simon@mika.se>
+// Copyright (C) 2018 Simon Mika <simon@mika.se>
 //
 // This file is part of SysPL.
 //
@@ -14,13 +14,11 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
-//
 
 import * as SyntaxTree from "../SyntaxTree"
 import { Scope, addResolver } from "./Scope"
 
-function resolve(module: SyntaxTree.Module, scope: Scope): SyntaxTree.Module {
-	scope = scope.create(module.statements)
-	return new SyntaxTree.Module(scope.resolve(module.statements), module.tokens)
+function resolve(expression: SyntaxTree.FunctionCall, scope: Scope): SyntaxTree.FunctionCall {
+	return new SyntaxTree.FunctionCall(scope.resolve(expression.functionExpression), scope.resolve(expression.argumentList.toArray()), scope.resolve(expression.type), expression.tokens)
 }
-addResolver("module", (statement: SyntaxTree.Statement, scope: Scope) => resolve(statement as SyntaxTree.Module, scope))
+addResolver("functionCall", (expression, scope) => resolve(expression as SyntaxTree.FunctionCall, scope))

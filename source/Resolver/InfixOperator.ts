@@ -20,9 +20,6 @@ import * as SyntaxTree from "../SyntaxTree"
 import { Scope, addResolver } from "./Scope"
 
 function resolve(operator: SyntaxTree.InfixOperator, scope: Scope): SyntaxTree.InfixOperator {
-	const declaration = scope.find(operator.symbol)
-	const left = scope.resolve(operator.left)
-	const right = scope.resolve(operator.right)
-	return new SyntaxTree.InfixOperator(operator.symbol, operator.precedence, operator.precedence, left, right, operator.tokens)
+	return new SyntaxTree.InfixOperator(operator.symbol, operator.precedence, operator.precedence, scope.resolve(operator.left), scope.resolve(operator.right), scope.find(operator.symbol), operator.tokens)
 }
-addResolver("InfixOperator", resolve)
+addResolver("InfixOperator", (operator, scope) => resolve(operator as SyntaxTree.InfixOperator, scope))

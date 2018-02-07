@@ -22,4 +22,4 @@ import { Scope, addResolver } from "./Scope"
 function resolve(tuple: SyntaxTree.Tuple, scope: Scope): SyntaxTree.Tuple {
 	return new SyntaxTree.Tuple(scope.resolve(tuple.elements), scope.resolve(tuple.type), tuple.tokens)
 }
-addResolver("tuple", resolve)
+addResolver("tuple", (tuple, scope) => resolve(tuple as SyntaxTree.Tuple, scope))

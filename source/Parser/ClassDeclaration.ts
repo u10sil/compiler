@@ -49,7 +49,8 @@ export function parse(source: Source): SyntaxTree.Statement | undefined {
 		const block = Block.parse(source.clone())
 		if (!block)
 			source.raise("Expected block in class declaration.")
-		result = new SyntaxTree.ClassDeclaration(symbol!, isAbstract, parameters, extended, implemented, block!, source.mark())
+		if (symbol)
+			result = new SyntaxTree.ClassDeclaration(symbol.name, isAbstract, parameters, extended, implemented, block!, source.mark())
 	}
 	return result
 }

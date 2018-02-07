@@ -24,6 +24,17 @@ export function resolve(statement: SyntaxTree.Statement): SyntaxTree.Statement {
 	return Scope.empty.resolve(statement)
 }
 
-import "./Module"
+import "./Literal"
+import "./Type"
+import "./ArgumentDeclaration"
 import "./Block"
+import "./ClassDeclaration"
+import "./FunctionCall"
+import "./FunctionDeclaration"
+import "./Identifier"
+import "./InfixOperator"
+import "./Module"
+import "./PostfixOperator"
+import "./PrefixOperator"
+import "./Tuple"
 import "./VariableDeclaration"

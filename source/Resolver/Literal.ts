@@ -1,4 +1,4 @@
-// Copyright (C) 2017  Simon Mika <simon@mika.se>
+// Copyright (C) 2018 Simon Mika <simon@mika.se>
 //
 // This file is part of SysPL.
 //
@@ -19,8 +19,9 @@
 import * as SyntaxTree from "../SyntaxTree"
 import { Scope, addResolver } from "./Scope"
 
-function resolve(module: SyntaxTree.Module, scope: Scope): SyntaxTree.Module {
-	scope = scope.create(module.statements)
-	return new SyntaxTree.Module(scope.resolve(module.statements), module.tokens)
+function resolve(literal: SyntaxTree.Literal.Abstract, scope: Scope): SyntaxTree.Literal.Abstract {
+	return literal
 }
-addResolver("module", (statement: SyntaxTree.Statement, scope: Scope) => resolve(statement as SyntaxTree.Module, scope))
+addResolver("literal.character", (statement: SyntaxTree.Statement, scope: Scope) => resolve(statement as SyntaxTree.Literal.Abstract, scope))
+addResolver("literal.number", (statement: SyntaxTree.Statement, scope: Scope) => resolve(statement as SyntaxTree.Literal.Abstract, scope))
+addResolver("literal.string", (statement: SyntaxTree.Statement, scope: Scope) => resolve(statement as SyntaxTree.Literal.Abstract, scope))
