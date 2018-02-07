@@ -42,20 +42,20 @@ export class Scope {
 		return result
 	}
 	resolve(statement: undefined): undefined
-	resolve<T extends SyntaxTree.Statement>(statement: T): T
-	resolve<T extends SyntaxTree.Statement>(statement: T | undefined): T | undefined
-	resolve<T extends SyntaxTree.Statement>(statements: T[] | Utilities.Iterator<T>): T[]
-	resolve(statement: SyntaxTree.Statement | undefined | SyntaxTree.Statement[] | Utilities.Iterator<SyntaxTree.Statement>): SyntaxTree.Statement | undefined | SyntaxTree.Statement[] {
-		return !statement ? undefined :
-			statement instanceof SyntaxTree.Statement ? this.resolveStatement(statement) :
-			this.resolveStatements(statement instanceof Array ? new Utilities.ArrayIterator(statement) : statement)
+	resolve<T extends SyntaxTree.Node>(node: T): T
+	resolve<T extends SyntaxTree.Node>(node: T | undefined): T | undefined
+	resolve<T extends SyntaxTree.Node>(node: T[] | Utilities.Iterator<T>): T[]
+	resolve(node: SyntaxTree.Node | undefined | SyntaxTree.Node[] | Utilities.Iterator<SyntaxTree.Node>): SyntaxTree.Node | undefined | SyntaxTree.Node[] {
+		return !node ? undefined :
+			node instanceof SyntaxTree.Node ? this.resolveNode(node) :
+			this.resolveNodes(node instanceof Array ? new Utilities.ArrayIterator(node) : node)
 	}
-	private resolveStatement(statement: SyntaxTree.Statement): SyntaxTree.Statement {
-		return resolvers[statement.class](statement, this)
+	private resolveNode(node: SyntaxTree.Node): SyntaxTree.Node {
+		return resolvers[node.class](node, this)
 	}
-	private resolveStatements(statements: Utilities.Iterator<SyntaxTree.Statement>): SyntaxTree.Statement[] {
-		const scope = Scope.create(statements, this)
-		return statements.map(statement => scope.resolveStatement(statement)).toArray()
+	private resolveNodes(nodes: Utilities.Iterator<SyntaxTree.Node>): SyntaxTree.Node[] {
+		const scope = Scope.create(nodes, this)
+		return nodes.map(node => scope.resolveNode(node)).toArray()
 	}
 	add(declaration: SyntaxTree.SymbolDeclaration | SyntaxTree.TypeDeclaration) {
 		if (declaration instanceof SyntaxTree.SymbolDeclaration)

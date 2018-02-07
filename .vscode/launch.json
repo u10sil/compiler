@@ -4,8 +4,12 @@
 		{
 			"type": "node",
 			"request": "launch",
-			"name": "launch",
+			"name": "build",
 			"program": "${workspaceRoot}/build/index.js",
+			"args": [
+				"build",
+				"${workspaceRoot}/example"
+			],
 			"protocol": "inspector",
 			"preLaunchTask": "build",
 			"sourceMaps": true,
