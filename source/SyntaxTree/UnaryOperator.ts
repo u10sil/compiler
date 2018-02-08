@@ -27,4 +27,10 @@ export abstract class UnaryOperator extends Operator {
 	constructor(symbol: string, precedence: number, readonly argument: Expression, readonly declaration?: Declaration, type?: Type.Expression, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
 		super(symbol, precedence, declaration, type, tokens)
 	}
+	serialize(): { class: string } & any {
+		return {
+			...super.serialize(),
+			argument: this.argument.serialize(),
+		}
+	}
 }

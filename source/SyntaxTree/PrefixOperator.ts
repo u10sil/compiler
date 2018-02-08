@@ -29,13 +29,6 @@ export class PrefixOperator extends UnaryOperator {
 	constructor(symbol: string, precedence: number, argument: Expression, readonly declaration?: Declaration, type?: Type.Expression | undefined, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
 		super(symbol, precedence, argument, declaration, type, tokens)
 	}
-	serialize(): { class: string } & any {
-		return {
-			...super.serialize(),
-			symbol: this.symbol,
-			argument: this.argument.serialize(),
-		}
-	}
 	static getPrecedence(symbol: string): number | undefined {
 		let result: number | undefined
 		switch (symbol) {

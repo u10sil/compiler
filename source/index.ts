@@ -48,8 +48,10 @@ export class Program {
 					const parser = Parser.open(commands.pop(), handler)
 					if (parser) {
 						let module: SyntaxTree.Module | undefined
+						const result = []
 						while (module = parser.next())
-							console.log(JSON.stringify(module.serialize(), undefined, "\t"))
+							result.push(Resolver.resolve(module).serialize())
+						console.log(JSON.stringify(result, undefined, "\t"))
 					}
 				}
 				break

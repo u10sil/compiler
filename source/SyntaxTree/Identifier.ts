@@ -33,6 +33,7 @@ export class Identifier extends Expression {
 		return {
 			...super.serialize(),
 			name: this.name,
+			declaration: this.declaration ? this.declaration.id : undefined,
 		}
 	}
 }

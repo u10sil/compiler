@@ -26,4 +26,12 @@ export abstract class Operator extends Expression {
 	constructor(readonly symbol: string, readonly precedence: number, readonly declaration?: Declaration, type?: Type.Expression, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
 		super(type, tokens)
 	}
+	serialize(): { class: string } & any {
+		return {
+			...super.serialize(),
+			symbol: this.symbol,
+			declaration: this.declaration ? this.declaration.id : undefined,
+		}
+	}
+
 }

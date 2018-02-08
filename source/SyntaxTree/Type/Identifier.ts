@@ -34,6 +34,7 @@ export class Identifier extends Name {
 		return {
 			...super.serialize(),
 			parameters: this.parametersArray.length > 0 ? this.parametersArray.map(t => t.serialize()) : undefined,
+			declaration: this.declaration ? this.declaration.id : undefined,
 		}
 	}
 }

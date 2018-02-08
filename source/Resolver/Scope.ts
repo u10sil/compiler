@@ -55,7 +55,8 @@ export class Scope {
 	}
 	private resolveNodes(nodes: Utilities.Iterator<SyntaxTree.Node>): SyntaxTree.Node[] {
 		const scope = Scope.create(nodes, this)
-		return nodes.map(node => scope.resolveNode(node)).toArray()
+		nodes = nodes.map(node => scope.resolveNode(node))
+		return nodes.toArray()
 	}
 	add(declaration: SyntaxTree.SymbolDeclaration | SyntaxTree.TypeDeclaration) {
 		if (declaration instanceof SyntaxTree.SymbolDeclaration)
