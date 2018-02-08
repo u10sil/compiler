@@ -44,7 +44,7 @@ export class Source extends Utilities.Iterator<Tokens.Substance> implements Erro
 		this.lastTokens = []
 		return () => new Utilities.ArrayIterator(result)
 	}
-	raise(message: string | Error.Message, level: Error.Level = Error.Level.Critical, type: Error.Type = Error.Type.Gramatical, region?: Error.Region): void {
+	raise(message: string | Error.Message, level: Error.Level = Error.Level.Critical, type = "gramatical", region?: Error.Region): void {
 		if (typeof message == "string") {
 			if (!region)
 				region = this.peek()!.region

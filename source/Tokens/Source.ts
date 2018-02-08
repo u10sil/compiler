@@ -22,7 +22,7 @@ export class Source extends IO.BufferedReader implements Error.Handler {
 	constructor(reader: IO.Reader, private handler: Error.Handler) {
 		super(reader)
 	}
-	raise(message: string | Error.Message, level: Error.Level = Error.Level.Critical, type: Error.Type = Error.Type.Lexical, region?: Error.Region): void {
+	raise(message: string | Error.Message, level: Error.Level = Error.Level.Critical, type = "lexical", region?: Error.Region): void {
 		if (typeof message == "string") {
 			if (!region) {
 				region = this.region

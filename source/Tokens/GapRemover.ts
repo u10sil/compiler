@@ -33,7 +33,7 @@ export class GapRemover extends Utilities.Iterator<Substance> {
 			}
 			let result: Substance
 			if (!(this.backend.peek() instanceof Substance))
-				throw new Error.Message(" Missing end of file token.", Error.Level.Recoverable, Error.Type.Lexical, this.backend.peek()!.region)
+				throw new Error.Message(" Missing end of file token.", Error.Level.Recoverable, "lexical", this.backend.peek()!.region)
 			result = this.backend.next() as Substance
 			const post: Gap[] = []
 			while (this.backend.peek() instanceof Gap) {
