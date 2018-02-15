@@ -22,4 +22,4 @@ import { Scope, addResolver } from "./Scope"
 function resolve(operator: SyntaxTree.InfixOperator, scope: Scope): SyntaxTree.InfixOperator {
 	return new SyntaxTree.InfixOperator(operator.symbol, operator.precedence, operator.precedence, scope.resolve(operator.left), scope.resolve(operator.right), scope.find(operator.symbol), operator.tokens)
 }
-addResolver("InfixOperator", (operator, scope) => resolve(operator as SyntaxTree.InfixOperator, scope))
+addResolver("infixOperator", (operator, scope) => resolve(operator as SyntaxTree.InfixOperator, scope))

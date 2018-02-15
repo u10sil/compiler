@@ -54,8 +54,7 @@ export class Scope {
 		return resolvers[node.class](node, this)
 	}
 	private resolveNodes(nodes: Utilities.Iterator<SyntaxTree.Node>): SyntaxTree.Node[] {
-		const scope = Scope.create(nodes, this)
-		nodes = nodes.map(node => scope.resolveNode(node))
+		nodes = nodes.map(node => this.resolveNode(node))
 		return nodes.toArray()
 	}
 	add(declaration: SyntaxTree.SymbolDeclaration | SyntaxTree.TypeDeclaration) {

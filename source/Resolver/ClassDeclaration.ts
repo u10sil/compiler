@@ -23,4 +23,4 @@ function resolve(declaration: SyntaxTree.ClassDeclaration, scope: Scope): Syntax
 	// scope.add("this", this) // TODO: Add this and This to scope
 	return new SyntaxTree.ClassDeclaration(declaration.symbol, declaration.isAbstract, scope.resolve(declaration.parameters), scope.resolve(declaration.extended), scope.resolve(declaration.implemented), scope.resolve(declaration.content), declaration.tokens)
 }
-addResolver("functionCall", (expression, scope) => resolve(expression as SyntaxTree.ClassDeclaration, scope))
+addResolver("classDeclaration", (expression, scope) => resolve(expression as SyntaxTree.ClassDeclaration, scope))
