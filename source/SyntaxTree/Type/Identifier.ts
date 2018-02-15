@@ -21,13 +21,14 @@ import * as Tokens from "../../Tokens"
 import { Name } from "./Name"
 import { TypeDeclaration } from "../TypeDeclaration"
 import { addDeserializer, deserialize } from "../deserialize"
+import { Node } from "../Node"
 
 export class Identifier extends Name {
 	get class() { return "type.identifier" }
 	get parameters(): Utilities.Iterator<Identifier> {
 		return new Utilities.ArrayIterator(this.parametersArray)
 	}
-	constructor(name: string, private parametersArray: Identifier[], readonly declaration?: TypeDeclaration, tokens?: Utilities.Iterable<Tokens.Substance>) {
+	constructor(name: string, private parametersArray: Identifier[], readonly declaration?: TypeDeclaration, tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
 		super(name, tokens)
 	}
 	serialize(): { class: string } & any {

@@ -20,10 +20,11 @@ import { Utilities } from "@cogneco/mend"
 import { Expression } from "./Expression"
 import * as Tokens from "../../Tokens"
 import { addDeserializer } from "../deserialize"
+import { Node } from "../Node"
 
 export class Name extends Expression {
 	get class() { return "type.name" }
-	constructor(readonly name: string, tokens?: Utilities.Iterable<Tokens.Substance>) {
+	constructor(readonly name: string, tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
 		super(tokens)
 	}
 	serialize(): { class: string } & any {

@@ -22,9 +22,10 @@ import * as Type from "./Type"
 import { Declaration } from "./Declaration"
 import { Expression } from "./Expression"
 import { Operator } from "./Operator"
+import { Node } from "./Node"
 
 export abstract class UnaryOperator extends Operator {
-	constructor(symbol: string, precedence: number, readonly argument: Expression, readonly declaration?: Declaration, type?: Type.Expression, tokens?: Utilities.Iterable<Tokens.Substance>) {
+	constructor(symbol: string, precedence: number, readonly argument: Expression, readonly declaration?: Declaration, type?: Type.Expression, tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
 		super(symbol, precedence, declaration, type, tokens)
 	}
 	serialize(): { class: string } & any {

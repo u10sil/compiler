@@ -22,11 +22,12 @@ import * as Type from "./Type"
 import { Expression } from "./Expression"
 import { Declaration } from "./Declaration"
 import { addDeserializer } from "./deserialize"
+import { Node } from "./Node"
 
 export class Identifier extends Expression {
 	get class() { return "identifier" }
 	get precedence() { return Number.MAX_VALUE }
-	constructor(readonly name: string, readonly declaration?: Declaration, type?: Type.Expression, tokens?: Utilities.Iterable<Tokens.Substance>) {
+	constructor(readonly name: string, readonly declaration?: Declaration, type?: Type.Expression, tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
 		super(type, tokens)
 	}
 	serialize(): { class: string } & any {

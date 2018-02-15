@@ -22,6 +22,7 @@ import { Statement } from "./Statement"
 import { Expression } from "./Expression"
 import * as Type from "./Type"
 import { addDeserializer, deserialize } from "./deserialize"
+import { Node } from "./Node"
 
 export class Block extends Expression {
 	get class() { return "block" }
@@ -31,7 +32,7 @@ export class Block extends Expression {
 	get statements(): Utilities.Iterator<Statement> {
 		return new Utilities.ArrayIterator(this.statementsArray)
 	}
-	constructor(private statementsArray: Statement[], tokens?: Utilities.Iterable<Tokens.Substance>) {
+	constructor(private statementsArray: Statement[], tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
 		super(Block.typeOfLast(statementsArray), tokens)
 	}
 	serialize(): { class: string } & any {

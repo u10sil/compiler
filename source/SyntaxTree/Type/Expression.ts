@@ -21,7 +21,7 @@ import * as Tokens from "../../Tokens"
 import { Node } from "../Node"
 
 export abstract class Expression extends Node {
-	constructor(tokens?: Utilities.Iterable<Tokens.Substance>) {
+	constructor(tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
 		super(tokens)
 	}
 }

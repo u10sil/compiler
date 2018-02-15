@@ -17,11 +17,12 @@
 //
 
 import { Declaration } from "./Declaration"
+import { Node } from "./Node"
 
 export class Declarations extends Declaration {
 	get class() { return "declarations" }
-	constructor(private declarationArray: Declaration[]) {
-		super(declarationArray.length > 0 && declarationArray[0] ? declarationArray[0].symbol : "", undefined)
+	constructor(private declarationArray: Declaration[], original?: Node) {
+		super(declarationArray.length > 0 && declarationArray[0] ? declarationArray[0].symbol : "", original)
 	}
 	serialize(): { class: string } & any {
 		return {

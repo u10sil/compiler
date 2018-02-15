@@ -21,12 +21,13 @@ import * as Tokens from "../Tokens"
 import { Declaration } from "./Declaration"
 import * as Type from "./Type"
 import { addDeserializer, deserialize } from "./deserialize"
+import { Node } from "./Node"
 
 export type Expression = Type.Expression
 export class ArgumentDeclaration extends Declaration {
 	get class() { return "argumentDeclaration" }
 	readonly type: Expression | undefined
-	constructor(symbol: string, type?: Expression, tokens?: Utilities.Iterable<Tokens.Substance>) {
+	constructor(symbol: string, type?: Expression, tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
 		super(symbol, tokens)
 		this.type = type
 	}

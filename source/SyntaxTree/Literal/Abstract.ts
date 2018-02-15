@@ -20,10 +20,11 @@ import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../../Tokens"
 import * as Type from "../Type"
 import { Expression } from "../Expression"
+import { Node } from "../Node"
 
 export abstract class Abstract extends Expression {
 	get precedence() { return Number.MAX_VALUE }
-	constructor(type: Type.Expression | undefined, tokens?: Utilities.Iterable<Tokens.Substance>) {
+	constructor(type: Type.Expression | undefined, tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
 		super(type, tokens)
 	}
 }

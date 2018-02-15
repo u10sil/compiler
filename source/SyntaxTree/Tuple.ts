@@ -21,11 +21,12 @@ import * as Tokens from "../Tokens"
 import * as Type from "./Type"
 import { Expression } from "./Expression"
 import { addDeserializer, deserialize } from "./deserialize"
+import { Node } from "./Node"
 
 export class Tuple extends Expression {
 	get precedence() { return Number.MAX_VALUE }
 	get class() { return "tuple" }
-	constructor(readonly elements: Expression[], type?: Type.Expression | undefined, tokens?: Utilities.Iterable<Tokens.Substance>) {
+	constructor(readonly elements: Expression[], type?: Type.Expression | undefined, tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
 		super(type, tokens)
 	}
 	serialize(): { class: string } & any {

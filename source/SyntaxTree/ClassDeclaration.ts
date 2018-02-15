@@ -22,6 +22,7 @@ import { TypeDeclaration } from "./TypeDeclaration"
 import * as Type from "./Type"
 import { Block } from "./Block"
 import { addDeserializer, deserialize } from "./deserialize"
+import { Node } from "./Node"
 
 export class ClassDeclaration extends TypeDeclaration {
 	get class() { return "classDeclaration" }
@@ -31,7 +32,7 @@ export class ClassDeclaration extends TypeDeclaration {
 	get implemented(): Utilities.Iterator<Type.Identifier> {
 		return new Utilities.ArrayIterator(this.implementedArray)
 	}
-	constructor(symbol: string, readonly isAbstract: boolean, private parametersArray: Type.Name[], readonly extended: Type.Identifier | undefined, private implementedArray: Type.Identifier[], readonly content: Block, tokens?: Utilities.Iterable<Tokens.Substance>) {
+	constructor(symbol: string, readonly isAbstract: boolean, private parametersArray: Type.Name[], readonly extended: Type.Identifier | undefined, private implementedArray: Type.Identifier[], readonly content: Block, tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
 		super(symbol, tokens)
 	}
 	serialize(): { class: string } & any {

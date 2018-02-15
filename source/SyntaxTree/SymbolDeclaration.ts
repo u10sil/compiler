@@ -19,9 +19,10 @@
 import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../Tokens"
 import { Declaration } from "./Declaration"
+import { Node } from "./Node"
 
 export abstract class SymbolDeclaration extends Declaration {
-	constructor(symbol: string, tokens?: Utilities.Iterable<Tokens.Substance>) {
+	constructor(symbol: string, tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
 		super(symbol, tokens)
 	}
 }

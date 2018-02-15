@@ -20,13 +20,14 @@ import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../../Tokens"
 import { Expression } from "./Expression"
 import { addDeserializer, deserialize } from "../deserialize"
+import { Node } from "../Node"
 
 export class Tuple extends Expression {
 	get class() { return "type.tuple" }
 	get elements(): Utilities.Iterator<Expression> {
 		return new Utilities.ArrayIterator(this.elementsArray)
 	}
-	constructor(private elementsArray: Expression[], tokens?: Utilities.Iterable<Tokens.Substance>) {
+	constructor(private elementsArray: Expression[], tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
 		super(tokens)
 	}
 	serialize(): { class: string } & any {

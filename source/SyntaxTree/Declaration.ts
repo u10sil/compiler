@@ -19,9 +19,10 @@
 import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../Tokens"
 import { Statement } from "./Statement"
+import { Node } from "./Node"
 
 export abstract class Declaration extends Statement {
-	constructor(readonly symbol: string, tokens?: Utilities.Iterable<Tokens.Substance>) {
+	constructor(readonly symbol: string, tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
 		super(tokens)
 	}
 	serialize(): { class: string } & any {

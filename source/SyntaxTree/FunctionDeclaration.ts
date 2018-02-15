@@ -24,6 +24,7 @@ import { ArgumentDeclaration } from "./ArgumentDeclaration"
 import { Block } from "./Block"
 import { FunctionModifier } from "./FunctionModifier"
 import { addDeserializer, deserialize } from "./deserialize"
+import { Node } from "./Node"
 
 export class FunctionDeclaration extends SymbolDeclaration {
 	get class() { return "functionDeclaration" }
@@ -45,7 +46,7 @@ export class FunctionDeclaration extends SymbolDeclaration {
 		}
 		return result
 	}
-	constructor(symbol: string, readonly modifier: FunctionModifier, private parametersArray: Type.Name[], private argumentsArray: ArgumentDeclaration[], readonly returnType: Type.Expression | undefined, readonly body: Block | undefined, tokens?: Utilities.Iterable<Tokens.Substance>) {
+	constructor(symbol: string, readonly modifier: FunctionModifier, private parametersArray: Type.Name[], private argumentsArray: ArgumentDeclaration[], readonly returnType: Type.Expression | undefined, readonly body: Block | undefined, tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
 		super(symbol, tokens)
 	}
 	serialize(): { class: string } & any {

@@ -21,10 +21,11 @@ import * as Tokens from "../../Tokens"
 import * as Type from "../Type"
 import { Abstract } from "./Abstract"
 import { addDeserializer } from "../deserialize"
+import { Node } from "../Node"
 
 export class Number extends Abstract {
 	get class() { return "literal.number" }
-	constructor(readonly value: number, type?: Type.Expression | undefined, tokens?: Utilities.Iterable<Tokens.Substance>) {
+	constructor(readonly value: number, type?: Type.Expression | undefined, tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
 		super(type, tokens)
 	}
 	serialize(): { class: string } & any {

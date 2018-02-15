@@ -21,6 +21,7 @@ import * as Tokens from "../Tokens"
 import * as Type from "./Type"
 import { Expression } from "./Expression"
 import { addDeserializer, deserialize } from "./deserialize"
+import { Node } from "./Node"
 
 export class FunctionCall extends Expression {
 	get class() { return "functionCall" }
@@ -28,7 +29,7 @@ export class FunctionCall extends Expression {
 	get argumentList(): Utilities.Iterator<Expression> {
 		return new Utilities.ArrayIterator(this.argumentsArray)
 	}
-	constructor(readonly functionExpression: Expression, private argumentsArray: Expression[], type?: Type.Expression | undefined, tokens?: Utilities.Iterable<Tokens.Substance>) {
+	constructor(readonly functionExpression: Expression, private argumentsArray: Expression[], type?: Type.Expression | undefined, tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
 		super(type, tokens)
 	}
 	serialize(): { class: string } & any {

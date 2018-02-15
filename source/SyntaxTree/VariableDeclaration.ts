@@ -22,10 +22,11 @@ import { SymbolDeclaration } from "./SymbolDeclaration"
 import { Expression } from "./Expression"
 import * as Type from "./Type"
 import { addDeserializer, deserialize } from "./deserialize"
+import { Node } from "./Node"
 
 export class VariableDeclaration extends SymbolDeclaration {
 	get class() { return "variableDeclaration" }
-	constructor(symbol: string, readonly isStatic: boolean, readonly isConstant: boolean, readonly type: Type.Expression | undefined, readonly value: Expression | undefined, tokens?: Utilities.Iterable<Tokens.Substance>) {
+	constructor(symbol: string, readonly isStatic: boolean, readonly isConstant: boolean, readonly type: Type.Expression | undefined, readonly value: Expression | undefined, tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
 		super(symbol, tokens)
 	}
 	serialize(): { class: string } & any {

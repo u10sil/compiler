@@ -21,9 +21,10 @@ import * as Tokens from "../Tokens"
 import * as Type from "./Type"
 import { Declaration } from "./Declaration"
 import { Expression } from "./Expression"
+import { Node } from "./Node"
 
 export abstract class Operator extends Expression {
-	constructor(readonly symbol: string, readonly precedence: number, readonly declaration?: Declaration, type?: Type.Expression, tokens?: Utilities.Iterable<Tokens.Substance>) {
+	constructor(readonly symbol: string, readonly precedence: number, readonly declaration?: Declaration, type?: Type.Expression, tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
 		super(type, tokens)
 	}
 	serialize(): { class: string } & any {
