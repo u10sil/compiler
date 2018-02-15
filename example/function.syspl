@@ -1,0 +1,5 @@
+func square(number: integer) {
+	number * number
+}
+let a = 5
+let b = square(a)

@@ -21,4 +21,4 @@ import { Scope, addResolver } from "./Scope"
 function resolve(declaration: SyntaxTree.ArgumentDeclaration, scope: Scope): SyntaxTree.ArgumentDeclaration {
 	return new SyntaxTree.ArgumentDeclaration(declaration.symbol, scope.resolve(declaration.type), declaration)
 }
-addResolver("functionCall", (expression, scope) => resolve(expression as SyntaxTree.ArgumentDeclaration, scope))
+addResolver("argumentDeclaration", (expression, scope) => resolve(expression as SyntaxTree.ArgumentDeclaration, scope))
