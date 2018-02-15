@@ -45,7 +45,7 @@ export class FunctionDeclaration extends SymbolDeclaration {
 		}
 		return result
 	}
-	constructor(symbol: string, readonly modifier: FunctionModifier, private parametersArray: Type.Name[], private argumentsArray: ArgumentDeclaration[], readonly returnType: Type.Expression | undefined, readonly body: Block | undefined, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
+	constructor(symbol: string, readonly modifier: FunctionModifier, private parametersArray: Type.Name[], private argumentsArray: ArgumentDeclaration[], readonly returnType: Type.Expression | undefined, readonly body: Block | undefined, tokens?: Utilities.Iterable<Tokens.Substance>) {
 		super(symbol, tokens)
 	}
 	serialize(): { class: string } & any {

@@ -26,7 +26,7 @@ export type Expression = Type.Expression
 export class ArgumentDeclaration extends Declaration {
 	get class() { return "argumentDeclaration" }
 	readonly type: Expression | undefined
-	constructor(symbol: string, type?: Expression, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
+	constructor(symbol: string, type?: Expression, tokens?: Utilities.Iterable<Tokens.Substance>) {
 		super(symbol, tokens)
 		this.type = type
 	}

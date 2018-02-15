@@ -22,10 +22,16 @@ import * as Tokens from "../Tokens"
 export type Iterator<T> = Utilities.Iterator<T>
 export abstract class Node {
 	abstract get class(): string
-	readonly id = nodeCount++
-	readonly tokens?: () => Iterator<Tokens.Substance>
-	constructor(tokens?: () => Iterator<Tokens.Substance>) {
-		this.tokens = tokens
+	readonly id: number
+	readonly tokens?: Utilities.Iterable<Tokens.Substance>
+	constructor(tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
+		if (tokens instanceof Node) {
+			this.id = tokens.id
+			this.tokens = tokens.tokens
+		} else {
+			this.id = nodeCount++
+			this.tokens = tokens
+		}
 	}
 	serialize(): { class: string } & any {
 		return { id: this.id, class: this.class }

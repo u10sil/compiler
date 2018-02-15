@@ -24,7 +24,7 @@ import { addDeserializer } from "../deserialize"
 
 export class Number extends Abstract {
 	get class() { return "literal.number" }
-	constructor(readonly value: number, type?: Type.Expression | undefined, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
+	constructor(readonly value: number, type?: Type.Expression | undefined, tokens?: Utilities.Iterable<Tokens.Substance>) {
 		super(type, tokens)
 	}
 	serialize(): { class: string } & any {

@@ -23,7 +23,7 @@ import { addDeserializer } from "../deserialize"
 
 export class Name extends Expression {
 	get class() { return "type.name" }
-	constructor(readonly name: string, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
+	constructor(readonly name: string, tokens?: Utilities.Iterable<Tokens.Substance>) {
 		super(tokens)
 	}
 	serialize(): { class: string } & any {

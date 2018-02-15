@@ -27,7 +27,7 @@ export class Module extends Node {
 	get statements(): Utilities.Iterator<Statement> {
 		return new Utilities.ArrayIterator(this.statementsArray)
 	}
-	constructor(private statementsArray: Statement[], tokens?: () => Utilities.Iterator<Tokens.Substance>) {
+	constructor(private statementsArray: Statement[], tokens?: Utilities.Iterable<Tokens.Substance>) {
 		super(tokens)
 	}
 	serialize(): { class: string } & any {

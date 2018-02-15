@@ -26,7 +26,7 @@ import { addDeserializer, deserialize } from "./deserialize"
 
 export class PrefixOperator extends UnaryOperator {
 	get class() { return "prefixOperator" }
-	constructor(symbol: string, precedence: number, argument: Expression, readonly declaration?: Declaration, type?: Type.Expression | undefined, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
+	constructor(symbol: string, precedence: number, argument: Expression, readonly declaration?: Declaration, type?: Type.Expression | undefined, tokens?: Utilities.Iterable<Tokens.Substance>) {
 		super(symbol, precedence, argument, declaration, type, tokens)
 	}
 	static getPrecedence(symbol: string): number | undefined {

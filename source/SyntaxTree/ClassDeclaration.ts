@@ -31,7 +31,7 @@ export class ClassDeclaration extends TypeDeclaration {
 	get implemented(): Utilities.Iterator<Type.Identifier> {
 		return new Utilities.ArrayIterator(this.implementedArray)
 	}
-	constructor(symbol: string, readonly isAbstract: boolean, private parametersArray: Type.Name[], readonly extended: Type.Identifier | undefined, private implementedArray: Type.Identifier[], readonly content: Block, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
+	constructor(symbol: string, readonly isAbstract: boolean, private parametersArray: Type.Name[], readonly extended: Type.Identifier | undefined, private implementedArray: Type.Identifier[], readonly content: Block, tokens?: Utilities.Iterable<Tokens.Substance>) {
 		super(symbol, tokens)
 	}
 	serialize(): { class: string } & any {

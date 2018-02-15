@@ -26,7 +26,7 @@ import { addDeserializer } from "./deserialize"
 export class Identifier extends Expression {
 	get class() { return "identifier" }
 	get precedence() { return Number.MAX_VALUE }
-	constructor(readonly name: string, readonly declaration?: Declaration, type?: Type.Expression, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
+	constructor(readonly name: string, readonly declaration?: Declaration, type?: Type.Expression, tokens?: Utilities.Iterable<Tokens.Substance>) {
 		super(type, tokens)
 	}
 	serialize(): { class: string } & any {

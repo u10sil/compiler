@@ -26,7 +26,7 @@ import { addDeserializer, deserialize } from "./deserialize"
 
 export class InfixOperator extends Operator {
 	get class() { return "infixOperator" }
-	constructor(symbol: string, precedence: number, readonly associativity: Associativity, readonly left: Expression, readonly right: Expression, readonly declaration?: Declaration, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
+	constructor(symbol: string, precedence: number, readonly associativity: Associativity, readonly left: Expression, readonly right: Expression, readonly declaration?: Declaration, tokens?: Utilities.Iterable<Tokens.Substance>) {
 		super(symbol, precedence, declaration, undefined, tokens)
 	}
 	serialize(): { class: string } & any {

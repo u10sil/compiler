@@ -39,7 +39,7 @@ export class Source extends Utilities.Iterator<Tokens.Substance> implements Erro
 	peek(position: number = 0): Tokens.Substance | undefined {
 		return this.tokens.peek(position)
 	}
-	mark(): () => Utilities.Iterator<Tokens.Substance> {
+	mark(): Utilities.Iterable<Tokens.Substance> {
 		const result = this.lastTokens
 		this.lastTokens = []
 		return () => new Utilities.ArrayIterator(result)

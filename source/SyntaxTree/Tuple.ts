@@ -25,7 +25,7 @@ import { addDeserializer, deserialize } from "./deserialize"
 export class Tuple extends Expression {
 	get precedence() { return Number.MAX_VALUE }
 	get class() { return "tuple" }
-	constructor(readonly elements: Expression[], type?: Type.Expression | undefined, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
+	constructor(readonly elements: Expression[], type?: Type.Expression | undefined, tokens?: Utilities.Iterable<Tokens.Substance>) {
 		super(type, tokens)
 	}
 	serialize(): { class: string } & any {

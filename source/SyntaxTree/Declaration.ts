@@ -21,7 +21,7 @@ import * as Tokens from "../Tokens"
 import { Statement } from "./Statement"
 
 export abstract class Declaration extends Statement {
-	constructor(readonly symbol: string, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
+	constructor(readonly symbol: string, tokens?: Utilities.Iterable<Tokens.Substance>) {
 		super(tokens)
 	}
 	serialize(): { class: string } & any {

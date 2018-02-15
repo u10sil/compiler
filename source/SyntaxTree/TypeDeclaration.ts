@@ -21,7 +21,7 @@ import * as Tokens from "../Tokens"
 import { Declaration } from "./Declaration"
 
 export abstract class TypeDeclaration extends Declaration {
-	constructor(symbol: string, tokens?: () => Utilities.Iterator<Tokens.Substance>) {
+	constructor(symbol: string, tokens?: Utilities.Iterable<Tokens.Substance>) {
 		super(symbol, tokens)
 	}
 }
