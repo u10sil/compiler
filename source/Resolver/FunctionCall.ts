@@ -19,6 +19,6 @@ import * as SyntaxTree from "../SyntaxTree"
 import { Scope, addResolver } from "./Scope"
 
 function resolve(expression: SyntaxTree.FunctionCall, scope: Scope): SyntaxTree.FunctionCall {
-	return new SyntaxTree.FunctionCall(scope.resolve(expression.functionExpression), scope.resolve(expression.argumentList.toArray()), scope.resolve(expression.type), expression.tokens)
+	return new SyntaxTree.FunctionCall(scope.resolve(expression.functionExpression), scope.resolve(expression.argumentList.toArray()), scope.resolve(expression.type), expression)
 }
 addResolver("functionCall", (expression, scope) => resolve(expression as SyntaxTree.FunctionCall, scope))

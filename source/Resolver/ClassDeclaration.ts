@@ -21,6 +21,6 @@ import { Scope, addResolver } from "./Scope"
 function resolve(declaration: SyntaxTree.ClassDeclaration, scope: Scope): SyntaxTree.ClassDeclaration {
 	scope = scope.create()
 	// scope.add("this", this) // TODO: Add this and This to scope
-	return new SyntaxTree.ClassDeclaration(declaration.symbol, declaration.isAbstract, scope.resolve(declaration.parameters), scope.resolve(declaration.extended), scope.resolve(declaration.implemented), scope.resolve(declaration.content), declaration.tokens)
+	return new SyntaxTree.ClassDeclaration(declaration.symbol, declaration.isAbstract, scope.resolve(declaration.parameters), scope.resolve(declaration.extended), scope.resolve(declaration.implemented), scope.resolve(declaration.content), declaration)
 }
 addResolver("classDeclaration", (expression, scope) => resolve(expression as SyntaxTree.ClassDeclaration, scope))

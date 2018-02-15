@@ -20,6 +20,6 @@ import { Scope, addResolver } from "./Scope"
 
 function resolve(declaration: SyntaxTree.FunctionDeclaration, scope: Scope): SyntaxTree.FunctionDeclaration {
 	scope.add(declaration)
-	return new SyntaxTree.FunctionDeclaration(declaration.symbol, declaration.modifier, scope.resolve(declaration.parameters), scope.resolve(declaration.argumentList), scope.resolve(declaration.returnType), scope.resolve(declaration.body), declaration.tokens)
+	return new SyntaxTree.FunctionDeclaration(declaration.symbol, declaration.modifier, scope.resolve(declaration.parameters), scope.resolve(declaration.argumentList), scope.resolve(declaration.returnType), scope.resolve(declaration.body), declaration)
 }
 addResolver("functionDeclaration", (statement: SyntaxTree.Statement, scope: Scope) => resolve(statement as SyntaxTree.FunctionDeclaration, scope))

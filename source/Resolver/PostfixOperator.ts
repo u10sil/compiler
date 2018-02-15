@@ -20,6 +20,6 @@ import * as SyntaxTree from "../SyntaxTree"
 import { Scope, addResolver } from "./Scope"
 
 function resolve(operator: SyntaxTree.PostfixOperator, scope: Scope): SyntaxTree.PostfixOperator {
-	return new SyntaxTree.PostfixOperator(operator.symbol, operator.precedence, scope.resolve(operator.argument), scope.find(operator.symbol), scope.resolve(operator.type), operator.tokens)
+	return new SyntaxTree.PostfixOperator(operator.symbol, operator.precedence, scope.resolve(operator.argument), scope.find(operator.symbol), scope.resolve(operator.type), operator)
 }
 addResolver("PostfixOperator", (operator, scope) => resolve(operator as SyntaxTree.PostfixOperator, scope))

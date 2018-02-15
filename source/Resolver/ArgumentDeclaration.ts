@@ -19,6 +19,6 @@ import * as SyntaxTree from "../SyntaxTree"
 import { Scope, addResolver } from "./Scope"
 
 function resolve(declaration: SyntaxTree.ArgumentDeclaration, scope: Scope): SyntaxTree.ArgumentDeclaration {
-	return new SyntaxTree.ArgumentDeclaration(declaration.symbol, scope.resolve(declaration.type), declaration.tokens)
+	return new SyntaxTree.ArgumentDeclaration(declaration.symbol, scope.resolve(declaration.type), declaration)
 }
 addResolver("functionCall", (expression, scope) => resolve(expression as SyntaxTree.ArgumentDeclaration, scope))

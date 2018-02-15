@@ -20,6 +20,6 @@ import * as SyntaxTree from "../SyntaxTree"
 import { Scope, addResolver } from "./Scope"
 
 function resolve(operator: SyntaxTree.PrefixOperator, scope: Scope): SyntaxTree.PrefixOperator {
-	return new SyntaxTree.PrefixOperator(operator.symbol, operator.precedence, scope.resolve(operator.argument), scope.find(operator.symbol), operator.type, operator.tokens)
+	return new SyntaxTree.PrefixOperator(operator.symbol, operator.precedence, scope.resolve(operator.argument), scope.find(operator.symbol), operator.type, operator)
 }
 addResolver("prefixOperator", (operator, scope) => resolve(operator as SyntaxTree.PrefixOperator, scope))

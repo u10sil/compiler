@@ -19,6 +19,6 @@ import * as SyntaxTree from "../../SyntaxTree"
 import { Scope, addResolver } from "../Scope"
 
 function resolve(identifier: SyntaxTree.Type.Identifier, scope: Scope): SyntaxTree.Type.Identifier {
-	return new SyntaxTree.Type.Identifier(identifier.name, scope.resolve(identifier.parameters), scope.find(identifier.name), identifier.tokens)
+	return new SyntaxTree.Type.Identifier(identifier.name, scope.resolve(identifier.parameters), scope.find(identifier.name), identifier)
 }
 addResolver("type.identifier", (statement: SyntaxTree.Statement, scope: Scope) => resolve(statement as SyntaxTree.Type.Identifier, scope))

@@ -20,6 +20,6 @@ import * as SyntaxTree from "../SyntaxTree"
 import { Scope, addResolver } from "./Scope"
 
 function resolve(block: SyntaxTree.Block, scope: Scope): SyntaxTree.Block {
-	return new SyntaxTree.Block(scope.resolve(block.statements), block.tokens)
+	return new SyntaxTree.Block(scope.resolve(block.statements), block)
 }
 addResolver("block", (statement: SyntaxTree.Statement, scope: Scope) => resolve(statement as SyntaxTree.Block, scope))

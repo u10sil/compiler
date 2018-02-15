@@ -22,6 +22,6 @@ import { Scope, addResolver } from "./Scope"
 function resolve(module: SyntaxTree.Module, scope: Scope): SyntaxTree.Module {
 	scope = scope.create(module.statements)
 	const statements = scope.resolve(module.statements)
-	return new SyntaxTree.Module(statements, module.tokens)
+	return new SyntaxTree.Module(statements, module)
 }
 addResolver("module", (statement: SyntaxTree.Statement, scope: Scope) => resolve(statement as SyntaxTree.Module, scope))

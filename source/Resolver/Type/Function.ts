@@ -19,6 +19,6 @@ import * as SyntaxTree from "../../SyntaxTree"
 import { Scope, addResolver } from "../Scope"
 
 function resolve(node: SyntaxTree.Type.Function, scope: Scope): SyntaxTree.Type.Function {
-	return new SyntaxTree.Type.Function(scope.resolve(node.arguments), scope.resolve(node.result), node.tokens)
+	return new SyntaxTree.Type.Function(scope.resolve(node.arguments), scope.resolve(node.result), node)
 }
 addResolver("type.function", (tuple, scope) => resolve(tuple as SyntaxTree.Type.Function, scope))

@@ -21,6 +21,6 @@ import { Scope, addResolver } from "./Scope"
 
 function resolve(declaration: SyntaxTree.VariableDeclaration, scope: Scope): SyntaxTree.VariableDeclaration {
 	scope.add(declaration)
-	return new SyntaxTree.VariableDeclaration(declaration.symbol, declaration.isStatic, declaration.isConstant, scope.resolve(declaration.type), scope.resolve(declaration.value), declaration.tokens)
+	return new SyntaxTree.VariableDeclaration(declaration.symbol, declaration.isStatic, declaration.isConstant, scope.resolve(declaration.type), scope.resolve(declaration.value), declaration)
 }
 addResolver("variableDeclaration", (statement: SyntaxTree.Statement, scope: Scope) => resolve(statement as SyntaxTree.VariableDeclaration, scope))
