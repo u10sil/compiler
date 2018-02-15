@@ -17,6 +17,7 @@
 //
 
 import { Error, Unit } from "@cogneco/mend"
+import * as SyntaxTree from "../SyntaxTree"
 import * as Parser from "./"
 
 import Is = Unit.Is
@@ -27,7 +28,7 @@ export class PrefixOperatorTest extends Unit.Fixture {
 		this.add("-a", () => {
 			const result = Parser.parseFirst("-a", handler)
 			this.expect(result, Is.not.undefined)
-			this.expect(result!.serialize(), Is.equal.to({
+			this.expect(SyntaxTree.filterId(result!.serialize()), Is.equal.to({
 				class: "prefixOperator",
 				symbol: "-",
 				argument: { class: "identifier", name: "a" },
@@ -36,7 +37,7 @@ export class PrefixOperatorTest extends Unit.Fixture {
 		this.add("+a", () => {
 			const result = Parser.parseFirst("+a", handler)
 			this.expect(result, Is.not.undefined)
-			this.expect(result!.serialize(), Is.equal.to({
+			this.expect(SyntaxTree.filterId(result!.serialize()), Is.equal.to({
 				class: "prefixOperator",
 				symbol: "+",
 				argument: { class: "identifier", name: "a" },
@@ -45,7 +46,7 @@ export class PrefixOperatorTest extends Unit.Fixture {
 		this.add("a + -a", () => {
 			const result = Parser.parseFirst("a + -a", handler)
 			this.expect(result, Is.not.undefined)
-			this.expect(result!.serialize(), Is.equal.to({
+			this.expect(SyntaxTree.filterId(result!.serialize()), Is.equal.to({
 				class: "infixOperator",
 				symbol: "+",
 				left: { class: "identifier", name: "a" },
@@ -59,7 +60,7 @@ export class PrefixOperatorTest extends Unit.Fixture {
 		this.add("-a + a", () => {
 			const result = Parser.parseFirst("-a + a", handler)
 			this.expect(result, Is.not.undefined)
-			this.expect(result!.serialize(), Is.equal.to({
+			this.expect(SyntaxTree.filterId(result!.serialize()), Is.equal.to({
 				class: "infixOperator",
 				symbol: "+",
 				left: {

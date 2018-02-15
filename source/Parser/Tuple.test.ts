@@ -17,6 +17,7 @@
 //
 
 import { Error, Unit } from "@cogneco/mend"
+import * as SyntaxTree from "../SyntaxTree"
 import * as Parser from "./"
 
 import Is = Unit.Is
@@ -27,7 +28,7 @@ export class TupleTest extends Unit.Fixture {
 		this.add("(a, b)", () => {
 			const result = Parser.parseFirst("(a, b)", handler)
 			this.expect(result, Is.not.undefined)
-			this.expect(result!.serialize(), Is.equal.to({
+			this.expect(SyntaxTree.filterId(result!.serialize()), Is.equal.to({
 				class: "tuple",
 				elements: [
 					{ class: "identifier", name: "a" },
@@ -38,7 +39,7 @@ export class TupleTest extends Unit.Fixture {
 		this.add("(a, b, (c, d))", () => {
 			const result = Parser.parseFirst("(a, b, (c, d))", handler)
 			this.expect(result, Is.not.undefined)
-			this.expect(result!.serialize(), Is.equal.to({
+			this.expect(SyntaxTree.filterId(result!.serialize()), Is.equal.to({
 				class: "tuple",
 				elements: [
 					{ class: "identifier", name: "a" },
@@ -56,7 +57,7 @@ export class TupleTest extends Unit.Fixture {
 		this.add("(a + b) * c", () => {
 			const result = Parser.parseFirst("(a + b) * c", handler)
 			this.expect(result, Is.not.undefined)
-			this.expect(result!.serialize(), Is.equal.to({
+			this.expect(SyntaxTree.filterId(result!.serialize()), Is.equal.to({
 				class: "infixOperator",
 				symbol: "*",
 				left: {
@@ -71,7 +72,7 @@ export class TupleTest extends Unit.Fixture {
 		this.add("a * (b + c)", () => {
 			const result = Parser.parseFirst("a * (b + c)", handler)
 			this.expect(result, Is.not.undefined)
-			this.expect(result!.serialize(), Is.equal.to({
+			this.expect(SyntaxTree.filterId(result!.serialize()), Is.equal.to({
 				class: "infixOperator",
 				symbol: "*",
 				left:	{ class: "identifier", name: "a" },

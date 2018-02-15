@@ -18,6 +18,7 @@
 
 import { Unit } from "@cogneco/mend"
 import { deserialize } from "./deserialize"
+import { filterId } from "./filterId"
 
 import Is = Unit.Is
 class DeserializeTest extends Unit.Fixture {
@@ -27,7 +28,7 @@ class DeserializeTest extends Unit.Fixture {
 			const data = { class: "literal.character", value: "b" }
 			const node = deserialize(data)
 			this.expect(node, Is.not.nullOrUndefined)
-			this.expect(node!.serialize(), Is.equal.to(data))
+			this.expect(filterId(node!.serialize()), Is.equal.to(data))
 		})
 		this.add("a = 'b'", () => {
 			const data = {
@@ -38,7 +39,7 @@ class DeserializeTest extends Unit.Fixture {
 			}
 			const node = deserialize(data)
 			this.expect(node, Is.not.nullOrUndefined)
-			this.expect(node!.serialize(), Is.equal.to(data))
+			this.expect(filterId(node!.serialize()), Is.equal.to(data))
 		})
 		this.add("argument declarations", () => {
 			const data = [
@@ -51,7 +52,7 @@ class DeserializeTest extends Unit.Fixture {
 			this.expect(nodes, Is.not.nullOrUndefined)
 			this.expect(nodes.length, Is.equal.to(4))
 			for (let i = 0; i < 4; i++)
-				this.expect(nodes[i].serialize(), Is.equal.to(data[i]))
+				this.expect(filterId(nodes[i].serialize()), Is.equal.to(data[i]))
 		})
 		this.add("empty function", () => {
 			const data = {
@@ -69,7 +70,7 @@ class DeserializeTest extends Unit.Fixture {
 			}
 			const node = deserialize(data)
 			this.expect(node, Is.not.nullOrUndefined)
-			this.expect(node!.serialize(), Is.equal.to(data))
+			this.expect(filterId(node!.serialize()), Is.equal.to(data))
 		})
 	}
 }

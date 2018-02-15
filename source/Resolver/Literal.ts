@@ -19,9 +19,9 @@
 import * as SyntaxTree from "../SyntaxTree"
 import { Scope, addResolver } from "./Scope"
 
-function resolve(literal: SyntaxTree.Literal.Abstract, scope: Scope): SyntaxTree.Literal.Abstract {
+function resolve(literal: SyntaxTree.Literal.Expression, scope: Scope): SyntaxTree.Literal.Expression {
 	return literal
 }
-addResolver("literal.character", (statement: SyntaxTree.Statement, scope: Scope) => resolve(statement as SyntaxTree.Literal.Abstract, scope))
-addResolver("literal.number", (statement: SyntaxTree.Statement, scope: Scope) => resolve(statement as SyntaxTree.Literal.Abstract, scope))
-addResolver("literal.string", (statement: SyntaxTree.Statement, scope: Scope) => resolve(statement as SyntaxTree.Literal.Abstract, scope))
+addResolver("literal.character", (statement: SyntaxTree.Statement, scope: Scope) => resolve(statement as SyntaxTree.Literal.Expression, scope))
+addResolver("literal.number", (statement: SyntaxTree.Statement, scope: Scope) => resolve(statement as SyntaxTree.Literal.Expression, scope))
+addResolver("literal.string", (statement: SyntaxTree.Statement, scope: Scope) => resolve(statement as SyntaxTree.Literal.Expression, scope))

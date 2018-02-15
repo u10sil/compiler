@@ -19,11 +19,11 @@
 import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../../Tokens"
 import * as Type from "../Type"
-import { Abstract } from "./Abstract"
+import { Expression } from "./Expression"
 import { addDeserializer } from "../deserialize"
 import { Node } from "../Node"
 
-export class String extends Abstract {
+export class String extends Expression {
 	get class() { return "literal.string" }
 	constructor(readonly value: string, type?: Type.Expression | undefined, tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
 		super(type, tokens)

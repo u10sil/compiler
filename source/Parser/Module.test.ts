@@ -17,6 +17,7 @@
 //
 
 import { Error, Unit } from "@cogneco/mend"
+import * as SyntaxTree from "../SyntaxTree"
 import * as Parser from "./"
 
 import Is = Unit.Is
@@ -26,7 +27,7 @@ export class ModuleTest extends Unit.Fixture {
 		const handler = new Error.ConsoleHandler()
 		this.add("simple declaration", () => {
 			const module = Parser.create("var i: Int\n", handler).next()!
-			this.expect(module.serialize(), Is.equal.to({
+			this.expect(SyntaxTree.filterId(module.serialize()), Is.equal.to({
 				class: "module",
 				statements: [
 					{ class: "variableDeclaration", symbol: "i", type: { class: "type.identifier", name: "Int" } },
@@ -35,7 +36,7 @@ export class ModuleTest extends Unit.Fixture {
 		})
 		this.add("var foo: Float = 0.50", () => {
 			const module = Parser.create("var f: Float = 0.50", handler).next()!
-			this.expect(module.serialize(), Is.equal.to({
+			this.expect(SyntaxTree.filterId(module.serialize()), Is.equal.to({
 				class: "module",
 				statements: [
 					{ class: "variableDeclaration", symbol: "f", type: { class: "type.identifier", name: "Float"} , value: { class: "literal.number", value: 0.5 } },

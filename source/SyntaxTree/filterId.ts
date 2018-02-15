@@ -1,4 +1,4 @@
-// Copyright (C) 2017  Simon Mika <simon@mika.se>
+// Copyright (C) 2018  Simon Mika <simon@mika.se>
 //
 // This file is part of SysPL.
 //
@@ -16,15 +16,14 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Utilities } from "@cogneco/mend"
-import * as Tokens from "../../Tokens"
-import * as Type from "../Type"
-import { Expression } from "../Expression"
-import { Node } from "../Node"
-
-export abstract class Abstract extends Expression {
-	get precedence() { return Number.MAX_VALUE }
-	constructor(type: Type.Expression | undefined, tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
-		super(type, tokens)
-	}
+export function filterId(node: { id: number } & any | ({ id: number } & any)[] | any) {
+	if (node && node.hasOwnProperty("id")) {
+		delete node.id
+		for (const key in node)
+			if (node.hasOwnProperty(key))
+				node[key] = filterId(node[key])
+	}	else if (node instanceof Array)
+		for (const index in node)
+			node[index] = filterId(node[index])
+	return node
 }

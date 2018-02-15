@@ -30,7 +30,7 @@ export class InfixOperatorTest extends Unit.Fixture {
 			this.expect(result.symbol, Is.equal.to("="))
 			this.expect((result.left as SyntaxTree.Identifier).name, Is.equal.to("a"))
 			this.expect((result.right as SyntaxTree.Literal.Character).value, Is.equal.to("b"))
-			this.expect(result.serialize(), Is.equal.to({
+			this.expect(SyntaxTree.filterId(result.serialize()), Is.equal.to({
 				class: "infixOperator",
 				symbol: "=",
 				left: { class: "identifier", name: "a" },
@@ -42,7 +42,7 @@ export class InfixOperatorTest extends Unit.Fixture {
 			this.expect(result.symbol, Is.equal.to("="))
 			this.expect((result.left as SyntaxTree.Identifier).name, Is.equal.to("a"))
 			this.expect((result.right as SyntaxTree.Literal.Number).value, Is.equal.to(12345))
-			this.expect(result.serialize(), Is.equal.to({
+			this.expect(SyntaxTree.filterId(result.serialize()), Is.equal.to({
 				class: "infixOperator",
 				symbol: "=",
 				left: { class: "identifier", name: "a" },
@@ -54,7 +54,7 @@ export class InfixOperatorTest extends Unit.Fixture {
 			this.expect(result.symbol, Is.equal.to("="))
 			this.expect((result.left as SyntaxTree.Identifier).name, Is.equal.to("a"))
 			this.expect((result.right as SyntaxTree.Identifier).name, Is.equal.to("b"))
-			this.expect(result.serialize(), Is.equal.to({
+			this.expect(SyntaxTree.filterId(result.serialize()), Is.equal.to({
 				class: "infixOperator",
 				symbol: "=",
 				left: { class: "identifier", name: "a" },
@@ -66,7 +66,7 @@ export class InfixOperatorTest extends Unit.Fixture {
 			this.expect(result.symbol, Is.equal.to("."))
 			this.expect((result.left as SyntaxTree.Identifier).name, Is.equal.to("a"))
 			this.expect((result.right as SyntaxTree.Identifier).name, Is.equal.to("b"))
-			this.expect(result.serialize(), Is.equal.to({
+			this.expect(SyntaxTree.filterId(result.serialize()), Is.equal.to({
 				class: "infixOperator",
 				symbol: ".",
 				left: { class: "identifier", name: "a" },
@@ -75,7 +75,7 @@ export class InfixOperatorTest extends Unit.Fixture {
 		})
 		this.add("a.b * c.d", () => {
 			const result = Parser.parseFirst("a.b * c.d", handler) as SyntaxTree.InfixOperator
-			this.expect(result.serialize(), Is.equal.to({
+			this.expect(SyntaxTree.filterId(result.serialize()), Is.equal.to({
 				class: "infixOperator",
 				symbol: "*",
 				left: {

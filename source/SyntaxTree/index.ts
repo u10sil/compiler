@@ -42,6 +42,7 @@ import { TypeDeclaration } from "./TypeDeclaration"
 import { UnaryOperator } from "./UnaryOperator"
 import { VariableDeclaration } from "./VariableDeclaration"
 import { deserialize } from "./deserialize"
+import { filterId	 } from "./filterId"
 
 export {
 	ArgumentDeclaration,
@@ -70,4 +71,5 @@ export {
 	UnaryOperator,
 	VariableDeclaration,
 	deserialize,
+	filterId,
 }

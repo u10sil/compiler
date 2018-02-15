@@ -17,6 +17,7 @@
 //
 
 import { Error, Unit } from "@cogneco/mend"
+import * as SyntaxTree from "../SyntaxTree"
 import * as Parser from "./"
 
 import Is = Unit.Is
@@ -27,7 +28,7 @@ export class FunctionCallTest extends Unit.Fixture {
 		this.add("function()", () => {
 			const result = Parser.parseFirst("function()", handler)
 			this.expect(result, Is.not.undefined)
-			this.expect(result!.serialize(), Is.equal.to({
+			this.expect(SyntaxTree.filterId(result!.serialize()), Is.equal.to({
 				class: "functionCall",
 				function: { class: "identifier", name: "function"},
 			}))
@@ -35,7 +36,7 @@ export class FunctionCallTest extends Unit.Fixture {
 		this.add("function(a)", () => {
 			const result = Parser.parseFirst("function(a)", handler)
 			this.expect(result, Is.not.undefined)
-			this.expect(result!.serialize(), Is.equal.to({
+			this.expect(SyntaxTree.filterId(result!.serialize()), Is.equal.to({
 				class: "functionCall",
 				function: { class: "identifier", name: "function"},
 				arguments: [
@@ -46,7 +47,7 @@ export class FunctionCallTest extends Unit.Fixture {
 		this.add("function(a, b)", () => {
 			const result = Parser.parseFirst("function(a, b)", handler)
 			this.expect(result, Is.not.undefined)
-			this.expect(result!.serialize(), Is.equal.to({
+			this.expect(SyntaxTree.filterId(result!.serialize()), Is.equal.to({
 				class: "functionCall",
 				function: { class: "identifier", name: "function"},
 				arguments: [
@@ -58,7 +59,7 @@ export class FunctionCallTest extends Unit.Fixture {
 		this.add("c.m(a, b)", () => {
 			const result = Parser.parseFirst("c.m(a, b)", handler)
 			this.expect(result, Is.not.undefined)
-			this.expect(result!.serialize(), Is.equal.to({
+			this.expect(SyntaxTree.filterId(result!.serialize()), Is.equal.to({
 				class: "functionCall",
 				function: {
 					class: "infixOperator",

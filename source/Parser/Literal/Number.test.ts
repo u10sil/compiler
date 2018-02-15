@@ -31,31 +31,31 @@ export class NumberTest extends Unit.Fixture {
 			const literal = statements.next()
 			this.expect(literal instanceof SyntaxTree.Literal.Number, Is.true)
 			this.expect((literal as SyntaxTree.Literal.Number).value, Is.equal.to(12345))
-			this.expect(literal!.serialize(), Is.equal.to({ class: "literal.number", value: 12345 }))
+			this.expect(SyntaxTree.filterId(literal!.serialize()), Is.equal.to({ class: "literal.number", value: 12345 }))
 		})
 		this.add("float", () => {
 			const literal = Parser.parseFirst("0.1234", handler)
 			this.expect(literal instanceof SyntaxTree.Literal.Number, Is.true)
 			this.expect((literal as SyntaxTree.Literal.Number).value, Is.equal.to(0.1234))
-			this.expect(literal!.serialize(), Is.equal.to({ class: "literal.number", value: 0.1234 }))
+			this.expect(SyntaxTree.filterId(literal!.serialize()), Is.equal.to({ class: "literal.number", value: 0.1234 }))
 		})
 		this.add("binary", () => {
 			const literal = Parser.parseFirst("0b11000000111001", handler)
 			this.expect(literal instanceof SyntaxTree.Literal.Number, Is.true)
 			this.expect((literal as SyntaxTree.Literal.Number).value, Is.equal.to(12345))
-			this.expect(literal!.serialize(), Is.equal.to({ class: "literal.number", value: 12345 }))
+			this.expect(SyntaxTree.filterId(literal!.serialize()), Is.equal.to({ class: "literal.number", value: 12345 }))
 		})
 		this.add("octal", () => {
 			const literal = Parser.parseFirst("0c30071", handler)
 			this.expect(literal instanceof SyntaxTree.Literal.Number, Is.true)
 			this.expect((literal as SyntaxTree.Literal.Number).value, Is.equal.to(12345))
-			this.expect(literal!.serialize(), Is.equal.to({ class: "literal.number", value: 12345 }))
+			this.expect(SyntaxTree.filterId(literal!.serialize()), Is.equal.to({ class: "literal.number", value: 12345 }))
 		})
 		this.add("hexadecimal", () => {
 			const literal = Parser.parseFirst("0xD431", handler)
 			this.expect(literal instanceof SyntaxTree.Literal.Number, Is.true)
 			this.expect((literal as SyntaxTree.Literal.Number).value, Is.equal.to(54321))
-			this.expect(literal!.serialize(), Is.equal.to({ class: "literal.number", value: 54321 }))
+			this.expect(SyntaxTree.filterId(literal!.serialize()), Is.equal.to({ class: "literal.number", value: 54321 }))
 		})
 	}
 }

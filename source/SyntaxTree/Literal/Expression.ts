@@ -1,4 +1,4 @@
-// Copyright (C) 2015, 2017  Simon Mika <simon@mika.se>
+// Copyright (C) 2017  Simon Mika <simon@mika.se>
 //
 // This file is part of SysPL.
 //
@@ -19,21 +19,12 @@
 import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../../Tokens"
 import * as Type from "../Type"
-import { Expression } from "./Expression"
-import { addDeserializer } from "../deserialize"
+import { Expression as Base } from "../Expression"
 import { Node } from "../Node"
 
-export class Number extends Expression {
-	get class() { return "literal.number" }
-	constructor(readonly value: number, type?: Type.Expression | undefined, tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
+export abstract class Expression extends Base {
+	get precedence() { return Number.MAX_VALUE }
+	constructor(type: Type.Expression | undefined, tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
 		super(type, tokens)
 	}
-	serialize(): { class: string } & any {
-		return {
-			...super.serialize(),
-			value: this.value,
-		}
-	}
 }
-// tslint:disable no-construct
-addDeserializer("literal.number", data => data.hasOwnProperty("value") ? new Number(data.value) : undefined)
