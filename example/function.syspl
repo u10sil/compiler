@@ -1,5 +1,5 @@
-func square(number: integer) {
-	number * number
+func identity(number: s64) {
+	number
 }
 let a = 5
-let b = square(a)
+let b = identity(a)

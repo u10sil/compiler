@@ -71,7 +71,7 @@ export class Scope {
 		const types = new SymbolTable<SyntaxTree.TypeDeclaration>()
 		if (statements)
 			statements.apply(statement => {
-				if (statement instanceof SyntaxTree.FunctionDeclaration) // No variable declarations here as they should only be used after they are declared.
+				if (statement instanceof SyntaxTree.FunctionDeclaration || statement instanceof SyntaxTree.ArgumentDeclaration) // No variable declarations here as they should only be used after they are declared.
 					symbols.append(statement)
 				else if (statement instanceof SyntaxTree.TypeDeclaration)
 					types.append(statement)
