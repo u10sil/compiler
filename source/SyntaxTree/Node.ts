@@ -32,9 +32,14 @@ export abstract class Node {
 			this.id = nodeCount++
 			this.tokens = tokens
 		}
+		Node.nodes[this.id] = this
 	}
 	serialize(): { class: string } & any {
 		return { id: this.id, class: this.class }
+	}
+	private static nodes: { [id: number]: Node } = {}
+	static locate(id: number): Node | undefined {
+		return Node.nodes[id]
 	}
 }
 let nodeCount = 0
