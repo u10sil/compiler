@@ -16,25 +16,18 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+import { Error, Utilities } from "@cogneco/mend"
 import { Scope } from "./Scope"
+import { Declarations } from "./Declarations"
 import * as SyntaxTree from "../SyntaxTree"
 
-export function resolve(module: SyntaxTree.Module): SyntaxTree.Module
-export function resolve(statement: SyntaxTree.Statement): SyntaxTree.Statement {
-	return Scope.empty.resolve(statement)
+function resolve(handler: Error.Handler, statement: SyntaxTree.Statement | SyntaxTree.Statement[] | SyntaxTree.Module[] | Utilities.Iterator<SyntaxTree.Statement> | Utilities.Iterator<SyntaxTree.Module>): Declarations {
+	const scope = Scope.create(handler)
+	scope.resolve(statement)
+	return scope.declarations
 }
 
-import "./Literal"
-import "./Type"
-import "./ArgumentDeclaration"
-import "./Block"
-import "./ClassDeclaration"
-import "./FunctionCall"
-import "./FunctionDeclaration"
-import "./Identifier"
-import "./InfixOperator"
-import "./Module"
-import "./PostfixOperator"
-import "./PrefixOperator"
-import "./Tuple"
-import "./VariableDeclaration"
+export {
+	resolve,
+	Declarations,
+}

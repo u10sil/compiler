@@ -19,7 +19,6 @@
 import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../../Tokens"
 import { Name } from "./Name"
-import { TypeDeclaration } from "../TypeDeclaration"
 import { addDeserializer, deserialize } from "../deserialize"
 import { Node } from "../Node"
 
@@ -28,14 +27,13 @@ export class Identifier extends Name {
 	get parameters(): Utilities.Iterator<Identifier> {
 		return new Utilities.ArrayIterator(this.parametersArray)
 	}
-	constructor(name: string, private parametersArray: Identifier[], readonly declaration?: TypeDeclaration, tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
+	constructor(name: string, private parametersArray: Identifier[], tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
 		super(name, tokens)
 	}
 	serialize(): { class: string } & any {
 		return {
 			...super.serialize(),
 			parameters: this.parametersArray.length > 0 ? this.parametersArray.map(t => t.serialize()) : undefined,
-			declaration: this.declaration ? this.declaration.id : undefined,
 		}
 	}
 }

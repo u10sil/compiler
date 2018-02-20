@@ -19,7 +19,6 @@
 import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../Tokens"
 import { Expression } from "./Expression"
-import { Declaration } from "./Declaration"
 import { Operator } from "./Operator"
 import { Associativity } from "./Associativity"
 import { addDeserializer, deserialize } from "./deserialize"
@@ -27,8 +26,8 @@ import { Node } from "./Node"
 
 export class InfixOperator extends Operator {
 	get class() { return "infixOperator" }
-	constructor(symbol: string, precedence: number, readonly associativity: Associativity, readonly left: Expression, readonly right: Expression, readonly declaration?: Declaration, tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
-		super(symbol, precedence, declaration, undefined, tokens)
+	constructor(symbol: string, precedence: number, readonly associativity: Associativity, readonly left: Expression, readonly right: Expression, tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
+		super(symbol, precedence, undefined, tokens)
 	}
 	serialize(): { class: string } & any {
 		return {

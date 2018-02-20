@@ -19,14 +19,13 @@
 import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../Tokens"
 import * as Type from "./Type"
-import { Declaration } from "./Declaration"
 import { Expression } from "./Expression"
 import { Operator } from "./Operator"
 import { Node } from "./Node"
 
 export abstract class UnaryOperator extends Operator {
-	constructor(symbol: string, precedence: number, readonly argument: Expression, readonly declaration?: Declaration, type?: Type.Expression, tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
-		super(symbol, precedence, declaration, type, tokens)
+	constructor(symbol: string, precedence: number, readonly argument: Expression, type?: Type.Expression, tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
+		super(symbol, precedence, type, tokens)
 	}
 	serialize(): { class: string } & any {
 		return {

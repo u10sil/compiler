@@ -17,7 +17,6 @@
 //
 
 import { Error, Unit } from "@cogneco/mend"
-import * as SyntaxTree from "./SyntaxTree"
 import * as Parser from "./Parser"
 import * as Resolver from "./Resolver"
 
@@ -36,10 +35,11 @@ export class Program {
 		switch (command) {
 			case "build":
 				{
-					console.log("build")
 					const parser = Parser.open(commands.pop(), handler)
 					if (parser) {
-						parser.map(module => Resolver.resolve(module)).toArray()
+						const modules = parser.toArray()
+						/* const declarations =  */
+						Resolver.resolve(handler, modules)
 					}
 				}
 				break
@@ -47,10 +47,10 @@ export class Program {
 				{
 					const parser = Parser.open(commands.pop(), handler)
 					if (parser) {
-						let module: SyntaxTree.Module | undefined
-						const result = []
-						while (module = parser.next())
-							result.push(Resolver.resolve(module).serialize())
+						const modules = parser.toArray()
+						const declarations = Resolver.resolve(handler, modules)
+						let result = modules.map(module => module.serialize())
+						result = declarations.patch(result)
 						console.log(JSON.stringify(result, undefined, "\t"))
 					}
 				}

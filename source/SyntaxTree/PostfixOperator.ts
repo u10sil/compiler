@@ -19,7 +19,6 @@
 import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../Tokens"
 import * as Type from "./Type"
-import { Declaration } from "./Declaration"
 import { Expression } from "./Expression"
 import { addDeserializer, deserialize } from "./deserialize"
 import { UnaryOperator } from "./UnaryOperator"
@@ -27,8 +26,8 @@ import { Node } from "./Node"
 
 export class PostfixOperator extends UnaryOperator {
 	get class() { return "postfixOperator" }
-	constructor(symbol: string, precedence: number, argument: Expression, readonly declaration?: Declaration, type?: Type.Expression | undefined, tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
-		super(symbol, precedence, argument, declaration, type, tokens)
+	constructor(symbol: string, precedence: number, argument: Expression, type?: Type.Expression | undefined, tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
+		super(symbol, precedence, argument, type, tokens)
 	}
 	static getPrecedence(symbol: string): number | undefined {
 		let result: number | undefined

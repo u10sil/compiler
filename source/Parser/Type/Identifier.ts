@@ -35,7 +35,7 @@ export function parse(source: Source): SyntaxTree.Type.Identifier | undefined {
 			} while (source.peek()!.isSeparator(","))
 			source.next() // consume ">"
 		}
-		result = new SyntaxTree.Type.Identifier(name, parameters, undefined, source.mark())
+		result = new SyntaxTree.Type.Identifier(name, parameters, source.mark())
 	}
 	return result
 }

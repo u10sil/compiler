@@ -30,7 +30,7 @@ export function parse(source: Source, precedence: number, previous?: SyntaxTree.
 		const argument = Expression.parse(source, operatorPrecedence)
 		if (!argument)
 			source.raise("Missing argument to prefix operator " + symbol)
-		result = Expression.parse(source, precedence, new SyntaxTree.PrefixOperator(symbol, operatorPrecedence!, argument!, undefined, Type.tryParse(source), source.mark()))
+		result = Expression.parse(source, precedence, new SyntaxTree.PrefixOperator(symbol, operatorPrecedence!, argument!, Type.tryParse(source), source.mark()))
 	}
 	return result
 }

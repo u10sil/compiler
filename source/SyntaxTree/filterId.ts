@@ -16,14 +16,10 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-export function filterId(node: { id: number } & any | ({ id: number } & any)[] | any) {
-	if (node && node.hasOwnProperty("id")) {
-		delete node.id
-		for (const key in node)
-			if (node.hasOwnProperty(key))
-				node[key] = filterId(node[key])
-	}	else if (node instanceof Array)
-		for (const index in node)
-			node[index] = filterId(node[index])
-	return node
+import { map } from "./map"
+
+export function filterId(node: { id: number } & any | any): any
+export function filterId(node: ({ id: number } & any)[]): any[]
+export function filterId(node: { id: number } & any | ({ id: number } & any)[] | any): any | any[] {
+	return map<any>(node, n => { delete n.id; return n })
 }

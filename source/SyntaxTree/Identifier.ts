@@ -20,21 +20,19 @@ import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../Tokens"
 import * as Type from "./Type"
 import { Expression } from "./Expression"
-import { Declaration } from "./Declaration"
 import { addDeserializer } from "./deserialize"
 import { Node } from "./Node"
 
 export class Identifier extends Expression {
 	get class() { return "identifier" }
 	get precedence() { return Number.MAX_VALUE }
-	constructor(readonly name: string, readonly declaration?: Declaration, type?: Type.Expression, tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
+	constructor(readonly name: string, type?: Type.Expression, tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
 		super(type, tokens)
 	}
 	serialize(): { class: string } & any {
 		return {
 			...super.serialize(),
 			name: this.name,
-			declaration: this.declaration ? this.declaration.id : undefined,
 		}
 	}
 }

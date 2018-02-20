@@ -17,11 +17,18 @@
 //
 
 import * as SyntaxTree from "../SyntaxTree"
-import { Scope, addResolver } from "./Scope"
 
-function resolve(module: SyntaxTree.Module, scope: Scope): SyntaxTree.Module {
-	scope = scope.create(module.statements)
-	const statements = scope.resolve(module.statements)
-	return new SyntaxTree.Module(statements, module)
+export class Declarations {
+	constructor(private readonly backend: { [id: number]: number | undefined }) { }
+	get(node: number | SyntaxTree.Node): SyntaxTree.Node | undefined {
+		const id = this.backend[node instanceof SyntaxTree.Node ? node.id : node]
+		return id != undefined ? SyntaxTree.Node.locate(id) : undefined
+	}
+	patch(node: { id: number } & any | ({ id: number } & any)[] | any): any {
+		return SyntaxTree.map(node, n => {
+			const declaration = this.get(n.id)
+			if (declaration)
+				n.declaration = declaration.id
+			return n		})
+	}
 }
-addResolver("module", (statement: SyntaxTree.Statement, scope: Scope) => resolve(statement as SyntaxTree.Module, scope))

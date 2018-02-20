@@ -16,12 +16,12 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+import { Applier } from "./Applier"
 import { ArgumentDeclaration } from "./ArgumentDeclaration"
 import { Associativity } from "./Associativity"
 import { Block } from "./Block"
 import { ClassDeclaration } from "./ClassDeclaration"
 import { Declaration } from "./Declaration"
-import { Declarations } from "./Declarations"
 import { Expression } from "./Expression"
 import { FunctionCall } from "./FunctionCall"
 import { FunctionDeclaration } from "./FunctionDeclaration"
@@ -42,15 +42,16 @@ import { TypeDeclaration } from "./TypeDeclaration"
 import { UnaryOperator } from "./UnaryOperator"
 import { VariableDeclaration } from "./VariableDeclaration"
 import { deserialize } from "./deserialize"
-import { filterId	 } from "./filterId"
+import { filterId } from "./filterId"
+import { map } from "./map"
 
 export {
+	Applier,
 	ArgumentDeclaration,
 	Associativity,
 	Block,
 	ClassDeclaration,
 	Declaration,
-	Declarations,
 	Expression,
 	FunctionCall,
 	FunctionDeclaration,
@@ -72,4 +73,5 @@ export {
 	VariableDeclaration,
 	deserialize,
 	filterId,
+	map,
 }

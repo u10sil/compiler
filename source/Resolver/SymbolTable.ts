@@ -17,16 +17,14 @@
 //
 
 export class SymbolTable<T extends { symbol: string }> {
-	symbols: { [symbol: string]: T[] } = {}
-	constructor() {
+	symbols: { [symbol: string]: T } = {}
+	constructor(private merge: (previous: T, current: T) => T) {
 	}
-	get(symbol: string): T[] {
-		return this.symbols[symbol] || []
+	get(symbol: string): T | undefined{
+		return this.symbols[symbol]
 	}
 	append(declaration: T) {
-		if (this.symbols[declaration.symbol])
-			this.symbols[declaration.symbol].push(declaration)
-		else
-			this.symbols[declaration.symbol] = [declaration]
+		const previous = this.symbols[declaration.symbol]
+		this.symbols[declaration.symbol] = previous ? this.merge(previous, declaration) : declaration
 	}
 }

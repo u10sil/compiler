@@ -20,7 +20,7 @@
 			"request": "launch",
 			"name": "json",
 			"program": "${workspaceRoot}/build/index.js",
-			"args": [ "json", "${workspaceRoot}/example" ],
+			"args": [ "json", "${workspaceRoot}/example/function.syspl" ],
 			"protocol": "inspector",
 			"preLaunchTask": "build",
 			"sourceMaps": true,

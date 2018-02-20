@@ -16,13 +16,19 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Utilities } from "@cogneco/mend"
+import { Error, Utilities } from "@cogneco/mend"
 import * as Tokens from "../Tokens"
 
 export type Iterator<T> = Utilities.Iterator<T>
 export abstract class Node {
 	abstract get class(): string
 	readonly id: number
+	private regionCache: Error.Region | undefined
+	get region(): Error.Region | undefined {
+		if (!this.regionCache)
+			this.regionCache = (this.tokens ? this.tokens().map(item => item.region || null).reduce((result: Error.Region | null, region: Error.Region | null) => region != null && result != null ? result.merge(region) : region, null) : null) || undefined
+		return this.regionCache
+	}
 	readonly tokens?: Utilities.Iterable<Tokens.Substance>
 	constructor(tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
 		if (tokens instanceof Node) {

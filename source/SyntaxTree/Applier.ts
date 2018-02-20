@@ -44,7 +44,7 @@ import {
 import { isArray } from "util"
 
 export abstract class Applier {
-	apply(node: Node | Node[] | Utilities.Iterator<Node>) {
+	protected apply(node: Node | Node[] | Utilities.Iterator<Node> | undefined) {
 		if (isArray(node))
 			node.forEach(n => this.apply(n))
 		else if (node instanceof Utilities.Iterator)
@@ -91,35 +91,35 @@ export abstract class Applier {
 			this.applyVariableDeclaration(node)
 	}
 
-	applyLiteral(node: Literal.Abstract) { }
-	applyCharacterLiteral(node: Literal.Character) { this.applyLiteral(node) }
-	applyNumberLiteral(node: Literal.Number) { this.applyLiteral(node) }
-	applyStringLiteral(node: Literal.String) { this.applyLiteral(node) }
+	protected applyLiteral(node: Literal.Expression) { }
+	protected applyCharacterLiteral(node: Literal.Character) { this.applyLiteral(node) }
+	protected applyNumberLiteral(node: Literal.Number) { this.applyLiteral(node) }
+	protected applyStringLiteral(node: Literal.String) { this.applyLiteral(node) }
 
-	applyType(node: Type.Expression) { }
-	applyTypeFunction(node: Type.Function) { this.apply(node.arguments); this.apply(node.result); this.applyType(node) }
-	applyTypeIdentifier(node: Type.Identifier) { this.apply(node.parameters); this.applyType(node) }
-	applyTypeName(node: Type.Name) { this.applyType(node) }
-	applyTypeTuple(node: Type.Tuple) { this.apply(node.elements); this.applyType(node) }
+	protected applyType(node: Type.Expression) { }
+	protected applyTypeFunction(node: Type.Function) { this.apply(node.arguments); this.apply(node.result); this.applyType(node) }
+	protected applyTypeIdentifier(node: Type.Identifier) { this.apply(node.parameters); this.applyType(node) }
+	protected applyTypeName(node: Type.Name) { this.applyType(node) }
+	protected applyTypeTuple(node: Type.Tuple) { this.apply(node.elements); this.applyType(node) }
 
-	applyArgumentDeclaration(node: ArgumentDeclaration) { this.applyDeclaration(node) }
-	applyBlock(node: Block) { this.apply(node.statements); this.applyExpression(node) }
-	applyClassDeclaration(node: ClassDeclaration) { this.apply(node.parameters); this.apply(node.extended); this.apply(node.implemented); this.apply(node.content); this.applyTypeDeclaration(node) }
-	applyDeclaration(node: Declaration) { this.applyStatement(node) }
-	applyExpression(node: Expression) { this.apply(node.type); this.applyStatement(node)}
-	applyFunctionCall(node: FunctionCall) { this.apply(node.functionExpression); this.apply(node.argumentList), this.applyExpression(node) }
-	applyFunctionDeclaration(node: FunctionDeclaration) { this.apply(node.parameters); this.apply(node.argumentList); this.apply(node.returnType); this.applySymbolDeclaration(node) }
-	applyIdentifier(node: Identifier) { this.applyExpression(node) }
-	applyInfixOperator(node: InfixOperator) { this.apply(node.left); this.apply(node.right); this.applyOperator(node) }
-	applyModule(node: Module) { this.apply(node.statements); this.applyNode(node) }
-	applyNode(node: Node) { }
-	applyOperator(node: Operator) { this.applyExpression(node) }
-	applyPostfixOperator(node: PostfixOperator) { this.applyUnaryOperator(node) }
-	applyPrefixOperator(node: PrefixOperator) { this.applyUnaryOperator(node) }
-	applyStatement(node: Statement) { this.applyNode(node) }
-	applySymbolDeclaration(node: SymbolDeclaration) { this.applyDeclaration(node) }
-	applyTuple(node: Tuple) { this.apply(node.elements); this.applyExpression(node) }
-	applyTypeDeclaration(node: TypeDeclaration) { this.applyDeclaration(node) }
-	applyUnaryOperator(node: UnaryOperator) { this.applyOperator(node); this.apply(node.argument)}
-	applyVariableDeclaration(node: VariableDeclaration) { this.applySymbolDeclaration(node); this.apply(node.type); this.apply(node.value) }
+	protected applyArgumentDeclaration(node: ArgumentDeclaration) { this.applyDeclaration(node) }
+	protected applyBlock(node: Block) { this.apply(node.statements); this.applyExpression(node) }
+	protected applyClassDeclaration(node: ClassDeclaration) { this.apply(node.parameters); this.apply(node.extended); this.apply(node.implemented); this.apply(node.content); this.applyTypeDeclaration(node) }
+	protected applyDeclaration(node: Declaration) { this.applyStatement(node) }
+	protected applyExpression(node: Expression) { this.apply(node.type); this.applyStatement(node)}
+	protected applyFunctionCall(node: FunctionCall) { this.apply(node.functionExpression); this.apply(node.argumentList), this.applyExpression(node) }
+	protected applyFunctionDeclaration(node: FunctionDeclaration) { this.apply(node.parameters); this.apply(node.argumentList); this.apply(node.returnType); this.applySymbolDeclaration(node) }
+	protected applyIdentifier(node: Identifier) { this.applyExpression(node) }
+	protected applyInfixOperator(node: InfixOperator) { this.apply(node.left); this.apply(node.right); this.applyOperator(node) }
+	protected applyModule(node: Module) { this.apply(node.statements); this.applyNode(node) }
+	protected applyNode(node: Node) { }
+	protected applyOperator(node: Operator) { this.applyExpression(node) }
+	protected applyPostfixOperator(node: PostfixOperator) { this.applyUnaryOperator(node) }
+	protected applyPrefixOperator(node: PrefixOperator) { this.applyUnaryOperator(node) }
+	protected applyStatement(node: Statement) { this.applyNode(node) }
+	protected applySymbolDeclaration(node: SymbolDeclaration) { this.applyDeclaration(node) }
+	protected applyTuple(node: Tuple) { this.apply(node.elements); this.applyExpression(node) }
+	protected applyTypeDeclaration(node: TypeDeclaration) { this.applyDeclaration(node) }
+	protected applyUnaryOperator(node: UnaryOperator) { this.applyOperator(node); this.apply(node.argument)}
+	protected applyVariableDeclaration(node: VariableDeclaration) { this.applySymbolDeclaration(node); this.apply(node.type); this.apply(node.value) }
 }

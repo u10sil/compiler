@@ -1,4 +1,4 @@
-// Copyright (C) 2017  Simon Mika <simon@mika.se>
+// Copyright (C) 2017, 2018  Simon Mika <simon@mika.se>
 //
 // This file is part of SysPL.
 //
@@ -16,73 +16,109 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Utilities } from "@cogneco/mend"
+import { Error, Utilities } from "@cogneco/mend"
 import * as SyntaxTree from "../SyntaxTree"
 import { SymbolTable } from "./SymbolTable"
+import { Declarations } from "./Declarations"
 
 export class Scope {
-	private constructor(private symbols: SymbolTable<SyntaxTree.SymbolDeclaration>, private types: SymbolTable<SyntaxTree.TypeDeclaration>, private parent?: Scope) {
+	get declarations() {
+		return new Declarations(this.result)
 	}
-	private findHelper(name: string): SyntaxTree.Declaration[] {
-		let result: SyntaxTree.Declaration[] = [...this.symbols.get(name), ...this.types.get(name)]
-		if (this.parent)
-			result = result.concat(this.parent.findHelper(name))
-		return result
+	private symbols = new SymbolTable<SyntaxTree.SymbolDeclaration>((previous, current) => {
+		this.handler.raise("Declaration of symbol \"" + previous.symbol + "\" at " + previous.region + " hidden by new declaration at " + current.region, Error.Level.Recoverable, "semantic", current.region)
+		return current
+	})
+	private types = new SymbolTable<SyntaxTree.TypeDeclaration>((previous, current) => {
+		this.handler.raise("Declaration of type \"" + previous.symbol + "\" at " + previous.region + " hidden by new declaration at " + current.region, Error.Level.Recoverable, "semantic", current.region)
+		return current
+	})
+	private constructor(private handler: Error.Handler, private result: { [id: number]: number }, private parent?: Scope) {
 	}
-	find(name: string): SyntaxTree.Declaration | undefined {
-		const result = this.findHelper(name)
-		return result.length > 1 ? new SyntaxTree.Declarations(result) :
-			result.length > 0 ? result[0] :
-			undefined
+	private findSymbol(identifier: SyntaxTree.Identifier): number | undefined {
+		const result = this.symbols.get(identifier.name)
+		return result ? result.id : this.parent ? this.parent.findSymbol(identifier) : undefined
 	}
-	findType(name: string): SyntaxTree.TypeDeclaration[] {
-		let result: SyntaxTree.TypeDeclaration[] = [...this.types.get(name)]
-		if (this.parent)
-			result = result.concat(this.parent.findType(name))
-		return result
+	private findType(identifier: SyntaxTree.Type.Identifier): number | undefined {
+		const result = this.types.get(identifier.name)
+		return result ? result.id : this.parent ? this.parent.findType(identifier) : undefined
 	}
-	resolve(statement: undefined): undefined
-	resolve<T extends SyntaxTree.Node>(node: T): T
-	resolve<T extends SyntaxTree.Node>(node: T | undefined): T | undefined
-	resolve<T extends SyntaxTree.Node>(node: T[] | Utilities.Iterator<T>): T[]
-	resolve(node: SyntaxTree.Node | undefined | SyntaxTree.Node[] | Utilities.Iterator<SyntaxTree.Node>): SyntaxTree.Node | undefined | SyntaxTree.Node[] {
-		return !node ? undefined :
-			node instanceof SyntaxTree.Node ? this.resolveNode(node) :
-			this.resolveNodes(node instanceof Array ? new Utilities.ArrayIterator(node) : node)
+	resolve(statement: undefined): void
+	resolve<T extends SyntaxTree.Node>(node: T | undefined | T[] | Utilities.Iterator<T>): void
+	resolve(node: SyntaxTree.Node | undefined | SyntaxTree.Node[] | Utilities.Iterator<SyntaxTree.Node>): void {
+		if (node instanceof Array)
+			node.forEach(n => this.resolve(n))
+		else if (node instanceof Utilities.Iterator)
+			node.apply(n => this.resolve(n))
+		else if (node instanceof SyntaxTree.Type.Function) {
+			this.resolve(node.arguments)
+			this.resolve(node.result)
+		} else if (node instanceof SyntaxTree.Type.Identifier) {
+			const result = this.findType(node)
+			if (result != undefined)
+				this.result[node.id] = result
+			else
+				this.handler.raise("Unable to resolve type \"" + node.name + "\" at " + node.region + ".")
+		} else if (node instanceof SyntaxTree.Type.Name) {
+			// TODO: what should we do here?
+		} else if (node instanceof SyntaxTree.Type.Tuple) {
+			this.resolve(node.elements)
+		} else if (node instanceof SyntaxTree.ArgumentDeclaration) {
+			this.resolve(node.type)
+		} else if (node instanceof SyntaxTree.Block) {
+			const scope = this.create(node.statements)
+			scope.resolve(node.statements)
+			this.resolve(node.type)
+		} else if (node instanceof SyntaxTree.ClassDeclaration) {
+			// TODO: handle classes and structs
+		} else if (node instanceof SyntaxTree.FunctionCall) {
+			this.resolve(node.functionExpression)
+			this.resolve(node.argumentList)
+			this.resolve(node.type)
+		} else if (node instanceof SyntaxTree.FunctionDeclaration) {
+			this.resolve(node.argumentList)
+			this.resolve(node.returnType)
+			const scope = this.create(node.argumentList)
+			scope.resolve(node.body)
+		} else if (node instanceof SyntaxTree.Identifier) {
+			const result = this.findSymbol(node)
+			if (result != undefined)
+				this.result[node.id] = result
+			else
+				this.handler.raise("Unable to resolve symbol \"" + node.name + "\" at " + node.region + ".")
+		} else if (node instanceof SyntaxTree.InfixOperator) {
+			// TODO: resolve operators
+			this.resolve(node.left)
+			this.resolve(node.right)
+			this.resolve(node.type)
+		} else if (node instanceof SyntaxTree.Module) {
+			const scope = this.create(node.statements)
+			scope.resolve(node.statements)
+		} else if (node instanceof SyntaxTree.UnaryOperator) {
+			// TODO: resolve operators
+			this.resolve(node.argument)
+			this.resolve(node.type)
+		} else if (node instanceof SyntaxTree.Tuple) {
+			this.resolve(node.elements)
+			this.resolve(node.type)
+		} else if (node instanceof SyntaxTree.VariableDeclaration) {
+			this.symbols.append(node)
+			this.resolve(node.value)
+			this.resolve(node.type)
+		}
 	}
-	private resolveNode(node: SyntaxTree.Node): SyntaxTree.Node {
-		return resolvers[node.class](node, this)
-	}
-	private resolveNodes(nodes: Utilities.Iterator<SyntaxTree.Node>): SyntaxTree.Node[] {
-		nodes = nodes.map(node => this.resolveNode(node))
-		return nodes.toArray()
-	}
-	add(declaration: SyntaxTree.SymbolDeclaration | SyntaxTree.TypeDeclaration) {
-		if (declaration instanceof SyntaxTree.SymbolDeclaration)
-			this.symbols.append(declaration)
-		else if (declaration instanceof SyntaxTree.TypeDeclaration)
-			this.types.append(declaration)
-	}
-	create(statements?: Utilities.Iterator<SyntaxTree.Statement>): Scope {
-		return Scope.create(statements, this)
-	}
-	static create(statements?: Utilities.Iterator<SyntaxTree.Statement>, parent?: Scope): Scope {
-		const symbols = new SymbolTable<SyntaxTree.SymbolDeclaration>()
-		const types = new SymbolTable<SyntaxTree.TypeDeclaration>()
+	private create(statements?: Utilities.Iterator<SyntaxTree.Statement>): Scope {
+		const result = new Scope(this.handler, this.result, this)
 		if (statements)
 			statements.apply(statement => {
-				if (statement instanceof SyntaxTree.FunctionDeclaration || statement instanceof SyntaxTree.ArgumentDeclaration) // No variable declarations here as they should only be used after they are declared.
-					symbols.append(statement)
+				if (statement instanceof SyntaxTree.FunctionDeclaration || statement instanceof SyntaxTree.ArgumentDeclaration)
+					this.symbols.append(statement)
 				else if (statement instanceof SyntaxTree.TypeDeclaration)
-					types.append(statement)
+					this.types.append(statement)
 			})
-		return new Scope(symbols, types, parent)
+		return result
 	}
-	static get empty(): Scope {
-		return new Scope(new SymbolTable<SyntaxTree.SymbolDeclaration>(), new SymbolTable<SyntaxTree.TypeDeclaration>())
+	static create(handler: Error.Handler): Scope {
+		return new Scope(handler, {})
 	}
-}
-const resolvers: { [className: string]: (statement: SyntaxTree.Statement, scope: Scope) => SyntaxTree.Statement } = {}
-export function addResolver(className: string, resolve: (statement: SyntaxTree.Statement, scope: Scope) => SyntaxTree.Statement ) {
-	resolvers[className] = resolve
 }
