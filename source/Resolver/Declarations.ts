@@ -29,6 +29,7 @@ export class Declarations {
 			const declaration = this.get(n.id)
 			if (declaration)
 				n.declaration = declaration.id
-			return n		})
+			return n
+		})
 	}
 }
