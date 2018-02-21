@@ -18,19 +18,18 @@
 
 import * as SyntaxTree from "../SyntaxTree"
 
-export class Declarations {
-	constructor(private readonly backend: { [id: number]: number | undefined }) { }
-	get(node: number | SyntaxTree.Node): SyntaxTree.Node | undefined {
-		const id = this.backend[node instanceof SyntaxTree.Node ? node.id : node]
-		return id != undefined ? SyntaxTree.Node.locate(id) : undefined
+export class Types {
+	constructor(private readonly backend: { [id: number]: SyntaxTree.Type.Expression }) { }
+	get(node: number | SyntaxTree.Node): SyntaxTree.Type.Expression | undefined {
+		return this.backend[node instanceof SyntaxTree.Node ? node.id : node]
 	}
 	patch(node: { id: number } & any): { id: number } & any
 	patch(nodes: ({ id: number } & any)[]): ({ id: number } & any)[]
 	patch(node: { id: number } & any | ({ id: number } & any)[] | any): { id: number } & any | ({ id: number } & any)[] {
 		return SyntaxTree.map(node, n => {
-			const declaration = this.get(n.id)
-			if (declaration)
-				n.declaration = declaration.id
+			const type = this.get(n.id)
+			if (type)
+				n.type = type.serialize()
 			return n
 		})
 	}

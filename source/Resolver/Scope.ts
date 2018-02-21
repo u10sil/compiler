@@ -20,27 +20,27 @@ import { Error, Utilities } from "@cogneco/mend"
 import * as SyntaxTree from "../SyntaxTree"
 import { SymbolTable } from "./SymbolTable"
 import { Declarations } from "./Declarations"
+import { Types } from "./Types"
 
 export class Scope {
-	get declarations() {
-		return new Declarations(this.result)
-	}
-	private symbols = new SymbolTable<SyntaxTree.SymbolDeclaration>((previous, current) => {
+	get declarations() { return new Declarations(this.declarationsData) }
+	get types() { return new Types(this.typesData) }
+	private symbolTable = new SymbolTable<SyntaxTree.SymbolDeclaration>((previous, current) => {
 		this.handler.raise("Declaration of symbol \"" + previous.symbol + "\" at " + previous.region + " hidden by new declaration at " + current.region, Error.Level.Recoverable, "semantic", current.region)
 		return current
 	})
-	private types = new SymbolTable<SyntaxTree.TypeDeclaration>((previous, current) => {
+	private typeTable = new SymbolTable<SyntaxTree.TypeDeclaration>((previous, current) => {
 		this.handler.raise("Declaration of type \"" + previous.symbol + "\" at " + previous.region + " hidden by new declaration at " + current.region, Error.Level.Recoverable, "semantic", current.region)
 		return current
 	})
-	private constructor(private handler: Error.Handler, private result: { [id: number]: number }, private parent?: Scope) {
+	private constructor(private handler: Error.Handler, private readonly declarationsData: { [id: number]: number }, private readonly typesData: { [id: number]: SyntaxTree.Type.Expression }, private parent?: Scope) {
 	}
 	private findSymbol(identifier: SyntaxTree.Identifier): number | undefined {
-		const result = this.symbols.get(identifier.name)
+		const result = this.symbolTable.get(identifier.name)
 		return result ? result.id : this.parent ? this.parent.findSymbol(identifier) : undefined
 	}
 	private findType(identifier: SyntaxTree.Type.Identifier): number | undefined {
-		const result = this.types.get(identifier.name)
+		const result = this.typeTable.get(identifier.name)
 		return result ? result.id : this.parent ? this.parent.findType(identifier) : undefined
 	}
 	resolve(statement: undefined): void
@@ -56,7 +56,7 @@ export class Scope {
 		} else if (node instanceof SyntaxTree.Type.Identifier) {
 			const result = this.findType(node)
 			if (result != undefined)
-				this.result[node.id] = result
+				this.declarationsData[node.id] = result
 			else
 				this.handler.raise("Unable to resolve type \"" + node.name + "\" at " + node.region + ".")
 		} else if (node instanceof SyntaxTree.Type.Name) {
@@ -83,7 +83,7 @@ export class Scope {
 		} else if (node instanceof SyntaxTree.Identifier) {
 			const result = this.findSymbol(node)
 			if (result != undefined)
-				this.result[node.id] = result
+				this.declarationsData[node.id] = result
 			else
 				this.handler.raise("Unable to resolve symbol \"" + node.name + "\" at " + node.region + ".")
 		} else if (node instanceof SyntaxTree.InfixOperator) {
@@ -102,23 +102,23 @@ export class Scope {
 			this.resolve(node.elements)
 			this.resolve(node.type)
 		} else if (node instanceof SyntaxTree.VariableDeclaration) {
-			this.symbols.append(node)
+			this.symbolTable.append(node)
 			this.resolve(node.value)
 			this.resolve(node.type)
 		}
 	}
 	private create(statements?: Utilities.Iterator<SyntaxTree.Statement>): Scope {
-		const result = new Scope(this.handler, this.result, this)
+		const result = new Scope(this.handler, this.declarationsData, this.typesData, this)
 		if (statements)
 			statements.apply(statement => {
 				if (statement instanceof SyntaxTree.FunctionDeclaration || statement instanceof SyntaxTree.ArgumentDeclaration)
-					this.symbols.append(statement)
+					this.symbolTable.append(statement)
 				else if (statement instanceof SyntaxTree.TypeDeclaration)
-					this.types.append(statement)
+					this.typeTable.append(statement)
 			})
 		return result
 	}
 	static create(handler: Error.Handler): Scope {
-		return new Scope(handler, {})
+		return new Scope(handler, {}, {})
 	}
 }
