@@ -53,6 +53,7 @@ export class Scope {
 		else if (node instanceof SyntaxTree.Type.Function) {
 			this.resolve(node.arguments)
 			this.resolve(node.result)
+		} else if (node instanceof SyntaxTree.Type.Primitive) {
 		} else if (node instanceof SyntaxTree.Type.Identifier) {
 			const result = this.findType(node)
 			if (result != undefined)

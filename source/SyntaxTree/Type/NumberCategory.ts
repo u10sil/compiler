@@ -1,4 +1,4 @@
-// Copyright (C) 2017  Simon Mika <simon@mika.se>
+// Copyright (C) 2018  Simon Mika <simon@mika.se>
 //
 // This file is part of SysPL.
 //
@@ -16,12 +16,8 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-export { Expression } from "./Expression"
-export { Function } from "./Function"
-export { Identifier } from "./Identifier"
-export { Intersection } from "./Intersection"
-export { Name } from "./Name"
-export { NumberCategory } from "./NumberCategory"
-export { Primitive } from "./Primitve"
-export { Tuple } from "./Tuple"
-export { Union } from "./Union"
+export enum NumberCategory {
+	unsigned,
+	signed,
+	float,
+}

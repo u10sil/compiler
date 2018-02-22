@@ -35,7 +35,27 @@ export function parse(source: Source): SyntaxTree.Type.Identifier | undefined {
 			} while (source.peek()!.isSeparator(","))
 			source.next() // consume ">"
 		}
-		result = new SyntaxTree.Type.Identifier(name, parameters, source.mark())
+		switch (name) {
+			case "u8":
+			case "s8":
+			case "u16":
+			case "s16":
+			case "u32":
+			case "s32":
+			case "f32":
+			case "u64":
+			case "s64":
+			case "f64":
+			case "u128":
+			case "s128":
+			case "u256":
+			case "s256":
+				result = new SyntaxTree.Type.Primitive(name, source.mark())
+				break
+			default:
+				result = new SyntaxTree.Type.Identifier(name, parameters, source.mark())
+				break
+		}
 	}
 	return result
 }
