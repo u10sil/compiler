@@ -34,5 +34,8 @@ export class Intersection extends Expression {
 			right: this.right.serialize(),
 		}
 	}
+	toString(): string {
+		return this.left.toString() + " & " + this.right.toString()
+	}
 }
 addDeserializer("type.intersection", data => data.hasOwnProperty("left") && data.hasOwnProperty("right") ? new Intersection(deserialize(data.left)!, deserialize(data.right)!) : undefined)

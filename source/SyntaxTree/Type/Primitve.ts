@@ -22,6 +22,8 @@ import { addDeserializer } from "../deserialize"
 import { Node } from "../Node"
 import { Identifier } from "./Identifier"
 import { NumberCategory } from "./NumberCategory"
+import { Expression } from "./Expression"
+import { Intersection } from "./Intersection"
 
 export class Primitive extends Identifier {
 	readonly size: number
@@ -47,6 +49,27 @@ export class Primitive extends Identifier {
 		return {
 			...super.serialize(),
 		}
+	}
+	static getType(value: number): Expression {
+		let result: Expression = new Intersection(new Primitive("f32"), new Primitive("f64"))
+		if (Number.isInteger(value)) {
+			if (value < 0) {
+				let base = 8
+				while (base <= 256 && value >= -Math.pow(2, base - 1)) {
+					result = new Intersection(result, new Primitive("s" + base))
+					base = base * base
+				}
+			} else {
+				let base = 8
+				while (base <= 256 && value < Math.pow(2, base - 1)) {
+					result = new Intersection(result, new Primitive("s" + base))
+					if (value < Math.pow(2, base - 1))
+						result = new Intersection(result, new Primitive("u" + base))
+					base = base * base
+				}
+			}
+		}
+		return result
 	}
 }
 addDeserializer("type.primitive", data => data.hasOwnProperty("name") ? new Primitive(data.name) : undefined)

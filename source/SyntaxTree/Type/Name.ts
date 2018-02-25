@@ -33,5 +33,8 @@ export class Name extends Expression {
 			name: this.name,
 		}
 	}
+	toString(): string {
+		return this.name
+	}
 }
 addDeserializer("type.name", data => data.hasOwnProperty("name") ? new Name(data.name) : undefined)

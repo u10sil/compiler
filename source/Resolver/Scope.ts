@@ -66,26 +66,43 @@ export class Scope {
 			this.resolve(node.elements)
 		} else if (node instanceof SyntaxTree.ArgumentDeclaration) {
 			this.resolve(node.type)
+			if (node.type)
+				this.typesData[node.id] = node.type
+		} else if (node instanceof SyntaxTree.Literal.Number) {
+			this.typesData[node.id] = SyntaxTree.Type.Primitive.getType(node.value)
 		} else if (node instanceof SyntaxTree.Block) {
 			const scope = this.create(node.statements)
 			scope.resolve(node.statements)
 			this.resolve(node.type)
+			const last = node.statements.last
+			if (last)
+				this.typesData[node.id] = this.typesData[last.id]
 		} else if (node instanceof SyntaxTree.ClassDeclaration) {
 			// TODO: handle classes and structs
 		} else if (node instanceof SyntaxTree.FunctionCall) {
 			this.resolve(node.functionExpression)
 			this.resolve(node.argumentList)
 			this.resolve(node.type)
+			const functionType = this.typesData[node.functionExpression.id]
+			if (functionType instanceof SyntaxTree.Type.Function)
+				this.typesData[node.id] = functionType.result
+			else
+				this.handler.raise("Unable to call an expression " + node.functionExpression.region + "  that is not of a function type.", Error.Level.Recoverable, "type", node.region)
 		} else if (node instanceof SyntaxTree.FunctionDeclaration) {
 			this.resolve(node.argumentList)
 			this.resolve(node.returnType)
 			const scope = this.create(node.argumentList)
 			scope.resolve(node.body)
+			if (node.body)
+				this.typesData[node.id] = new SyntaxTree.Type.Function(node.argumentList.map(n => this.typesData[n.id]).toArray(), this.typesData[node.body.id])
 		} else if (node instanceof SyntaxTree.Identifier) {
 			const result = this.findSymbol(node)
-			if (result != undefined)
+			if (result != undefined) {
 				this.declarationsData[node.id] = result
-			else
+				const declaration = SyntaxTree.Node.locate(result)
+				if (declaration)
+					this.typesData[node.id] = this.typesData[declaration.id]
+			} else
 				this.handler.raise("Unable to resolve symbol \"" + node.name + "\" at " + node.region + ".")
 		} else if (node instanceof SyntaxTree.InfixOperator) {
 			// TODO: resolve operators
@@ -102,10 +119,14 @@ export class Scope {
 		} else if (node instanceof SyntaxTree.Tuple) {
 			this.resolve(node.elements)
 			this.resolve(node.type)
+			this.typesData[node.id] = new SyntaxTree.Type.Tuple(node.elements.map(n => this.typesData[n.id]))
 		} else if (node instanceof SyntaxTree.VariableDeclaration) {
 			this.symbolTable.append(node)
 			this.resolve(node.value)
 			this.resolve(node.type)
+			const valueType = (node.value ? this.typesData[node.value.id] : undefined)  || node.type
+			if (valueType)
+				this.typesData[node.id] = valueType
 		}
 	}
 	private create(statements?: Utilities.Iterator<SyntaxTree.Statement>): Scope {

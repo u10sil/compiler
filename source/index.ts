@@ -48,9 +48,10 @@ export class Program {
 					const parser = Parser.open(commands.pop(), handler)
 					if (parser) {
 						const modules = parser.toArray()
-						const declarations = Resolver.resolve(handler, modules)
+						const [declarations, types] = Resolver.resolve(handler, modules)
 						let result = modules.map(module => module.serialize())
 						result = declarations.patch(result)
+						result = types.patch(result)
 						console.log(JSON.stringify(result, undefined, "\t"))
 					}
 				}

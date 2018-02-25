@@ -19,12 +19,13 @@
 import { Error, Utilities } from "@cogneco/mend"
 import { Scope } from "./Scope"
 import { Declarations } from "./Declarations"
+import { Types } from "./Types"
 import * as SyntaxTree from "../SyntaxTree"
 
-function resolve(handler: Error.Handler, statement: SyntaxTree.Statement | SyntaxTree.Statement[] | SyntaxTree.Module[] | Utilities.Iterator<SyntaxTree.Statement> | Utilities.Iterator<SyntaxTree.Module>): Declarations {
+function resolve(handler: Error.Handler, statement: SyntaxTree.Statement | SyntaxTree.Statement[] | SyntaxTree.Module[] | Utilities.Iterator<SyntaxTree.Statement> | Utilities.Iterator<SyntaxTree.Module>): [Declarations, Types] {
 	const scope = Scope.create(handler)
 	scope.resolve(statement)
-	return scope.declarations
+	return [scope.declarations, scope.types]
 }
 
 export {

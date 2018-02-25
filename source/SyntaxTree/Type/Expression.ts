@@ -24,4 +24,5 @@ export abstract class Expression extends Node {
 	constructor(tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
 		super(tokens)
 	}
+	abstract toString(): string
 }

@@ -29,7 +29,7 @@ export class Types {
 		return SyntaxTree.map(node, n => {
 			const type = this.get(n.id)
 			if (type)
-				n.type = type.serialize()
+				n.type = type.toString()
 			return n
 		})
 	}

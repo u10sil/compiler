@@ -36,5 +36,8 @@ export class Tuple extends Expression {
 			elements: this.elementsArray.map(c => c.serialize()),
 		}
 	}
+	toString(): string {
+		return "(" + this.elementsArray.map(argument => argument.toString()).join(", ") + ")"
+	}
 }
 addDeserializer("type.tuple", data => new Tuple(deserialize<Expression>(data.elements as ({ class: string } & any)[])))

@@ -1,0 +1,77 @@
+[
+	{
+		"id": 11,
+		"class": "module",
+		"statements": [
+			{
+				"id": 4,
+				"class": "functionDeclaration",
+				"symbol": "identity",
+				"arguments": [
+					{
+						"id": 1,
+						"class": "argumentDeclaration",
+						"symbol": "number",
+						"type": "s64"
+					}
+				],
+				"body": {
+					"id": 3,
+					"class": "block",
+					"statements": [
+						{
+							"id": 2,
+							"class": "identifier",
+							"name": "number",
+							"declaration": 1,
+							"type": "s64"
+						}
+					],
+					"type": "s64"
+				},
+				"type": "(s64) => s64"
+			},
+			{
+				"id": 6,
+				"class": "variableDeclaration",
+				"symbol": "a",
+				"isConstant": true,
+				"type": "f32 & f64 & s8 & u8 & s64 & u64",
+				"value": {
+					"id": 5,
+					"class": "literal.number",
+					"value": 5,
+					"type": "f32 & f64 & s8 & u8 & s64 & u64"
+				}
+			},
+			{
+				"id": 10,
+				"class": "variableDeclaration",
+				"symbol": "b",
+				"isConstant": true,
+				"type": "s64",
+				"value": {
+					"id": 9,
+					"class": "functionCall",
+					"function": {
+						"id": 7,
+						"class": "identifier",
+						"name": "identity",
+						"declaration": 4,
+						"type": "(s64) => s64"
+					},
+					"arguments": [
+						{
+							"id": 8,
+							"class": "identifier",
+							"name": "a",
+							"declaration": 6,
+							"type": "f32 & f64 & s8 & u8 & s64 & u64"
+						}
+					],
+					"type": "s64"
+				}
+			}
+		]
+	}
+]
