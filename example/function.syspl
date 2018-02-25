@@ -1,5 +1,6 @@
-func identity(number: s64) {
+func identity(number: s32) {
 	number
 }
 let a = 5
 let b = identity(a)
+b

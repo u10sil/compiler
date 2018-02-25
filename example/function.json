@@ -1,6 +1,6 @@
 [
 	{
-		"id": 11,
+		"id": 12,
 		"class": "module",
 		"statements": [
 			{
@@ -12,7 +12,7 @@
 						"id": 1,
 						"class": "argumentDeclaration",
 						"symbol": "number",
-						"type": "s64"
+						"type": "s32"
 					}
 				],
 				"body": {
@@ -24,24 +24,24 @@
 							"class": "identifier",
 							"name": "number",
 							"declaration": 1,
-							"type": "s64"
+							"type": "s32"
 						}
 					],
-					"type": "s64"
+					"type": "s32"
 				},
-				"type": "(s64) => s64"
+				"type": "(s32) => s32"
 			},
 			{
 				"id": 6,
 				"class": "variableDeclaration",
 				"symbol": "a",
 				"isConstant": true,
-				"type": "f32 & f64 & s8 & u8 & s64 & u64",
+				"type": "f32 & f64 & s256 & u256 & s128 & u128 & s64 & u64 & s32 & u32 & s16 & u16 & s8 & u8",
 				"value": {
 					"id": 5,
 					"class": "literal.number",
 					"value": 5,
-					"type": "f32 & f64 & s8 & u8 & s64 & u64"
+					"type": "f32 & f64 & s256 & u256 & s128 & u128 & s64 & u64 & s32 & u32 & s16 & u16 & s8 & u8"
 				}
 			},
 			{
@@ -49,7 +49,7 @@
 				"class": "variableDeclaration",
 				"symbol": "b",
 				"isConstant": true,
-				"type": "s64",
+				"type": "s32",
 				"value": {
 					"id": 9,
 					"class": "functionCall",
@@ -58,7 +58,7 @@
 						"class": "identifier",
 						"name": "identity",
 						"declaration": 4,
-						"type": "(s64) => s64"
+						"type": "(s32) => s32"
 					},
 					"arguments": [
 						{
@@ -66,11 +66,18 @@
 							"class": "identifier",
 							"name": "a",
 							"declaration": 6,
-							"type": "f32 & f64 & s8 & u8 & s64 & u64"
+							"type": "f32 & f64 & s256 & u256 & s128 & u128 & s64 & u64 & s32 & u32 & s16 & u16 & s8 & u8"
 						}
 					],
-					"type": "s64"
+					"type": "s32"
 				}
+			},
+			{
+				"id": 11,
+				"class": "identifier",
+				"name": "b",
+				"declaration": 10,
+				"type": "s32"
 			}
 		]
 	}

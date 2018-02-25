@@ -54,18 +54,18 @@ export class Primitive extends Identifier {
 		let result: Expression = new Intersection(new Primitive("f32"), new Primitive("f64"))
 		if (Number.isInteger(value)) {
 			if (value < 0) {
-				let base = 8
-				while (base <= 256 && value >= -Math.pow(2, base - 1)) {
+				let base = 256
+				while (base >= 8 && value >= -Math.pow(2, base - 1)) {
 					result = new Intersection(result, new Primitive("s" + base))
-					base = base * base
+					base = base / 2
 				}
 			} else {
-				let base = 8
-				while (base <= 256 && value < Math.pow(2, base - 1)) {
+				let base = 256
+				while (base >= 8 && value < Math.pow(2, base - 1)) {
 					result = new Intersection(result, new Primitive("s" + base))
 					if (value < Math.pow(2, base - 1))
 						result = new Intersection(result, new Primitive("u" + base))
-					base = base * base
+					base = base / 2
 				}
 			}
 		}
