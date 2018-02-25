@@ -32,3 +32,17 @@ export {
 	resolve,
 	Declarations,
 }
+
+import "./Literal"
+import "./Type"
+import "./ArgumentDeclaration"
+import "./Block"
+import "./FunctionCall"
+import "./FunctionDeclaration"
+import "./Identifier"
+import "./InfixOperator"
+import "./Module"
+import "./Tuple"
+import "./Types"
+import "./UnaryOperator"
+import "./VariableDeclaration"
