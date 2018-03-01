@@ -16,7 +16,7 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Error, Utilities } from "@cogneco/mend"
+import { Error, Uri, Utilities } from "@cogneco/mend"
 import * as Module from "./Module"
 import * as SyntaxTree from "../SyntaxTree"
 import { Source } from "./Source"
@@ -32,8 +32,8 @@ export function create(tokens: Utilities.Iterator<Tokens.Token> | string | undef
 export function create(tokens: string | Utilities.Iterator<Tokens.Token> | undefined, handler: Error.Handler): Utilities.Iterator<SyntaxTree.Module> | undefined {
 	return tokens == undefined ? undefined : createParser(new Tokens.GapRemover(typeof tokens === "string" ? Tokens.Lexer.create(tokens, handler) : tokens), handler)
 }
-export function open(path: string | undefined, handler: Error.Handler): Utilities.Iterator<SyntaxTree.Module> | undefined {
-	return path ? create(Tokens.Lexer.open(path, handler), handler) : undefined
+export function open(resource: Uri.Locator | undefined, handler: Error.Handler): Utilities.Iterator<SyntaxTree.Module> | undefined {
+	return resource ? create(Tokens.Lexer.open(resource, handler), handler) : undefined
 }
 export function parseFirst(tokens: string | Utilities.Iterator<Tokens.Token>, handler: Error.Handler): SyntaxTree.Statement | undefined {
 		const parser = create(tokens, handler)

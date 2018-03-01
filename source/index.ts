@@ -16,7 +16,7 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Error, Unit } from "@cogneco/mend"
+import { Error, Unit, Uri } from "@cogneco/mend"
 import * as Parser from "./Parser"
 import * as Resolver from "./Resolver"
 
@@ -35,7 +35,8 @@ export class Program {
 		switch (command) {
 			case "build":
 				{
-					const parser = Parser.open(commands.pop(), handler)
+					const resource = Uri.Locator.parse(commands.pop())
+					const parser = Parser.open(resource, handler)
 					if (parser) {
 						const modules = parser.toArray()
 						/* const declarations =  */
@@ -45,7 +46,8 @@ export class Program {
 				break
 			case "json":
 				{
-					const parser = Parser.open(commands.pop(), handler)
+					const resource = Uri.Locator.parse(commands.pop())
+					const parser = Parser.open(resource, handler)
 					if (parser) {
 						const modules = parser.toArray()
 						const [declarations, types] = Resolver.resolve(handler, modules)

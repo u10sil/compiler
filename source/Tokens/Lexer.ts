@@ -16,7 +16,7 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Error, Utilities, IO } from "@cogneco/mend"
+import { Error, IO, Uri, Utilities } from "@cogneco/mend"
 
 import { Source } from "./Source"
 import { Token } from "./Token"
@@ -53,7 +53,7 @@ export class Lexer extends Utilities.Iterator<Token> {
 	static create(code: string | IO.Reader | undefined, handler: Error.Handler): Utilities.Iterator<Token> | undefined {
 		return code == undefined ? undefined : new Lexer(typeof code === "string" ? IO.StringReader.create(code) : code, handler)
 	}
-	static open(path: string, handler: Error.Handler): Utilities.Iterator<Token> | undefined {
-		return Lexer.create(path.slice(-6) == ".syspl" ? IO.FileReader.open(path) : IO.FolderReader.open(path, "syspl"), handler)
+	static open(resource: Uri.Locator, handler: Error.Handler): Utilities.Iterator<Token> | undefined {
+		return Lexer.create(IO.Reader.open(resource), handler)
 	}
 }
