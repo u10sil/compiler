@@ -29,10 +29,10 @@
   },
   "homepage": "https://github.com/syspl/syspl#readme",
   "devDependencies": {
-    "@types/node": "^7.0.12",
-    "np": "^2.13.1",
-    "tslint": "^5.2.0",
-    "typescript": "^2.3.2",
+    "@types/node": "^9.4.7",
+    "np": "^2.20.1",
+    "tslint": "^5.9.1",
+    "typescript": "^2.7.2",
     "watch": "^1.0.2"
   },
   "dependencies": {
