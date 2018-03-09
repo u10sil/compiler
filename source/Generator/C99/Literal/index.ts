@@ -1,4 +1,4 @@
-// Copyright (C) 2015, 2017  Simon Mika <simon@mika.se>
+// Copyright (C) 2018  Simon Mika <simon@mika.se>
 //
 // This file is part of SysPL.
 //
@@ -16,6 +16,5 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Error, Uri, Utilities } from "@cogneco/mend"
-import * as SyntaxTree from "../SyntaxTree"
-import * as Tokens from "../Tokens"
+export { Expression } from "./Expression"
+export { Number } from "./Number"

@@ -16,9 +16,14 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import * as SyntaxTree from "../SyntaxTree"
-import { addGenerator } from "./"
+import { Error, Utilities } from "@cogneco/mend"
+import * as Tokens from "../../Tokens"
+import { Expression } from "./Expression"
+import { Statement } from "./Statement"
 
-function generate(node: SyntaxTree.Module) {
+export class ReturnStatement extends Statement {
+	get class() { return "ReturnStatement" }
+	constructor(readonly expression: Expression) {
+		super(expression.tokens)
+	}
 }
-addGenerator("module", generate)

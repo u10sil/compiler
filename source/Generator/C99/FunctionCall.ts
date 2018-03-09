@@ -1,4 +1,4 @@
-// Copyright (C) 2015, 2017  Simon Mika <simon@mika.se>
+// Copyright (C) 2018  Simon Mika <simon@mika.se>
 //
 // This file is part of SysPL.
 //
@@ -16,6 +16,13 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Error, Uri, Utilities } from "@cogneco/mend"
-import * as SyntaxTree from "../SyntaxTree"
-import * as Tokens from "../Tokens"
+import { Error, Utilities } from "@cogneco/mend"
+import * as Tokens from "../../Tokens"
+import { Expression } from "./Expression"
+
+export class FunctionCall extends Expression {
+	get class() { return "FunctionCall" }
+	constructor(readonly functionExpression: Expression, readonly argumentExpressions: Utilities.Enumerable<Expression>, readonly tokens?: Utilities.Enumerable<Tokens.Substance>) {
+		super(tokens)
+	}
+}
