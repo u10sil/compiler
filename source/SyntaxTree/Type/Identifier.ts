@@ -24,17 +24,15 @@ import { Node } from "../Node"
 
 export class Identifier extends Name {
 	get class() { return "type.identifier" }
-	get parameters(): Utilities.Iterator<Identifier> {
-		return new Utilities.ArrayIterator(this.parametersArray)
-	}
-	constructor(name: string, private parametersArray: Identifier[], tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
+	constructor(name: string, readonly parameters: Utilities.Enumerable<Identifier>, tokens?: Utilities.Enumerable<Tokens.Substance> | Node) {
 		super(name, tokens)
 	}
 	serialize(): { class: string } & any {
+		const parameters = this.parameters.map(t => t.serialize()).toArray()
 		return {
 			...super.serialize(),
-			parameters: this.parametersArray.length > 0 ? this.parametersArray.map(t => t.serialize()) : undefined,
+			parameters: parameters.length > 0 ? parameters : undefined,
 		}
 	}
 }
-addDeserializer("type.identifier", data => data.hasOwnProperty("name") ? new Identifier(data.name, deserialize<Identifier>(data.parameters as ({ class: string } & any)[] || [])) : undefined)
+addDeserializer("type.identifier", data => data.hasOwnProperty("name") ? new Identifier(data.name, deserialize<Identifier>((data.parameters || []) as Iterable<{ class: string } & any>)) : undefined)

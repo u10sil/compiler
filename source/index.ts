@@ -16,7 +16,7 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Error, Unit, Uri } from "@cogneco/mend"
+import { Error, Unit, Uri, Utilities } from "@cogneco/mend"
 import * as Parser from "./Parser"
 import * as Resolver from "./Resolver"
 
@@ -38,8 +38,7 @@ export class Program {
 					const resource = Uri.Locator.parse(commands.pop())
 					const parser = Parser.open(resource, handler)
 					if (parser) {
-						const modules = parser.toArray()
-						/* const declarations =  */
+						const modules = Utilities.Enumerable.from(parser.toArray())
 						Resolver.resolve(handler, modules)
 					}
 				}
@@ -49,9 +48,9 @@ export class Program {
 					const resource = Uri.Locator.parse(commands.pop())
 					const parser = Parser.open(resource, handler)
 					if (parser) {
-						const modules = parser.toArray()
+						const modules = Utilities.Enumerable.from(parser.toArray())
 						const [declarations, types] = Resolver.resolve(handler, modules)
-						let result = modules.map(module => module.serialize())
+						let result = modules.map(module => module.serialize()).toArray()
 						result = declarations.patch(result)
 						result = types.patch(result)
 						console.log(JSON.stringify(result, undefined, "\t"))

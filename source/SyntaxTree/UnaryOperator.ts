@@ -24,7 +24,7 @@ import { Operator } from "./Operator"
 import { Node } from "./Node"
 
 export abstract class UnaryOperator extends Operator {
-	constructor(symbol: string, precedence: number, readonly argument: Expression, type?: Type.Expression, tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
+	constructor(symbol: string, precedence: number, readonly argument: Expression, type?: Type.Expression, tokens?: Utilities.Enumerable<Tokens.Substance> | Node) {
 		super(symbol, precedence, type, tokens)
 	}
 	serialize(): { class: string } & any {

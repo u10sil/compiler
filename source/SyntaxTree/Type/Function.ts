@@ -24,21 +24,20 @@ import { Node } from "../Node"
 
 export class Function extends Expression {
 	get class() { return "type.function" }
-	get arguments(): Utilities.Iterator<Expression> {
-		return new Utilities.ArrayIterator(this.argumentArray)
-	}
-	constructor(private argumentArray: Expression[], readonly result: Expression, tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
+	readonly arguments: Utilities.Enumerable<Expression>
+	constructor(argumentsEnumerable: Utilities.Enumerable<Expression>, readonly result: Expression, tokens?: Utilities.Enumerable<Tokens.Substance> | Node) {
 		super(tokens)
+		this.arguments = argumentsEnumerable
 	}
 	serialize(): { class: string } & any {
 		return {
 			...super.serialize(),
-			arguments: this.argumentArray.map(a => a.serialize()),
+			arguments: this.arguments.map(a => a.serialize()).toArray(),
 			result: this.result.serialize(),
 		}
 	}
 	toString(): string {
-		return "(" + this.argumentArray.map(argument => argument.toString()).join(", ") + ") => " + this.result.toString()
+		return "(" + this.arguments.map(argument => argument.toString()).toArray().join(", ") + ") => " + this.result.toString()
 	}
 }
 addDeserializer("type.function", data => data.hasOwnProperty("value") ? new Function(deserialize<Expression>(data.arguments as ({ class: string } & any)[]), deserialize(data.result)!) : undefined)

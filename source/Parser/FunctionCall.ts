@@ -21,12 +21,13 @@ import { Source } from "./Source"
 import * as Expression from "./Expression"
 import * as Tuple from "./Tuple"
 import * as SyntaxTree from "../SyntaxTree"
+import { Utilities } from "@cogneco/mend"
 
 export function parse(source: Source, precedance: number, previous?: SyntaxTree.Expression): SyntaxTree.Expression | undefined {
 	let result: SyntaxTree.Expression | undefined
 	if (previous && source.peek()!.isSeparator("(") && precedance < 200) {
 		const elements = Tuple.parseElements(source)
-		result = Expression.parse(source, precedance, new SyntaxTree.FunctionCall(previous, elements, Type.tryParse(source), source.mark()))
+		result = Expression.parse(source, precedance, new SyntaxTree.FunctionCall(previous, Utilities.Enumerable.from(elements), Type.tryParse(source), source.mark()))
 	}
 	return result
 }

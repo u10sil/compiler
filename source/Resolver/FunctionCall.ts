@@ -22,7 +22,7 @@ import { Scope, addResolver } from "./Scope"
 
 function resolve(scope: Scope, node: SyntaxTree.FunctionCall) {
 	scope.resolve(node.functionExpression)
-	scope.resolve(node.argumentList)
+	scope.resolve(node.arguments)
 	scope.resolve(node.type)
 	const functionType = scope.getType(node.functionExpression)
 	if (functionType instanceof SyntaxTree.Type.Function)

@@ -19,19 +19,17 @@
 import { Error, Utilities } from "@cogneco/mend"
 import * as Tokens from "../Tokens"
 
-export class Source extends Utilities.Iterator<Tokens.Substance> implements Error.Handler {
-	private tokens: Utilities.BufferedIterator<Tokens.Substance>
+export class Source extends Utilities.Enumerator<Tokens.Substance> implements Error.Handler {
+	private tokens: Utilities.BufferedEnumerator<Tokens.Substance>
 	private lastTokens: Tokens.Substance[] = []
-	constructor(tokens: Utilities.Iterator<Tokens.Substance>, private errorHandler: Error.Handler) {
+	constructor(tokens: Utilities.Enumerator<Tokens.Substance>, private errorHandler: Error.Handler) {
 		super(() => {
-			const result = this.tokens.next()
+			const result = this.tokens.fetch()
 			if (result)
 				this.lastTokens.push(result)
 			return result
 		})
-		if (!(tokens instanceof Utilities.BufferedIterator))
-			tokens = new Utilities.BufferedIterator(tokens)
-		this.tokens = tokens as Utilities.BufferedIterator<Tokens.Substance>
+		this.tokens = tokens instanceof Utilities.BufferedEnumerator ? tokens : new Utilities.BufferedEnumerator(tokens)
 	}
 	clone(): Source {
 		return new Source(this.tokens, this.errorHandler)
@@ -39,10 +37,10 @@ export class Source extends Utilities.Iterator<Tokens.Substance> implements Erro
 	peek(position: number = 0): Tokens.Substance | undefined {
 		return this.tokens.peek(position)
 	}
-	mark(): Utilities.Iterable<Tokens.Substance> {
+	mark(): Utilities.Enumerable<Tokens.Substance> {
 		const result = this.lastTokens
 		this.lastTokens = []
-		return () => new Utilities.ArrayIterator(result)
+		return Utilities.Enumerable.from(result)
 	}
 	raise(message: string | Error.Message, level: Error.Level = Error.Level.Critical, type = "gramatical", region?: Error.Region): void {
 		if (typeof message == "string") {

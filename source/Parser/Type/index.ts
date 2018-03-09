@@ -25,7 +25,7 @@ function addParser(parser: (source: Source) => SyntaxTree.Type.Expression | unde
 	typeParsers.push(parser)
 }
 function tryParse(source: Source): SyntaxTree.Type.Expression | undefined {
-	return source.peek()!.isSeparator(":") && source.next() ? parse(source) : undefined
+	return source.peek()!.isSeparator(":") && source.fetch() ? parse(source) : undefined
 }
 function parse(source: Source): SyntaxTree.Type.Expression | undefined {
 	let result: SyntaxTree.Type.Expression | undefined

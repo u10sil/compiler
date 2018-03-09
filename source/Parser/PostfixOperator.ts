@@ -26,7 +26,7 @@ export function parse(source: Source, precedence: number, previous?: SyntaxTree.
 	let result: SyntaxTree.Expression | undefined
 	let operatorPrecedence: number | undefined
 	if (previous && source.peek()!.isOperator(o => (operatorPrecedence = SyntaxTree.PostfixOperator.getPrecedence(o)) != undefined) && precedence < operatorPrecedence!)
-		result = Expression.parse(source, precedence, new SyntaxTree.PostfixOperator((source.next() as Tokens.Operator).symbol, operatorPrecedence!, previous, Type.tryParse(source), source.mark()))
+		result = Expression.parse(source, precedence, new SyntaxTree.PostfixOperator((source.fetch() as Tokens.Operator).symbol, operatorPrecedence!, previous, Type.tryParse(source), source.mark()))
 	return result
 }
 Expression.addParser(parse, 10)

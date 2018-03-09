@@ -22,18 +22,19 @@ import * as Declaration from "./Declaration"
 import * as Type from "./Type"
 import * as Block from "./Block"
 import * as SyntaxTree from "../SyntaxTree"
+import { Utilities } from "@cogneco/mend"
 
 export function parse(source: Source): SyntaxTree.Statement | undefined {
 	let result: SyntaxTree.Statement | undefined
 	const isAbstract = source.peek()!.isIdentifier("abstract")
-	if (source.peek(isAbstract ? 1 : 0)!.isIdentifier("class") && source.next() && (!isAbstract || source.next())) {
+	if (source.peek(isAbstract ? 1 : 0)!.isIdentifier("class") && source.fetch() && (!isAbstract || source.fetch())) {
 		const symbol = Type.Name.parse(source.clone())
 		if (!symbol)
 			source.raise("Expected symbol in class declaration.")
 		const parameters = Declaration.parseParameters(source.clone())
 		let extended: SyntaxTree.Type.Identifier | undefined
 		if (source.peek()!.isIdentifier("extends")) {
-			source.next() // consume "extends"
+			source.fetch() // consume "extends"
 			if (!source.peek()!.isIdentifier())
 				source.raise("Expected identifier with name of class to extend.")
 			extended = Type.Identifier.parse(source.clone())
@@ -41,7 +42,7 @@ export function parse(source: Source): SyntaxTree.Statement | undefined {
 		const implemented: SyntaxTree.Type.Identifier[] = []
 		if (source.peek()!.isIdentifier("implements"))
 			do {
-				source.next() // consume "implements" or ","
+				source.fetch() // consume "implements" or ","
 				if (!source.peek()!.isIdentifier())
 					source.raise("Expected identifier with name of interface to extend.")
 				implemented.push(Type.Identifier.parse(source.clone())!)
@@ -50,7 +51,7 @@ export function parse(source: Source): SyntaxTree.Statement | undefined {
 		if (!block)
 			source.raise("Expected block in class declaration.")
 		if (symbol)
-			result = new SyntaxTree.ClassDeclaration(symbol.name, isAbstract, parameters, extended, implemented, block!, source.mark())
+			result = new SyntaxTree.ClassDeclaration(symbol.name, isAbstract, Utilities.Enumerable.from(parameters), extended, Utilities.Enumerable.from(implemented), block!, source.mark())
 	}
 	return result
 }

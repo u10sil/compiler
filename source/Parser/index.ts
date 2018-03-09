@@ -22,24 +22,24 @@ import * as SyntaxTree from "../SyntaxTree"
 import { Source } from "./Source"
 import * as Tokens from "../Tokens"
 
-function createParser(tokens: Utilities.Iterator<Tokens.Substance>, handler: Error.Handler): Utilities.Iterator<SyntaxTree.Module> {
+function createParser(tokens: Utilities.Enumerator<Tokens.Substance>, handler: Error.Handler): Utilities.Enumerator<SyntaxTree.Module> {
 	const source = new Source(tokens, handler)
-	return new Utilities.Iterator(() => Module.parse(source))
+	return new Utilities.Enumerator(() => Module.parse(source))
 }
 export function create(tokens: undefined, handler: Error.Handler): undefined
-export function create(tokens: Utilities.Iterator<Tokens.Token> | string, handler: Error.Handler): Utilities.Iterator<SyntaxTree.Module>
-export function create(tokens: Utilities.Iterator<Tokens.Token> | string | undefined, handler: Error.Handler): Utilities.Iterator<SyntaxTree.Module> | undefined
-export function create(tokens: string | Utilities.Iterator<Tokens.Token> | undefined, handler: Error.Handler): Utilities.Iterator<SyntaxTree.Module> | undefined {
+export function create(tokens: Utilities.Enumerator<Tokens.Token> | string, handler: Error.Handler): Utilities.Enumerator<SyntaxTree.Module>
+export function create(tokens: Utilities.Enumerator<Tokens.Token> | string | undefined, handler: Error.Handler): Utilities.Enumerator<SyntaxTree.Module> | undefined
+export function create(tokens: string | Utilities.Enumerator<Tokens.Token> | undefined, handler: Error.Handler): Utilities.Enumerator<SyntaxTree.Module> | undefined {
 	return tokens == undefined ? undefined : createParser(new Tokens.GapRemover(typeof tokens === "string" ? Tokens.Lexer.create(tokens, handler) : tokens), handler)
 }
-export function open(resource: Uri.Locator | undefined, handler: Error.Handler): Utilities.Iterator<SyntaxTree.Module> | undefined {
+export function open(resource: Uri.Locator | undefined, handler: Error.Handler): Utilities.Enumerator<SyntaxTree.Module> | undefined {
 	return resource ? create(Tokens.Lexer.open(resource, handler), handler) : undefined
 }
-export function parseFirst(tokens: string | Utilities.Iterator<Tokens.Token>, handler: Error.Handler): SyntaxTree.Statement | undefined {
+export function parseFirst(tokens: string | Utilities.Enumerator<Tokens.Token>, handler: Error.Handler): SyntaxTree.Statement | undefined {
 		const parser = create(tokens, handler)
 		let module: SyntaxTree.Module | undefined
-		let statements: Utilities.Iterator<SyntaxTree.Statement>
-		return parser != undefined && (module = parser.next()) && (statements = module.statements) ? statements.next() : undefined
+		let statements: Utilities.Enumerable<SyntaxTree.Statement>
+		return parser != undefined && (module = parser.fetch()) && (statements = module.statements) ? statements.first : undefined
 }
 
 import "./Literal"

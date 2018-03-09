@@ -24,20 +24,17 @@ import { Node } from "../Node"
 
 export class Tuple extends Expression {
 	get class() { return "type.tuple" }
-	get elements(): Utilities.Iterator<Expression> {
-		return new Utilities.ArrayIterator(this.elementsArray)
-	}
-	constructor(private elementsArray: Expression[], tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
+	constructor(readonly elements: Utilities.Enumerable<Expression>, tokens?: Utilities.Enumerable<Tokens.Substance> | Node) {
 		super(tokens)
 	}
 	serialize(): { class: string } & any {
 		return {
 			...super.serialize(),
-			elements: this.elementsArray.map(c => c.serialize()),
+			elements: this.elements.map(c => c.serialize()).toArray(),
 		}
 	}
 	toString(): string {
-		return "(" + this.elementsArray.map(argument => argument.toString()).join(", ") + ")"
+		return "(" + this.elements.map(argument => argument.toString()).toArray().join(", ") + ")"
 	}
 }
-addDeserializer("type.tuple", data => new Tuple(deserialize<Expression>(data.elements as ({ class: string } & any)[])))
+addDeserializer("type.tuple", data => new Tuple(deserialize<Expression>(data.elements as Utilities.Enumerable<{ class: string } & any>)))

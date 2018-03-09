@@ -22,7 +22,7 @@ import { Declaration } from "./Declaration"
 import { Node } from "./Node"
 
 export abstract class TypeDeclaration extends Declaration {
-	constructor(symbol: string, tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
+	constructor(symbol: string, tokens?: Utilities.Enumerable<Tokens.Substance> | Node) {
 		super(symbol, tokens)
 	}
 }

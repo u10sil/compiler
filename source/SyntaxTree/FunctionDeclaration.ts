@@ -28,12 +28,7 @@ import { Node } from "./Node"
 
 export class FunctionDeclaration extends SymbolDeclaration {
 	get class() { return "functionDeclaration" }
-	get parameters(): Utilities.Iterator<Type.Name> {
-		return new Utilities.ArrayIterator(this.parametersArray)
-	}
-	get argumentList(): Utilities.Iterator<ArgumentDeclaration> {
-		return new Utilities.ArrayIterator(this.argumentsArray)
-	}
+	readonly arguments: Utilities.Enumerable<ArgumentDeclaration>
 	private get modifierAsString(): string {
 		let result: string
 		switch (this.modifier) {
@@ -46,15 +41,20 @@ export class FunctionDeclaration extends SymbolDeclaration {
 		}
 		return result
 	}
-	constructor(symbol: string, readonly modifier: FunctionModifier, private parametersArray: Type.Name[], private argumentsArray: ArgumentDeclaration[], readonly returnType: Type.Expression | undefined, readonly body: Block | undefined, tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
+	constructor(
+		symbol: string, readonly modifier: FunctionModifier, readonly parameters: Utilities.Enumerable<Type.Name>, argumentsEnumerable: Utilities.Enumerable<ArgumentDeclaration>,
+		readonly returnType: Type.Expression | undefined, readonly body: Block | undefined, tokens?: Utilities.Enumerable<Tokens.Substance> | Node) {
 		super(symbol, tokens)
+		this.arguments = argumentsEnumerable
 	}
 	serialize(): { class: string } & any {
+		const parameters = this.parameters.map(t => t.serialize()).toArray()
+		const argumentsArray = this.arguments.map(a => a.serialize()).toArray()
 		return {
 			...super.serialize(),
 			modifier: this.modifier != FunctionModifier.None ? this.modifierAsString : undefined,
-			parameters: this.parametersArray.length > 0 ? this.parametersArray.map(t => t.serialize()) : undefined,
-			arguments: this.argumentsArray.length > 0 ? this.argumentsArray.map(a => a.serialize()) : undefined,
+			parameters: parameters.length > 0 ? parameters : undefined,
+			arguments: argumentsArray.length > 0 ? argumentsArray : undefined,
 			returnType: this.returnType && this.returnType.serialize(),
 			body: this.body && this.body.serialize(),
 		}

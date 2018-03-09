@@ -25,7 +25,7 @@ import { Node } from "../Node"
 
 export class Character extends Expression {
 	get class() { return "literal.character" }
-	constructor(readonly value: string, type?: Type.Expression | undefined, tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
+	constructor(readonly value: string, type?: Type.Expression | undefined, tokens?: Utilities.Enumerable<Tokens.Substance> | Node) {
 		super(type, tokens)
 	}
 	serialize(): { class: string } & any {

@@ -44,10 +44,10 @@ import {
 import { isArray } from "util"
 
 export abstract class Applier {
-	protected apply(node: Node | Node[] | Utilities.Iterator<Node> | undefined) {
+	protected apply(node: Node | Utilities.Enumerable<Node> | undefined) {
 		if (isArray(node))
 			node.forEach(n => this.apply(n))
-		else if (node instanceof Utilities.Iterator)
+		else if (node instanceof Utilities.Enumerator)
 			node.apply(n => this.apply(n))
 		else if (node instanceof Literal.Character)
 			this.applyCharacterLiteral(node)
@@ -104,11 +104,11 @@ export abstract class Applier {
 
 	protected applyArgumentDeclaration(node: ArgumentDeclaration) { this.applyDeclaration(node) }
 	protected applyBlock(node: Block) { this.apply(node.statements); this.applyExpression(node) }
-	protected applyClassDeclaration(node: ClassDeclaration) { this.apply(node.parameters); this.apply(node.extended); this.apply(node.implemented); this.apply(node.content); this.applyTypeDeclaration(node) }
+	protected applyClassDeclaration(node: ClassDeclaration) { this.apply(node.parameters); this.apply(node.extended); this.apply(node.implements); this.apply(node.content); this.applyTypeDeclaration(node) }
 	protected applyDeclaration(node: Declaration) { this.applyStatement(node) }
 	protected applyExpression(node: Expression) { this.apply(node.type); this.applyStatement(node)}
-	protected applyFunctionCall(node: FunctionCall) { this.apply(node.functionExpression); this.apply(node.argumentList), this.applyExpression(node) }
-	protected applyFunctionDeclaration(node: FunctionDeclaration) { this.apply(node.parameters); this.apply(node.argumentList); this.apply(node.returnType); this.applySymbolDeclaration(node) }
+	protected applyFunctionCall(node: FunctionCall) { this.apply(node.functionExpression); this.apply(node.arguments), this.applyExpression(node) }
+	protected applyFunctionDeclaration(node: FunctionDeclaration) { this.apply(node.parameters); this.apply(node.arguments); this.apply(node.returnType); this.applySymbolDeclaration(node) }
 	protected applyIdentifier(node: Identifier) { this.applyExpression(node) }
 	protected applyInfixOperator(node: InfixOperator) { this.apply(node.left); this.apply(node.right); this.applyOperator(node) }
 	protected applyModule(node: Module) { this.apply(node.statements); this.applyNode(node) }

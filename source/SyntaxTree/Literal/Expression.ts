@@ -24,7 +24,7 @@ import { Node } from "../Node"
 
 export abstract class Expression extends Base {
 	get precedence() { return Number.MAX_VALUE }
-	constructor(type: Type.Expression | undefined, tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
+	constructor(type: Type.Expression | undefined, tokens?: Utilities.Enumerable<Tokens.Substance> | Node) {
 		super(type, tokens)
 	}
 }

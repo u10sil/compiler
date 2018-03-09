@@ -29,8 +29,8 @@ export class Primitive extends Identifier {
 	readonly size: number
 	readonly category: NumberCategory
 	get class() { return "type.primitive" }
-	constructor(name: string, tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
-		super(name, [], tokens)
+	constructor(name: string, tokens?: Utilities.Enumerable<Tokens.Substance> | Node) {
+		super(name, Utilities.Enumerable.empty, tokens)
 		switch (name[0]) {
 			case "f":
 				this.category = NumberCategory.float

@@ -26,22 +26,20 @@ import { Node } from "./Node"
 
 export class ClassDeclaration extends TypeDeclaration {
 	get class() { return "classDeclaration" }
-	get parameters(): Utilities.Iterator<Type.Name> {
-		return new Utilities.ArrayIterator(this.parametersArray)
-	}
-	get implemented(): Utilities.Iterator<Type.Identifier> {
-		return new Utilities.ArrayIterator(this.implementedArray)
-	}
-	constructor(symbol: string, readonly isAbstract: boolean, private parametersArray: Type.Name[], readonly extended: Type.Identifier | undefined, private implementedArray: Type.Identifier[], readonly content: Block, tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
+	readonly implements: Utilities.Enumerable<Type.Identifier>
+	constructor(symbol: string, readonly isAbstract: boolean, readonly parameters: Utilities.Enumerable<Type.Name>, readonly extended: Type.Identifier | undefined, implemented: Utilities.Enumerable<Type.Identifier>, readonly content: Block, tokens?: Utilities.Enumerable<Tokens.Substance> | Node) {
 		super(symbol, tokens)
+		this.implements = implemented
 	}
 	serialize(): { class: string } & any {
+		const parameters = this.parameters.map(t => t.serialize()).toArray()
+		const implemented = this.implements.map(i => i.serialize()).toArray()
 		return {
 			...super.serialize(),
 			isAbstract: this.isAbstract || undefined,
-			parameters: this.parametersArray.length > 0 ? this.parametersArray.map(t => t.serialize()) : undefined,
+			parameters: parameters.length > 0 ? parameters : undefined,
 			extends: this.extended && this.extended.serialize(),
-			implements: this.implementedArray.length > 0 ? this.implementedArray.map(i => i.serialize()) : undefined,
+			implements: implemented.length > 0 ? implemented : undefined,
 			content: this.content.serialize(),
 		}
 	}

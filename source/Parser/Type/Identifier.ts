@@ -20,20 +20,21 @@ import * as Tokens from "../../Tokens"
 import { Source } from "../Source"
 import * as Type from "./"
 import * as SyntaxTree from "../../SyntaxTree"
+import { Utilities } from "@cogneco/mend"
 
 export function parse(source: Source): SyntaxTree.Type.Identifier | undefined {
 	let result: SyntaxTree.Type.Identifier | undefined
 	if (source.peek()!.isIdentifier()) {
-		const name = (source.next() as Tokens.Identifier).name
+		const name = (source.fetch() as Tokens.Identifier).name
 		const parameters: SyntaxTree.Type.Identifier[] = []
 		if (source.peek()!.isOperator("<")) {
 			do {
-				source.next() // consume "<" or ","
+				source.fetch() // consume "<" or ","
 				if (!source.peek()!.isIdentifier())
 					source.raise("Expected type parameter")
 				parameters.push(parse(source.clone())!)
 			} while (source.peek()!.isSeparator(","))
-			source.next() // consume ">"
+			source.fetch() // consume ">"
 		}
 		switch (name) {
 			case "u8":
@@ -53,7 +54,7 @@ export function parse(source: Source): SyntaxTree.Type.Identifier | undefined {
 				result = new SyntaxTree.Type.Primitive(name, source.mark())
 				break
 			default:
-				result = new SyntaxTree.Type.Identifier(name, parameters, source.mark())
+				result = new SyntaxTree.Type.Identifier(name, Utilities.Enumerable.from(parameters), source.mark())
 				break
 		}
 	}

@@ -24,7 +24,7 @@ import { Node } from "../Node"
 
 export class Intersection extends Expression {
 	get class() { return "type.intersection" }
-	constructor(readonly left: Expression, readonly right: Expression, tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
+	constructor(readonly left: Expression, readonly right: Expression, tokens?: Utilities.Enumerable<Tokens.Substance> | Node) {
 		super(tokens)
 	}
 	serialize(): { class: string } & any {

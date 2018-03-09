@@ -22,7 +22,7 @@ import { Statement } from "./Statement"
 import { Node } from "./Node"
 
 export abstract class Declaration extends Statement {
-	constructor(readonly symbol: string, tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
+	constructor(readonly symbol: string, tokens?: Utilities.Enumerable<Tokens.Substance> | Node) {
 		super(tokens)
 	}
 	serialize(): { class: string } & any {

@@ -23,21 +23,21 @@ import { Gap } from "./Gap"
 import { Substance } from "./Substance"
 import { Whitespace } from "./Whitespace"
 
-export class GapRemover extends Utilities.Iterator<Substance> {
-	private backend: Utilities.BufferedIterator<Token>
-	constructor(backend: Utilities.Iterator<Token>) {
+export class GapRemover extends Utilities.Enumerator<Substance> {
+	private backend: Utilities.BufferedEnumerator<Token>
+	constructor(backend: Utilities.Enumerator<Token>) {
 		super(() => {
 			const pre: Gap[] = []
 			while (this.backend.peek() instanceof Gap) {
-				pre.push(this.backend.next()!)
+				pre.push(this.backend.fetch()!)
 			}
 			let result: Substance
 			if (!(this.backend.peek() instanceof Substance))
 				throw new Error.Message(" Missing end of file token.", Error.Level.Recoverable, "lexical", this.backend.peek()!.region)
-			result = this.backend.next() as Substance
+			result = this.backend.fetch() as Substance
 			const post: Gap[] = []
 			while (this.backend.peek() instanceof Gap) {
-				const next = this.backend.next()
+				const next = this.backend.fetch()
 				post.push(next!)
 				if (next instanceof Whitespace && (next as Whitespace).endsLine) {
 					break
@@ -47,6 +47,6 @@ export class GapRemover extends Utilities.Iterator<Substance> {
 			result.postgap = post
 			return result
 		})
-		this.backend = new Utilities.BufferedIterator(backend)
+		this.backend = new Utilities.BufferedEnumerator(backend)
 	}
 }

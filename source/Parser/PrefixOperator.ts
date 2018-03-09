@@ -26,7 +26,7 @@ export function parse(source: Source, precedence: number, previous?: SyntaxTree.
 	let result: SyntaxTree.Expression | undefined
 	let operatorPrecedence: number | undefined
 	if (!previous && source.peek()!.isOperator(o => (operatorPrecedence = SyntaxTree.PrefixOperator.getPrecedence(o)) != undefined) && precedence < operatorPrecedence!) {
-		const symbol = (source.next() as Tokens.Operator).symbol
+		const symbol = (source.fetch() as Tokens.Operator).symbol
 		const argument = Expression.parse(source, operatorPrecedence)
 		if (!argument)
 			source.raise("Missing argument to prefix operator " + symbol)

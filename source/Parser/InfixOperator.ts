@@ -25,7 +25,7 @@ export function parse(source: Source, precedance: number, previous?: SyntaxTree.
 	let result: SyntaxTree.Expression | undefined
 	let properties: [number, SyntaxTree.Associativity] | undefined
 	if (previous && source.peek()!.isOperator(o => (properties = SyntaxTree.InfixOperator.getProperties(o)) != undefined) && precedance < properties![0]) {
-		const symbol = (source.next() as Tokens.Operator).symbol
+		const symbol = (source.fetch() as Tokens.Operator).symbol
 		if (!previous)
 			source.raise("Missing left hand of infix operator " + symbol)
 		const right = Expression.parse(source, properties![0])

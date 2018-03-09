@@ -51,8 +51,9 @@ class DeserializeTest extends Unit.Fixture {
 			const nodes = deserialize(data)
 			this.expect(nodes, Is.not.nullOrUndefined)
 			this.expect(nodes.length, Is.equal.to(4))
+			const enumerator = nodes.getEnumerator()
 			for (let i = 0; i < 4; i++)
-				this.expect(filterId(nodes[i].serialize()), Is.equal.to(data[i]))
+				this.expect(filterId(enumerator.next().value.serialize()), Is.equal.to(data[i]))
 		})
 		this.add("empty function", () => {
 			const data = {

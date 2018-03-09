@@ -26,13 +26,14 @@ import { Node } from "./Node"
 export class Tuple extends Expression {
 	get precedence() { return Number.MAX_VALUE }
 	get class() { return "tuple" }
-	constructor(readonly elements: Expression[], type?: Type.Expression | undefined, tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
+	constructor(readonly elements: Utilities.Enumerable<Expression>, type?: Type.Expression | undefined, tokens?: Utilities.Enumerable<Tokens.Substance> | Node) {
 		super(type, tokens)
 	}
 	serialize(): { class: string } & any {
+		const elements = this.elements.map(e => e.serialize()).toArray()
 		return {
 			...super.serialize(),
-			elements: this.elements.length > 0 ? this.elements.map(e => e.serialize()) : undefined,
+			elements: elements.length > 0 ? elements : undefined,
 		}
 	}
 }

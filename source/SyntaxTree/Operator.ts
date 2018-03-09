@@ -23,7 +23,7 @@ import { Expression } from "./Expression"
 import { Node } from "./Node"
 
 export abstract class Operator extends Expression {
-	constructor(readonly symbol: string, readonly precedence: number, type?: Type.Expression, tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
+	constructor(readonly symbol: string, readonly precedence: number, type?: Type.Expression, tokens?: Utilities.Enumerable<Tokens.Substance> | Node) {
 		super(type, tokens)
 	}
 	serialize(): { class: string } & any {

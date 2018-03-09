@@ -21,5 +21,5 @@ import * as Tokens from "../../Tokens"
 import * as SyntaxTree from "../../SyntaxTree"
 
 export function parse(source: Source): SyntaxTree.Type.Name | undefined {
-	return source.peek()!.isIdentifier() ? new SyntaxTree.Type.Name((source.next() as Tokens.Identifier).name, source.mark()) : undefined
+	return source.peek()!.isIdentifier() ? new SyntaxTree.Type.Name((source.fetch() as Tokens.Identifier).name, source.mark()) : undefined
 }

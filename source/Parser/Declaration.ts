@@ -25,15 +25,15 @@ export function parseParameters(source: Source): SyntaxTree.Type.Name[] {
 	const result: SyntaxTree.Type.Name[] = []
 	if (source.peek()!.isOperator("<")) {
 		do {
-			source.next() // consume "<" or ","
+			source.fetch() // consume "<" or ","
 			if (!source.peek()!.isIdentifier())
 				source.raise("Expected type parameter")
 			result.push(Type.Name.parse(source.clone())!)
 		} while (source.peek()!.isSeparator(","))
-		source.next() // consume ">"
+		source.fetch() // consume ">"
 	}
 	return result
 }
 export function parseIdentifier(source: Source): string | null {
-	return source.peek()!.isIdentifier() ? (source.next() as Tokens.Identifier).name : null
+	return source.peek()!.isIdentifier() ? (source.fetch() as Tokens.Identifier).name : null
 }

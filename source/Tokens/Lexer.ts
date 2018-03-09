@@ -28,7 +28,7 @@ import { Operator } from "./Operator"
 import { Separator } from "./Separator"
 import { Whitespace } from "./Whitespace"
 
-export class Lexer extends Utilities.Iterator<Token> {
+export class Lexer extends Utilities.Enumerator<Token> {
 	private source: Source
 	private constructor(reader: IO.Reader, handler: Error.Handler) {
 		super(() => {
@@ -48,12 +48,12 @@ export class Lexer extends Utilities.Iterator<Token> {
 		this.source = new Source(reader, handler)
 	}
 	static create(code: undefined, handler: Error.Handler): undefined
-	static create(code: string | IO.Reader, handler: Error.Handler): Utilities.Iterator<Token>
-	static create(code: string | IO.Reader | undefined, handler: Error.Handler): Utilities.Iterator<Token> | undefined
-	static create(code: string | IO.Reader | undefined, handler: Error.Handler): Utilities.Iterator<Token> | undefined {
+	static create(code: string | IO.Reader, handler: Error.Handler): Utilities.Enumerator<Token>
+	static create(code: string | IO.Reader | undefined, handler: Error.Handler): Utilities.Enumerator<Token> | undefined
+	static create(code: string | IO.Reader | undefined, handler: Error.Handler): Utilities.Enumerator<Token> | undefined {
 		return code == undefined ? undefined : new Lexer(typeof code === "string" ? IO.StringReader.create(code) : code, handler)
 	}
-	static open(resource: Uri.Locator, handler: Error.Handler): Utilities.Iterator<Token> | undefined {
+	static open(resource: Uri.Locator, handler: Error.Handler): Utilities.Enumerator<Token> | undefined {
 		return Lexer.create(IO.Reader.open(resource), handler)
 	}
 }

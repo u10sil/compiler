@@ -26,7 +26,7 @@ import { Node } from "./Node"
 export class Identifier extends Expression {
 	get class() { return "identifier" }
 	get precedence() { return Number.MAX_VALUE }
-	constructor(readonly name: string, type?: Type.Expression, tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
+	constructor(readonly name: string, type?: Type.Expression, tokens?: Utilities.Enumerable<Tokens.Substance> | Node) {
 		super(type, tokens)
 	}
 	serialize(): { class: string } & any {

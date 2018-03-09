@@ -20,6 +20,7 @@ import * as Tokens from "../Tokens"
 import { Source } from "./Source"
 import * as Statement from "./Statement"
 import * as SyntaxTree from "../SyntaxTree"
+import { Utilities } from "@cogneco/mend"
 
 export function parse(source: Source): SyntaxTree.Module | undefined {
 	let result: SyntaxTree.Module | undefined
@@ -29,9 +30,10 @@ export function parse(source: Source): SyntaxTree.Module | undefined {
 		let next: SyntaxTree.Statement | undefined
 		while (next = Statement.parse(source.clone()))
 			statements.push(next)
-		if (!(source.next() instanceof Tokens.EndOfFile))
+		if (!(source.fetch() instanceof Tokens.EndOfFile))
 			source.raise("Missing end of file.")
-		result = new SyntaxTree.Module(statements, source.mark())
+		const name = statements.length > 0 && statements[0].region ? statements[0].region!.resource.name : "unnamed"
+		result = new SyntaxTree.Module(name, Utilities.Enumerable.from(statements), source.mark())
 	}
 	return result
 }

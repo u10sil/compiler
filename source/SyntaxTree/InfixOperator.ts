@@ -26,7 +26,7 @@ import { Node } from "./Node"
 
 export class InfixOperator extends Operator {
 	get class() { return "infixOperator" }
-	constructor(symbol: string, precedence: number, readonly associativity: Associativity, readonly left: Expression, readonly right: Expression, tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
+	constructor(symbol: string, precedence: number, readonly associativity: Associativity, readonly left: Expression, readonly right: Expression, tokens?: Utilities.Enumerable<Tokens.Substance> | Node) {
 		super(symbol, precedence, undefined, tokens)
 	}
 	serialize(): { class: string } & any {

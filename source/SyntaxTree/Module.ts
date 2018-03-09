@@ -24,17 +24,15 @@ import { addDeserializer, deserialize } from "./deserialize"
 
 export class Module extends Node {
 	get class() { return "module" }
-	get statements(): Utilities.Iterator<Statement> {
-		return new Utilities.ArrayIterator(this.statementsArray)
-	}
-	constructor(private statementsArray: Statement[], tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
+	constructor(readonly name: string, readonly statements: Utilities.Enumerable<Statement>, tokens?: Utilities.Enumerable<Tokens.Substance> | Node) {
 		super(tokens)
 	}
 	serialize(): { class: string } & any {
 		return {
 			...super.serialize(),
-			statements: this.statementsArray.map(s => s.serialize()),
+			name: this.name,
+			statements: this.statements.map(s => s.serialize()).toArray(),
 		}
 	}
 }
-addDeserializer("module", data => data.hasOwnProperty("statements") ? new Module(deserialize<Statement>(data.statements as ({ class: string } & any)[])) : undefined)
+addDeserializer("module", data => data.hasOwnProperty("name") && data.hasOwnProperty("statements") ? new Module(data.name, deserialize<Statement>(data.statements as Utilities.Enumerable<{ class: string } & any>)) : undefined)

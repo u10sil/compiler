@@ -26,7 +26,7 @@ import { Node } from "./Node"
 
 export class PostfixOperator extends UnaryOperator {
 	get class() { return "postfixOperator" }
-	constructor(symbol: string, precedence: number, argument: Expression, type?: Type.Expression | undefined, tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
+	constructor(symbol: string, precedence: number, argument: Expression, type?: Type.Expression | undefined, tokens?: Utilities.Enumerable<Tokens.Substance> | Node) {
 		super(symbol, precedence, argument, type, tokens)
 	}
 	static getPrecedence(symbol: string): number | undefined {

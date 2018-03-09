@@ -27,8 +27,8 @@ export class NumberTest extends Unit.Fixture {
 		const handler = new Error.ConsoleHandler()
 		this.add("integer", () => {
 			const parser = Parser.create("12345", handler)
-			const statements = parser.next()!.statements
-			const literal = statements.next()
+			const statements = parser.fetch()!.statements.getEnumerator()
+			const literal = statements.fetch()
 			this.expect(literal instanceof SyntaxTree.Literal.Number, Is.true)
 			this.expect((literal as SyntaxTree.Literal.Number).value, Is.equal.to(12345))
 			this.expect(SyntaxTree.filterId(literal!.serialize()), Is.equal.to({ class: "literal.number", value: 12345 }))

@@ -30,14 +30,14 @@ export function parse(source: Source): SyntaxTree.VariableDeclaration | undefine
 	let isConstant = false
 	if (!!next && next.isIdentifier("var") || (isConstant = next!.isIdentifier("let"))) {
 		if (isStatic)
-			source.next() // consume "static"
-		source.next() // consume "var" or "let"
+			source.fetch() // consume "static"
+		source.fetch() // consume "var" or "let"
 		const symbol = Declaration.parseIdentifier(source)
 		if (!symbol)
 			source.raise("Expected symbol in variable declaration.")
 		const type = Type.tryParse(source.clone())
 		let value: SyntaxTree.Expression | undefined
-		if (source.peek()!.isOperator("=") && source.next())
+		if (source.peek()!.isOperator("=") && source.fetch())
 			value = Expression.parse(source, 90)
 		result = new SyntaxTree.VariableDeclaration(symbol!, isStatic, isConstant, type, value, source.mark())
 	}

@@ -29,20 +29,18 @@ export class Block extends Expression {
 	get precedence(): number {
 		return Number.MAX_VALUE
 	}
-	get statements(): Utilities.Iterator<Statement> {
-		return new Utilities.ArrayIterator(this.statementsArray)
-	}
-	constructor(private statementsArray: Statement[], tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
-		super(Block.typeOfLast(statementsArray), tokens)
+	constructor(readonly statements: Utilities.Enumerable<Statement>, tokens?: Utilities.Enumerable<Tokens.Substance> | Node) {
+		super(Block.typeOfLast(statements), tokens)
 	}
 	serialize(): { class: string } & any {
+		const statements = this.statements.map(s => s.serialize()).toArray()
 		return {
 			...super.serialize(),
-			statements: this.statementsArray.length > 0 ? this.statementsArray.map(s => s.serialize()) : undefined,
+			statements: statements.length > 0 ? statements : undefined,
 		}
 	}
-	private static typeOfLast(statements: Statement[]): Type.Expression | undefined {
-		const last = statements[statements.length - 1]
+	private static typeOfLast(statements: Utilities.Enumerable<Statement>): Type.Expression | undefined {
+		const last = statements.last
 		return last instanceof Expression ? last.type : undefined
 	}
 }

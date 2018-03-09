@@ -27,7 +27,7 @@ export function parse(source: Source): SyntaxTree.ArgumentDeclaration | undefine
 		//
 		// handles cases "x" and "x: Type"
 		//
-		const symbol = (source.next() as Tokens.Identifier).name
+		const symbol = (source.fetch() as Tokens.Identifier).name
 		const type = Type.tryParse(source)
 		result = new SyntaxTree.ArgumentDeclaration(symbol, type, source.mark())
 	} else if (source.peek()!.isOperator("=") || source.peek()!.isSeparator(".")) {
@@ -35,8 +35,8 @@ export function parse(source: Source): SyntaxTree.ArgumentDeclaration | undefine
 		// Handles syntactic sugar cases ".argument" and "=argument"
 		// The type of the argument will have to be resolved later
 		//
-		source.next() // consume "=" or "."
-		result = new SyntaxTree.ArgumentDeclaration((source.next() as Tokens.Identifier).name, undefined, source.mark())
+		source.fetch() // consume "=" or "."
+		result = new SyntaxTree.ArgumentDeclaration((source.fetch() as Tokens.Identifier).name, undefined, source.mark())
 	}
 	return result
 }
@@ -44,10 +44,10 @@ export function parseAll(source: Source): SyntaxTree.ArgumentDeclaration[] {
 	const result: SyntaxTree.ArgumentDeclaration[] = []
 	if (source.peek()!.isSeparator("(")) {
 		do {
-			source.next() // consume: ( or ,
+			source.fetch() // consume: ( or ,
 			result.push(parse(source.clone())!)
 		} while (source.peek()!.isSeparator(","))
-		if (!source.next()!.isSeparator(")"))
+		if (!source.fetch()!.isSeparator(")"))
 			source.raise("Expected \")\"")
 	}
 	return result

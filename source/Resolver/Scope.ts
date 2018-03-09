@@ -62,11 +62,11 @@ export class Scope {
 		return this.typesData[node.id]
 	}
 	resolve(statement: undefined): void
-	resolve<T extends SyntaxTree.Node>(node: T | undefined | T[] | Utilities.Iterator<T>): void
-	resolve(node: SyntaxTree.Node | undefined | SyntaxTree.Node[] | Utilities.Iterator<SyntaxTree.Node>): void {
-		if (node instanceof Array)
-			node.forEach(n => this.resolve(n))
-		else if (node instanceof Utilities.Iterator)
+	resolve<T extends SyntaxTree.Node>(node: T | undefined | Utilities.Enumerable<T>): void
+	resolve(node: SyntaxTree.Node | undefined | Utilities.Enumerable<SyntaxTree.Node>): void {
+		if (node instanceof Utilities.Enumerable)
+			node.apply(n => this.resolve(n))
+		else if (node instanceof Utilities.Enumerator)
 			node.apply(n => this.resolve(n))
 		else if (node instanceof SyntaxTree.Node) {
 			const resolver = resolvers[node.class]
@@ -76,7 +76,7 @@ export class Scope {
 				this.raise("Missing resolver for class \"" + node.class + "\".", Error.Level.Recoverable, "semantic", node.region)
 		}
 	}
-	create(statements?: Utilities.Iterator<SyntaxTree.Statement>): Scope {
+	create(statements?: Utilities.Enumerable<SyntaxTree.Statement>): Scope {
 		const result = new Scope(this.handler, this.declarationsData, this.typesData, this)
 		if (statements)
 			statements.apply(statement => {

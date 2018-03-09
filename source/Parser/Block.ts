@@ -20,19 +20,20 @@ import { Source } from "./Source"
 import * as Statement from "./Statement"
 import * as Expression from "./Expression"
 import * as SyntaxTree from "../SyntaxTree"
+import { Utilities } from "@cogneco/mend"
 
 export function parse(source: Source): SyntaxTree.Block | undefined {
 	let result: SyntaxTree.Block | undefined
 	if (source.peek()!.isSeparator("{")) {
-		source.next() // consume: {
+		source.fetch() // consume: {
 		const statements: SyntaxTree.Statement[] = []
 		let next: SyntaxTree.Statement | undefined
 		while (source.peek() &&	!source.peek()!.isSeparator("}") && (next = Statement.parse(source.clone()))) {
 			statements.push(next)
 		}
-		if (!source.next()!.isSeparator("}"))
+		if (!source.fetch()!.isSeparator("}"))
 			source.raise("Expected \"}\"")
-		result = new SyntaxTree.Block(statements, source.mark())
+		result = new SyntaxTree.Block(Utilities.Enumerable.from(statements), source.mark())
 	}
 	return result
 }

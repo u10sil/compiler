@@ -26,17 +26,17 @@ import { Node } from "./Node"
 export class FunctionCall extends Expression {
 	get class() { return "functionCall" }
 	get precedence() { return 200 }
-	get argumentList(): Utilities.Iterator<Expression> {
-		return new Utilities.ArrayIterator(this.argumentsArray)
-	}
-	constructor(readonly functionExpression: Expression, private argumentsArray: Expression[], type?: Type.Expression | undefined, tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
+	readonly arguments: Utilities.Enumerable<Expression>
+	constructor(readonly functionExpression: Expression, argumentsEnumerable: Utilities.Enumerable<Expression>, type?: Type.Expression | undefined, tokens?: Utilities.Enumerable<Tokens.Substance> | Node) {
 		super(type, tokens)
+		this.arguments = argumentsEnumerable
 	}
 	serialize(): { class: string } & any {
+		const argumentsArray = this.arguments.map(a => a.serialize()).toArray()
 		return {
 			...super.serialize(),
 			function: this.functionExpression.serialize(),
-			arguments: this.argumentsArray.length > 0 ? this.argumentsArray.map(e => e.serialize()) : undefined,
+			arguments: argumentsArray.length > 0 ? argumentsArray : undefined,
 		}
 	}
 }

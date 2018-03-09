@@ -19,21 +19,22 @@
 import * as Type from "./"
 import { Source } from "../Source"
 import * as SyntaxTree from "../../SyntaxTree"
+import { Utilities } from "@cogneco/mend"
 
 function parse(source: Source): SyntaxTree.Type.Expression | undefined {
 	let result: SyntaxTree.Type.Expression | undefined
-	if (source.peek()!.isSeparator("(") && source.next()) {
+	if (source.peek()!.isSeparator("(") && source.fetch()) {
 		const children: SyntaxTree.Type.Expression[] = []
 		let child: SyntaxTree.Type.Expression | undefined
 		while (child = Type.parse(source.clone())) {
 			children.push(child)
 			if (!source.peek()!.isSeparator(","))
 				break
-			source.next() // consume ,
+			source.fetch() // consume ,
 		}
-		if (!source.next()!.isSeparator(")"))
+		if (!source.fetch()!.isSeparator(")"))
 			source.raise("Expected \")\"")
-		result = new SyntaxTree.Type.Tuple(children, source.mark())
+		result = new SyntaxTree.Type.Tuple(Utilities.Enumerable.from(children), source.mark())
 	}
 	return result
 }

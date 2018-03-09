@@ -24,7 +24,7 @@ import { Node } from "./Node"
 
 export abstract class Expression extends Statement {
 	abstract get precedence(): number
-	constructor(readonly type: Type.Expression | undefined, tokens?: Utilities.Iterable<Tokens.Substance> | Node) {
+	constructor(readonly type: Type.Expression | undefined, tokens?: Utilities.Enumerable<Tokens.Substance> | Node) {
 		super(tokens)
 	}
 }

@@ -29,15 +29,15 @@ export class GapRemoverTest extends Unit.Fixture {
 			const lexer = Tokens.Lexer.create(testString, errorHandler)
 			const gapRemover = new Tokens.GapRemover(lexer)
 			let token: Tokens.Substance | undefined
-			this.expect((token = gapRemover.next()) instanceof Tokens.Identifier)
+			this.expect((token = gapRemover.fetch()) instanceof Tokens.Identifier)
 			this.expect((token as Tokens.Identifier).name, Is.equal.to("a"))
-			this.expect((token = gapRemover.next()) instanceof Tokens.Operator)
+			this.expect((token = gapRemover.fetch()) instanceof Tokens.Operator)
 			this.expect((token as Tokens.Operator).symbol, Is.equal.to(":="))
-			this.expect((token = gapRemover.next()) instanceof Tokens.Identifier)
+			this.expect((token = gapRemover.fetch()) instanceof Tokens.Identifier)
 			this.expect((token as Tokens.Identifier).name, Is.equal.to("b"))
-			this.expect((token = gapRemover.next()) instanceof Tokens.Operator)
+			this.expect((token = gapRemover.fetch()) instanceof Tokens.Operator)
 			this.expect((token as Tokens.Operator).symbol, Is.equal.to("/"))
-			this.expect((token = gapRemover.next()) instanceof Tokens.Identifier)
+			this.expect((token = gapRemover.fetch()) instanceof Tokens.Identifier)
 			this.expect((token as Tokens.Identifier).name, Is.equal.to("c"))
 		})
 		this.add("verify gaps", () => {
@@ -47,30 +47,30 @@ export class GapRemoverTest extends Unit.Fixture {
 			let token: Tokens.Substance | undefined
 			// PRE-GAP:	"\t\t\t"
 			// POST-GAP: " "
-			this.expect((token = gapRemover.next()) instanceof Tokens.Identifier)
+			this.expect((token = gapRemover.fetch()) instanceof Tokens.Identifier)
 			this.expect((token as Tokens.Identifier).name, Is.equal.to("a"))
 			this.expect((token as Tokens.Identifier).pregap[0].region!.content, Is.equal.to("\t\t\t"))
 			this.expect((token as Tokens.Identifier).postgap[0].region!.content, Is.equal.to(" "))			// PRE-GAP: <none>
 			// POST-GAP: " "
-			this.expect((token = gapRemover.next()) instanceof Tokens.Operator)
+			this.expect((token = gapRemover.fetch()) instanceof Tokens.Operator)
 			this.expect((token as Tokens.Operator).symbol, Is.equal.to(":="))
 			this.expect((token as Tokens.Operator).pregap.length, Is.equal.to(0))
 			this.expect((token as Tokens.Operator).postgap[0].region!.content, Is.equal.to(" "))
 			// PRE-GAP: <none>
 			// POST-GAP: <none>
-			this.expect((token = gapRemover.next()) instanceof Tokens.Identifier)
+			this.expect((token = gapRemover.fetch()) instanceof Tokens.Identifier)
 			this.expect((token as Tokens.Identifier).name, Is.equal.to("b"))
 			this.expect((token as Tokens.Identifier).pregap.length, Is.equal.to(0))
 			this.expect((token as Tokens.Identifier).postgap.length, Is.equal.to(0))
 			// PRE-GAP: <none>
 			// POST-GAP: <none>
-			this.expect((token = gapRemover.next()) instanceof Tokens.Operator)
+			this.expect((token = gapRemover.fetch()) instanceof Tokens.Operator)
 			this.expect((token as Tokens.Operator).symbol, Is.equal.to("**"))
 			this.expect((token as Tokens.Operator).pregap.length, Is.equal.to(0))
 			this.expect((token as Tokens.Operator).postgap.length, Is.equal.to(0))
 			// PRE-GAP: <none>
 			// POST-GAP: "\t\n"
-			this.expect((token = gapRemover.next()) instanceof Tokens.Identifier)
+			this.expect((token = gapRemover.fetch()) instanceof Tokens.Identifier)
 			this.expect((token as Tokens.Identifier).name, Is.equal.to("c"))
 			this.expect((token as Tokens.Identifier).pregap.length, Is.equal.to(0))
 			this.expect((token as Tokens.Identifier).postgap[0].region!.content, Is.equal.to("\t\n"))

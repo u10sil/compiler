@@ -20,9 +20,10 @@ import * as Type from "./Type"
 import { Source } from "./Source"
 import * as Expression from "./Expression"
 import * as SyntaxTree from "../SyntaxTree"
+import { Utilities } from "@cogneco/mend"
 
 export function parseElements(source: Source): SyntaxTree.Expression[] {
-	if (!source.next()!.isSeparator("("))
+	if (!source.fetch()!.isSeparator("("))
 		source.raise("Expected start parenthesis.")
 	const result: SyntaxTree.Expression[] = []
 	if (!source.peek()!.isSeparator(")"))
@@ -32,8 +33,8 @@ export function parseElements(source: Source): SyntaxTree.Expression[] {
 				result.push(element)
 			else
 				source.raise("Expected expression in tuple.")
-		} while (source.peek()!.isSeparator(",") && source.next())
-	if (!source.next()!.isSeparator(")"))
+		} while (source.peek()!.isSeparator(",") && source.fetch())
+	if (!source.fetch()!.isSeparator(")"))
 		source.raise("Expected end parenthesis.")
 	return result
 }
@@ -41,7 +42,7 @@ export function parse(source: Source, precedance: number, previous?: SyntaxTree.
 	let result: SyntaxTree.Expression | undefined
 	if (!previous && source.peek()!.isSeparator("(")) {
 		const elements = parseElements(source)
-		result = elements.length == 1 ? elements[0] : new SyntaxTree.Tuple(elements, Type.tryParse(source), source.mark())
+		result = elements.length == 1 ? elements[0] : new SyntaxTree.Tuple(Utilities.Enumerable.from(elements), Type.tryParse(source), source.mark())
 		result = Expression.parse(source, precedance, result)
 	}
 	return result

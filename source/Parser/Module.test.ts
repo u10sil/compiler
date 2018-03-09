@@ -26,7 +26,7 @@ export class ModuleTest extends Unit.Fixture {
 		super("Parser.Module")
 		const handler = new Error.ConsoleHandler()
 		this.add("simple declaration", () => {
-			const module = Parser.create("var i: Int\n", handler).next()!
+			const module = Parser.create("var i: Int\n", handler).fetch()!
 			this.expect(SyntaxTree.filterId(module.serialize()), Is.equal.to({
 				class: "module",
 				statements: [
@@ -35,7 +35,7 @@ export class ModuleTest extends Unit.Fixture {
 			}))
 		})
 		this.add("var foo: Float = 0.50", () => {
-			const module = Parser.create("var f: Float = 0.50", handler).next()!
+			const module = Parser.create("var f: Float = 0.50", handler).fetch()!
 			this.expect(SyntaxTree.filterId(module.serialize()), Is.equal.to({
 				class: "module",
 				statements: [

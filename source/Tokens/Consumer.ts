@@ -21,10 +21,10 @@ import { Token } from "./Token"
 import { EndOfFile } from "./EndOfFile"
 
 export class Consumer {
-	constructor(private backend: Utilities.Iterator<Token>) {
+	constructor(private backend: Utilities.Enumerator<Token>) {
 	}
 	run() {
-		while (!(this.backend.next() instanceof EndOfFile))
+		while (!(this.backend.fetch() instanceof EndOfFile))
 			;
 	}
 }
