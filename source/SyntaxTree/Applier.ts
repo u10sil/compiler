@@ -107,7 +107,7 @@ export abstract class Applier {
 	protected applyClassDeclaration(node: ClassDeclaration) { this.apply(node.parameters); this.apply(node.extended); this.apply(node.implements); this.apply(node.content); this.applyTypeDeclaration(node) }
 	protected applyDeclaration(node: Declaration) { this.applyStatement(node) }
 	protected applyExpression(node: Expression) { this.apply(node.type); this.applyStatement(node)}
-	protected applyFunctionCall(node: FunctionCall) { this.apply(node.functionExpression); this.apply(node.arguments), this.applyExpression(node) }
+	protected applyFunctionCall(node: FunctionCall) { this.apply(node.functionExpression); this.apply(node.arguments); this.applyExpression(node) }
 	protected applyFunctionDeclaration(node: FunctionDeclaration) { this.apply(node.parameters); this.apply(node.arguments); this.apply(node.returnType); this.applySymbolDeclaration(node) }
 	protected applyIdentifier(node: Identifier) { this.applyExpression(node) }
 	protected applyInfixOperator(node: InfixOperator) { this.apply(node.left); this.apply(node.right); this.applyOperator(node) }

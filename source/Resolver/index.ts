@@ -22,7 +22,7 @@ import { Declarations } from "./Declarations"
 import { Types } from "./Types"
 import * as SyntaxTree from "../SyntaxTree"
 
-function resolve(handler: Error.Handler, statement: SyntaxTree.Statement | SyntaxTree.Statement[] | SyntaxTree.Module[] | Utilities.Iterator<SyntaxTree.Statement> | Utilities.Iterator<SyntaxTree.Module>): [Declarations, Types] {
+function resolve(handler: Error.Handler, statement: SyntaxTree.Statement | Utilities.Enumerable<SyntaxTree.Statement> | Utilities.Enumerable<SyntaxTree.Module>): [Declarations, Types] {
 	const scope = Scope.create(handler)
 	scope.resolve(statement)
 	return [scope.declarations, scope.types]
@@ -43,6 +43,5 @@ import "./Identifier"
 import "./InfixOperator"
 import "./Module"
 import "./Tuple"
-import "./Types"
 import "./UnaryOperator"
 import "./VariableDeclaration"
