@@ -16,15 +16,33 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Error, Utilities } from "@cogneco/mend"
+import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../../Tokens"
-import { Expression } from "./Expression"
+import * as SyntaxTree from "../../SyntaxTree"
+import { Node } from "./Node"
 import { SymbolDeclaration } from "./SymbolDeclaration"
 import { ArgumentDeclaration } from "./ArgumentDeclaration"
+import { Statement } from "./Statement"
+import { ReturnStatement } from "./ReturnStatement"
 
 export class FunctionDeclaration extends SymbolDeclaration {
 	get class() { return "FunctionDeclaration" }
-	constructor(symbol: string, readonly argumentList: Utilities.Enumerable<ArgumentDeclaration>, readonly statements: Utilities.Enumerable<ArgumentDeclaration>, tokens?: Utilities.Enumerable<Tokens.Substance>) {
+	constructor(symbol: string, readonly argumentList: Utilities.Enumerable<ArgumentDeclaration>, readonly statements: Utilities.Enumerable<Statement>, tokens?: Utilities.Enumerable<Tokens.Substance>) {
 		super(symbol, tokens)
 	}
 }
+function convert(node: SyntaxTree.FunctionDeclaration): FunctionDeclaration {
+	return new FunctionDeclaration(node.symbol, Node.convert(node.arguments), Utilities.Enumerable.from(convertBody(node.body ? node.body.statements : Utilities.Enumerable.empty)), node.tokens)
+}
+function* convertBody(statements: Utilities.Enumerable<SyntaxTree.Statement>): Iterable<Statement> {
+	const iterator = statements.getEnumerator()
+	let next = iterator.next()
+	while (!next.done) {
+		let result = Node.convert(next.value)
+		next = iterator.next()
+		if (next.done)
+			result = new ReturnStatement(result)
+		yield result
+	}
+}
+Node.addConverter<SyntaxTree.FunctionDeclaration>("functionDeclaration", node => convert(node))

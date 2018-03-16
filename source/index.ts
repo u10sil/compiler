@@ -19,6 +19,7 @@
 import { Error, Unit, Uri, Utilities } from "@cogneco/mend"
 import * as Parser from "./Parser"
 import * as Resolver from "./Resolver"
+import { convert } from "./Generator/C99"
 
 export class Program {
 	readonly version = "0.1.1"
@@ -39,7 +40,8 @@ export class Program {
 					const parser = Parser.open(resource, handler)
 					if (parser) {
 						const modules = Utilities.Enumerable.from(parser.toArray())
-						Resolver.resolve(handler, modules)
+						const [declarations, types] = Resolver.resolve(handler, modules)
+						convert(modules, declarations, types, handler)
 					}
 				}
 				break

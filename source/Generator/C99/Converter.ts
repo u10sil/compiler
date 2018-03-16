@@ -16,13 +16,15 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Utilities } from "@cogneco/mend"
-import * as Tokens from "../../../Tokens"
+import { Error, Utilities } from "@cogneco/mend"
+import * as Tokens from "../../Tokens"
+import * as SyntaxTree from "../../SyntaxTree"
 import { Expression } from "./Expression"
 
-export class Number extends Expression {
-	get class() { return "Literal.Number" }
-	constructor(readonly value: number, tokens?: Utilities.Enumerable<Tokens.Substance>) {
-		super(tokens)
+export class Converter {
+	constructor(readonly handler: Error.Handler) {
+	}
+	convert(node: SyntaxTree.Node | SyntaxTree.Node[] | Utilities.Enumerator<SyntaxTree.Node>): Promise<boolean> {
+		return
 	}
 }

@@ -16,14 +16,20 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Error, Utilities } from "@cogneco/mend"
+import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../../Tokens"
+import * as SyntaxTree from "../../SyntaxTree"
+import { Node } from "./Node"
 import { Expression } from "./Expression"
 import { SymbolDeclaration } from "./SymbolDeclaration"
 
 export class VariableDeclaration extends SymbolDeclaration {
-	get class() { return "VaruableDeclaration" }
+	get class() { return "VariableDeclaration" }
 	constructor(symbol: string, readonly expression?: Expression, tokens?: Utilities.Enumerable<Tokens.Substance>) {
 		super(symbol, tokens)
 	}
 }
+function convert(node: SyntaxTree.VariableDeclaration): VariableDeclaration {
+	return new VariableDeclaration(node.symbol, node.value ? Node.convert(node.value) : undefined, node.tokens)
+}
+Node.addConverter<SyntaxTree.VariableDeclaration>("variableDeclaration", node => convert(node))

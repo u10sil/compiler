@@ -8,7 +8,7 @@
 			"program": "${workspaceRoot}/build/index.js",
 			"args": [
 				"build",
-				"${workspaceRoot}/example"
+				"${workspaceRoot}/example/function.syspl"
 			],
 			"protocol": "inspector",
 			"preLaunchTask": "build",

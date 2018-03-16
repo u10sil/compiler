@@ -16,8 +16,10 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Error, Utilities } from "@cogneco/mend"
+import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../../Tokens"
+import * as SyntaxTree from "../../SyntaxTree"
+import { Node } from "./Node"
 import { Expression } from "./Expression"
 
 export class Identifier extends Expression {
@@ -26,3 +28,7 @@ export class Identifier extends Expression {
 		super(tokens)
 	}
 }
+function convert(node: SyntaxTree.Identifier): Identifier {
+	return new Identifier(node.name, node.tokens)
+}
+Node.addConverter<SyntaxTree.Identifier>("identifier", node => convert(node))

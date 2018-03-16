@@ -16,15 +16,15 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Error, Uri, Utilities } from "@cogneco/mend"
+import { Error, Utilities } from "@cogneco/mend"
 import * as SyntaxTree from "../../SyntaxTree"
-import * as Tokens from "../../Tokens"
-import { Generator } from "./Generator"
+import * as Resolver from "../../Resolver"
 import { Node } from "./Node"
 
-export async function generate(node: Node | Node[] | Utilities.Enumerator<Node>, resource: Uri.Locator, handler: Error.Handler): Promise<boolean> {
-	const generator = await Generator.create(resource, handler)
-	return generator && await generator.generate(node) && await generator.close()
+export function convert(node: SyntaxTree.Node, declarations: Resolver.Declarations, types: Resolver.Types, handler: Error.Handler): Node
+export function convert(nodes: Utilities.Enumerable<SyntaxTree.Node>, declarations: Resolver.Declarations, types: Resolver.Types, handler: Error.Handler): Utilities.Enumerable<Node>
+export function convert(node: SyntaxTree.Node | Utilities.Enumerable<SyntaxTree.Node>, declarations: Resolver.Declarations, types: Resolver.Types, handler: Error.Handler): Node | Utilities.Enumerable<Node> {
+	return node instanceof Utilities.Enumerable ? Node.convert(node) : Node.convert(node)
 }
 
 import "./Literal"

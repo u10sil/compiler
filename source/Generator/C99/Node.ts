@@ -19,6 +19,7 @@
 import { Error, Utilities } from "@cogneco/mend"
 import * as SyntaxTree from "../../SyntaxTree"
 import * as Tokens from "../../Tokens"
+import { ArgumentDeclaration } from "./ArgumentDeclaration"
 
 export abstract class Node {
 	abstract get class(): string
@@ -32,9 +33,10 @@ export abstract class Node {
 	}
 	private static converters: { [className: string]: ((node: SyntaxTree.Node) => Node)} = {}
 	static addConverter<T extends SyntaxTree.Node>(className: string, converter: (node: T) => Node) {
-		Node.converters[className] = converter
+		Node.converters[className] = node => converter(node as T)
 	}
 	static convert(node: SyntaxTree.Node): Node
+	static convert(nodes: Utilities.Enumerable<SyntaxTree.ArgumentDeclaration>): Utilities.Enumerable<ArgumentDeclaration>
 	static convert(nodes: Utilities.Enumerable<SyntaxTree.Node>): Utilities.Enumerable<Node>
 	static convert(node: SyntaxTree.Node | Utilities.Enumerable<SyntaxTree.Node>): Node | Utilities.Enumerable<Node> {
 		let result: Node | Utilities.Enumerable<Node>

@@ -31,6 +31,7 @@ function resolve(handler: Error.Handler, statement: SyntaxTree.Statement | Utili
 export {
 	resolve,
 	Declarations,
+	Types,
 }
 
 import "./Literal"

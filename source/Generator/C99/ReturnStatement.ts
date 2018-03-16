@@ -16,8 +16,6 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Error, Utilities } from "@cogneco/mend"
-import * as Tokens from "../../Tokens"
 import { Expression } from "./Expression"
 import { Statement } from "./Statement"
 
