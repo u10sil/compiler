@@ -19,6 +19,8 @@
 import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../../../Tokens"
 import { Expression } from "./Expression"
+import * as SyntaxTree from "../../../SyntaxTree"
+import { Node } from "../Node"
 
 export class Number extends Expression {
 	get class() { return "Literal.Number" }
@@ -32,3 +34,8 @@ export class Number extends Expression {
 		}
 	}
 }
+// tslint:disable no-construct ban-types
+function convert(node: SyntaxTree.Literal.Number): Number {
+	return new Number(node.value, node.tokens)
+}
+Node.addConverter<SyntaxTree.Literal.Number>("literal.number", node => convert(node))

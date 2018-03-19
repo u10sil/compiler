@@ -19,6 +19,8 @@
 import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../../Tokens"
 import { Expression } from "./Expression"
+import * as SyntaxTree from "../../SyntaxTree"
+import { Node } from "./Node"
 
 export class FunctionCall extends Expression {
 	get class() { return "FunctionCall" }
@@ -33,3 +35,7 @@ export class FunctionCall extends Expression {
 		}
 	}
 }
+function convert(node: SyntaxTree.FunctionCall): FunctionCall {
+	return new FunctionCall(Node.convert(node.functionExpression), Node.convert(node.arguments), node.tokens)
+}
+Node.addConverter<SyntaxTree.FunctionCall>("functionCall", node => convert(node))
