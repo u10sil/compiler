@@ -27,6 +27,13 @@ export class Module extends Node {
 	constructor(readonly name: string, readonly statements: Utilities.Enumerable<Statement>, readonly tokens?: Utilities.Enumerable<Tokens.Substance>) {
 		super(tokens)
 	}
+	serialize(): { class: string } & any {
+		return {
+			...super.serialize(),
+			name: this.name,
+			statements: this.statements.map(s => s.serialize()).toArray(),
+		}
+	}
 }
 function convert(node: SyntaxTree.Module): Module {
 	return new Module(node.name, Node.convert(node.statements), node.tokens)

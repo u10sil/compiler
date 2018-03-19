@@ -25,4 +25,10 @@ export abstract class SymbolDeclaration extends Declaration {
 	constructor(symbol: string, tokens?: Utilities.Enumerable<Tokens.Substance>, readonly expression?: Expression) {
 		super(symbol, tokens)
 	}
+	serialize(): { class: string } & any {
+		return {
+			...super.serialize(),
+			symbol: this.symbol,
+		}
+	}
 }

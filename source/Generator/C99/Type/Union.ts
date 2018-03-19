@@ -25,4 +25,10 @@ export class Union extends Expression {
 	constructor(readonly expressions: Utilities.Enumerable<Expression>, tokens?: Utilities.Enumerable<Tokens.Substance>) {
 		super(tokens)
 	}
+	serialize(): { class: string } & any {
+		return {
+			...super.serialize(),
+			expressions: this.expressions.map(e => e.serialize()).toArray(),
+		}
+	}
 }

@@ -24,4 +24,10 @@ export class ReturnStatement extends Statement {
 	constructor(readonly expression: Expression) {
 		super(expression.tokens)
 	}
+	serialize(): { class: string } & any {
+		return {
+			...super.serialize(),
+			expression: this.expression.serialize(),
+		}
+	}
 }

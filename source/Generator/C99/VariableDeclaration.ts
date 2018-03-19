@@ -28,6 +28,12 @@ export class VariableDeclaration extends SymbolDeclaration {
 	constructor(symbol: string, readonly expression?: Expression, tokens?: Utilities.Enumerable<Tokens.Substance>) {
 		super(symbol, tokens)
 	}
+	serialize(): { class: string } & any {
+		return {
+			...super.serialize(),
+			expression: this.expression ? this.expression.serialize() : undefined,
+		}
+	}
 }
 function convert(node: SyntaxTree.VariableDeclaration): VariableDeclaration {
 	return new VariableDeclaration(node.symbol, node.value ? Node.convert(node.value) : undefined, node.tokens)

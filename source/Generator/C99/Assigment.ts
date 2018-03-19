@@ -25,4 +25,11 @@ export class Assignment extends Expression {
 	constructor(readonly symbol: string, readonly expression: Expression, readonly tokens?: Utilities.Enumerable<Tokens.Substance>) {
 		super(tokens)
 	}
+	serialize(): { class: string } & any {
+		return {
+			...super.serialize(),
+			symbol: this.symbol,
+			expression: this.expression,
+		}
+	}
 }

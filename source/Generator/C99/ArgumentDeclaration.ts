@@ -25,4 +25,9 @@ export class ArgumentDeclaration extends SymbolDeclaration {
 	constructor(symbol: string, tokens?: Utilities.Enumerable<Tokens.Substance>) {
 		super(symbol, tokens)
 	}
+	serialize(): { class: string } & any {
+		return {
+			...super.serialize(),
+		}
+	}
 }

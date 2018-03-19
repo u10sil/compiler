@@ -25,4 +25,10 @@ export class Identifier extends Expression {
 	constructor(readonly symbol: string, tokens?: Utilities.Enumerable<Tokens.Substance>) {
 		super(tokens)
 	}
+	serialize(): { class: string } & any {
+		return {
+			...super.serialize(),
+			symbol: this.symbol,
+		}
+	}
 }

@@ -25,4 +25,10 @@ export class Number extends Expression {
 	constructor(readonly value: number, tokens?: Utilities.Enumerable<Tokens.Substance>) {
 		super(tokens)
 	}
+	serialize(): { class: string } & any {
+		return {
+			...super.serialize(),
+			value: this.value,
+		}
+	}
 }

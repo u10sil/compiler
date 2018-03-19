@@ -27,6 +27,12 @@ export class Identifier extends Expression {
 	constructor(readonly symbol: string, readonly tokens?: Utilities.Enumerable<Tokens.Substance>) {
 		super(tokens)
 	}
+	serialize(): { class: string } & any {
+		return {
+			...super.serialize(),
+			symbol: this.symbol,
+		}
+	}
 }
 function convert(node: SyntaxTree.Identifier): Identifier {
 	return new Identifier(node.name, node.tokens)

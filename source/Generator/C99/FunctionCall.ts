@@ -25,4 +25,11 @@ export class FunctionCall extends Expression {
 	constructor(readonly functionExpression: Expression, readonly argumentExpressions: Utilities.Enumerable<Expression>, readonly tokens?: Utilities.Enumerable<Tokens.Substance>) {
 		super(tokens)
 	}
+	serialize(): { class: string } & any {
+		return {
+			...super.serialize(),
+			function: this.functionExpression.serialize(),
+			arguments: this.argumentExpressions.map(a => a.serialize()).toArray(),
+		}
+	}
 }

@@ -30,6 +30,13 @@ export class FunctionDeclaration extends SymbolDeclaration {
 	constructor(symbol: string, readonly argumentList: Utilities.Enumerable<ArgumentDeclaration>, readonly statements: Utilities.Enumerable<Statement>, tokens?: Utilities.Enumerable<Tokens.Substance>) {
 		super(symbol, tokens)
 	}
+	serialize(): { class: string } & any {
+		return {
+			...super.serialize(),
+			arguments: this.argumentList.map(a => a.serialize()).toArray(),
+			statements: this.statements.map(s => s.serialize()).toArray(),
+		}
+	}
 }
 function convert(node: SyntaxTree.FunctionDeclaration): FunctionDeclaration {
 	return new FunctionDeclaration(node.symbol, Node.convert(node.arguments), Utilities.Enumerable.from(convertBody(node.body ? node.body.statements : Utilities.Enumerable.empty)), node.tokens)

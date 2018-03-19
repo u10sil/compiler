@@ -41,7 +41,8 @@ export class Program {
 					if (parser) {
 						const modules = Utilities.Enumerable.from(parser.toArray())
 						const [declarations, types] = Resolver.resolve(handler, modules)
-						convert(modules, declarations, types, handler)
+						const cCode = convert(modules, declarations, types, handler)
+						console.log(JSON.stringify(cCode.map(m => m.serialize()).toArray(), undefined, "\t"))
 					}
 				}
 				break
