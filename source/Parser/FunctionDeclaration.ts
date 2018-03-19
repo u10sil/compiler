@@ -30,7 +30,7 @@ export function parse(source: Source): SyntaxTree.FunctionDeclaration | undefine
 	let result: SyntaxTree.FunctionDeclaration | undefined
 	const modifier = SyntaxTree.FunctionDeclaration.parseModifier((source.peek() as Tokens.Identifier).name)
 	if (source.peek(modifier == SyntaxTree.FunctionModifier.None ? 0 : 1)!.isIdentifier("func") && source.fetch() && (modifier == SyntaxTree.FunctionModifier.None || source.fetch())) {
-		const symbol = Declaration.parseIdentifier(source)
+		const symbol = Declaration.parseIdentifier(source.clone())
 		if (!symbol)
 			source.raise("Expected symbol in function declaration.")
 		// TODO: add overload name parsing: ~overloadName
@@ -39,9 +39,9 @@ export function parse(source: Source): SyntaxTree.FunctionDeclaration | undefine
 		let returnType: SyntaxTree.Type.Expression | undefined
 		if (source.peek()!.isOperator("->")) {
 			source.fetch() // consume "->"
-			returnType = Type.parse(source)
+			returnType = Type.parse(source.clone())
 		}
-		const body = Block.parse(source)
+		const body = Block.parse(source.clone())
 		result = new SyntaxTree.FunctionDeclaration(symbol!, modifier, Utilities.Enumerable.from(parameters), Utilities.Enumerable.from(argumentList), returnType, body, source.mark())
 	}
 	return result
