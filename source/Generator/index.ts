@@ -16,6 +16,4 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Error, Uri, Utilities } from "@cogneco/mend"
-import * as SyntaxTree from "../SyntaxTree"
-import * as Tokens from "../Tokens"
+import { convert } from "./C99"

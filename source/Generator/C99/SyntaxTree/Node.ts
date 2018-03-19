@@ -16,20 +16,20 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Utilities } from "@cogneco/mend"
-import * as Tokens from "../../Tokens"
-import { Expression } from "./Expression"
+import { Error, Utilities } from "@cogneco/mend"
+import * as Tokens from "../../../Tokens"
 
-export class Assignment extends Expression {
-	get class() { return "Assignment" }
-	constructor(readonly symbol: string, readonly expression: Expression, readonly tokens?: Utilities.Enumerable<Tokens.Substance>) {
-		super(tokens)
+export abstract class Node {
+	abstract get class(): string
+	private regionCache: Error.Region | undefined
+	get region(): Error.Region | undefined {
+		if (!this.regionCache)
+			this.regionCache = (this.tokens ? this.tokens.map(item => item.region || null).reduce((result: Error.Region | null, region: Error.Region | null) => region != null && result != null ? result.merge(region) : region, null) : null) || undefined
+		return this.regionCache
+	}
+	constructor(readonly tokens?: Utilities.Enumerable<Tokens.Substance>) {
 	}
 	serialize(): { class: string } & any {
-		return {
-			...super.serialize(),
-			symbol: this.symbol,
-			expression: this.expression,
-		}
+		return { class: this.class }
 	}
 }

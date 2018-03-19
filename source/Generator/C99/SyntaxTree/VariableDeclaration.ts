@@ -17,25 +17,19 @@
 //
 
 import { Utilities } from "@cogneco/mend"
-import * as Tokens from "../../Tokens"
+import * as Tokens from "../../../Tokens"
 import { Expression } from "./Expression"
-import * as SyntaxTree from "../../SyntaxTree"
-import { Node } from "./Node"
+import { SymbolDeclaration } from "./SymbolDeclaration"
 
-export class FunctionCall extends Expression {
-	get class() { return "FunctionCall" }
-	constructor(readonly functionExpression: Expression, readonly argumentExpressions: Utilities.Enumerable<Expression>, readonly tokens?: Utilities.Enumerable<Tokens.Substance>) {
-		super(tokens)
+export class VariableDeclaration extends SymbolDeclaration {
+	get class() { return "VariableDeclaration" }
+	constructor(symbol: string, readonly expression?: Expression, tokens?: Utilities.Enumerable<Tokens.Substance>) {
+		super(symbol, tokens)
 	}
 	serialize(): { class: string } & any {
 		return {
 			...super.serialize(),
-			function: this.functionExpression.serialize(),
-			arguments: this.argumentExpressions.map(a => a.serialize()).toArray(),
+			expression: this.expression ? this.expression.serialize() : undefined,
 		}
 	}
 }
-function convert(node: SyntaxTree.FunctionCall): FunctionCall {
-	return new FunctionCall(Node.convert(node.functionExpression), Node.convert(node.arguments), node.tokens)
-}
-Node.addConverter<SyntaxTree.FunctionCall>("functionCall", node => convert(node))

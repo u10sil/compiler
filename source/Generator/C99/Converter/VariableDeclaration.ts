@@ -16,12 +16,10 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Utilities } from "@cogneco/mend"
-import * as Tokens from "../../Tokens"
-import { Node } from "./Node"
+import * as SyntaxTree from "../../../SyntaxTree"
+import * as C99 from "../SyntaxTree"
+import { convert, addConverter } from "./convert"
 
-export abstract class Expression extends Node {
-	constructor(readonly tokens?: Utilities.Enumerable<Tokens.Substance>) {
-		super(tokens)
-	}
-}
+addConverter<SyntaxTree.VariableDeclaration>("variableDeclaration",
+	(node, declarations, types, handler) => new C99.VariableDeclaration(node.symbol, node.value ? convert(node.value, declarations, types, handler) : undefined, node.tokens),
+)

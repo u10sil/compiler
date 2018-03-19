@@ -17,7 +17,7 @@
 //
 
 import { Utilities } from "@cogneco/mend"
-import * as Tokens from "../../Tokens"
+import * as Tokens from "../../../Tokens"
 import { Expression } from "./Expression"
 import { Declaration } from "./Declaration"
 

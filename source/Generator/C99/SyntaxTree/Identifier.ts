@@ -18,10 +18,17 @@
 
 import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../../../Tokens"
-import { Node } from "../Node"
+import { Expression } from "./Expression"
 
-export abstract class Expression extends Node {
-	constructor(tokens?: Utilities.Enumerable<Tokens.Substance>) {
+export class Identifier extends Expression {
+	get class() { return "Identifier" }
+	constructor(readonly symbol: string, readonly tokens?: Utilities.Enumerable<Tokens.Substance>) {
 		super(tokens)
+	}
+	serialize(): { class: string } & any {
+		return {
+			...super.serialize(),
+			symbol: this.symbol,
+		}
 	}
 }

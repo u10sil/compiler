@@ -16,13 +16,10 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Utilities } from "@cogneco/mend"
-import * as Tokens from "../../../Tokens"
-import { Identifier } from "./Identifier"
+import * as SyntaxTree from "../../../SyntaxTree"
+import * as C99 from "../SyntaxTree"
+import { convert, addConverter } from "./convert"
 
-export class Primitive extends Identifier {
-	get class() { return "Type.Primitive" }
-	constructor(readonly symbol: string, tokens?: Utilities.Enumerable<Tokens.Substance>) {
-		super(symbol, tokens)
-	}
-}
+addConverter<SyntaxTree.Module>("module",
+	(node, declarations, types, handler) => new C99.Module(node.name, convert(node.statements, declarations, types, handler), node.tokens),
+)

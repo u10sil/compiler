@@ -16,7 +16,12 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-export { convert } from "./Converter"
+import { Utilities } from "@cogneco/mend"
+import * as Tokens from "../../../Tokens"
+import { Statement } from "./Statement"
 
-import "./SyntaxTree"
-import "./Generator"
+export abstract class Declaration extends Statement {
+	constructor(readonly symbol: string, tokens?: Utilities.Enumerable<Tokens.Substance>) {
+		super(tokens)
+	}
+}

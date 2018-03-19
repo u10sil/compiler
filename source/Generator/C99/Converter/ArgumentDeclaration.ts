@@ -16,19 +16,10 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Utilities } from "@cogneco/mend"
-import * as Tokens from "../../../Tokens"
-import { Expression } from "./Expression"
+import * as SyntaxTree from "../../../SyntaxTree"
+import * as C99 from "../SyntaxTree"
+import { addConverter } from "./convert"
 
-export class Union extends Expression {
-	get class() { return "Type.Union" }
-	constructor(readonly expressions: Utilities.Enumerable<Expression>, tokens?: Utilities.Enumerable<Tokens.Substance>) {
-		super(tokens)
-	}
-	serialize(): { class: string } & any {
-		return {
-			...super.serialize(),
-			expressions: this.expressions.map(e => e.serialize()).toArray(),
-		}
-	}
-}
+addConverter<SyntaxTree.ArgumentDeclaration>("argumentDeclaration",
+	(node, declarations, types, handler) => new C99.ArgumentDeclaration(node.symbol, node.tokens),
+)

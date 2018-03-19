@@ -16,18 +16,10 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Utilities } from "@cogneco/mend"
-import * as Tokens from "../../Tokens"
-import { SymbolDeclaration } from "./SymbolDeclaration"
+import * as SyntaxTree from "../../../SyntaxTree"
+import * as C99 from "../SyntaxTree"
+import { addConverter } from "./convert"
 
-export class ArgumentDeclaration extends SymbolDeclaration {
-	get class() { return "ArgumentDeclaration" }
-	constructor(symbol: string, tokens?: Utilities.Enumerable<Tokens.Substance>) {
-		super(symbol, tokens)
-	}
-	serialize(): { class: string } & any {
-		return {
-			...super.serialize(),
-		}
-	}
-}
+addConverter<SyntaxTree.Identifier>("identifier",
+	node => new C99.Identifier(node.name, node.tokens),
+)

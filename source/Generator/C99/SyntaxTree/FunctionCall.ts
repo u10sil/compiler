@@ -16,7 +16,20 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-export { convert } from "./Converter"
+import { Utilities } from "@cogneco/mend"
+import * as Tokens from "../../../Tokens"
+import { Expression } from "./Expression"
 
-import "./SyntaxTree"
-import "./Generator"
+export class FunctionCall extends Expression {
+	get class() { return "FunctionCall" }
+	constructor(readonly functionExpression: Expression, readonly argumentExpressions: Utilities.Enumerable<Expression>, readonly tokens?: Utilities.Enumerable<Tokens.Substance>) {
+		super(tokens)
+	}
+	serialize(): { class: string } & any {
+		return {
+			...super.serialize(),
+			function: this.functionExpression.serialize(),
+			arguments: this.argumentExpressions.map(a => a.serialize()).toArray(),
+		}
+	}
+}

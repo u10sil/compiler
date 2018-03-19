@@ -17,11 +17,11 @@
 //
 
 import { Utilities } from "@cogneco/mend"
-import * as Tokens from "../../Tokens"
-import { Statement } from "./Statement"
+import * as Tokens from "../../../Tokens"
+import { Node } from "./Node"
 
-export abstract class Declaration extends Statement {
-	constructor(readonly symbol: string, tokens?: Utilities.Enumerable<Tokens.Substance>) {
+export abstract class Statement extends Node {
+	constructor(readonly tokens?: Utilities.Enumerable<Tokens.Substance>) {
 		super(tokens)
 	}
 }

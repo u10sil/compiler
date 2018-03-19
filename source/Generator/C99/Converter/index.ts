@@ -16,7 +16,12 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-export { convert } from "./Converter"
+import "./Literal"
+import "./ArgumentDeclaration"
+import "./FunctionCall"
+import "./FunctionDeclaration"
+import "./Identifier"
+import "./Module"
+import "./VariableDeclaration"
 
-import "./SyntaxTree"
-import "./Generator"
+export { convert } from "./convert"

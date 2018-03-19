@@ -17,11 +17,18 @@
 //
 
 import { Utilities } from "@cogneco/mend"
-import * as Tokens from "../../../Tokens"
-import { Node } from "../Node"
+import * as Tokens from "../../../../Tokens"
+import { Expression } from "./Expression"
 
-export abstract class Expression extends Node {
-	constructor(tokens?: Utilities.Enumerable<Tokens.Substance>) {
+export class Union extends Expression {
+	get class() { return "Type.Union" }
+	constructor(readonly expressions: Utilities.Enumerable<Expression>, tokens?: Utilities.Enumerable<Tokens.Substance>) {
 		super(tokens)
+	}
+	serialize(): { class: string } & any {
+		return {
+			...super.serialize(),
+			expressions: this.expressions.map(e => e.serialize()).toArray(),
+		}
 	}
 }

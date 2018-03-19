@@ -16,19 +16,4 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Utilities } from "@cogneco/mend"
-import * as Tokens from "../../../Tokens"
-import { Expression } from "./Expression"
-
-export class Identifier extends Expression {
-	get class() { return "Type.Identifier" }
-	constructor(readonly symbol: string, tokens?: Utilities.Enumerable<Tokens.Substance>) {
-		super(tokens)
-	}
-	serialize(): { class: string } & any {
-		return {
-			...super.serialize(),
-			symbol: this.symbol,
-		}
-	}
-}
+import "./Number"

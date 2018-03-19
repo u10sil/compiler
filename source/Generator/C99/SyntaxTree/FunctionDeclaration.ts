@@ -17,13 +17,10 @@
 //
 
 import { Utilities } from "@cogneco/mend"
-import * as Tokens from "../../Tokens"
-import * as SyntaxTree from "../../SyntaxTree"
-import { Node } from "./Node"
+import * as Tokens from "../../../Tokens"
 import { SymbolDeclaration } from "./SymbolDeclaration"
 import { ArgumentDeclaration } from "./ArgumentDeclaration"
 import { Statement } from "./Statement"
-import { ReturnStatement } from "./ReturnStatement"
 
 export class FunctionDeclaration extends SymbolDeclaration {
 	get class() { return "FunctionDeclaration" }
@@ -38,18 +35,3 @@ export class FunctionDeclaration extends SymbolDeclaration {
 		}
 	}
 }
-function convert(node: SyntaxTree.FunctionDeclaration): FunctionDeclaration {
-	return new FunctionDeclaration(node.symbol, Node.convert(node.arguments), Utilities.Enumerable.from(convertBody(node.body ? node.body.statements : Utilities.Enumerable.empty)), node.tokens)
-}
-function* convertBody(statements: Utilities.Enumerable<SyntaxTree.Statement>): Iterable<Statement> {
-	const iterator = statements.getEnumerator()
-	let next = iterator.next()
-	while (!next.done) {
-		let result = Node.convert(next.value)
-		next = iterator.next()
-		if (next.done)
-			result = new ReturnStatement(result)
-		yield result
-	}
-}
-Node.addConverter<SyntaxTree.FunctionDeclaration>("functionDeclaration", node => convert(node))

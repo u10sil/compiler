@@ -17,34 +17,34 @@
 //
 
 import { Error, IO, Uri, Utilities } from "@cogneco/mend"
-import { Node } from "./Node"
+import * as C99 from "./SyntaxTree"
 
 export class Generator extends IO.Indenter {
-	private lastNode: Node | undefined
+	private lastNode: C99.Node | undefined
 	private constructor(writer: IO.Writer, private readonly handler: Error.Handler) {
 		super(writer)
 	}
 	raise(message: string) {
 		this.handler.raise(message, Error.Level.Recoverable, "generator", this.lastNode ? this.lastNode.region : undefined)
 	}
-	async generate(node: Node | Node[] | Utilities.Enumerator<Node>): Promise<boolean> {
+	async generate(node: C99.Node | C99.Node[] | Utilities.Enumerator<C99.Node>): Promise<boolean> {
 		let result = false
-		if (node instanceof Node) {
+		if (node instanceof C99.Node) {
 			this.lastNode = node
 			const generate = Generator.generators[node.class]
 			result = generate != undefined && await generate(this, node)
 		} else if (node instanceof Array)
-			result = await node.map(n => this.generate(n)).reduce(async (r, n) => await r && await n, Promise.resolve(true))
+			result = await node.map(n => this.generate(n)).reduce(async (r, n) => await r && n, Promise.resolve(true))
 		else if (node instanceof Utilities.Enumerator)
-			result = await node.map(n => this.generate(n)).reduce(async (r, n) => await r && await n, Promise.resolve(true))
+			result = await node.map(n => this.generate(n)).reduce(async (r, n) => await r && n, Promise.resolve(true))
 		return result
 	}
 	create(name: string): Promise<Generator | undefined> {
 		return Generator.create(this.resource.folder.appendPath(name), this.handler)
 	}
-	static generators: { [className: string]: ((generator: Generator, node: Node) => Promise<boolean>) } = {}
-	static add<T extends Node>(className: string, generate: (generator: Generator, node: T) => Promise<boolean>) {
-		Generator.generators[className] = generate
+	static generators: { [className: string]: ((generator: Generator, node: C99.Node) => Promise<boolean>) } = {}
+	static add<T extends C99.Node>(className: string, generate: (generator: Generator, node: T) => Promise<boolean>) {
+		Generator.generators[className] = generate as (generator: Generator, node: C99.Node) => Promise<boolean>
 	}
 	static async create(resource: Uri.Locator, handler: Error.Handler): Promise<Generator | undefined> {
 		const writer = await IO.Writer.open(resource)

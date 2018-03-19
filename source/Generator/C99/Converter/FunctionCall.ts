@@ -16,25 +16,10 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Utilities } from "@cogneco/mend"
-import * as Tokens from "../../Tokens"
-import * as SyntaxTree from "../../SyntaxTree"
-import { Node } from "./Node"
-import { Expression } from "./Expression"
+import * as SyntaxTree from "../../../SyntaxTree"
+import * as C99 from "../SyntaxTree"
+import { convert, addConverter } from "./convert"
 
-export class Identifier extends Expression {
-	get class() { return "Identifier" }
-	constructor(readonly symbol: string, readonly tokens?: Utilities.Enumerable<Tokens.Substance>) {
-		super(tokens)
-	}
-	serialize(): { class: string } & any {
-		return {
-			...super.serialize(),
-			symbol: this.symbol,
-		}
-	}
-}
-function convert(node: SyntaxTree.Identifier): Identifier {
-	return new Identifier(node.name, node.tokens)
-}
-Node.addConverter<SyntaxTree.Identifier>("identifier", node => convert(node))
+addConverter<SyntaxTree.FunctionCall>("functionCall",
+	(node, declarations, types, handler) => new C99.FunctionCall(convert(node.functionExpression, declarations, types, handler), convert(node.arguments, declarations, types, handler), node.tokens),
+)

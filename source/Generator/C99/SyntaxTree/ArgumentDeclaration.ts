@@ -17,25 +17,17 @@
 //
 
 import { Utilities } from "@cogneco/mend"
-import * as Tokens from "../../Tokens"
-import * as SyntaxTree from "../../SyntaxTree"
-import { Node } from "./Node"
-import { Expression } from "./Expression"
+import * as Tokens from "../../../Tokens"
 import { SymbolDeclaration } from "./SymbolDeclaration"
 
-export class VariableDeclaration extends SymbolDeclaration {
-	get class() { return "VariableDeclaration" }
-	constructor(symbol: string, readonly expression?: Expression, tokens?: Utilities.Enumerable<Tokens.Substance>) {
+export class ArgumentDeclaration extends SymbolDeclaration {
+	get class() { return "ArgumentDeclaration" }
+	constructor(symbol: string, tokens?: Utilities.Enumerable<Tokens.Substance>) {
 		super(symbol, tokens)
 	}
 	serialize(): { class: string } & any {
 		return {
 			...super.serialize(),
-			expression: this.expression ? this.expression.serialize() : undefined,
 		}
 	}
 }
-function convert(node: SyntaxTree.VariableDeclaration): VariableDeclaration {
-	return new VariableDeclaration(node.symbol, node.value ? Node.convert(node.value) : undefined, node.tokens)
-}
-Node.addConverter<SyntaxTree.VariableDeclaration>("variableDeclaration", node => convert(node))

@@ -16,7 +16,19 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-export { convert } from "./Converter"
+import { Utilities } from "@cogneco/mend"
+import * as Tokens from "../../../../Tokens"
+import { Expression } from "./Expression"
 
-import "./SyntaxTree"
-import "./Generator"
+export class Number extends Expression {
+	get class() { return "Literal.Number" }
+	constructor(readonly value: number, tokens?: Utilities.Enumerable<Tokens.Substance>) {
+		super(tokens)
+	}
+	serialize(): { class: string } & any {
+		return {
+			...super.serialize(),
+			value: this.value,
+		}
+	}
+}

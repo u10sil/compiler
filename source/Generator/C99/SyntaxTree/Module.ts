@@ -17,11 +17,20 @@
 //
 
 import { Utilities } from "@cogneco/mend"
-import * as Tokens from "../../Tokens"
+import * as Tokens from "../../../Tokens"
 import { Node } from "./Node"
+import { Statement } from "./Statement"
 
-export abstract class Statement extends Node {
-	constructor(readonly tokens?: Utilities.Enumerable<Tokens.Substance>) {
+export class Module extends Node {
+	get class() { return "Module" }
+	constructor(readonly name: string, readonly statements: Utilities.Enumerable<Statement>, readonly tokens?: Utilities.Enumerable<Tokens.Substance>) {
 		super(tokens)
+	}
+	serialize(): { class: string } & any {
+		return {
+			...super.serialize(),
+			name: this.name,
+			statements: this.statements.map(s => s.serialize()).toArray(),
+		}
 	}
 }
