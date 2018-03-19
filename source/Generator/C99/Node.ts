@@ -23,7 +23,6 @@ import { ArgumentDeclaration } from "./ArgumentDeclaration"
 
 export abstract class Node {
 	abstract get class(): string
-	readonly id: number
 	private regionCache: Error.Region | undefined
 	get region(): Error.Region | undefined {
 		if (!this.regionCache)
@@ -31,10 +30,9 @@ export abstract class Node {
 		return this.regionCache
 	}
 	constructor(readonly tokens?: Utilities.Enumerable<Tokens.Substance>) {
-		this.id = nodeCount++
 	}
 	serialize(): { class: string } & any {
-		return { id: this.id, class: this.class }
+		return { class: this.class }
 	}
 	private static converters: { [className: string]: ((node: SyntaxTree.Node) => Node)} = {}
 	static addConverter<T extends SyntaxTree.Node>(className: string, converter: (node: T) => Node) {
@@ -53,4 +51,3 @@ export abstract class Node {
 		return result
 	}
 }
-let nodeCount = 0
