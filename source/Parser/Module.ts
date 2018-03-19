@@ -33,7 +33,7 @@ export function parse(source: Source): SyntaxTree.Module | undefined {
 		if (!(source.fetch() instanceof Tokens.EndOfFile))
 			source.raise("Missing end of file.")
 		let name = statements.length > 0 && statements[0].region ? statements[0].region!.resource.name : "unnamed"
-		if (name.endsWith(".syspl"))
+		if (name && name.endsWith(".syspl"))
 			name = name.substr(0, name.length - 6)
 		result = new SyntaxTree.Module(name, Utilities.Enumerable.from(statements), source.mark())
 	}
