@@ -19,7 +19,7 @@
 import { Error, Unit, Uri, Utilities } from "@cogneco/mend"
 import * as Parser from "./Parser"
 import * as Resolver from "./Resolver"
-import { convert } from "./Generator/C99"
+import * as C99 from "./C99"
 
 export class Program {
 	readonly version = "0.1.1"
@@ -41,7 +41,7 @@ export class Program {
 					if (parser) {
 						const modules = Utilities.Enumerable.from(parser.toArray())
 						const [declarations, types] = Resolver.resolve(handler, modules)
-						const cCode = convert(modules, declarations, types, handler)
+						const cCode = C99.convert(modules, declarations, types, handler)
 						console.log(JSON.stringify(cCode.map(m => m.serialize()).toArray(), undefined, "\t"))
 					}
 				}
