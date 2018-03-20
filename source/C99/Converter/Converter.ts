@@ -26,6 +26,20 @@ export class Converter {
 	}
 	getType(node: SyntaxTree.Node): C99.Type.Expression {
 		const result = this.types.get(node)
+		if (!result)
+			this.handler.raise("No type available.", Error.Level.Recoverable, "converter", node.region)
+		return result ? this.convert(result) : C99.Type.Primitive.void
+	}
+	getReturnType(node: SyntaxTree.Node): C99.Type.Expression {
+		let result = this.types.get(node)
+		if (!(result instanceof SyntaxTree.Type.Function)) {
+			this.handler.raise("Function does not have a function type.", Error.Level.Recoverable, "converter", node.region)
+			result = undefined
+		} else {
+			result = result.result
+			if (!result)
+				this.handler.raise("No return type available.", Error.Level.Recoverable, "converter", node.region)
+		}
 		return result ? this.convert(result) : C99.Type.Primitive.void
 	}
 	convert(node: SyntaxTree.Node): C99.Node

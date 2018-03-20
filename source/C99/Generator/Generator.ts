@@ -32,7 +32,10 @@ export class Generator extends IO.Indenter {
 		if (node instanceof C99.Node) {
 			this.lastNode = node
 			const generate = generators[node.class]
-			result = generate != undefined && await generate(this, node)
+			if (!generate)
+				this.raise("Unable to locate generator for " + node.class + ".")
+			else if (!(result = await generate(this, node)))
+				this.raise("Failed to generate output for " + JSON.stringify(node.serialize()) + ".")
 		} else if (node instanceof Utilities.Enumerable)
 			result = await node.map(n => this.generate(n)).reduce(async (r, n) => await r && n, Promise.resolve(true))
 		return result
@@ -42,7 +45,7 @@ export class Generator extends IO.Indenter {
 	}
 	static async create(resource: Uri.Locator, handler: Error.Handler): Promise<Generator | undefined> {
 		const writer = await IO.Writer.open(resource)
-		return writer && new Generator(writer, handler)
+		return writer && new Generator(writer, handler) || Generator.create(resource.appendPath("index.c"), handler)
 	}
 }
 const generators: { [className: string]: ((generator: Generator, node: C99.Node) => Promise<boolean>) } = {}

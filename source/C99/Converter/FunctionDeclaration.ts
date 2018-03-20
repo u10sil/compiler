@@ -33,5 +33,5 @@ function* convertBody(converter: Converter, statements: Utilities.Enumerable<Syn
 	}
 }
 addConverter<SyntaxTree.FunctionDeclaration>("functionDeclaration",
-	(converter, node) => new C99.FunctionDeclaration(node.symbol, converter.convert(node.arguments), Utilities.Enumerable.from(convertBody(converter, node.body ? node.body.statements : Utilities.Enumerable.empty)), node.tokens),
+	(converter, node) => new C99.FunctionDeclaration(node.symbol, converter.convert(node.arguments), converter.getReturnType(node), Utilities.Enumerable.from(convertBody(converter, node.body ? node.body.statements : Utilities.Enumerable.empty)), node.tokens),
 )

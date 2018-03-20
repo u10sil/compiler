@@ -19,7 +19,13 @@
 import * as SyntaxTree from "../SyntaxTree"
 import { addGenerator } from "./Generator"
 
-addGenerator<SyntaxTree.Module>("Module", async (generator, node) => {
-	const g = await generator.create(node.name + ".c")
-	return g && g.generate(node.statements) || false
-})
+addGenerator<SyntaxTree.FunctionDeclaration>("FunctionDeclaration",
+	async (generator, node) =>
+		await generator.generate(node.returnType) &&
+		await generator.write(node.symbol) &&
+		await generator.writeLine(" {") &&
+		generator.increase() &&
+		await generator.generate(node.statements) &&
+		generator.decrease() &&
+		generator.writeLine("}"),
+)

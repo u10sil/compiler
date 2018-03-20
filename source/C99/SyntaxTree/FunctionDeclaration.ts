@@ -21,10 +21,11 @@ import * as Tokens from "../../Tokens"
 import { SymbolDeclaration } from "./SymbolDeclaration"
 import { ArgumentDeclaration } from "./ArgumentDeclaration"
 import { Statement } from "./Statement"
+import * as Type from "./Type"
 
 export class FunctionDeclaration extends SymbolDeclaration {
 	get class() { return "FunctionDeclaration" }
-	constructor(symbol: string, readonly argumentList: Utilities.Enumerable<ArgumentDeclaration>, readonly statements: Utilities.Enumerable<Statement>, tokens?: Utilities.Enumerable<Tokens.Substance>) {
+	constructor(symbol: string, readonly argumentList: Utilities.Enumerable<ArgumentDeclaration>, readonly returnType: Type.Expression, readonly statements: Utilities.Enumerable<Statement>, tokens?: Utilities.Enumerable<Tokens.Substance>) {
 		super(symbol, tokens)
 	}
 	serialize(): { class: string } & any {

@@ -16,10 +16,7 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import * as SyntaxTree from "../SyntaxTree"
-import { addGenerator } from "./Generator"
+import * as SyntaxTree from "../../SyntaxTree"
+import { addGenerator } from "../Generator"
 
-addGenerator<SyntaxTree.Module>("Module", async (generator, node) => {
-	const g = await generator.create(node.name + ".c")
-	return g && g.generate(node.statements) || false
-})
+addGenerator<SyntaxTree.Literal.Number>("Literal.Number", async (generator, node) => generator.write(node.value.toString()))
