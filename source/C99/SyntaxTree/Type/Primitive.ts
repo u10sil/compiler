@@ -25,4 +25,5 @@ export class Primitive extends Identifier {
 	constructor(readonly symbol: string, tokens?: Utilities.Enumerable<Tokens.Substance>) {
 		super(symbol, tokens)
 	}
+	static get void(): Primitive { return new Primitive("void") }
 }

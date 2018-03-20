@@ -16,12 +16,7 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Converter } from "./Converter"
-import { Generator } from "./Generator"
-import * as SyntaxTree from "./SyntaxTree"
+import * as SyntaxTree from "../SyntaxTree"
+import { addGenerator } from "./Generator"
 
-export {
-	Converter,
-	Generator,
-	SyntaxTree,
-}
+addGenerator<SyntaxTree.ReturnStatement>("ReturnStatement", async (generator, node) => await generator.write("return ") && await generator.generate(node.expression) && generator.writeLine(";"))

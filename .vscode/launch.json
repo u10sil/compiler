@@ -4,12 +4,23 @@
 		{
 			"type": "node",
 			"request": "launch",
-			"name": "build",
+			"name": "c99-build",
 			"program": "${workspaceRoot}/build/index.js",
 			"args": [
-				"build",
+				"c99-build",
 				"${workspaceRoot}/example/function.syspl"
 			],
+			"protocol": "inspector",
+			"preLaunchTask": "build",
+			"sourceMaps": true,
+			"outFiles": [ "${workspaceRoot}/build/**/*.js" ]
+		},
+		{
+			"type": "node",
+			"request": "launch",
+			"name": "c99-json",
+			"program": "${workspaceRoot}/build/index.js",
+			"args": [ "json", "${workspaceRoot}/example/function.syspl" ],
 			"protocol": "inspector",
 			"preLaunchTask": "build",
 			"sourceMaps": true,

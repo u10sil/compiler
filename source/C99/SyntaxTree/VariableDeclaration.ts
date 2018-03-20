@@ -19,11 +19,12 @@
 import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../../Tokens"
 import { Expression } from "./Expression"
+import * as Type from "./Type"
 import { SymbolDeclaration } from "./SymbolDeclaration"
 
 export class VariableDeclaration extends SymbolDeclaration {
 	get class() { return "VariableDeclaration" }
-	constructor(symbol: string, readonly expression?: Expression, tokens?: Utilities.Enumerable<Tokens.Substance>) {
+	constructor(symbol: string, readonly type: Type.Expression, readonly expression?: Expression, tokens?: Utilities.Enumerable<Tokens.Substance>) {
 		super(symbol, tokens)
 	}
 	serialize(): { class: string } & any {

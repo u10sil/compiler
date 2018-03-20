@@ -31,10 +31,30 @@ export class Program {
 			this.commands.push(".")
 		}
 	}
-	private runHelper(command: string | undefined, commands: (string | undefined)[]) {
+	private async runHelper(command: string | undefined, commands: (string | undefined)[]) {
 		const handler = new Error.ConsoleHandler()
 		switch (command) {
-			case "build":
+			case "c99-build":
+				{
+					const resource = Uri.Locator.parse(commands.pop())
+					if (!resource)
+						handler.raise("Missing path to open.", Error.Level.Critical, "usage")
+					else {
+						const parser = Parser.open(resource, handler)
+						if (!parser)
+							handler.raise("Failed to open " + resource.toString() + ".", Error.Level.Critical, "parser")
+						else {
+							const modules = Utilities.Enumerable.from(parser.toArray())
+							const [declarations, types] = Resolver.resolve(handler, modules)
+							const cCode = new C99.Converter(declarations, types, handler).convert(modules)
+							const generator = await C99.Generator.create(resource.folder, handler)
+							if (!(generator && await generator.generate(cCode)))
+								handler.raise("Failed to generate output to " + resource.folder.toString() + ".", Error.Level.Critical, "generate")
+						}
+					}
+				}
+				break
+			case "c99-json":
 				{
 					const resource = Uri.Locator.parse(commands.pop())
 					const parser = Parser.open(resource, handler)

@@ -17,6 +17,7 @@
 //
 
 import "./Literal"
+import "./Type"
 import "./ArgumentDeclaration"
 import "./FunctionCall"
 import "./FunctionDeclaration"

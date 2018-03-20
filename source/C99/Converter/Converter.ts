@@ -23,9 +23,13 @@ import * as C99 from "../SyntaxTree"
 
 export class Converter {
 	constructor(readonly declarations: Resolver.Declarations, readonly types: Resolver.Types, readonly handler: Error.Handler) {
-
+	}
+	getType(node: SyntaxTree.Node): C99.Type.Expression {
+		const result = this.types.get(node)
+		return result ? this.convert(result) : C99.Type.Primitive.void
 	}
 	convert(node: SyntaxTree.Node): C99.Node
+	convert(node: SyntaxTree.Type.Expression): C99.Type.Expression
 	convert(nodes: Utilities.Enumerable<SyntaxTree.ArgumentDeclaration>): Utilities.Enumerable<C99.ArgumentDeclaration>
 	convert(nodes: Utilities.Enumerable<SyntaxTree.Node>): Utilities.Enumerable<C99.Node>
 	convert(node: SyntaxTree.Node | Utilities.Enumerable<SyntaxTree.Node>): C99.Node | Utilities.Enumerable<C99.Node> {
