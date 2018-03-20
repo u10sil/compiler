@@ -18,8 +18,8 @@
 
 import * as SyntaxTree from "../../../SyntaxTree"
 import * as C99 from "../../SyntaxTree"
-import { addConverter } from "../convert"
+import { addConverter } from "../Converter"
 
 addConverter<SyntaxTree.Literal.Number>("literal.number",
-	(node, declarations, types, handler) => new C99.Literal.Number(node.value, node.tokens),
+	(converter, node) => new C99.Literal.Number(node.value, node.tokens),
 )

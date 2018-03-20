@@ -18,8 +18,8 @@
 
 import * as SyntaxTree from "../../SyntaxTree"
 import * as C99 from "../SyntaxTree"
-import { convert, addConverter } from "./convert"
+import { addConverter } from "./Converter"
 
 addConverter<SyntaxTree.Module>("module",
-	(node, declarations, types, handler) => new C99.Module(node.name, convert(node.statements, declarations, types, handler), node.tokens),
+	(converter, node) => new C99.Module(node.name, converter.convert(node.statements), node.tokens),
 )

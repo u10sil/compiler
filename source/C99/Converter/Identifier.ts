@@ -18,8 +18,8 @@
 
 import * as SyntaxTree from "../../SyntaxTree"
 import * as C99 from "../SyntaxTree"
-import { addConverter } from "./convert"
+import { addConverter } from "./Converter"
 
 addConverter<SyntaxTree.Identifier>("identifier",
-	node => new C99.Identifier(node.name, node.tokens),
+	(converter, node) => new C99.Identifier(node.name, node.tokens),
 )

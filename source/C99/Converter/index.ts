@@ -24,4 +24,4 @@ import "./Identifier"
 import "./Module"
 import "./VariableDeclaration"
 
-export { convert } from "./convert"
+export { Converter } from "./Converter"

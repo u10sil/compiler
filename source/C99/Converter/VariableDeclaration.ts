@@ -18,8 +18,8 @@
 
 import * as SyntaxTree from "../../SyntaxTree"
 import * as C99 from "../SyntaxTree"
-import { convert, addConverter } from "./convert"
+import { addConverter } from "./Converter"
 
 addConverter<SyntaxTree.VariableDeclaration>("variableDeclaration",
-	(node, declarations, types, handler) => new C99.VariableDeclaration(node.symbol, node.value ? convert(node.value, declarations, types, handler) : undefined, node.tokens),
+	(converter, node) => new C99.VariableDeclaration(node.symbol, node.value ? converter.convert(node.value) : undefined, node.tokens),
 )

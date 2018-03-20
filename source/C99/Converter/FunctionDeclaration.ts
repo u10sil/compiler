@@ -16,17 +16,16 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Error, Utilities } from "@cogneco/mend"
+import { Utilities } from "@cogneco/mend"
 import * as SyntaxTree from "../../SyntaxTree"
-import * as Resolver from "../../Resolver"
 import * as C99 from "../SyntaxTree"
-import { convert, addConverter } from "./convert"
+import { Converter, addConverter } from "./Converter"
 
-function* convertBody(statements: Utilities.Enumerable<SyntaxTree.Statement>, declarations: Resolver.Declarations, types: Resolver.Types, handler: Error.Handler): Iterable<C99.Statement> {
+function* convertBody(converter: Converter, statements: Utilities.Enumerable<SyntaxTree.Statement>): Iterable<C99.Statement> {
 	const iterator = statements.getEnumerator()
 	let next = iterator.next()
 	while (!next.done) {
-		let result = convert(next.value, declarations, types, handler)
+		let result = converter.convert(next.value)
 		next = iterator.next()
 		if (next.done)
 			result = new C99.ReturnStatement(result)
@@ -34,5 +33,5 @@ function* convertBody(statements: Utilities.Enumerable<SyntaxTree.Statement>, de
 	}
 }
 addConverter<SyntaxTree.FunctionDeclaration>("functionDeclaration",
-	(node, declarations, types, handler) => new C99.FunctionDeclaration(node.symbol, convert(node.arguments, declarations, types, handler), Utilities.Enumerable.from(convertBody(node.body ? node.body.statements : Utilities.Enumerable.empty, declarations, types, handler)), node.tokens),
+	(converter, node) => new C99.FunctionDeclaration(node.symbol, converter.convert(node.arguments), Utilities.Enumerable.from(convertBody(converter, node.body ? node.body.statements : Utilities.Enumerable.empty)), node.tokens),
 )

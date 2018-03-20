@@ -18,8 +18,8 @@
 
 import * as SyntaxTree from "../../SyntaxTree"
 import * as C99 from "../SyntaxTree"
-import { convert, addConverter } from "./convert"
+import { addConverter } from "./Converter"
 
 addConverter<SyntaxTree.FunctionCall>("functionCall",
-	(node, declarations, types, handler) => new C99.FunctionCall(convert(node.functionExpression, declarations, types, handler), convert(node.arguments, declarations, types, handler), node.tokens),
+	(converter, node) => new C99.FunctionCall(converter.convert(node.functionExpression), converter.convert(node.arguments), node.tokens),
 )

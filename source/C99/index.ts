@@ -16,7 +16,12 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-export { convert } from "./Converter"
+import { Converter } from "./Converter"
+import * as Generator from "./Generator"
+import * as SyntaxTree from "./SyntaxTree"
 
-import "./SyntaxTree"
-import "./Generator"
+export {
+	Converter,
+	Generator,
+	SyntaxTree,
+}
