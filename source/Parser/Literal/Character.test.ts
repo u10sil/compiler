@@ -16,21 +16,16 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Error, Unit } from "@cogneco/mend"
+import { Error } from "@cogneco/mend"
 import * as SyntaxTree from "../../SyntaxTree"
 import * as Parser from "../"
 
-import Is = Unit.Is
-export class CharacterTest extends Unit.Fixture {
-	constructor() {
-		super("Parser.Expressions.Literal.Character")
-		const handler = new Error.ConsoleHandler()
-		this.add("literal", () => {
-			const literal = Parser.parseFirst("'a'", handler)
-			this.expect(literal instanceof SyntaxTree.Literal.Character, Is.true)
-			this.expect((literal as SyntaxTree.Literal.Character).value, Is.equal.to("a"))
-			this.expect(SyntaxTree.filterId(literal!.serialize()), Is.equal.to({ class: "literal.character", value: "a" }))
-		})
-	}
-}
-Unit.Fixture.add(new CharacterTest())
+describe("Parser.Expressions.Literal.Character", () => {
+	const handler = new Error.ConsoleHandler()
+	it("literal", () => {
+		const literal = Parser.parseFirst("'a'", handler)
+		expect(literal instanceof SyntaxTree.Literal.Character).toBeTruthy()
+		expect((literal as SyntaxTree.Literal.Character).value).toEqual("a")
+		expect(SyntaxTree.filterId(literal!.serialize())).toEqual({ class: "literal.character", value: "a" })
+	})
+})

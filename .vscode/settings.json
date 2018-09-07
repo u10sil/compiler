@@ -10,6 +10,7 @@
 		".vscode": true
 	},
 	"files.exclude": {
+		"coverage": true,
 		"node_modules": true,
 		"build": true,
 		"**/.git": true
@@ -20,5 +21,6 @@
 	"licenser.license": "GPLv3",
 	"licenser.projectName": "SysPL",
 	"licenser.author": "Simon Mika <simon@mika.se>",
-	"licenser.useSingleLineStyle": true
+	"licenser.useSingleLineStyle": true,
+	"jest.showCoverageOnLoad": true
 }

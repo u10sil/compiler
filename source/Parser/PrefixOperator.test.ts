@@ -16,61 +16,56 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Error, Unit } from "@cogneco/mend"
+import { Error } from "@cogneco/mend"
 import * as SyntaxTree from "../SyntaxTree"
 import * as Parser from "./"
 
-import Is = Unit.Is
-export class PrefixOperatorTest extends Unit.Fixture {
-	constructor() {
-		super("Parser.PrefixOperator")
-		const handler = new Error.ConsoleHandler()
-		this.add("-a", () => {
-			const result = Parser.parseFirst("-a", handler)
-			this.expect(result, Is.not.undefined)
-			this.expect(SyntaxTree.filterId(result!.serialize()), Is.equal.to({
+describe("Parser.PrefixOperator", () => {
+	const handler = new Error.ConsoleHandler()
+	it("-a", () => {
+		const result = Parser.parseFirst("-a", handler)
+		expect(result).toBeTruthy()
+		expect(SyntaxTree.filterId(result!.serialize())).toEqual({
+			class: "prefixOperator",
+			symbol: "-",
+			argument: { class: "identifier", name: "a" },
+		})
+	})
+	it("+a", () => {
+		const result = Parser.parseFirst("+a", handler)
+		expect(result).toBeTruthy()
+		expect(SyntaxTree.filterId(result!.serialize())).toEqual({
+			class: "prefixOperator",
+			symbol: "+",
+			argument: { class: "identifier", name: "a" },
+		})
+	})
+	it("a + -a", () => {
+		const result = Parser.parseFirst("a + -a", handler)
+		expect(result).toBeTruthy()
+		expect(SyntaxTree.filterId(result!.serialize())).toEqual({
+			class: "infixOperator",
+			symbol: "+",
+			left: { class: "identifier", name: "a" },
+			right: {
 				class: "prefixOperator",
 				symbol: "-",
 				argument: { class: "identifier", name: "a" },
-			}))
+			},
 		})
-		this.add("+a", () => {
-			const result = Parser.parseFirst("+a", handler)
-			this.expect(result, Is.not.undefined)
-			this.expect(SyntaxTree.filterId(result!.serialize()), Is.equal.to({
+	})
+	it("-a + a", () => {
+		const result = Parser.parseFirst("-a + a", handler)
+		expect(result).toBeTruthy()
+		expect(SyntaxTree.filterId(result!.serialize())).toEqual({
+			class: "infixOperator",
+			symbol: "+",
+			left: {
 				class: "prefixOperator",
-				symbol: "+",
+				symbol: "-",
 				argument: { class: "identifier", name: "a" },
-			}))
+			},
+			right: { class: "identifier", name: "a" },
 		})
-		this.add("a + -a", () => {
-			const result = Parser.parseFirst("a + -a", handler)
-			this.expect(result, Is.not.undefined)
-			this.expect(SyntaxTree.filterId(result!.serialize()), Is.equal.to({
-				class: "infixOperator",
-				symbol: "+",
-				left: { class: "identifier", name: "a" },
-				right: {
-					class: "prefixOperator",
-					symbol: "-",
-					argument: { class: "identifier", name: "a" },
-				},
-			}))
-		})
-		this.add("-a + a", () => {
-			const result = Parser.parseFirst("-a + a", handler)
-			this.expect(result, Is.not.undefined)
-			this.expect(SyntaxTree.filterId(result!.serialize()), Is.equal.to({
-				class: "infixOperator",
-				symbol: "+",
-				left: {
-					class: "prefixOperator",
-					symbol: "-",
-					argument: { class: "identifier", name: "a" },
-				},
-				right: { class: "identifier", name: "a" },
-			}))
-		})
-	}
-}
-Unit.Fixture.add(new PrefixOperatorTest())
+	})
+})

@@ -1,4 +1,4 @@
-// Copyright (C) 2017  Simon Mika <simon@mika.se>
+// Copyright (C) 2018  Simon Mika <simon@mika.se>
 //
 // This file is part of SysPL.
 //
@@ -16,14 +16,14 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import "./Literal/index.test"
-import "./VariableDeclaration.test"
-import "./FunctionDeclaration.test"
-import "./FunctionCall.test"
-import "./PostfixOperator.test"
-import "./PrefixOperator.test"
-import "./InfixOperator.test"
-import "./Tuple.test"
-import "./Expression.test"
-import "./ClassDeclaration.test"
-import "./Module.test"
+import { map } from "./map"
+
+export function filterUndefined(node: { id: number } & any | any): any
+export function filterUndefined(node: ({ id: number } & any)[]): any[]
+export function filterUndefined(node: { id: number } & any | ({ id: number } & any)[] | any): any | any[] {
+	return map<any>(node, n => {
+		for (const key in n)
+			if (node.hasOwnProperty(key))
+				delete node.key
+		return n })
+}

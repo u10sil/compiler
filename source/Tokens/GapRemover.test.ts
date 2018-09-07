@@ -16,65 +16,61 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Error, Unit } from "@cogneco/mend"
+import { Error } from "@cogneco/mend"
 import * as Tokens from "./"
 
-import Is = Unit.Is
-export class GapRemoverTest extends Unit.Fixture {
-	constructor() {
-		super("Tokens.GapRemover")
-		const errorHandler = new Error.ConsoleHandler()
-		this.add("common expression", () => {
-			const testString = "\t\ta := b / c\n"
-			const lexer = Tokens.Lexer.create(testString, errorHandler)
-			const gapRemover = new Tokens.GapRemover(lexer)
-			let token: Tokens.Substance | undefined
-			this.expect((token = gapRemover.fetch()) instanceof Tokens.Identifier)
-			this.expect((token as Tokens.Identifier).name, Is.equal.to("a"))
-			this.expect((token = gapRemover.fetch()) instanceof Tokens.Operator)
-			this.expect((token as Tokens.Operator).symbol, Is.equal.to(":="))
-			this.expect((token = gapRemover.fetch()) instanceof Tokens.Identifier)
-			this.expect((token as Tokens.Identifier).name, Is.equal.to("b"))
-			this.expect((token = gapRemover.fetch()) instanceof Tokens.Operator)
-			this.expect((token as Tokens.Operator).symbol, Is.equal.to("/"))
-			this.expect((token = gapRemover.fetch()) instanceof Tokens.Identifier)
-			this.expect((token as Tokens.Identifier).name, Is.equal.to("c"))
-		})
-		this.add("verify gaps", () => {
-			const testString = "\t\t\ta := b**c\t\n"
-			const lexer = Tokens.Lexer.create(testString, errorHandler)
-			const gapRemover = new Tokens.GapRemover(lexer)
-			let token: Tokens.Substance | undefined
-			// PRE-GAP:	"\t\t\t"
-			// POST-GAP: " "
-			this.expect((token = gapRemover.fetch()) instanceof Tokens.Identifier)
-			this.expect((token as Tokens.Identifier).name, Is.equal.to("a"))
-			this.expect((token as Tokens.Identifier).pregap[0].region!.content, Is.equal.to("\t\t\t"))
-			this.expect((token as Tokens.Identifier).postgap[0].region!.content, Is.equal.to(" "))			// PRE-GAP: <none>
-			// POST-GAP: " "
-			this.expect((token = gapRemover.fetch()) instanceof Tokens.Operator)
-			this.expect((token as Tokens.Operator).symbol, Is.equal.to(":="))
-			this.expect((token as Tokens.Operator).pregap.length, Is.equal.to(0))
-			this.expect((token as Tokens.Operator).postgap[0].region!.content, Is.equal.to(" "))
-			// PRE-GAP: <none>
-			// POST-GAP: <none>
-			this.expect((token = gapRemover.fetch()) instanceof Tokens.Identifier)
-			this.expect((token as Tokens.Identifier).name, Is.equal.to("b"))
-			this.expect((token as Tokens.Identifier).pregap.length, Is.equal.to(0))
-			this.expect((token as Tokens.Identifier).postgap.length, Is.equal.to(0))
-			// PRE-GAP: <none>
-			// POST-GAP: <none>
-			this.expect((token = gapRemover.fetch()) instanceof Tokens.Operator)
-			this.expect((token as Tokens.Operator).symbol, Is.equal.to("**"))
-			this.expect((token as Tokens.Operator).pregap.length, Is.equal.to(0))
-			this.expect((token as Tokens.Operator).postgap.length, Is.equal.to(0))
-			// PRE-GAP: <none>
-			// POST-GAP: "\t\n"
-			this.expect((token = gapRemover.fetch()) instanceof Tokens.Identifier)
-			this.expect((token as Tokens.Identifier).name, Is.equal.to("c"))
-			this.expect((token as Tokens.Identifier).pregap.length, Is.equal.to(0))
-			this.expect((token as Tokens.Identifier).postgap[0].region!.content, Is.equal.to("\t\n"))
-		})
-	}
-}
-Unit.Fixture.add(new GapRemoverTest())
+describe("Tokens.GapRemover", () => {
+	const errorHandler = new Error.ConsoleHandler()
+	it("common expression", () => {
+		const testString = "\t\ta := b / c\n"
+		const lexer = Tokens.Lexer.create(testString, errorHandler)
+		const gapRemover = new Tokens.GapRemover(lexer)
+		let token: Tokens.Substance | undefined
+		expect((token = gapRemover.fetch()) instanceof Tokens.Identifier).toBeTruthy()
+		expect((token as Tokens.Identifier).name).toEqual("a")
+		expect((token = gapRemover.fetch()) instanceof Tokens.Operator).toBeTruthy()
+		expect((token as Tokens.Operator).symbol).toEqual(":=")
+		expect((token = gapRemover.fetch()) instanceof Tokens.Identifier).toBeTruthy()
+		expect((token as Tokens.Identifier).name).toEqual("b")
+		expect((token = gapRemover.fetch()) instanceof Tokens.Operator).toBeTruthy()
+		expect((token as Tokens.Operator).symbol).toEqual("/")
+		expect((token = gapRemover.fetch()) instanceof Tokens.Identifier).toBeTruthy()
+		expect((token as Tokens.Identifier).name).toEqual("c")
+	})
+	it("verify gaps", () => {
+		const testString = "\t\t\ta := b**c\t\n"
+		const lexer = Tokens.Lexer.create(testString, errorHandler)
+		const gapRemover = new Tokens.GapRemover(lexer)
+		let token: Tokens.Substance | undefined
+		// PRE-GAP:	"\t\t\t"
+		// POST-GAP: " "
+		expect((token = gapRemover.fetch()) instanceof Tokens.Identifier).toBeTruthy()
+		expect((token as Tokens.Identifier).name).toEqual("a")
+		expect((token as Tokens.Identifier).pregap[0].region!.content).toEqual("\t\t\t")
+		expect((token as Tokens.Identifier).postgap[0].region!.content).toEqual(" ")
+		// PRE-GAP: <none>
+		// POST-GAP: " "
+		expect((token = gapRemover.fetch()) instanceof Tokens.Operator).toBeTruthy()
+		expect((token as Tokens.Operator).symbol).toEqual(":=")
+		expect((token as Tokens.Operator).pregap.length).toEqual(0)
+		expect((token as Tokens.Operator).postgap[0].region!.content).toEqual(" ")
+		// PRE-GAP: <none>
+		// POST-GAP: <none>
+		expect((token = gapRemover.fetch()) instanceof Tokens.Identifier).toBeTruthy()
+		expect((token as Tokens.Identifier).name).toEqual("b")
+		expect((token as Tokens.Identifier).pregap.length).toEqual(0)
+		expect((token as Tokens.Identifier).postgap.length).toEqual(0)
+		// PRE-GAP: <none>
+		// POST-GAP: <none>
+		expect((token = gapRemover.fetch()) instanceof Tokens.Operator).toBeTruthy()
+		expect((token as Tokens.Operator).symbol).toEqual("**")
+		expect((token as Tokens.Operator).pregap.length).toEqual(0)
+		expect((token as Tokens.Operator).postgap.length).toEqual(0)
+		// PRE-GAP: <none>
+		// POST-GAP: "\t\n"
+		expect((token = gapRemover.fetch()) instanceof Tokens.Identifier).toBeTruthy()
+		expect((token as Tokens.Identifier).name).toEqual("c")
+		expect((token as Tokens.Identifier).pregap.length).toEqual(0)
+		expect((token as Tokens.Identifier).postgap[0].region!.content).toEqual("\t\n")
+	})
+})

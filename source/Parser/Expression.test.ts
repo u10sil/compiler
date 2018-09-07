@@ -16,130 +16,125 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Error, Unit } from "@cogneco/mend"
+import { Error } from "@cogneco/mend"
 import * as SyntaxTree from "../SyntaxTree"
 import * as Parser from "./"
 
-import Is = Unit.Is
-export class ExpressionTest extends Unit.Fixture {
-	constructor() {
-		super("Parser.Expression")
-		const handler = new Error.ConsoleHandler()
-		this.add("a 'b'", () => {
-			const parser = Parser.create("a 'b'", handler)
-			this.expect(SyntaxTree.filterId(parser.fetch()!.serialize()), Is.equal.to({
-				class: "module",
-				statements: [
-					{ class: "identifier", name: "a" },
-					{ class: "literal.character", value: "b" },
-				],
-			}))
+describe("Parser.Expression", () => {
+	const handler = new Error.ConsoleHandler()
+	it("a 'b'", () => {
+		const parser = Parser.create("a 'b'", handler)
+		expect(SyntaxTree.filterId(parser.fetch()!.serialize())).toEqual({
+			class: "module",
+			statements: [
+				{ class: "identifier", name: "a" },
+				{ class: "literal.character", value: "b" },
+			],
 		})
-		this.add("a b c", () => {
-			const parser = Parser.create("a b c", handler)
-			this.expect(SyntaxTree.filterId(parser.fetch()!.serialize()), Is.equal.to({
-				class: "module",
-				statements: [
-					{ class: "identifier", name: "a" },
-					{ class: "identifier", name: "b" },
-					{ class: "identifier", name: "c" },
-				],
-			}))
+	})
+	it("a b c", () => {
+		const parser = Parser.create("a b c", handler)
+		expect(SyntaxTree.filterId(parser.fetch()!.serialize())).toEqual({
+			class: "module",
+			statements: [
+				{ class: "identifier", name: "a" },
+				{ class: "identifier", name: "b" },
+				{ class: "identifier", name: "c" },
+			],
 		})
-		this.add("a + b + c", () => {
-			const parser = Parser.create("a + b + c", handler)
-			this.expect(SyntaxTree.filterId(parser.fetch()!.serialize()), Is.equal.to({
-				class: "module",
-				statements: [
-					{
+	})
+	it("a + b + c", () => {
+		const parser = Parser.create("a + b + c", handler)
+		expect(SyntaxTree.filterId(parser.fetch()!.serialize())).toEqual({
+			class: "module",
+			statements: [
+				{
+					class: "infixOperator", symbol: "+",
+					left: {
 						class: "infixOperator", symbol: "+",
-						left: {
-							class: "infixOperator", symbol: "+",
-							left: { class: "identifier", name: "a" },
-							right: { class: "identifier", name: "b" },
-						},
-						right: { class: "identifier", "name": "c" },
-					}],
-			}))
+						left: { class: "identifier", name: "a" },
+						right: { class: "identifier", name: "b" },
+					},
+					right: { class: "identifier", "name": "c" },
+				}],
 		})
-		this.add("a.b.c", () => {
-			const parser = Parser.create("a.b.c", handler)
-			this.expect(SyntaxTree.filterId(parser.fetch()!.serialize()), Is.equal.to({
-				class: "module",
-				statements: [
-					{
-						class: "infixOperator", symbol: ".",
-						left: {
-							class: "infixOperator", symbol: ".",
-							left: { class: "identifier", name: "a" },
-							right: { class: "identifier", name: "b" },
-						},
-						right: { class: "identifier", "name": "c" },
-					}],
-			}))
-		})
-		this.add("a.b c", () => {
-			const parser = Parser.create("a.b c", handler)
-			this.expect(SyntaxTree.filterId(parser.fetch()!.serialize()), Is.equal.to({
-				class: "module",
-				statements: [
-					{
+	})
+	it("a.b.c", () => {
+		const parser = Parser.create("a.b.c", handler)
+		expect(SyntaxTree.filterId(parser.fetch()!.serialize())).toEqual({
+			class: "module",
+			statements: [
+				{
+					class: "infixOperator", symbol: ".",
+					left: {
 						class: "infixOperator", symbol: ".",
 						left: { class: "identifier", name: "a" },
 						right: { class: "identifier", name: "b" },
 					},
-					{ class: "identifier", "name": "c" },
-				],
-			}))
+					right: { class: "identifier", "name": "c" },
+				}],
 		})
-		this.add("a b = c", () => {
-			const parser = Parser.create("a b = c", handler)
-			this.expect(SyntaxTree.filterId(parser.fetch()!.serialize()), Is.equal.to({
-				class: "module",
-				statements: [
-					{ class: "identifier", "name": "a" },
-					{
-						class: "infixOperator", symbol: "=",
+	})
+	it("a.b c", () => {
+		const parser = Parser.create("a.b c", handler)
+		expect(SyntaxTree.filterId(parser.fetch()!.serialize())).toEqual({
+			class: "module",
+			statements: [
+				{
+					class: "infixOperator", symbol: ".",
+					left: { class: "identifier", name: "a" },
+					right: { class: "identifier", name: "b" },
+				},
+				{ class: "identifier", "name": "c" },
+			],
+		})
+	})
+	it("a b = c", () => {
+		const parser = Parser.create("a b = c", handler)
+		expect(SyntaxTree.filterId(parser.fetch()!.serialize())).toEqual({
+			class: "module",
+			statements: [
+				{ class: "identifier", "name": "a" },
+				{
+					class: "infixOperator", symbol: "=",
+					left: { class: "identifier", name: "b" },
+					right: { class: "identifier", name: "c" },
+				},
+			],
+		})
+	})
+	it("a + b * c", () => {
+		const parser = Parser.create("a + b * c", handler)
+		expect(SyntaxTree.filterId(parser.fetch()!.serialize())).toEqual({
+			class: "module",
+			statements: [
+				{
+					class: "infixOperator", symbol: "+",
+					left: { class: "identifier", "name": "a" },
+					right: {
+						class: "infixOperator", symbol: "*",
 						left: { class: "identifier", name: "b" },
 						right: { class: "identifier", name: "c" },
 					},
-				],
-			}))
+				},
+			],
 		})
-		this.add("a + b * c", () => {
-			const parser = Parser.create("a + b * c", handler)
-			this.expect(SyntaxTree.filterId(parser.fetch()!.serialize()), Is.equal.to({
-				class: "module",
-				statements: [
-					{
-						class: "infixOperator", symbol: "+",
-						left: { class: "identifier", "name": "a" },
-						right: {
-							class: "infixOperator", symbol: "*",
-							left: { class: "identifier", name: "b" },
-							right: { class: "identifier", name: "c" },
-						},
+	})
+	it("a * b + c", () => {
+		const parser = Parser.create("a * b + c", handler)
+		expect(SyntaxTree.filterId(parser.fetch()!.serialize())).toEqual({
+			class: "module",
+			statements: [
+				{
+					class: "infixOperator", symbol: "+",
+					left: {
+						class: "infixOperator", symbol: "*",
+						left: { class: "identifier", name: "a" },
+						right: { class: "identifier", name: "b" },
 					},
-				],
-			}))
+					right: { class: "identifier", "name": "c" },
+				},
+			],
 		})
-		this.add("a * b + c", () => {
-			const parser = Parser.create("a * b + c", handler)
-			this.expect(SyntaxTree.filterId(parser.fetch()!.serialize()), Is.equal.to({
-				class: "module",
-				statements: [
-					{
-						class: "infixOperator", symbol: "+",
-						left: {
-							class: "infixOperator", symbol: "*",
-							left: { class: "identifier", name: "a" },
-							right: { class: "identifier", name: "b" },
-						},
-						right: { class: "identifier", "name": "c" },
-					},
-				],
-			}))
-		})
-	}
-}
-Unit.Fixture.add(new ExpressionTest())
+	})
+})

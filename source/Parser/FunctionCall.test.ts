@@ -16,63 +16,58 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Error, Unit } from "@cogneco/mend"
+import { Error } from "@cogneco/mend"
 import * as SyntaxTree from "../SyntaxTree"
 import * as Parser from "./"
 
-import Is = Unit.Is
-export class FunctionCallTest extends Unit.Fixture {
-	constructor() {
-		super("Parser.FunctionCall")
-		const handler = new Error.ConsoleHandler()
-		this.add("function()", () => {
-			const result = Parser.parseFirst("function()", handler)
-			this.expect(result, Is.not.undefined)
-			this.expect(SyntaxTree.filterId(result!.serialize()), Is.equal.to({
-				class: "functionCall",
-				function: { class: "identifier", name: "function"},
-			}))
+describe("Parser.FunctionCall", () => {
+	const handler = new Error.ConsoleHandler()
+	it("function()", () => {
+		const result = Parser.parseFirst("function()", handler)
+		expect(result).toBeTruthy()
+		expect(SyntaxTree.filterId(result!.serialize())).toEqual({
+			class: "functionCall",
+			function: { class: "identifier", name: "function"},
 		})
-		this.add("function(a)", () => {
-			const result = Parser.parseFirst("function(a)", handler)
-			this.expect(result, Is.not.undefined)
-			this.expect(SyntaxTree.filterId(result!.serialize()), Is.equal.to({
-				class: "functionCall",
-				function: { class: "identifier", name: "function"},
-				arguments: [
-					{ class: "identifier", name: "a" },
-				],
-			}))
+	})
+	it("function(a)", () => {
+		const result = Parser.parseFirst("function(a)", handler)
+		expect(result).toBeTruthy()
+		expect(SyntaxTree.filterId(result!.serialize())).toEqual({
+			class: "functionCall",
+			function: { class: "identifier", name: "function"},
+			arguments: [
+				{ class: "identifier", name: "a" },
+			],
 		})
-		this.add("function(a, b)", () => {
-			const result = Parser.parseFirst("function(a, b)", handler)
-			this.expect(result, Is.not.undefined)
-			this.expect(SyntaxTree.filterId(result!.serialize()), Is.equal.to({
-				class: "functionCall",
-				function: { class: "identifier", name: "function"},
-				arguments: [
-					{ class: "identifier", name: "a" },
-					{ class: "identifier", name: "b" },
-				],
-			}))
+	})
+	it("function(a, b)", () => {
+		const result = Parser.parseFirst("function(a, b)", handler)
+		expect(result).toBeTruthy()
+		expect(SyntaxTree.filterId(result!.serialize())).toEqual({
+			class: "functionCall",
+			function: { class: "identifier", name: "function"},
+			arguments: [
+				{ class: "identifier", name: "a" },
+				{ class: "identifier", name: "b" },
+			],
 		})
-		this.add("c.m(a, b)", () => {
-			const result = Parser.parseFirst("c.m(a, b)", handler)
-			this.expect(result, Is.not.undefined)
-			this.expect(SyntaxTree.filterId(result!.serialize()), Is.equal.to({
-				class: "functionCall",
-				function: {
-					class: "infixOperator",
-					symbol: ".",
-					left: { class: "identifier", name: "c" },
-					right: { class: "identifier", name: "m" },
-				},
-				arguments: [
-					{ class: "identifier", name: "a" },
-					{ class: "identifier", name: "b" },
-				],
-			}))
+	})
+	it("c.m(a, b)", () => {
+		const result = Parser.parseFirst("c.m(a, b)", handler)
+		expect(result).toBeTruthy()
+		expect(SyntaxTree.filterId(result!.serialize())).toEqual({
+			class: "functionCall",
+			function: {
+				class: "infixOperator",
+				symbol: ".",
+				left: { class: "identifier", name: "c" },
+				right: { class: "identifier", name: "m" },
+			},
+			arguments: [
+				{ class: "identifier", name: "a" },
+				{ class: "identifier", name: "b" },
+			],
 		})
-	}
-}
-Unit.Fixture.add(new FunctionCallTest())
+	})
+})

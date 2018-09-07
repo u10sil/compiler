@@ -3,16 +3,44 @@
   "version": "0.1.1",
   "description": "Compiler for SysPL. The System Programming Language.",
   "main": "build/index.js",
+  "jest": {
+    "globals": {
+      "ts-jest": {
+        "tsConfigFile": "source/tsconfig.test.json"
+      }
+    },
+    "testEnvironment": "node",
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "((\\.|/)(test|spec))(\\.|\\/.+)(jsx?|tsx?)$",
+    "testPathIgnorePatterns": [
+      "node_modules/",
+      "build/"
+    ],
+    "collectCoverageFrom": [
+      "**/*.{ts,tsx,js,jsx}",
+      "!**/node_modules/**",
+      "!**/build/**"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
+  },
   "scripts": {
-    "dev": "watch 'npm run build' source",
-    "prebuild": "tslint --config .vscode/tslint.json --project source/tsconfig.json",
-    "build": "tsc -p source",
-    "pretest": "npm run build",
-    "test": "node build/index.test.js",
-    "test:watch": "watch 'npm test' source",
-    "prepublish": "npm run build",
+    "dev": "watch 'yarn build' source",
+    "prebuild": "tslint --config .vscode/tslint.json --project source/tsconfig.app.json",
+    "build": "tsc -p source/tsconfig.app.json",
+    "test": "jest",
+    "test:watch": "watch jest",
+    "prepublish": "yarn build",
     "release": "np",
-    "clean": "rm -rf build node_modules"
+    "clean": "rm -rf build node_modules coverage"
   },
   "repository": {
     "type": "git",
@@ -29,13 +57,18 @@
   },
   "homepage": "https://github.com/syspl/syspl#readme",
   "devDependencies": {
+    "@types/jest": "^23.1.3",
     "@types/node": "^9.4.7",
+    "babel-core": "^6.26.3",
+    "babel-jest": "^23.4.2",
+    "jest": "^23.2.0",
     "np": "^2.20.1",
+    "ts-jest": "^23.1.0",
     "tslint": "^5.9.1",
-    "typescript": "^2.7.2",
+    "typescript": "^3.0.3",
     "watch": "^1.0.2"
   },
   "dependencies": {
-    "@cogneco/mend": "^1.5.7"
+    "@cogneco/mend": "^1.6.0"
   }
 }

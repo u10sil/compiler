@@ -16,29 +16,24 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Error, IO, Unit } from "@cogneco/mend"
+import { Error, IO } from "@cogneco/mend"
 import * as Tokens from "../"
 
-import Is = Unit.Is
-export class StringTest extends Unit.Fixture {
-	constructor() {
-		super("Tokens.Literals.String")
-		const errorHandler = new Error.ConsoleHandler()
-		let token: Tokens.Token | undefined
-		this.add("empty", () => {
-			const s = "\"\""
-			const source = new Tokens.Source(IO.StringReader.create(s), errorHandler)
-			this.expect((token = Tokens.Literals.String.scan(source)) instanceof Tokens.Literals.String, Is.true)
-			this.expect((token as Tokens.Literals.String).value, Is.equal.to(""))
-			this.expect(token!.serialize(), Is.equal.to({ class: "string", value: "" }))
-		})
-		this.add("string with escape sequence #1", () => {
-			const s = "\" \\\" \""
-			const source = new Tokens.Source(IO.StringReader.create(s), errorHandler)
-			this.expect((token = Tokens.Literals.String.scan(source)) instanceof Tokens.Literals.String, Is.true)
-			this.expect((token as Tokens.Literals.String).value, Is.equal.to(" \" "))
-			this.expect(token!.serialize(), Is.equal.to({ class: "string", value: " \" " }))
-		})
-	}
-}
-Unit.Fixture.add(new StringTest())
+describe("Tokens.Literals.String", () => {
+	const errorHandler = new Error.ConsoleHandler()
+	let token: Tokens.Token | undefined
+	it("empty", () => {
+		const s = "\"\""
+		const source = new Tokens.Source(IO.StringReader.create(s), errorHandler)
+		expect((token = Tokens.Literals.String.scan(source)) instanceof Tokens.Literals.String).toBeTruthy()
+		expect((token as Tokens.Literals.String).value).toEqual("")
+		expect(token!.serialize()).toEqual({ class: "string", value: "" })
+	})
+	it("string with escape sequence #1", () => {
+		const s = "\" \\\" \""
+		const source = new Tokens.Source(IO.StringReader.create(s), errorHandler)
+		expect((token = Tokens.Literals.String.scan(source)) instanceof Tokens.Literals.String).toBeTruthy()
+		expect((token as Tokens.Literals.String).value).toEqual(" \" ")
+		expect(token!.serialize()).toEqual({ class: "string", value: " \" " })
+	})
+})

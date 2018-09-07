@@ -16,33 +16,28 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Error, Unit } from "@cogneco/mend"
+import { Error } from "@cogneco/mend"
 import * as SyntaxTree from "../SyntaxTree"
 import * as Parser from "./"
 
-import Is = Unit.Is
-export class ModuleTest extends Unit.Fixture {
-	constructor() {
-		super("Parser.Module")
-		const handler = new Error.ConsoleHandler()
-		this.add("simple declaration", () => {
-			const module = Parser.create("var i: Int\n", handler).fetch()!
-			this.expect(SyntaxTree.filterId(module.serialize()), Is.equal.to({
-				class: "module",
-				statements: [
-					{ class: "variableDeclaration", symbol: "i", type: { class: "type.identifier", name: "Int" } },
-				],
-			}))
+describe("Parser.Module", () => {
+	const handler = new Error.ConsoleHandler()
+	it("simple declaration", () => {
+		const module = Parser.create("var i: Int\n", handler).fetch()!
+		expect(SyntaxTree.filterId(module.serialize())).toEqual({
+			class: "module",
+			statements: [
+				{ class: "variableDeclaration", symbol: "i", type: { class: "type.identifier", name: "Int" } },
+			],
 		})
-		this.add("var foo: Float = 0.50", () => {
-			const module = Parser.create("var f: Float = 0.50", handler).fetch()!
-			this.expect(SyntaxTree.filterId(module.serialize()), Is.equal.to({
-				class: "module",
-				statements: [
-					{ class: "variableDeclaration", symbol: "f", type: { class: "type.identifier", name: "Float"} , value: { class: "literal.number", value: 0.5 } },
-				],
-			}))
+	})
+	it("var foo: Float = 0.50", () => {
+		const module = Parser.create("var f: Float = 0.50", handler).fetch()!
+		expect(SyntaxTree.filterId(module.serialize())).toEqual({
+			class: "module",
+			statements: [
+				{ class: "variableDeclaration", symbol: "f", type: { class: "type.identifier", name: "Float"} , value: { class: "literal.number", value: 0.5 } },
+			],
 		})
-	}
-}
-Unit.Fixture.add(new ModuleTest())
+	})
+})

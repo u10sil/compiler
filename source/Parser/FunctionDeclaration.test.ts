@@ -16,145 +16,140 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Error, Unit } from "@cogneco/mend"
+import { Error } from "@cogneco/mend"
 import * as SyntaxTree from "../SyntaxTree"
 import * as Parser from "./"
 
-import Is = Unit.Is
-export class FunctionDeclarationTest extends Unit.Fixture {
-	constructor() {
-		super("Parser.FunctionDeclaration")
-		const handler = new Error.ConsoleHandler()
-		//
-		// TODO: Construct a test for an argument list with no explicitly set types (type inference)
-		//
-		this.add("empty function", () => {
-			const functionDeclaration = this.createDeclaration("func empty\n", handler)
-			this.expect(functionDeclaration.symbol, Is.equal.to("empty"))
-			this.expect(SyntaxTree.filterId(functionDeclaration.serialize()), Is.equal.to({ class: "functionDeclaration", symbol: "empty" }))
-		})
-		this.add("static function", () => {
-			const functionDeclaration = this.createDeclaration("static func empty\n", handler)
-			this.expect(functionDeclaration.modifier, Is.equal.to(SyntaxTree.FunctionModifier.Static))
-			this.expect(SyntaxTree.filterId(functionDeclaration.serialize()), Is.equal.to({ class: "functionDeclaration", symbol: "empty", modifier: "static" }))
-		})
-		this.add("abstract function", () => {
-			const functionDeclaration = this.createDeclaration("abstract func empty\n", handler)
-			this.expect(functionDeclaration.modifier, Is.equal.to(SyntaxTree.FunctionModifier.Abstract))
-			this.expect(SyntaxTree.filterId(functionDeclaration.serialize()), Is.equal.to({ class: "functionDeclaration", symbol: "empty", modifier: "abstract" }))
-		})
-		this.add("virtual function", () => {
-			const functionDeclaration = this.createDeclaration("virtual func empty\n", handler)
-			this.expect(functionDeclaration.modifier, Is.equal.to(SyntaxTree.FunctionModifier.Virtual))
-			this.expect(SyntaxTree.filterId(functionDeclaration.serialize()), Is.equal.to({ class: "functionDeclaration", symbol: "empty", modifier: "virtual" }))
-		})
-		this.add("override function", () => {
-			const functionDeclaration = this.createDeclaration("override func empty\n", handler)
-			this.expect(functionDeclaration.modifier, Is.equal.to(SyntaxTree.FunctionModifier.Override))
-			this.expect(SyntaxTree.filterId(functionDeclaration.serialize()), Is.equal.to({ class: "functionDeclaration", symbol: "empty", modifier: "override" }))
-		})
-		this.add("empty function with parameters", () => {
-			const functionDeclaration = this.createDeclaration("func empty(i: Int, j: Float, k: Double)\n", handler)
-			const functionArguments = functionDeclaration.arguments.getEnumerator()
-			let currentArgument: SyntaxTree.ArgumentDeclaration
-			this.expect(functionDeclaration.symbol, Is.equal.to("empty"))
-			currentArgument = functionArguments.fetch()!
-			this.expect(currentArgument.symbol, Is.equal.to("i"))
-			this.expect((currentArgument.type as SyntaxTree.Type.Identifier).name, Is.equal.to("Int"))
-			currentArgument = functionArguments.fetch()!
-			this.expect(currentArgument.symbol, Is.equal.to("j"))
-			this.expect((currentArgument.type as SyntaxTree.Type.Identifier).name, Is.equal.to("Float"))
-			currentArgument = functionArguments.fetch()!
-			this.expect(currentArgument.symbol, Is.equal.to("k"))
-			this.expect((currentArgument.type as SyntaxTree.Type.Identifier).name, Is.equal.to("Double"))
-			this.expect(SyntaxTree.filterId(functionDeclaration.serialize()), Is.equal.to({ class: "functionDeclaration", symbol: "empty", arguments: [
-				{ class: "argumentDeclaration", symbol: "i", type: { class: "type.identifier", name: "Int" } },
-				{ class: "argumentDeclaration", symbol: "j", type: { class: "type.identifier", name: "Float" } },
-				{ class: "argumentDeclaration", symbol: "k", type: { class: "type.identifier", name: "Double" } },
-			] }))
-		})
-		this.add("empty function with interfered argument types", () => {
-			const functionDeclaration = this.createDeclaration("func empty(w, h: Int, x, y, z: Float)\n", handler)
-			const functionArguments = functionDeclaration.arguments.getEnumerator()
-			let currentArgument: SyntaxTree.ArgumentDeclaration
-			this.expect(functionDeclaration.symbol, Is.equal.to("empty"))
-			currentArgument = functionArguments.fetch()!
-			this.expect(currentArgument.symbol, Is.equal.to("w"))
-			this.expect(currentArgument.type, Is.undefined)
-			currentArgument = functionArguments.fetch()!
-			this.expect(currentArgument.symbol, Is.equal.to("h"))
-			this.expect((currentArgument.type as SyntaxTree.Type.Identifier).name, Is.equal.to("Int"))
-			currentArgument = functionArguments.fetch()!
-			this.expect(currentArgument.symbol, Is.equal.to("x"))
-			this.expect(currentArgument.type, Is.undefined)
-			currentArgument = functionArguments.fetch()!
-			this.expect(currentArgument.symbol, Is.equal.to("y"))
-			this.expect(currentArgument.type, Is.undefined)
-			currentArgument = functionArguments.fetch()!
-			this.expect(currentArgument.symbol, Is.equal.to("z"))
-			this.expect((currentArgument.type as SyntaxTree.Type.Identifier).name, Is.equal.to("Float"))
-			this.expect(SyntaxTree.filterId(functionDeclaration.serialize()), Is.equal.to({ class: "functionDeclaration", symbol: "empty", arguments: [
-				{ class: "argumentDeclaration", symbol: "w" },
-				{ class: "argumentDeclaration", symbol: "h", type: { class: "type.identifier", name: "Int" } },
-				{ class: "argumentDeclaration", symbol: "x" },
-				{ class: "argumentDeclaration", symbol: "y" },
-				{ class: "argumentDeclaration", symbol: "z", type: { class: "type.identifier", name: "Float" } },
-			] }))
-		})
-		this.add("empty generic function with generic parameter types", () => {
-			const functionDeclaration = this.createDeclaration("func empty<T, S>(a, b: Generic<T>, x, y: Generic<S>)\n", handler)
-			const parameters = functionDeclaration.parameters.getEnumerator()
-			this.expect(parameters.fetch()!.name, Is.equal.to("T"))
-			this.expect(parameters.fetch()!.name, Is.equal.to("S"))
-			const functionArguments = functionDeclaration.arguments.getEnumerator()
-			let currentArgument = functionArguments.fetch()! // a
-			this.expect(currentArgument.type, Is.undefined)
-			currentArgument = functionArguments.fetch()! // b
-			this.expect((currentArgument.type as SyntaxTree.Type.Identifier).parameters.first!.name, Is.equal.to("T"))
-			currentArgument = functionArguments.fetch()! // x
-			this.expect(currentArgument.type, Is.undefined)
-			currentArgument = functionArguments.fetch()! // y
-			this.expect((currentArgument.type as SyntaxTree.Type.Identifier).parameters.first!.name, Is.equal.to("S"))
-			this.expect(SyntaxTree.filterId(functionDeclaration.serialize()), Is.equal.to({
-				class: "functionDeclaration", symbol: "empty",
-				parameters: [
-					{ class: "type.name", name: "T" },
-					{ class: "type.name", name: "S" },
+describe("Parser.FunctionDeclaration", () => {
+	const handler = new Error.ConsoleHandler()
+	//
+	// TODO: Construct a test for an argument list with no explicitly set types (type inference)
+	//
+	it("empty function", () => {
+		const functionDeclaration = createDeclaration("func empty\n", handler)
+		expect(functionDeclaration.symbol).toEqual("empty")
+		expect(SyntaxTree.filterId(functionDeclaration.serialize())).toEqual({ class: "functionDeclaration", symbol: "empty" })
+	})
+	it("static function", () => {
+		const functionDeclaration = createDeclaration("static func empty\n", handler)
+		expect(functionDeclaration.modifier).toEqual(SyntaxTree.FunctionModifier.Static)
+		expect(SyntaxTree.filterId(functionDeclaration.serialize())).toEqual({ class: "functionDeclaration", symbol: "empty", modifier: "static" })
+	})
+	it("abstract function", () => {
+		const functionDeclaration = createDeclaration("abstract func empty\n", handler)
+		expect(functionDeclaration.modifier).toEqual(SyntaxTree.FunctionModifier.Abstract)
+		expect(SyntaxTree.filterId(functionDeclaration.serialize())).toEqual({ class: "functionDeclaration", symbol: "empty", modifier: "abstract" })
+	})
+	it("virtual function", () => {
+		const functionDeclaration = createDeclaration("virtual func empty\n", handler)
+		expect(functionDeclaration.modifier).toEqual(SyntaxTree.FunctionModifier.Virtual)
+		expect(SyntaxTree.filterId(functionDeclaration.serialize())).toEqual({ class: "functionDeclaration", symbol: "empty", modifier: "virtual" })
+	})
+	it("override function", () => {
+		const functionDeclaration = createDeclaration("override func empty\n", handler)
+		expect(functionDeclaration.modifier).toEqual(SyntaxTree.FunctionModifier.Override)
+		expect(SyntaxTree.filterId(functionDeclaration.serialize())).toEqual({ class: "functionDeclaration", symbol: "empty", modifier: "override" })
+	})
+	it("empty function with parameters", () => {
+		const functionDeclaration = createDeclaration("func empty(i: Int, j: Float, k: Double)\n", handler)
+		const functionArguments = functionDeclaration.arguments.getEnumerator()
+		let currentArgument: SyntaxTree.ArgumentDeclaration
+		expect(functionDeclaration.symbol).toEqual("empty")
+		currentArgument = functionArguments.fetch()!
+		expect(currentArgument.symbol).toEqual("i")
+		expect((currentArgument.type as SyntaxTree.Type.Identifier).name).toEqual("Int")
+		currentArgument = functionArguments.fetch()!
+		expect(currentArgument.symbol).toEqual("j")
+		expect((currentArgument.type as SyntaxTree.Type.Identifier).name).toEqual("Float")
+		currentArgument = functionArguments.fetch()!
+		expect(currentArgument.symbol).toEqual("k")
+		expect((currentArgument.type as SyntaxTree.Type.Identifier).name).toEqual("Double")
+		expect(SyntaxTree.filterId(functionDeclaration.serialize())).toEqual({ class: "functionDeclaration", symbol: "empty", arguments: [
+			{ class: "argumentDeclaration", symbol: "i", type: { class: "type.identifier", name: "Int" } },
+			{ class: "argumentDeclaration", symbol: "j", type: { class: "type.identifier", name: "Float" } },
+			{ class: "argumentDeclaration", symbol: "k", type: { class: "type.identifier", name: "Double" } },
+		] })
+	})
+	it("empty function with interfered argument types", () => {
+		const functionDeclaration = createDeclaration("func empty(w, h: Int, x, y, z: Float)\n", handler)
+		const functionArguments = functionDeclaration.arguments.getEnumerator()
+		let currentArgument: SyntaxTree.ArgumentDeclaration
+		expect(functionDeclaration.symbol).toEqual("empty")
+		currentArgument = functionArguments.fetch()!
+		expect(currentArgument.symbol).toEqual("w")
+		expect(currentArgument.type).toBeUndefined()
+		currentArgument = functionArguments.fetch()!
+		expect(currentArgument.symbol).toEqual("h")
+		expect((currentArgument.type as SyntaxTree.Type.Identifier).name).toEqual("Int")
+		currentArgument = functionArguments.fetch()!
+		expect(currentArgument.symbol).toEqual("x")
+		expect(currentArgument.type).toBeUndefined()
+		currentArgument = functionArguments.fetch()!
+		expect(currentArgument.symbol).toEqual("y")
+		expect(currentArgument.type).toBeUndefined()
+		currentArgument = functionArguments.fetch()!
+		expect(currentArgument.symbol).toEqual("z")
+		expect((currentArgument.type as SyntaxTree.Type.Identifier).name).toEqual("Float")
+		expect(SyntaxTree.filterId(functionDeclaration.serialize())).toEqual({ class: "functionDeclaration", symbol: "empty", arguments: [
+			{ class: "argumentDeclaration", symbol: "w" },
+			{ class: "argumentDeclaration", symbol: "h", type: { class: "type.identifier", name: "Int" } },
+			{ class: "argumentDeclaration", symbol: "x" },
+			{ class: "argumentDeclaration", symbol: "y" },
+			{ class: "argumentDeclaration", symbol: "z", type: { class: "type.identifier", name: "Float" } },
+		] })
+	})
+	it("empty generic function with generic parameter types", () => {
+		const functionDeclaration = createDeclaration("func empty<T, S>(a, b: Generic<T>, x, y: Generic<S>)\n", handler)
+		const parameters = functionDeclaration.parameters.getEnumerator()
+		expect(parameters.fetch()!.name).toEqual("T")
+		expect(parameters.fetch()!.name).toEqual("S")
+		const functionArguments = functionDeclaration.arguments.getEnumerator()
+		let currentArgument = functionArguments.fetch()! // a
+		expect(currentArgument.type).toBeUndefined()
+		currentArgument = functionArguments.fetch()! // b
+		expect((currentArgument.type as SyntaxTree.Type.Identifier).parameters.first!.name).toEqual("T")
+		currentArgument = functionArguments.fetch()! // x
+		expect(currentArgument.type).toBeUndefined()
+		currentArgument = functionArguments.fetch()! // y
+		expect((currentArgument.type as SyntaxTree.Type.Identifier).parameters.first!.name).toEqual("S")
+		expect(SyntaxTree.filterId(functionDeclaration.serialize())).toEqual({
+			class: "functionDeclaration", symbol: "empty",
+			parameters: [
+				{ class: "type.name", name: "T" },
+				{ class: "type.name", name: "S" },
+			],
+			arguments: [
+			{ class: "argumentDeclaration", symbol: "a" },
+			{ class: "argumentDeclaration", symbol: "b", type: { class: "type.identifier", name: "Generic", parameters: [{ class: "type.identifier", name: "T" }]} },
+			{ class: "argumentDeclaration", symbol: "x" },
+			{ class: "argumentDeclaration", symbol: "y", type: { class: "type.identifier", name: "Generic", parameters: [{ class: "type.identifier", name: "S" }] } },
+		] })
+	})
+	it("empty function with return type", () => {
+		const functionDeclaration = createDeclaration("func empty -> ReturnType\n", handler)
+		expect(functionDeclaration.symbol).toEqual("empty")
+		expect((functionDeclaration.returnType as SyntaxTree.Type.Identifier).name).toEqual("ReturnType")
+		expect(SyntaxTree.filterId(functionDeclaration.serialize())).toEqual({ class: "functionDeclaration", symbol: "empty", returnType: { class: "type.identifier", name: "ReturnType" } })
+	})
+	it("empty function with return type tuple", () => {
+		const functionDeclaration = createDeclaration("func empty -> (Int, Float, Double)\n", handler)
+		const tupleChildren = (functionDeclaration.returnType as SyntaxTree.Type.Tuple).elements.getEnumerator()
+		expect(functionDeclaration.symbol).toEqual("empty")
+		expect((tupleChildren.fetch() as SyntaxTree.Type.Identifier).name).toEqual("Int")
+		expect((tupleChildren.fetch() as SyntaxTree.Type.Identifier).name).toEqual("Float")
+		expect((tupleChildren.fetch() as SyntaxTree.Type.Identifier).name).toEqual("Double")
+		expect(SyntaxTree.filterId(functionDeclaration.serialize())).toEqual({
+			class: "functionDeclaration", symbol: "empty", returnType: {
+				class: "type.tuple",
+				elements: [
+					{ class: "type.identifier", name: "Int" },
+					{ class: "type.identifier", name: "Float" },
+					{ class: "type.identifier", name: "Double" },
 				],
-				arguments: [
-				{ class: "argumentDeclaration", symbol: "a" },
-				{ class: "argumentDeclaration", symbol: "b", type: { class: "type.identifier", name: "Generic", parameters: [{ class: "type.identifier", name: "T" }]} },
-				{ class: "argumentDeclaration", symbol: "x" },
-				{ class: "argumentDeclaration", symbol: "y", type: { class: "type.identifier", name: "Generic", parameters: [{ class: "type.identifier", name: "S" }] } },
-			] }))
+			},
 		})
-		this.add("empty function with return type", () => {
-			const functionDeclaration = this.createDeclaration("func empty -> ReturnType\n", handler)
-			this.expect(functionDeclaration.symbol, Is.equal.to("empty"))
-			this.expect((functionDeclaration.returnType as SyntaxTree.Type.Identifier).name, Is.equal.to("ReturnType"))
-			this.expect(SyntaxTree.filterId(functionDeclaration.serialize()), Is.equal.to({ class: "functionDeclaration", symbol: "empty", returnType: { class: "type.identifier", name: "ReturnType" } }))
-		})
-		this.add("empty function with return type tuple", () => {
-			const functionDeclaration = this.createDeclaration("func empty -> (Int, Float, Double)\n", handler)
-			const tupleChildren = (functionDeclaration.returnType as SyntaxTree.Type.Tuple).elements.getEnumerator()
-			this.expect(functionDeclaration.symbol, Is.equal.to("empty"))
-			this.expect((tupleChildren.fetch() as SyntaxTree.Type.Identifier).name, Is.equal.to("Int"))
-			this.expect((tupleChildren.fetch() as SyntaxTree.Type.Identifier).name, Is.equal.to("Float"))
-			this.expect((tupleChildren.fetch() as SyntaxTree.Type.Identifier).name, Is.equal.to("Double"))
-			this.expect(SyntaxTree.filterId(functionDeclaration.serialize()), Is.equal.to({
-				class: "functionDeclaration", symbol: "empty", returnType: {
-					class: "type.tuple",
-					elements: [
-						{ class: "type.identifier", name: "Int" },
-						{ class: "type.identifier", name: "Float" },
-						{ class: "type.identifier", name: "Double" },
-					],
-				},
-			}))
-		})
-	}
-	createDeclaration(sourceString: string, handler: Error.Handler): SyntaxTree.FunctionDeclaration {
-		return Parser.parseFirst(sourceString, handler) as SyntaxTree.FunctionDeclaration
-	}
+	})
+})
+function createDeclaration(sourceString: string, handler: Error.Handler): SyntaxTree.FunctionDeclaration {
+	return Parser.parseFirst(sourceString, handler) as SyntaxTree.FunctionDeclaration
 }
-Unit.Fixture.add(new FunctionDeclarationTest())

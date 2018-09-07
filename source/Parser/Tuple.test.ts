@@ -16,74 +16,69 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Error, Unit } from "@cogneco/mend"
+import { Error } from "@cogneco/mend"
 import * as SyntaxTree from "../SyntaxTree"
 import * as Parser from "./"
 
-import Is = Unit.Is
-export class TupleTest extends Unit.Fixture {
-	constructor() {
-		super("Parser.Tuple")
-		const handler = new Error.ConsoleHandler()
-		this.add("(a, b)", () => {
-			const result = Parser.parseFirst("(a, b)", handler)
-			this.expect(result, Is.not.undefined)
-			this.expect(SyntaxTree.filterId(result!.serialize()), Is.equal.to({
-				class: "tuple",
-				elements: [
-					{ class: "identifier", name: "a" },
-					{ class: "identifier", name: "b" },
-				],
-			}))
+describe("Parser.Tuple", () => {
+	const handler = new Error.ConsoleHandler()
+	it("(a, b)", () => {
+		const result = Parser.parseFirst("(a, b)", handler)
+		expect(result).toBeTruthy()
+		expect(SyntaxTree.filterId(result!.serialize())).toEqual({
+			class: "tuple",
+			elements: [
+				{ class: "identifier", name: "a" },
+				{ class: "identifier", name: "b" },
+			],
 		})
-		this.add("(a, b, (c, d))", () => {
-			const result = Parser.parseFirst("(a, b, (c, d))", handler)
-			this.expect(result, Is.not.undefined)
-			this.expect(SyntaxTree.filterId(result!.serialize()), Is.equal.to({
-				class: "tuple",
-				elements: [
-					{ class: "identifier", name: "a" },
-					{ class: "identifier", name: "b" },
-					{
-						class: "tuple",
-						elements: [
-							{ class: "identifier", name: "c" },
-							{ class: "identifier", name: "d" },
-						],
-					},
-				],
-			}))
-		})
-		this.add("(a + b) * c", () => {
-			const result = Parser.parseFirst("(a + b) * c", handler)
-			this.expect(result, Is.not.undefined)
-			this.expect(SyntaxTree.filterId(result!.serialize()), Is.equal.to({
-				class: "infixOperator",
-				symbol: "*",
-				left: {
-					class: "infixOperator",
-					symbol: "+",
-					left: { class: "identifier", name: "a" },
-					right:	{ class: "identifier", name: "b" },
+	})
+	it("(a, b, (c, d))", () => {
+		const result = Parser.parseFirst("(a, b, (c, d))", handler)
+		expect(result).toBeTruthy()
+		expect(SyntaxTree.filterId(result!.serialize())).toEqual({
+			class: "tuple",
+			elements: [
+				{ class: "identifier", name: "a" },
+				{ class: "identifier", name: "b" },
+				{
+					class: "tuple",
+					elements: [
+						{ class: "identifier", name: "c" },
+						{ class: "identifier", name: "d" },
+					],
 				},
+			],
+		})
+	})
+	it("(a + b) * c", () => {
+		const result = Parser.parseFirst("(a + b) * c", handler)
+		expect(result).toBeTruthy()
+		expect(SyntaxTree.filterId(result!.serialize())).toEqual({
+			class: "infixOperator",
+			symbol: "*",
+			left: {
+				class: "infixOperator",
+				symbol: "+",
+				left: { class: "identifier", name: "a" },
+				right:	{ class: "identifier", name: "b" },
+			},
+			right:	{ class: "identifier", name: "c" },
+		})
+	})
+	it("a * (b + c)", () => {
+		const result = Parser.parseFirst("a * (b + c)", handler)
+		expect(result).toBeTruthy()
+		expect(SyntaxTree.filterId(result!.serialize())).toEqual({
+			class: "infixOperator",
+			symbol: "*",
+			left:	{ class: "identifier", name: "a" },
+			right: {
+				class: "infixOperator",
+				symbol: "+",
+				left: { class: "identifier", name: "b" },
 				right:	{ class: "identifier", name: "c" },
-			}))
+			},
 		})
-		this.add("a * (b + c)", () => {
-			const result = Parser.parseFirst("a * (b + c)", handler)
-			this.expect(result, Is.not.undefined)
-			this.expect(SyntaxTree.filterId(result!.serialize()), Is.equal.to({
-				class: "infixOperator",
-				symbol: "*",
-				left:	{ class: "identifier", name: "a" },
-				right: {
-					class: "infixOperator",
-					symbol: "+",
-					left: { class: "identifier", name: "b" },
-					right:	{ class: "identifier", name: "c" },
-				},
-			}))
-		})
-	}
-}
-Unit.Fixture.add(new TupleTest())
+	})
+})

@@ -16,82 +16,77 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Error, Unit } from "@cogneco/mend"
+import { Error } from "@cogneco/mend"
 import * as SyntaxTree from "../SyntaxTree"
 import * as Parser from "./"
 
-import Is = Unit.Is
-export class InfixOperatorTest extends Unit.Fixture {
-	constructor() {
-		super("Parser.InfixOperator")
-		const handler = new Error.ConsoleHandler()
-		this.add("a = 'b'", () => {
-			const result = Parser.parseFirst("a = 'b'", handler) as SyntaxTree.InfixOperator
-			this.expect(result.symbol, Is.equal.to("="))
-			this.expect((result.left as SyntaxTree.Identifier).name, Is.equal.to("a"))
-			this.expect((result.right as SyntaxTree.Literal.Character).value, Is.equal.to("b"))
-			this.expect(SyntaxTree.filterId(result.serialize()), Is.equal.to({
-				class: "infixOperator",
-				symbol: "=",
-				left: { class: "identifier", name: "a" },
-				right: { class: "literal.character", value: "b" },
-			}))
+describe("Parser.InfixOperator", () => {
+	const handler = new Error.ConsoleHandler()
+	it("a = 'b'", () => {
+		const result = Parser.parseFirst("a = 'b'", handler) as SyntaxTree.InfixOperator
+		expect(result.symbol).toEqual("=")
+		expect((result.left as SyntaxTree.Identifier).name).toEqual("a")
+		expect((result.right as SyntaxTree.Literal.Character).value).toEqual("b")
+		expect(SyntaxTree.filterId(result.serialize())).toEqual({
+			class: "infixOperator",
+			symbol: "=",
+			left: { class: "identifier", name: "a" },
+			right: { class: "literal.character", value: "b" },
 		})
-		this.add("a = 12345", () => {
-			const result = Parser.parseFirst("a = 12345", handler) as SyntaxTree.InfixOperator
-			this.expect(result.symbol, Is.equal.to("="))
-			this.expect((result.left as SyntaxTree.Identifier).name, Is.equal.to("a"))
-			this.expect((result.right as SyntaxTree.Literal.Number).value, Is.equal.to(12345))
-			this.expect(SyntaxTree.filterId(result.serialize()), Is.equal.to({
-				class: "infixOperator",
-				symbol: "=",
-				left: { class: "identifier", name: "a" },
-				right: { class: "literal.number", value: 12345 },
-			}))
+	})
+	it("a = 12345", () => {
+		const result = Parser.parseFirst("a = 12345", handler) as SyntaxTree.InfixOperator
+		expect(result.symbol).toEqual("=")
+		expect((result.left as SyntaxTree.Identifier).name).toEqual("a")
+		expect((result.right as SyntaxTree.Literal.Number).value).toEqual(12345)
+		expect(SyntaxTree.filterId(result.serialize())).toEqual({
+			class: "infixOperator",
+			symbol: "=",
+			left: { class: "identifier", name: "a" },
+			right: { class: "literal.number", value: 12345 },
 		})
-		this.add("a = b", () => {
-			const result = Parser.parseFirst("a = b", handler) as SyntaxTree.InfixOperator
-			this.expect(result.symbol, Is.equal.to("="))
-			this.expect((result.left as SyntaxTree.Identifier).name, Is.equal.to("a"))
-			this.expect((result.right as SyntaxTree.Identifier).name, Is.equal.to("b"))
-			this.expect(SyntaxTree.filterId(result.serialize()), Is.equal.to({
-				class: "infixOperator",
-				symbol: "=",
-				left: { class: "identifier", name: "a" },
-				right: { class: "identifier", name: "b" },
-			}))
+	})
+	it("a = b", () => {
+		const result = Parser.parseFirst("a = b", handler) as SyntaxTree.InfixOperator
+		expect(result.symbol).toEqual("=")
+		expect((result.left as SyntaxTree.Identifier).name).toEqual("a")
+		expect((result.right as SyntaxTree.Identifier).name).toEqual("b")
+		expect(SyntaxTree.filterId(result.serialize())).toEqual({
+			class: "infixOperator",
+			symbol: "=",
+			left: { class: "identifier", name: "a" },
+			right: { class: "identifier", name: "b" },
 		})
-		this.add("a.b", () => {
-			const result = Parser.parseFirst("a.b", handler) as SyntaxTree.InfixOperator
-			this.expect(result.symbol, Is.equal.to("."))
-			this.expect((result.left as SyntaxTree.Identifier).name, Is.equal.to("a"))
-			this.expect((result.right as SyntaxTree.Identifier).name, Is.equal.to("b"))
-			this.expect(SyntaxTree.filterId(result.serialize()), Is.equal.to({
+	})
+	it("a.b", () => {
+		const result = Parser.parseFirst("a.b", handler) as SyntaxTree.InfixOperator
+		expect(result.symbol).toEqual(".")
+		expect((result.left as SyntaxTree.Identifier).name).toEqual("a")
+		expect((result.right as SyntaxTree.Identifier).name).toEqual("b")
+		expect(SyntaxTree.filterId(result.serialize())).toEqual({
+			class: "infixOperator",
+			symbol: ".",
+			left: { class: "identifier", name: "a" },
+			right: { class: "identifier", name: "b" },
+		})
+	})
+	it("a.b * c.d", () => {
+		const result = Parser.parseFirst("a.b * c.d", handler) as SyntaxTree.InfixOperator
+		expect(SyntaxTree.filterId(result.serialize())).toEqual({
+			class: "infixOperator",
+			symbol: "*",
+			left: {
 				class: "infixOperator",
 				symbol: ".",
 				left: { class: "identifier", name: "a" },
 				right: { class: "identifier", name: "b" },
-			}))
-		})
-		this.add("a.b * c.d", () => {
-			const result = Parser.parseFirst("a.b * c.d", handler) as SyntaxTree.InfixOperator
-			this.expect(SyntaxTree.filterId(result.serialize()), Is.equal.to({
+			},
+			right: {
 				class: "infixOperator",
-				symbol: "*",
-				left: {
-					class: "infixOperator",
-					symbol: ".",
-					left: { class: "identifier", name: "a" },
-					right: { class: "identifier", name: "b" },
-				},
-				right: {
-					class: "infixOperator",
-					symbol: ".",
-					left: { class: "identifier", name: "c" },
-					right: { class: "identifier", name: "d" },
-				},
-			}))
+				symbol: ".",
+				left: { class: "identifier", name: "c" },
+				right: { class: "identifier", name: "d" },
+			},
 		})
-	}
-}
-Unit.Fixture.add(new InfixOperatorTest())
+	})
+})

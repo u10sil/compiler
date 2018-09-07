@@ -16,21 +16,16 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Error, Unit } from "@cogneco/mend"
+import { Error } from "@cogneco/mend"
 import * as SyntaxTree from "../../SyntaxTree"
 import * as Parser from "../"
 
-import Is = Unit.Is
-export class StringTest extends Unit.Fixture {
-	constructor() {
-		super("Parser.Expressions.Literals.StringLiteral")
-		const handler = new Error.ConsoleHandler()
-		this.add("literal", () => {
-			const literal = Parser.parseFirst("\"\\\"string\\\"\"", handler)
-			this.expect(literal instanceof SyntaxTree.Literal.String, Is.true)
-			this.expect((literal as SyntaxTree.Literal.String).value, Is.equal.to("\"string\""))
-			this.expect(SyntaxTree.filterId(literal!.serialize()), Is.equal.to({ class: "literal.string", value: "\"string\"" }))
-		})
-	}
-}
-Unit.Fixture.add(new StringTest())
+describe("Parser.Expressions.Literals.StringLiteral", () => {
+	const handler = new Error.ConsoleHandler()
+	it("literal", () => {
+		const literal = Parser.parseFirst("\"\\\"string\\\"\"", handler)
+		expect(literal instanceof SyntaxTree.Literal.String).toBeTruthy()
+		expect((literal as SyntaxTree.Literal.String).value).toEqual("\"string\"")
+		expect(SyntaxTree.filterId(literal!.serialize())).toEqual({ class: "literal.string", value: "\"string\"" })
+	})
+})

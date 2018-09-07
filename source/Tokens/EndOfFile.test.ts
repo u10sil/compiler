@@ -16,26 +16,21 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Error, IO, Unit } from "@cogneco/mend"
+import { Error, IO } from "@cogneco/mend"
 import * as Tokens from "./"
 
-import Is = Unit.Is
-export class EndOfFileTest extends Unit.Fixture {
-	constructor() {
-		super("Tokens.EndOfFile")
-		const errorHandler = new Error.ConsoleHandler()
-		this.add("empty source string", () => {
-			const source = new Tokens.Source(IO.StringReader.create(""), errorHandler)
-			const token = Tokens.EndOfFile.scan(source)
-			this.expect(token instanceof Tokens.EndOfFile)
-			this.expect(token!.serialize(), Is.equal.to({ class: "endOfFile" }))
-		})
-		this.add("null string", () => {
-			const source = new Tokens.Source(IO.StringReader.create("\0"), errorHandler)
-			const token = Tokens.EndOfFile.scan(source)
-			this.expect(token instanceof Tokens.EndOfFile)
-			this.expect(token!.serialize(), Is.equal.to({ class: "endOfFile" }))
-		})
-	}
-}
-Unit.Fixture.add(new EndOfFileTest())
+describe("Tokens.EndOfFile", () => {
+	const errorHandler = new Error.ConsoleHandler()
+	it("empty source string", () => {
+		const source = new Tokens.Source(IO.StringReader.create(""), errorHandler)
+		const token = Tokens.EndOfFile.scan(source)
+		expect(token instanceof Tokens.EndOfFile).toBeTruthy()
+		expect(token!.serialize()).toEqual({ class: "endOfFile" })
+	})
+	it("null string", () => {
+		const source = new Tokens.Source(IO.StringReader.create("\0"), errorHandler)
+		const token = Tokens.EndOfFile.scan(source)
+		expect(token instanceof Tokens.EndOfFile).toBeTruthy()
+		expect(token!.serialize()).toEqual({ class: "endOfFile" })
+	})
+})

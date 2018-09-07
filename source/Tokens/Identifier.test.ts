@@ -16,33 +16,28 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Error, IO, Unit } from "@cogneco/mend"
+import { Error, IO } from "@cogneco/mend"
 import * as Tokens from "./"
 
-import Is = Unit.Is
-export class IdentifierTest extends Unit.Fixture {
-	constructor() {
-		super("Tokens.Identifier")
-		const errorHandler = new Error.ConsoleHandler()
-		this.add("isIdentifier()", () => {
-			const identifier1 = new Tokens.Identifier(null, null)
-			const identifier2 = new Tokens.Identifier("bar", null)
-			this.expect(identifier1.isIdentifier())
-			this.expect(identifier1.isIdentifier(""), Is.true)
-			this.expect(identifier1.isIdentifier("foo"), Is.false)
-			this.expect(identifier1.serialize(), Is.equal.to({ class: "identifier", name: "" }))
-			this.expect(identifier2.isIdentifier())
-			this.expect(identifier2.isIdentifier("foo"), Is.false)
-			this.expect(identifier2.serialize(), Is.equal.to({ class: "identifier", name: "foo" }))
-		})
-		this.add("scan identifier", () => {
-			const source = new Tokens.Source(IO.StringReader.create("identifier"), errorHandler)
-			const token = Tokens.Identifier.scan(source)
-			this.expect(token instanceof Tokens.Identifier)
-			this.expect(token.isIdentifier())
-			this.expect((token as Tokens.Identifier).name, Is.equal.to("identifier"))
-			this.expect(token.serialize(), Is.equal.to({ class: "identifier", name: "identifier" }))
-		})
-	}
-}
-Unit.Fixture.add(new IdentifierTest())
+describe("Tokens.Identifier", () => {
+	const errorHandler = new Error.ConsoleHandler()
+	it("isIdentifier()", () => {
+		const identifier1 = new Tokens.Identifier("", null)
+		const identifier2 = new Tokens.Identifier("bar", null)
+		expect(identifier1.isIdentifier()).toBeTruthy()
+		expect(identifier1.isIdentifier("")).toBeTruthy()
+		expect(identifier1.isIdentifier("foo")).toBeFalsy()
+		expect(identifier1.serialize()).toEqual({ class: "identifier", name: "" })
+		expect(identifier2.isIdentifier()).toBeTruthy()
+		expect(identifier2.isIdentifier("foo")).toBeFalsy()
+		expect(identifier2.serialize()).toEqual({ class: "identifier", name: "bar" })
+	})
+	it("scan identifier", () => {
+		const source = new Tokens.Source(IO.StringReader.create("identifier"), errorHandler)
+		const token = Tokens.Identifier.scan(source)
+		expect(token instanceof Tokens.Identifier).toBeTruthy()
+		expect(token.isIdentifier()).toBeTruthy()
+		expect((token as Tokens.Identifier).name).toEqual("identifier")
+		expect(token.serialize()).toEqual({ class: "identifier", name: "identifier" })
+	})
+})

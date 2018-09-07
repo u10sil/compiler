@@ -16,82 +16,83 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Error, Unit } from "@cogneco/mend"
+import { Error } from "@cogneco/mend"
 import * as SyntaxTree from "../SyntaxTree"
 import * as Parser from "./"
 
-import Is = Unit.Is
-export class ClassDeclarationTest extends Unit.Fixture {
-	constructor() {
-		super("Parser.ClassDeclaration")
+function createDeclaration(sourceString: string, handler: Error.Handler): SyntaxTree.ClassDeclaration {
+	return Parser.parseFirst(sourceString, handler) as SyntaxTree.ClassDeclaration
+}
+
+describe("Parser.ClassDeclaration", () => {
 		const handler = new Error.ConsoleHandler()
-		this.add("empty class", () => {
-			const classDeclaration = this.createDeclaration("class Empty {}\n", handler)
-			this.expect(classDeclaration, Is.not.nullOrUndefined)
-			this.expect(classDeclaration.symbol, Is.equal.to("Empty"))
-			this.expect(SyntaxTree.filterId(classDeclaration.serialize()), Is.equal.to({ class: "classDeclaration", symbol: "Empty", content: { class: "block" } }))
+		it("empty class", () => {
+			const classDeclaration = createDeclaration("class Empty {}\n", handler)
+			expect(classDeclaration).toBeTruthy()
+			expect(classDeclaration.symbol).toEqual("Empty")
+			expect(SyntaxTree.filterId(classDeclaration.serialize())).toEqual({ class: "classDeclaration", symbol: "Empty", content: { class: "block" } })
 		})
-		this.add("generic class #1", () => {
-			const classDeclaration = this.createDeclaration("class Empty<T> {}\n", handler)
-			this.expect(classDeclaration, Is.not.nullOrUndefined)
-			this.expect(classDeclaration.parameters.first!.name, Is.equal.to("T"))
-			this.expect(SyntaxTree.filterId(classDeclaration.serialize()), Is.equal.to({
+		it("generic class #1", () => {
+			const classDeclaration = createDeclaration("class Empty<T> {}\n", handler)
+			expect(classDeclaration).toBeTruthy()
+			expect(classDeclaration.parameters.first!.name).toEqual("T")
+			expect(SyntaxTree.filterId(classDeclaration.serialize())).toEqual({
 				class: "classDeclaration", symbol: "Empty", parameters: [
 					{ class: "type.name", name: "T" },
 				],
 				content: { class: "block" },
-			}))
+			})
 		})
-		this.add("generic class #2", () => {
-			const classDeclaration = this.createDeclaration("class Empty<T, S> {}\n", handler)
-			this.expect(classDeclaration, Is.not.nullOrUndefined)
+		it("generic class #2", () => {
+			const classDeclaration = createDeclaration("class Empty<T, S> {}\n", handler)
+			expect(classDeclaration).toBeTruthy()
 			const parameters = classDeclaration.parameters.getEnumerator()
-			this.expect(parameters.fetch()!.name, Is.equal.to("T"))
-			this.expect(parameters.fetch()!.name, Is.equal.to("S"))
-			this.expect(SyntaxTree.filterId(classDeclaration.serialize()), Is.equal.to({
+			expect(parameters.fetch()!.name).toEqual("T")
+			expect(parameters.fetch()!.name).toEqual("S")
+			expect(SyntaxTree.filterId(classDeclaration.serialize())).toEqual({
 				class: "classDeclaration", symbol: "Empty", parameters: [
 					{ class: "type.name", name: "T" },
 					{ class: "type.name", name: "S" },
 				],
 				content: { class: "block" },
-			}))
+			})
 		})
-		this.add("class extends", () => {
-			const classDeclaration = this.createDeclaration("class Empty extends Full {}\n", handler)
-			this.expect(classDeclaration.extended!.name, Is.equal.to("Full"))
-			this.expect(SyntaxTree.filterId(classDeclaration.serialize()), Is.equal.to({ class: "classDeclaration", symbol: "Empty", extends: { class: "type.identifier", name: "Full" }, content: { class: "block" } }))
+		it("class extends", () => {
+			const classDeclaration = createDeclaration("class Empty extends Full {}\n", handler)
+			expect(classDeclaration.extended!.name).toEqual("Full")
+			expect(SyntaxTree.filterId(classDeclaration.serialize())).toEqual({ class: "classDeclaration", symbol: "Empty", extends: { class: "type.identifier", name: "Full" }, content: { class: "block" } })
 		})
-		this.add("class implements", () => {
-			const classDeclaration = this.createDeclaration("class Empty implements Enumerable, Enumerator {}\n", handler)
+		it("class implements", () => {
+			const classDeclaration = createDeclaration("class Empty implements Enumerable, Enumerator {}\n", handler)
 			const implemented = classDeclaration.implements.getEnumerator()
-			this.expect(implemented.fetch()!.name, Is.equal.to("Enumerable"))
-			this.expect(implemented.fetch()!.name, Is.equal.to("Enumerator"))
-			this.expect(implemented.fetch(), Is.nullOrUndefined)
-			this.expect(SyntaxTree.filterId(classDeclaration.serialize()), Is.equal.to({
+			expect(implemented.fetch()!.name).toEqual("Enumerable")
+			expect(implemented.fetch()!.name).toEqual("Enumerator")
+			expect(implemented.fetch()).toBeUndefined()
+			expect(SyntaxTree.filterId(classDeclaration.serialize())).toEqual({
 				class: "classDeclaration", symbol: "Empty", implements: [
 					{ class: "type.identifier", name: "Enumerable" },
 					{ class: "type.identifier", name: "Enumerator" },
 				],
 				content: { class: "block" },
-			}))
+			})
 		})
-		this.add("generic class implements generic interfaces", () => {
-			const classDeclaration = this.createDeclaration("class Empty<T, S> implements Interface1<T, S>, Interface2<T, S> {}\n", handler)
+		it("generic class implements generic interfaces", () => {
+			const classDeclaration = createDeclaration("class Empty<T, S> implements Interface1<T, S>, Interface2<T, S> {}\n", handler)
 			const implemented = classDeclaration.implements.getEnumerator()
 			const interface1 = implemented.fetch()!
-			this.expect(interface1.name, Is.equal.to("Interface1"))
+			expect(interface1.name).toEqual("Interface1")
 			const parameters1 = interface1.parameters.getEnumerator()
-			this.expect(parameters1.fetch()!.name, Is.equal.to("T"))
-			this.expect(parameters1.fetch()!.name, Is.equal.to("S"))
-			this.expect(parameters1.fetch(), Is.nullOrUndefined)
+			expect(parameters1.fetch()!.name).toEqual("T")
+			expect(parameters1.fetch()!.name).toEqual("S")
+			expect(parameters1.fetch()).toBeUndefined()
 			const interface2 = implemented.fetch()!
-			this.expect(interface2.name, Is.equal.to("Interface2"))
+			expect(interface2.name).toEqual("Interface2")
 			const parameters2 = interface2.parameters.getEnumerator()
-			this.expect(parameters2.fetch()!.name, Is.equal.to("T"))
-			this.expect(parameters2.fetch()!.name, Is.equal.to("S"))
-			this.expect(parameters2.fetch(), Is.nullOrUndefined)
-			this.expect(implemented.fetch(), Is.nullOrUndefined)
-			this.expect(SyntaxTree.filterId(classDeclaration.serialize()), Is.equal.to({
+			expect(parameters2.fetch()!.name).toEqual("T")
+			expect(parameters2.fetch()!.name).toEqual("S")
+			expect(parameters2.fetch()).toBeUndefined()
+			expect(implemented.fetch()).toBeUndefined()
+			expect(SyntaxTree.filterId(classDeclaration.serialize())).toEqual({
 				class: "classDeclaration", symbol: "Empty",
 				parameters: [{ class: "type.name", name: "T" }, { class: "type.name", name: "S" }],
 				implements: [
@@ -99,32 +100,32 @@ export class ClassDeclarationTest extends Unit.Fixture {
 					{ class: "type.identifier", name: "Interface2", parameters: [{ class: "type.identifier", name: "T" }, { class: "type.identifier", name: "S" }] },
 				],
 				content: { class: "block" },
-			}))
+			})
 		})
-		this.add("abstract class", () => {
-			const classDeclaration = this.createDeclaration("abstract class Empty {}\n", handler)
-			this.expect(classDeclaration.isAbstract, Is.true)
-			this.expect(SyntaxTree.filterId(classDeclaration.serialize()), Is.equal.to({ class: "classDeclaration", symbol: "Empty", isAbstract: true, content: { class: "block" } }))
+		it("abstract class", () => {
+			const classDeclaration = createDeclaration("abstract class Empty {}\n", handler)
+			expect(classDeclaration.isAbstract).toEqual(true)
+			expect(SyntaxTree.filterUndefined(SyntaxTree.filterId(classDeclaration.serialize()))).toEqual({ class: "classDeclaration", symbol: "Empty", isAbstract: true, content: { class: "block" } })
 		})
-		this.add("member fields", () => {
+		it("member fields", () => {
 			const program: string =
 `class Foobar {
 var i: Int = 10
 var f = 50.5
 }
 `
-			const classDeclaration = this.createDeclaration(program, handler)
+			const classDeclaration = createDeclaration(program, handler)
 			const statements = classDeclaration.content.statements.getEnumerator()
 			const firstField = statements.fetch() as SyntaxTree.VariableDeclaration
-			this.expect(firstField.symbol, Is.equal.to("i"))
-			this.expect((firstField.type as SyntaxTree.Type.Identifier).name, Is.equal.to("Int"))
-			this.expect((firstField.value as SyntaxTree.Literal.Number).value, Is.equal.to(10))
+			expect(firstField.symbol).toEqual("i")
+			expect((firstField.type as SyntaxTree.Type.Identifier).name).toEqual("Int")
+			expect((firstField.value as SyntaxTree.Literal.Number).value).toEqual(10)
 			const secondField = statements.fetch() as SyntaxTree.VariableDeclaration
-			this.expect(secondField.symbol, Is.equal.to("f"))
-			this.expect(secondField.type, Is.nullOrUndefined)
-			this.expect((secondField.value as SyntaxTree.Literal.Number).value, Is.equal.to(50.5))
-			this.expect(statements.fetch(), Is.nullOrUndefined)
-			this.expect(SyntaxTree.filterId(classDeclaration.serialize()), Is.equal.to({
+			expect(secondField.symbol).toEqual("f")
+			expect(secondField.type).toBeUndefined()
+			expect((secondField.value as SyntaxTree.Literal.Number).value).toEqual(50.5)
+			expect(statements.fetch()).toBeUndefined()
+			expect(SyntaxTree.filterId(classDeclaration.serialize())).toEqual({
 				class: "classDeclaration", symbol: "Foobar", content: {
 					class: "block",
 					statements: [
@@ -132,9 +133,9 @@ var f = 50.5
 						{ class: "variableDeclaration", symbol: "f", value: { class: "literal.number", value: 50.5 } },
 					],
 				},
-			}))
+			})
 		})
-		this.add("member functions", () => {
+		it("member functions", () => {
 			const program: string =
 `class Foobar {
 	var count: Int = 0
@@ -147,26 +148,26 @@ var f = 50.5
 	}
 }
 `
-			const classDeclaration = this.createDeclaration(program, handler)
+			const classDeclaration = createDeclaration(program, handler)
 			const statements = classDeclaration.content.statements.getEnumerator()
 			const countField = statements.fetch() as SyntaxTree.VariableDeclaration
-			this.expect(countField.symbol, Is.equal.to("count"))
+			expect(countField.symbol).toEqual("count")
 			const constructor = statements.fetch() as SyntaxTree.FunctionDeclaration
-			this.expect(constructor.symbol, Is.equal.to("init"))
-			this.expect(constructor.body, Is.nullOrUndefined)
-			this.expect(constructor.returnType, Is.nullOrUndefined)
+			expect(constructor.symbol).toEqual("init")
+			expect(constructor.body).toBeUndefined()
+			expect(constructor.returnType).toBeUndefined()
 			const updateCountFunction = statements.fetch() as SyntaxTree.FunctionDeclaration
-			this.expect(updateCountFunction.symbol, Is.equal.to("updateCount"))
+			expect(updateCountFunction.symbol).toEqual("updateCount")
 			const updateCountArgument = updateCountFunction.arguments.first as SyntaxTree.ArgumentDeclaration
-			this.expect(updateCountArgument.symbol, Is.equal.to("newCount"))
-			this.expect((updateCountArgument.type as SyntaxTree.Type.Identifier).name, Is.equal.to("Int"))
-			this.expect(updateCountFunction.returnType, Is.nullOrUndefined)
+			expect(updateCountArgument.symbol).toEqual("newCount")
+			expect((updateCountArgument.type as SyntaxTree.Type.Identifier).name).toEqual("Int")
+			expect(updateCountFunction.returnType).toBeUndefined()
 			const getCountFunction = statements.fetch() as SyntaxTree.FunctionDeclaration
-			this.expect(getCountFunction.symbol, Is.equal.to("getCount"))
-			this.expect((getCountFunction.returnType as SyntaxTree.Type.Identifier).name, Is.equal.to("Int"))
+			expect(getCountFunction.symbol).toEqual("getCount")
+			expect((getCountFunction.returnType as SyntaxTree.Type.Identifier).name).toEqual("Int")
 			const getCountFunctionStatement = getCountFunction.body!.statements.first as SyntaxTree.Identifier
-			this.expect(getCountFunctionStatement.name, Is.equal.to("count"))
-			this.expect(SyntaxTree.filterId(classDeclaration.serialize()), Is.equal.to({
+			expect(getCountFunctionStatement.name).toEqual("count")
+			expect(SyntaxTree.filterId(classDeclaration.serialize())).toEqual({
 				class: "classDeclaration", symbol: "Foobar", content: {
 					class: "block",
 					statements: [
@@ -188,11 +189,6 @@ var f = 50.5
 						},
 					],
 				},
-			}))
+			})
 		})
-	}
-	createDeclaration(sourceString: string, handler: Error.Handler): SyntaxTree.ClassDeclaration {
-		return Parser.parseFirst(sourceString, handler) as SyntaxTree.ClassDeclaration
-	}
-}
-Unit.Fixture.add(new ClassDeclarationTest())
+	})

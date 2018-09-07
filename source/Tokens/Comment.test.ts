@@ -16,35 +16,30 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Error, IO, Unit } from "@cogneco/mend"
+import { Error, IO } from "@cogneco/mend"
 import * as Tokens from "./"
 
-import Is = Unit.Is
-export class CommentTest extends Unit.Fixture {
-	constructor() {
-		super("Tokens.Comment")
-		const errorHandler = new Error.ConsoleHandler()
-		this.add("line comment", () => {
-			const source = new Tokens.Source(IO.StringReader.create("//this is a line comment"), errorHandler)
-			const token = Tokens.Comment.scan(source)
-			this.expect(token instanceof Tokens.Comment)
-			this.expect((token as Tokens.Comment).content, Is.equal.to("this is a line comment"))
-			this.expect(token!.serialize(), Is.equal.to({ class: "comment", content: "this is a line comment" }))
-		})
-		this.add("block comment, single line", () => {
-			const source = new Tokens.Source(IO.StringReader.create("/*this is a block comment*/"), errorHandler)
-			const token = Tokens.Comment.scan(source)
-			this.expect(token instanceof Tokens.Comment)
-			this.expect((token as Tokens.Comment).content, Is.equal.to("this is a block comment"))
-			this.expect(token!.serialize(), Is.equal.to({ class: "comment", content: "this is a block comment", isBlock: true }))
-		})
-		this.add("block comment, multiple lines", () => {
-			const source = new Tokens.Source(IO.StringReader.create("/*this\nis\na\nblock\ncomment*/"), errorHandler)
-			const token = Tokens.Comment.scan(source)
-			this.expect(token instanceof Tokens.Comment)
-			this.expect((token as Tokens.Comment).content, Is.equal.to("this\nis\na\nblock\ncomment"))
-			this.expect(token!.serialize(), Is.equal.to({ class: "comment", content: "this\nis\na\nblock\ncomment", isBlock: true }))
-		})
-	}
-}
-Unit.Fixture.add(new CommentTest())
+describe("Tokens.Comment", () => {
+	const errorHandler = new Error.ConsoleHandler()
+	it("line comment", () => {
+		const source = new Tokens.Source(IO.StringReader.create("//this is a line comment"), errorHandler)
+		const token = Tokens.Comment.scan(source)
+		expect(token instanceof Tokens.Comment).toBeTruthy()
+		expect((token as Tokens.Comment).content).toEqual("this is a line comment")
+		expect(token!.serialize()).toEqual({ class: "comment", content: "this is a line comment" })
+	})
+	it("block comment, single line", () => {
+		const source = new Tokens.Source(IO.StringReader.create("/*this is a block comment*/"), errorHandler)
+		const token = Tokens.Comment.scan(source)
+		expect(token instanceof Tokens.Comment).toBeTruthy()
+		expect((token as Tokens.Comment).content).toEqual("this is a block comment")
+		expect(token!.serialize()).toEqual({ class: "comment", content: "this is a block comment", isBlock: true })
+	})
+	it("block comment, multiple lines", () => {
+		const source = new Tokens.Source(IO.StringReader.create("/*this\nis\na\nblock\ncomment*/"), errorHandler)
+		const token = Tokens.Comment.scan(source)
+		expect(token instanceof Tokens.Comment).toBeTruthy()
+		expect((token as Tokens.Comment).content).toEqual("this\nis\na\nblock\ncomment")
+		expect(token!.serialize()).toEqual({ class: "comment", content: "this\nis\na\nblock\ncomment", isBlock: true })
+	})
+})

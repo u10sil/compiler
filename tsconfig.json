@@ -11,13 +11,6 @@
 		"strictNullChecks": true,
 		"forceConsistentCasingInFileNames": true,
 		"noImplicitThis": true,
-		"noUnusedLocals": true,
-		"sourceMap": true,
-		"sourceRoot": "../source",
-		"outDir": "../build/"
-	},
-	"files": [
-		"index.ts",
-		"index.test.ts"
-	]
+		"noUnusedLocals": true
+	}
 }

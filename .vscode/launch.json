@@ -1,6 +1,39 @@
 {
 	"version": "0.2.0",
 	"configurations": [
+
+		{
+			"name": "Debug Jest Tests",
+			"type": "node",
+			"request": "launch",
+			"protocol": "inspector",
+			"port": 12345,
+			"args": [
+					"--inspect-brk=12345",
+					"${workspaceRoot}/node_modules/.bin/jest",
+					"--runInBand"
+			],
+			"console": "integratedTerminal",
+			"internalConsoleOptions": "neverOpen",
+			"sourceMaps": true,
+			"outFiles": [ "${workspaceRoot}/build/**/*.js" ]
+		},
+		{
+			"name": "Debug Current Jest Tests",
+			"type": "node",
+			"request": "launch",
+			"protocol": "inspector",
+			"port": 12345,
+			"args": [
+					"--inspect-brk=12345",
+					"${workspaceRoot}/node_modules/.bin/jest",
+					"--runInBand",
+					"${relativeFile}"
+			],
+			"console": "integratedTerminal",
+			"internalConsoleOptions": "neverOpen",
+			"sourceMaps": true
+		},
 		{
 			"type": "node",
 			"request": "launch",
@@ -41,12 +74,10 @@
 			"type": "node",
 			"request": "launch",
 			"name": "unit tests",
-			"program": "${workspaceRoot}/build/index.test.js",
-			"args": [ "debug" ],
+			"program": "${workspaceRoot}/node_modules/jest/bin/jest.js",
+			"args": [ "--config", "jest.json", "--runInBand", "deserialize.test.ts", "--testNamePattern", "'b'" ],
 			"protocol": "inspector",
-			"preLaunchTask": "build",
-			"sourceMaps": true,
-			"outFiles": [ "${workspaceRoot}/build/**/*.js" ]
+			"console": "integratedTerminal"
 		}
 	]
 }

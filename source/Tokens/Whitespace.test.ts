@@ -16,33 +16,28 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Error, IO, Unit } from "@cogneco/mend"
+import { Error, IO } from "@cogneco/mend"
 import * as Tokens from "./"
 
-import Is = Unit.Is
-export class WhitespaceTest extends Unit.Fixture {
-	constructor() {
-		super("Tokens.Whitespace")
-		const errorHandler = new Error.ConsoleHandler()
-		this.add("whitespace", () => {
-			const sourceNewline = new Tokens.Source(IO.StringReader.create("\n"), errorHandler)
-			const sourceCarriageReturn = new Tokens.Source(IO.StringReader.create("\r"), errorHandler)
-			const sourceTab = new Tokens.Source(IO.StringReader.create("\t"), errorHandler)
-			const sourceSpace = new Tokens.Source(IO.StringReader.create(" "), errorHandler)
-			let token: Tokens.Token | undefined
-			this.expect((token = Tokens.Whitespace.scan(sourceNewline)) instanceof Tokens.Whitespace)
-			this.expect((token as Tokens.Whitespace).endsLine, Is.true)
-			this.expect(token!.serialize(), Is.equal.to({ class: "whitespace", endsLine: true }))
-			this.expect((token = Tokens.Whitespace.scan(sourceCarriageReturn)) instanceof Tokens.Whitespace)
-			this.expect((token as Tokens.Whitespace).endsLine, Is.false)
-			this.expect(token!.serialize(), Is.equal.to({ class: "whitespace", endsLine: false }))
-			this.expect((token = Tokens.Whitespace.scan(sourceTab)) instanceof Tokens.Whitespace)
-			this.expect((token as Tokens.Whitespace).endsLine, Is.false)
-			this.expect(token!.serialize(), Is.equal.to({ class: "whitespace", endsLine: false }))
-			this.expect((token = Tokens.Whitespace.scan(sourceSpace)) instanceof Tokens.Whitespace)
-			this.expect((token as Tokens.Whitespace).endsLine, Is.false)
-			this.expect(token!.serialize(), Is.equal.to({ class: "whitespace", endsLine: false }))
-		})
-	}
-}
-Unit.Fixture.add(new WhitespaceTest())
+describe("Tokens.Whitespace", () => {
+	const errorHandler = new Error.ConsoleHandler()
+	it("whitespace", () => {
+		const sourceNewline = new Tokens.Source(IO.StringReader.create("\n"), errorHandler)
+		const sourceCarriageReturn = new Tokens.Source(IO.StringReader.create("\r"), errorHandler)
+		const sourceTab = new Tokens.Source(IO.StringReader.create("\t"), errorHandler)
+		const sourceSpace = new Tokens.Source(IO.StringReader.create(" "), errorHandler)
+		let token: Tokens.Token | undefined
+		expect((token = Tokens.Whitespace.scan(sourceNewline)) instanceof Tokens.Whitespace).toBeTruthy()
+		expect((token as Tokens.Whitespace).endsLine).toBeTruthy()
+		expect(token!.serialize()).toEqual({ class: "whitespace", endsLine: true })
+		expect((token = Tokens.Whitespace.scan(sourceCarriageReturn)) instanceof Tokens.Whitespace).toBeTruthy()
+		expect((token as Tokens.Whitespace).endsLine).toBeFalsy()
+		expect(token!.serialize()).toEqual({ class: "whitespace", endsLine: false })
+		expect((token = Tokens.Whitespace.scan(sourceTab)) instanceof Tokens.Whitespace).toBeTruthy()
+		expect((token as Tokens.Whitespace).endsLine).toBeFalsy()
+		expect(token!.serialize()).toEqual({ class: "whitespace", endsLine: false })
+		expect((token = Tokens.Whitespace.scan(sourceSpace)) instanceof Tokens.Whitespace).toBeTruthy()
+		expect((token as Tokens.Whitespace).endsLine).toBeFalsy()
+		expect(token!.serialize()).toEqual({ class: "whitespace", endsLine: false })
+	})
+})

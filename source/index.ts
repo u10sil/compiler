@@ -16,7 +16,7 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Error, Unit, Uri, Utilities } from "@cogneco/mend"
+import { Error, Uri, Utilities } from "@cogneco/mend"
 import * as Parser from "./Parser"
 import * as Resolver from "./Resolver"
 import * as C99 from "./C99"
@@ -79,9 +79,6 @@ export class Program {
 						console.log(JSON.stringify(result, undefined, "\t"))
 					}
 				}
-				break
-			case "self-test":
-				process.exitCode = Unit.Fixture.run() ? 0 : 1
 				break
 			case "version":
 				console.log("syspl " + this.version)

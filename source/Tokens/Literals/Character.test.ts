@@ -16,36 +16,31 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import { Error, IO, Unit } from "@cogneco/mend"
+import { Error, IO } from "@cogneco/mend"
 import * as Tokens from "../"
 
-import Is = Unit.Is
-export class CharacterTest extends Unit.Fixture {
-	constructor() {
-		super("Tokens.Literals.Character")
-		const errorHandler = new Error.ConsoleHandler()
-		let token: Tokens.Token | undefined
-		this.add("empty", () => {
-			const s = "''"
-			const source = new Tokens.Source(IO.StringReader.create(s), errorHandler)
-			this.expect((token = Tokens.Literals.Character.scan(source)) instanceof Tokens.Literals.Character, Is.true)
-			this.expect((token as Tokens.Literals.Character).value, Is.equal.to(""))
-			this.expect(token!.serialize(), Is.equal.to({ class: "character", value: "" }))
-		})
-		this.add("newline", () => {
-			const s = "'\\n'"
-			const source = new Tokens.Source(IO.StringReader.create(s), errorHandler)
-			this.expect((token = Tokens.Literals.Character.scan(source)) instanceof Tokens.Literals.Character, Is.true)
-			this.expect((token as Tokens.Literals.Character).value, Is.equal.to("\n"))
-			this.expect(token!.serialize(), Is.equal.to({ class: "character", value: "\n" }))
-		})
-		this.add("double quote", () => {
-			const s = "'\\\"'"
-			const source = new Tokens.Source(IO.StringReader.create(s), errorHandler)
-			this.expect((token = Tokens.Literals.Character.scan(source)) instanceof Tokens.Literals.Character, Is.true)
-			this.expect((token as Tokens.Literals.Character).value, Is.equal.to("\""))
-			this.expect(token!.serialize(), Is.equal.to({ class: "character", value: "\"" }))
-		})
-	}
-}
-Unit.Fixture.add(new CharacterTest())
+describe("Tokens.Literals.Character", () => {
+	const errorHandler = new Error.ConsoleHandler()
+	let token: Tokens.Token | undefined
+	it("empty", () => {
+		const s = "''"
+		const source = new Tokens.Source(IO.StringReader.create(s), errorHandler)
+		expect((token = Tokens.Literals.Character.scan(source)) instanceof Tokens.Literals.Character).toBeTruthy()
+		expect((token as Tokens.Literals.Character).value).toEqual("")
+		expect(token!.serialize()).toEqual({ class: "character", value: "" })
+	})
+	it("newline", () => {
+		const s = "'\\n'"
+		const source = new Tokens.Source(IO.StringReader.create(s), errorHandler)
+		expect((token = Tokens.Literals.Character.scan(source)) instanceof Tokens.Literals.Character).toBeTruthy()
+		expect((token as Tokens.Literals.Character).value).toEqual("\n")
+		expect(token!.serialize()).toEqual({ class: "character", value: "\n" })
+	})
+	it("double quote", () => {
+		const s = "'\\\"'"
+		const source = new Tokens.Source(IO.StringReader.create(s), errorHandler)
+		expect((token = Tokens.Literals.Character.scan(source)) instanceof Tokens.Literals.Character).toBeTruthy()
+		expect((token as Tokens.Literals.Character).value).toEqual("\"")
+		expect(token!.serialize()).toEqual({ class: "character", value: "\"" })
+	})
+})

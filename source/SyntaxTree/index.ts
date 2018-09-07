@@ -43,6 +43,7 @@ import { UnaryOperator } from "./UnaryOperator"
 import { VariableDeclaration } from "./VariableDeclaration"
 import { deserialize } from "./deserialize"
 import { filterId } from "./filterId"
+import { filterUndefined } from "./filterUndefined"
 import { map } from "./map"
 
 export {
@@ -73,5 +74,6 @@ export {
 	VariableDeclaration,
 	deserialize,
 	filterId,
+	filterUndefined,
 	map,
 }

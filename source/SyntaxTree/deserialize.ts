@@ -28,7 +28,7 @@ export function deserialize<T extends Node>(data: { class: string } & any): T | 
 export function deserialize<T extends Node>(data: Iterable<{ class: string } & any> | { class: string } & any): Utilities.Enumerable<T> | T | undefined {
 	return data && typeof data[Symbol.iterator] == "function" ? deserializeIterable<T>(data) : deserializeNode(data) as T | undefined
 }
-function deserializeIterable<T>(data: Iterable<{ class: string } & any>): Utilities.Enumerable<T> {
+function deserializeIterable<T extends Node>(data: Iterable<{ class: string } & any>): Utilities.Enumerable<T> {
 	return Utilities.Enumerable.from(data).map(node => deserializeNode(node) as T | undefined).filter(node => node != undefined) as Utilities.Enumerable<T>
 }
 function deserializeNode(data: { class: string } & any): Node | undefined {
