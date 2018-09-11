@@ -105,4 +105,4 @@ export class Program {
 
 const syspl = new Program(process.argv)
 syspl.run()
-console.log("syspl " + syspl.version)
+console.error("syspl " + syspl.version)
