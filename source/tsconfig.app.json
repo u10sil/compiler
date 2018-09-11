@@ -2,8 +2,7 @@
 	"extends": "../tsconfig.json",
 	"compilerOptions": {
 		"sourceMap": true,
-		"sourceRoot": "../source",
-		"outDir": "./build/"
+		"outDir": "../build/"
 	},
 	"files": [
 		"index.ts"
