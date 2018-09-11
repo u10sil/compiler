@@ -22,6 +22,7 @@ import { addGenerator } from "./Generator"
 addGenerator<SyntaxTree.FunctionDeclaration>("FunctionDeclaration",
 	async (generator, node) =>
 		await generator.generate(node.returnType) &&
+		await generator.write(" ") &&
 		await generator.write(node.symbol) &&
 		await generator.writeLine(" {") &&
 		generator.increase() &&

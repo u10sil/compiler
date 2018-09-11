@@ -59,6 +59,9 @@ addConverter<SyntaxTree.Type.Primitive>("type.primitive",
 			case "f80":
 				result = new C99.Type.Primitive("long double", node.tokens)
 				break
+			case "string":
+				result = new C99.Type.Primitive("char*", node.tokens)
+				break
 			default:
 				converter.handler.raise("Type " + node.toString() + " does not have a corresponding C99 type.", Error.Level.Recoverable, "C99", node.region)
 				result = new C99.Type.Primitive("unkown", node.tokens)

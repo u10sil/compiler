@@ -18,7 +18,9 @@
 
 import "./Literal"
 import "./Type"
+import "./Assignment"
 import "./ExpressionStatement"
+import "./FunctionCall"
 import "./FunctionDeclaration"
 import "./Identifier"
 import "./Module"

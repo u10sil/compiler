@@ -19,11 +19,4 @@
 import * as SyntaxTree from "../SyntaxTree"
 import { addGenerator } from "./Generator"
 
-addGenerator<SyntaxTree.VariableDeclaration>("VariableDeclaration",
-	async (generator, node) =>
-		await generator.generate(node.type) &&
-		await generator.write(" ") &&
-		await generator.write(node.symbol) &&
-		(!node.expression || await generator.write(" = ") && await generator.generate(node.expression)) &&
-		generator.writeLine(";"),
-)
+addGenerator<SyntaxTree.Assignment>("Assignment", async (generator, node) => await generator.write(node.symbol) && await generator.write(" = ") && await generator.generate(node.expression) && generator.writeLine(";"))

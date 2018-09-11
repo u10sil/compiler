@@ -22,6 +22,7 @@ import "./ArgumentDeclaration"
 import "./FunctionCall"
 import "./FunctionDeclaration"
 import "./Identifier"
+import "./InfixOperator"
 import "./Module"
 import "./VariableDeclaration"
 

@@ -21,5 +21,5 @@ import { addGenerator } from "./Generator"
 
 addGenerator<SyntaxTree.Module>("Module", async (generator, node) => {
 	const g = await generator.create(node.name + ".c")
-	return g && g.generate(node.statements) || false
+	return g && (await g.generate(node.statements)) || false
 })

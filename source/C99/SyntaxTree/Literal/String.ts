@@ -16,14 +16,19 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import * as SyntaxTree from "../SyntaxTree"
-import { addGenerator } from "./Generator"
+import { Utilities } from "@cogneco/mend"
+import * as Tokens from "../../../Tokens"
+import { Expression } from "./Expression"
 
-addGenerator<SyntaxTree.VariableDeclaration>("VariableDeclaration",
-	async (generator, node) =>
-		await generator.generate(node.type) &&
-		await generator.write(" ") &&
-		await generator.write(node.symbol) &&
-		(!node.expression || await generator.write(" = ") && await generator.generate(node.expression)) &&
-		generator.writeLine(";"),
-)
+export class String extends Expression {
+	get class() { return "Literal.String" }
+	constructor(readonly value: string, tokens?: Utilities.Enumerable<Tokens.Substance>) {
+		super(tokens)
+	}
+	serialize(): { class: string } & any {
+		return {
+			...super.serialize(),
+			value: this.value,
+		}
+	}
+}

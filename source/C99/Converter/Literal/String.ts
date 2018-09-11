@@ -16,14 +16,10 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import * as SyntaxTree from "../SyntaxTree"
-import { addGenerator } from "./Generator"
+import * as SyntaxTree from "../../../SyntaxTree"
+import * as C99 from "../../SyntaxTree"
+import { addConverter } from "../Converter"
 
-addGenerator<SyntaxTree.VariableDeclaration>("VariableDeclaration",
-	async (generator, node) =>
-		await generator.generate(node.type) &&
-		await generator.write(" ") &&
-		await generator.write(node.symbol) &&
-		(!node.expression || await generator.write(" = ") && await generator.generate(node.expression)) &&
-		generator.writeLine(";"),
+addConverter<SyntaxTree.Literal.String>("literal.string",
+	(converter, node) => new C99.Literal.String(node.value, node.tokens),
 )

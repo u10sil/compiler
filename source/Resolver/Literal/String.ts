@@ -16,14 +16,10 @@
 // along with SysPL.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import * as SyntaxTree from "../SyntaxTree"
-import { addGenerator } from "./Generator"
+import * as SyntaxTree from "../../SyntaxTree"
+import { Scope, addResolver } from "../Scope"
 
-addGenerator<SyntaxTree.VariableDeclaration>("VariableDeclaration",
-	async (generator, node) =>
-		await generator.generate(node.type) &&
-		await generator.write(" ") &&
-		await generator.write(node.symbol) &&
-		(!node.expression || await generator.write(" = ") && await generator.generate(node.expression)) &&
-		generator.writeLine(";"),
-)
+function resolve(scope: Scope, node: SyntaxTree.Literal.String) {
+	scope.setType(node, new SyntaxTree.Type.Primitive("string"))
+}
+addResolver("literal.string", resolve)

@@ -19,11 +19,11 @@
 import * as SyntaxTree from "../SyntaxTree"
 import { addGenerator } from "./Generator"
 
-addGenerator<SyntaxTree.VariableDeclaration>("VariableDeclaration",
+let notFirst = false
+addGenerator<SyntaxTree.FunctionCall>("FunctionCall",
 	async (generator, node) =>
-		await generator.generate(node.type) &&
-		await generator.write(" ") &&
-		await generator.write(node.symbol) &&
-		(!node.expression || await generator.write(" = ") && await generator.generate(node.expression)) &&
-		generator.writeLine(";"),
-)
+		await generator.generate(node.functionExpression) &&
+		await generator.write("(") &&
+		node.argumentExpressions.map(async item => (notFirst = !notFirst || await generator.write(", ")) && generator.generate(item)).reduce((r, item) => item && r, true) &&
+		generator.write(")"),
+	)

@@ -36,8 +36,12 @@ export class Generator extends IO.Indenter {
 				this.raise("Unable to locate generator for " + node.class + ".")
 			else if (!(result = await generate(this, node)))
 				this.raise("Failed to generate output for " + JSON.stringify(node.serialize()) + ".")
-		} else if (node instanceof Utilities.Enumerable)
-			result = await node.map(n => this.generate(n)).reduce(async (r, n) => await r && n, Promise.resolve(true))
+		} else if (node instanceof Utilities.Enumerable) {
+			const e = node.getEnumerator()
+			let item: IteratorResult<C99.Node>
+			while (!(item = e.next()).done)
+				result = await this.generate(item.value) && result
+		}
 		return result
 	}
 	create(name: string): Promise<Generator | undefined> {
