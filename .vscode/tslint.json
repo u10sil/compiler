@@ -18,9 +18,7 @@
 		"array-type": [ false ],
 		"no-empty": false,
 		"radix": false,
-		"interface-name": [
-			"never-prefix"
-		]
+		"interface-name": false
 	},
 	"jsRules": {
 		"curly": false,
