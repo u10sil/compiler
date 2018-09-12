@@ -21,5 +21,5 @@ import * as C99 from "../SyntaxTree"
 import { addConverter } from "./Converter"
 
 addConverter<SyntaxTree.ArgumentDeclaration>("argumentDeclaration",
-	(convert, node) => new C99.ArgumentDeclaration(node.symbol, node.tokens),
+	(convert, node) => new C99.ArgumentDeclaration(node.symbol, convert.getType(node), node.tokens),
 )

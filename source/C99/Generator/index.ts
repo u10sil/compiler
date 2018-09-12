@@ -18,6 +18,7 @@
 
 import "./Literal"
 import "./Type"
+import "./ArgumentDeclaration"
 import "./Assignment"
 import "./ExpressionStatement"
 import "./FunctionCall"

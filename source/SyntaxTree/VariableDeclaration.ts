@@ -26,6 +26,7 @@ import { Node } from "./Node"
 
 export class VariableDeclaration extends SymbolDeclaration {
 	get class() { return "variableDeclaration" }
+	get noAssignment(): boolean { return !this.value }
 	constructor(symbol: string, readonly isStatic: boolean, readonly isConstant: boolean, readonly type: Type.Expression | undefined, readonly value: Expression | undefined, tokens?: Utilities.Enumerable<Tokens.Substance> | Node) {
 		super(symbol, tokens)
 	}

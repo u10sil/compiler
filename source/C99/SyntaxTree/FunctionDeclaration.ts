@@ -25,8 +25,8 @@ import * as Type from "./Type"
 
 export class FunctionDeclaration extends SymbolDeclaration {
 	get class() { return "FunctionDeclaration" }
-	constructor(symbol: string, readonly argumentList: Utilities.Enumerable<ArgumentDeclaration>, readonly returnType: Type.Expression, readonly statements: Utilities.Enumerable<Statement>, tokens?: Utilities.Enumerable<Tokens.Substance>) {
-		super(symbol, tokens)
+	constructor(symbol: string, readonly argumentList: Utilities.Enumerable<ArgumentDeclaration>, returnType: Type.Expression, readonly statements: Utilities.Enumerable<Statement>, tokens?: Utilities.Enumerable<Tokens.Substance>) {
+		super(symbol, returnType, tokens)
 	}
 	serialize(): { class: string } & any {
 		return {

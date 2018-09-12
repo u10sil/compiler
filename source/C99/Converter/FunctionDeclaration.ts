@@ -21,7 +21,7 @@ import * as SyntaxTree from "../../SyntaxTree"
 import * as C99 from "../SyntaxTree"
 import { Converter, addConverter } from "./Converter"
 
-function* convertBody(converter: Converter, statements: Utilities.Enumerable<SyntaxTree.Statement>): Iterable<C99.Statement> {
+export function* convertBody(converter: Converter, statements: Utilities.Enumerable<SyntaxTree.Statement>): Iterable<C99.Statement> {
 	const iterator = statements.getEnumerator()
 	let next = iterator.next()
 	while (!next.done) {

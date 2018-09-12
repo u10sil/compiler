@@ -20,9 +20,10 @@ import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../../Tokens"
 import { Expression } from "./Expression"
 import { Declaration } from "./Declaration"
+import * as Type from "./Type"
 
 export abstract class SymbolDeclaration extends Declaration {
-	constructor(symbol: string, tokens?: Utilities.Enumerable<Tokens.Substance>, readonly expression?: Expression) {
+	constructor(symbol: string, readonly type: Type.Expression, tokens?: Utilities.Enumerable<Tokens.Substance>, readonly expression?: Expression) {
 		super(symbol, tokens)
 	}
 	serialize(): { class: string } & any {

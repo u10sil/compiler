@@ -19,4 +19,6 @@
 import * as SyntaxTree from "../SyntaxTree"
 import { addGenerator } from "./Generator"
 
-addGenerator<SyntaxTree.Assignment>("Assignment", async (generator, node) => await generator.write(node.symbol) && await generator.write(" = ") && generator.generate(node.expression))
+addGenerator<SyntaxTree.ArgumentDeclaration>("ArgumentDeclaration",
+	async (generator, node) => generator.generate(node.type) && generator.write(" ") && generator.write(node.symbol),
+)

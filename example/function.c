@@ -1,5 +1,10 @@
-long identity {
-return number;	
-unsigned char a = 5;	
-long b = identity(a);	
-b
+long identity(long number) {
+	return number;
+}
+unsigned char a;
+long b;
+int main() {
+	a = 5;
+	b = identity(a);
+	return b;
+}

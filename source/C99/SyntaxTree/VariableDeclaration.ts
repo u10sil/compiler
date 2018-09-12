@@ -21,11 +21,15 @@ import * as Tokens from "../../Tokens"
 import { Expression } from "./Expression"
 import * as Type from "./Type"
 import { SymbolDeclaration } from "./SymbolDeclaration"
+import { Assignment } from "./Assignment"
+import { ExpressionStatement } from "./ExpressionStatement"
 
 export class VariableDeclaration extends SymbolDeclaration {
 	get class() { return "VariableDeclaration" }
-	constructor(symbol: string, readonly type: Type.Expression, readonly expression?: Expression, tokens?: Utilities.Enumerable<Tokens.Substance>) {
-		super(symbol, tokens)
+	get declaration() { return new VariableDeclaration(this.symbol, this.type, undefined, this.tokens) }
+	get assignment() { return this.expression ? new ExpressionStatement(new Assignment(this.symbol, this.expression, this.expression.tokens)) : undefined }
+	constructor(symbol: string, type: Type.Expression, readonly expression?: Expression, tokens?: Utilities.Enumerable<Tokens.Substance>) {
+		super(symbol, type, tokens)
 	}
 	serialize(): { class: string } & any {
 		return {

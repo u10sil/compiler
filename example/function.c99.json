@@ -1,0 +1,75 @@
+[
+	{
+		"class": "Module",
+		"name": "function",
+		"declarations": [
+			{
+				"class": "FunctionDeclaration",
+				"symbol": "identity",
+				"arguments": [
+					{
+						"class": "ArgumentDeclaration",
+						"symbol": "number"
+					}
+				],
+				"statements": [
+					{
+						"class": "ReturnStatement",
+						"expression": {
+							"class": "Identifier",
+							"symbol": "number"
+						}
+					}
+				]
+			},
+			{
+				"class": "VariableDeclaration",
+				"symbol": "a"
+			},
+			{
+				"class": "VariableDeclaration",
+				"symbol": "b"
+			},
+			{
+				"class": "FunctionDeclaration",
+				"symbol": "main",
+				"arguments": [],
+				"statements": [
+					{
+						"class": "ExpressionStatement",
+						"expression": {
+							"class": "Assignment",
+							"symbol": "a",
+							"expression": {
+								"tokens": {},
+								"value": 5
+							}
+						}
+					},
+					{
+						"class": "ExpressionStatement",
+						"expression": {
+							"class": "Assignment",
+							"symbol": "b",
+							"expression": {
+								"tokens": {},
+								"functionExpression": {
+									"tokens": {},
+									"symbol": "identity"
+								},
+								"argumentExpressions": {}
+							}
+						}
+					},
+					{
+						"class": "ReturnStatement",
+						"expression": {
+							"class": "Identifier",
+							"symbol": "b"
+						}
+					}
+				]
+			}
+		]
+	}
+]

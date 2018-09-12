@@ -1,6 +1,11 @@
-unsigned short alpha = 1337;
-alpha = 42;
-char* beta = "";
-beta = "The power of Attraction";
-double gamma = 4.2;
-gamma = 13.37;
+unsigned short alpha;
+char* beta;
+double gamma;
+int main() {
+	alpha = 1337;
+	alpha = 42;
+	beta = "";
+	beta = "The power of Attraction";
+	gamma = 4.2;
+	return gamma = 13.37;
+}

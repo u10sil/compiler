@@ -39,6 +39,7 @@ export class Generator extends IO.Indenter {
 		} else if (node instanceof Utilities.Enumerable) {
 			const e = node.getEnumerator()
 			let item: IteratorResult<C99.Node>
+			result = true
 			while (!(item = e.next()).done)
 				result = await this.generate(item.value) && result
 		}

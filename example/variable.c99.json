@@ -2,54 +2,91 @@
 	{
 		"class": "Module",
 		"name": "variable",
-		"statements": [
+		"declarations": [
 			{
 				"class": "VariableDeclaration",
-				"symbol": "alpha",
-				"expression": {
-					"class": "Literal.Number",
-					"value": 1337
-				}
-			},
-			{
-				"class": "Assignment",
-				"symbol": "alpha",
-				"expression": {
-					"tokens": {},
-					"value": 42
-				}
+				"symbol": "alpha"
 			},
 			{
 				"class": "VariableDeclaration",
-				"symbol": "beta",
-				"expression": {
-					"class": "Literal.String",
-					"value": ""
-				}
-			},
-			{
-				"class": "Assignment",
-				"symbol": "beta",
-				"expression": {
-					"tokens": {},
-					"value": "The power of Attraction"
-				}
+				"symbol": "beta"
 			},
 			{
 				"class": "VariableDeclaration",
-				"symbol": "gamma",
-				"expression": {
-					"class": "Literal.Number",
-					"value": 4.2
-				}
+				"symbol": "gamma"
 			},
 			{
-				"class": "Assignment",
-				"symbol": "gamma",
-				"expression": {
-					"tokens": {},
-					"value": 13.37
-				}
+				"class": "FunctionDeclaration",
+				"symbol": "main",
+				"arguments": [],
+				"statements": [
+					{
+						"class": "ExpressionStatement",
+						"expression": {
+							"class": "Assignment",
+							"symbol": "alpha",
+							"expression": {
+								"tokens": {},
+								"value": 1337
+							}
+						}
+					},
+					{
+						"class": "ExpressionStatement",
+						"expression": {
+							"class": "Assignment",
+							"symbol": "alpha",
+							"expression": {
+								"tokens": {},
+								"value": 42
+							}
+						}
+					},
+					{
+						"class": "ExpressionStatement",
+						"expression": {
+							"class": "Assignment",
+							"symbol": "beta",
+							"expression": {
+								"tokens": {},
+								"value": ""
+							}
+						}
+					},
+					{
+						"class": "ExpressionStatement",
+						"expression": {
+							"class": "Assignment",
+							"symbol": "beta",
+							"expression": {
+								"tokens": {},
+								"value": "The power of Attraction"
+							}
+						}
+					},
+					{
+						"class": "ExpressionStatement",
+						"expression": {
+							"class": "Assignment",
+							"symbol": "gamma",
+							"expression": {
+								"tokens": {},
+								"value": 4.2
+							}
+						}
+					},
+					{
+						"class": "ReturnStatement",
+						"expression": {
+							"class": "Assignment",
+							"symbol": "gamma",
+							"expression": {
+								"tokens": {},
+								"value": 13.37
+							}
+						}
+					}
+				]
 			}
 		]
 	}

@@ -123,6 +123,13 @@ export class InfixOperator extends Operator {
 		}
 		return result
 	}
+	static create(symbol: string, left: Expression, right: Expression): InfixOperator | undefined {
+		let result: InfixOperator | undefined
+		const properties = InfixOperator.getProperties(symbol)
+		if (properties)
+			result = new InfixOperator(symbol, properties[0], properties[1], left, right)
+		return result
+	}
 }
 addDeserializer("infixOperator", data => {
 	let result: InfixOperator | undefined

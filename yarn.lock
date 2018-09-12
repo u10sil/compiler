@@ -96,9 +96,9 @@
     lodash "^4.17.5"
     to-fast-properties "^2.0.0"
 
-"@cogneco/mend@^1.6.2":
-  version "1.6.2"
-  resolved "https://registry.yarnpkg.com/@cogneco/mend/-/mend-1.6.2.tgz#7b9254768d0cce1bbbeeb45e58d8e3f465a19d91"
+"@cogneco/mend@^1.6.5":
+  version "1.6.5"
+  resolved "https://registry.yarnpkg.com/@cogneco/mend/-/mend-1.6.5.tgz#4ada1b825981158cfe924795736d834c41becf58"
   dependencies:
     async-file "^2.0.2"
 

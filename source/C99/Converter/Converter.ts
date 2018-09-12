@@ -44,7 +44,9 @@ export class Converter {
 	}
 	convert(node: SyntaxTree.Node): C99.Node
 	convert(node: SyntaxTree.Type.Expression): C99.Type.Expression
+	convert(nodes: SyntaxTree.Declaration): C99.Declaration
 	convert(nodes: Utilities.Enumerable<SyntaxTree.ArgumentDeclaration>): Utilities.Enumerable<C99.ArgumentDeclaration>
+	convert(nodes: Utilities.Enumerable<SyntaxTree.Declaration>): Utilities.Enumerable<C99.Declaration>
 	convert(nodes: Utilities.Enumerable<SyntaxTree.Node>): Utilities.Enumerable<C99.Node>
 	convert(node: SyntaxTree.Node | Utilities.Enumerable<SyntaxTree.Node>): C99.Node | Utilities.Enumerable<C99.Node> {
 		let result: C99.Node | Utilities.Enumerable<C99.Node>
