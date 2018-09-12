@@ -39,7 +39,7 @@ export function parse(source: Source): SyntaxTree.VariableDeclaration | undefine
 		let value: SyntaxTree.Expression | undefined
 		if (source.peek()!.isOperator("=") && source.fetch())
 			value = Expression.parse(source, 90)
-		result = new SyntaxTree.VariableDeclaration(symbol!, isStatic, isConstant, type, value, source.mark())
+		result = new SyntaxTree.VariableDeclaration(symbol!, isConstant, isStatic, type, value, source.mark())
 	}
 	return result
 }

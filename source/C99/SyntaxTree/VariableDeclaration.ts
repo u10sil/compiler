@@ -26,9 +26,9 @@ import { ExpressionStatement } from "./ExpressionStatement"
 
 export class VariableDeclaration extends SymbolDeclaration {
 	get class() { return "VariableDeclaration" }
-	get declaration() { return new VariableDeclaration(this.symbol, this.type, undefined, this.tokens) }
+	get declaration() { return new VariableDeclaration(this.symbol, this.type, this.isConstant, this.isStatic, undefined, this.tokens) }
 	get assignment() { return this.expression ? new ExpressionStatement(new Assignment(this.symbol, this.expression, this.expression.tokens)) : undefined }
-	constructor(symbol: string, type: Type.Expression, readonly expression?: Expression, tokens?: Utilities.Enumerable<Tokens.Substance>) {
+	constructor(symbol: string, type: Type.Expression, readonly isConstant: boolean, readonly isStatic: boolean, readonly expression?: Expression, tokens?: Utilities.Enumerable<Tokens.Substance>) {
 		super(symbol, type, tokens)
 	}
 	serialize(): { class: string } & any {

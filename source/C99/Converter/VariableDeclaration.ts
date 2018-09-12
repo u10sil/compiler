@@ -21,5 +21,5 @@ import * as C99 from "../SyntaxTree"
 import { addConverter } from "./Converter"
 
 addConverter<SyntaxTree.VariableDeclaration>("variableDeclaration",
-	(converter, node) => new C99.VariableDeclaration(node.symbol, converter.getType(node), node.value ? converter.convert(node.value) : undefined, node.tokens),
+	(converter, node) => new C99.VariableDeclaration(node.symbol, converter.getType(node), node.isConstant, node.isStatic, node.value ? converter.convert(node.value) : undefined, node.tokens),
 )

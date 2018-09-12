@@ -1,8 +1,8 @@
 long identity(long number) {
 	return number;
 }
-unsigned char a;
-long b;
+const unsigned char a;
+const long b;
 int main() {
 	a = 5;
 	b = identity(a);

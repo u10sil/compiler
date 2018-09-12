@@ -21,6 +21,8 @@ import { addGenerator } from "./Generator"
 
 addGenerator<SyntaxTree.VariableDeclaration>("VariableDeclaration",
 	async (generator, node) =>
+		(node.isConstant || await generator.write("const ")) &&
+		(node.isStatic || await generator.write("static ")) &&
 		await generator.generate(node.type) &&
 		await generator.write(" ") &&
 		await generator.write(node.symbol) &&

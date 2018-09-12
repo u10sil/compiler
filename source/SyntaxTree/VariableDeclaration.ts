@@ -27,17 +27,17 @@ import { Node } from "./Node"
 export class VariableDeclaration extends SymbolDeclaration {
 	get class() { return "variableDeclaration" }
 	get noAssignment(): boolean { return !this.value }
-	constructor(symbol: string, readonly isStatic: boolean, readonly isConstant: boolean, readonly type: Type.Expression | undefined, readonly value: Expression | undefined, tokens?: Utilities.Enumerable<Tokens.Substance> | Node) {
+	constructor(symbol: string, readonly isConstant: boolean, readonly isStatic: boolean, readonly type: Type.Expression | undefined, readonly value: Expression | undefined, tokens?: Utilities.Enumerable<Tokens.Substance> | Node) {
 		super(symbol, tokens)
 	}
 	serialize(): { class: string } & any {
 		return {
 			...super.serialize(),
-			isStatic: this.isStatic || undefined,
 			isConstant: this.isConstant || undefined,
+			isStatic: this.isStatic || undefined,
 			type: this.type && this.type.serialize(),
 			value: this.value && this.value.serialize(),
 		}
 	}
 }
-addDeserializer("variableDeclaration", data => data.hasOwnProperty("symbol") ? new VariableDeclaration(data.symbol, data.isStatic, data.isConstant, deserialize<Type.Expression>(data.type), deserialize<Expression>(data.value)) : undefined)
+addDeserializer("variableDeclaration", data => data.hasOwnProperty("symbol") ? new VariableDeclaration(data.symbol, data.isConstant, data.isStatic, deserialize<Type.Expression>(data.type), deserialize<Expression>(data.value)) : undefined)
