@@ -1,2 +1,2 @@
-# SysPL
-Compiler for SysPL. The System Programming Language.
+# U10sil Compiler
+Compiler for U10sil.
