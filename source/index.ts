@@ -19,7 +19,7 @@
 import { Error, Uri, Utilities } from "@cogneco/mend"
 import * as Parser from "./Parser"
 import * as Resolver from "./Resolver"
-import * as ES from "./ES2017"
+import * as ES from "./ES"
 
 export class Program {
 	readonly version = "0.1.1"
@@ -61,8 +61,8 @@ export class Program {
 					if (parser) {
 						const modules = Utilities.Enumerable.from(parser.toArray())
 						const [declarations, types] = Resolver.resolve(handler, modules)
-						const cCode = new ES.Converter(declarations, types, handler).convert(modules)
-						console.log(JSON.stringify(cCode.map(m => m.serialize()).toArray(), undefined, "\t"))
+						const esCode = new ES.Converter(declarations, types, handler).convert(modules)
+						console.log(JSON.stringify(esCode.map(m => m.serialize()).toArray(), undefined, "\t"))
 					}
 				}
 				break

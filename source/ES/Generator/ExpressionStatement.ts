@@ -19,6 +19,7 @@
 import * as SyntaxTree from "../SyntaxTree"
 import { addGenerator } from "./Generator"
 
-addGenerator<SyntaxTree.ArgumentDeclaration>("ArgumentDeclaration",
-	async (generator, node) => generator.generate(node.type) && generator.write(" ") && generator.write(node.symbol),
+addGenerator<SyntaxTree.ExpressionStatement>("ExpressionStatement", async (generator, node) =>
+	await generator.generate(node.expression) &&
+	generator.writeLine(),
 )

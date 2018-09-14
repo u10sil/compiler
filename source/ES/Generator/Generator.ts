@@ -50,7 +50,7 @@ export class Generator extends IO.Indenter {
 	}
 	static async create(resource: Uri.Locator, handler: Error.Handler): Promise<Generator | undefined> {
 		const writer = await IO.Writer.open(resource)
-		return writer && new Generator(writer, handler) || Generator.create(resource.appendPath("index.c"), handler)
+		return writer && new Generator(writer, handler) || Generator.create(resource.appendPath("index.js"), handler)
 	}
 }
 const generators: { [className: string]: ((generator: Generator, node: ES.Node) => Promise<boolean>) } = {}

@@ -19,4 +19,8 @@
 import * as SyntaxTree from "../SyntaxTree"
 import { addGenerator } from "./Generator"
 
-addGenerator<SyntaxTree.ReturnStatement>("ReturnStatement", async (generator, node) => await generator.write("return ") && await generator.generate(node.expression) && generator.writeLine(";"))
+addGenerator<SyntaxTree.ReturnStatement>("ReturnStatement", async (generator, node) =>
+	await generator.write("return ") &&
+	await generator.generate(node.expression) &&
+	generator.writeLine(),
+)

@@ -17,19 +17,22 @@
 //
 
 import { Utilities } from "@cogneco/mend"
-import * as Tokens from "../../Tokens"
-import { Expression } from "./Expression"
 
-export class Assignment extends Expression {
-	get class() { return "Assignment" }
-	constructor(readonly symbol: string, readonly expression: Expression, readonly tokens?: Utilities.Enumerable<Tokens.Substance>) {
-		super(tokens)
-	}
-	serialize(): { class: string } & any {
-		return {
-			...super.serialize(),
-			symbol: this.symbol,
-			expression: this.expression,
-		}
+import * as SyntaxTree from "../../SyntaxTree"
+import * as ES from "../SyntaxTree"
+import { Converter, addConverter } from "./Converter"
+
+export function* convertBody(converter: Converter, statements: Utilities.Enumerable<SyntaxTree.Statement>): Iterable<ES.Statement> {
+	const iterator = statements.getEnumerator()
+	let next: IteratorResult<SyntaxTree.Statement>
+	while (!(next = iterator.next()).done) {
+		let result = converter.convert(next.value)
+		if (result instanceof ES.Expression)
+			result = new ES.ExpressionStatement(result)
+		yield result
 	}
 }
+
+addConverter<SyntaxTree.Module>("module",
+	(converter, node) => new ES.Module(node.name, Utilities.Enumerable.from(convertBody(converter, node.statements)), node.tokens),
+)

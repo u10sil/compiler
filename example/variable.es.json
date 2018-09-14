@@ -1,0 +1,65 @@
+[
+	{
+		"class": "Module",
+		"name": "variable",
+		"statements": [
+			{
+				"class": "VariableDeclaration",
+				"symbol": "alpha",
+				"expression": {
+					"class": "Literal.Number",
+					"value": 1337
+				}
+			},
+			{
+				"class": "ExpressionStatement",
+				"expression": {
+					"class": "Assignment",
+					"symbol": "alpha",
+					"expression": {
+						"class": "Literal.Number",
+						"value": 42
+					}
+				}
+			},
+			{
+				"class": "VariableDeclaration",
+				"symbol": "beta",
+				"expression": {
+					"class": "Literal.String",
+					"value": ""
+				}
+			},
+			{
+				"class": "ExpressionStatement",
+				"expression": {
+					"class": "Assignment",
+					"symbol": "beta",
+					"expression": {
+						"class": "Literal.String",
+						"value": "The power of Attraction"
+					}
+				}
+			},
+			{
+				"class": "VariableDeclaration",
+				"symbol": "gamma",
+				"expression": {
+					"class": "Literal.Number",
+					"value": 4.2
+				}
+			},
+			{
+				"class": "ExpressionStatement",
+				"expression": {
+					"class": "Assignment",
+					"symbol": "gamma",
+					"expression": {
+						"class": "Literal.Number",
+						"value": 13.37
+					}
+				}
+			}
+		]
+	}
+]

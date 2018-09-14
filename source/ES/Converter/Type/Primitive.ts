@@ -16,16 +16,10 @@
 // along with U10sil.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import * as SyntaxTree from "../SyntaxTree"
-import { addGenerator } from "./Generator"
+import * as SyntaxTree from "../../../SyntaxTree"
+import * as ES from "../../SyntaxTree"
+import { addConverter } from "../Converter"
 
-addGenerator<SyntaxTree.VariableDeclaration>("VariableDeclaration",
-	async (generator, node) =>
-		(node.isConstant || await generator.write("const ")) &&
-		(node.isStatic || await generator.write("static ")) &&
-		await generator.generate(node.type) &&
-		await generator.write(" ") &&
-		await generator.write(node.symbol) &&
-		(!node.expression || await generator.write(" = ") && await generator.generate(node.expression)) &&
-		generator.writeLine(";"),
+addConverter<SyntaxTree.Type.Primitive>("type.primitive",
+	(_, node) => new ES.Type.Primitive(node.name, node.tokens),
 )

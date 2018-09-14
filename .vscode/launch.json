@@ -37,11 +37,11 @@
 		{
 			"type": "node",
 			"request": "launch",
-			"name": "c99-build",
+			"name": "compile",
 			"program": "${workspaceRoot}/build/index.js",
 			"args": [
-				"c99-build",
-				"${workspaceRoot}/example/function.syspl"
+				"compile",
+				"${relativeFile}"
 			],
 			"protocol": "inspector",
 			"preLaunchTask": "build",
@@ -51,9 +51,9 @@
 		{
 			"type": "node",
 			"request": "launch",
-			"name": "c99-json",
+			"name": "es-json",
 			"program": "${workspaceRoot}/build/index.js",
-			"args": [ "json", "${workspaceRoot}/example/function.syspl" ],
+			"args": [ "es-json", "${relativeFile}" ],
 			"protocol": "inspector",
 			"preLaunchTask": "build",
 			"sourceMaps": true,
@@ -64,7 +64,7 @@
 			"request": "launch",
 			"name": "json",
 			"program": "${workspaceRoot}/build/index.js",
-			"args": [ "json", "${workspaceRoot}/example/function.syspl" ],
+			"args": [ "json", "${relativeFile}" ],
 			"protocol": "inspector",
 			"preLaunchTask": "build",
 			"sourceMaps": true,
