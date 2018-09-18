@@ -1,0 +1,22 @@
+const backend = Backend {
+	database: MySql {
+		connection: Uri.Locator "mysql://user:password@server.domain.tld/database"
+		tables: {
+			users: {
+				columns: {
+					id: { type: "number", indexed }
+					name: { type: "string" }
+				}
+			}
+		}
+	}
+	service: Rest {
+		listen: Uri.Locator "https://0.0.0.0:80/api"
+		root: Resource {
+			users: Collection {
+
+			}
+		}
+	}
+}
+backend.start()

@@ -18,4 +18,5 @@
 
 import "./Character"
 import "./Number"
+import "./ObjectLiteral"
 import "./String"

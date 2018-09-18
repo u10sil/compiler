@@ -19,4 +19,5 @@
 export { Expression } from "./Expression"
 export { Character } from "./Character"
 export { Number } from "./Number"
+export { ObjectLiteral } from "./ObjectLiteral"
 export { String } from "./String"

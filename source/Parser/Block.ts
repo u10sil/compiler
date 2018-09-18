@@ -16,11 +16,11 @@
 // along with U10sil.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+import { Utilities } from "@cogneco/mend"
 import { Source } from "./Source"
 import * as Statement from "./Statement"
 import * as Expression from "./Expression"
 import * as SyntaxTree from "../SyntaxTree"
-import { Utilities } from "@cogneco/mend"
 
 export function parse(source: Source): SyntaxTree.Block | undefined {
 	let result: SyntaxTree.Block | undefined

@@ -28,5 +28,9 @@ export function map<T>(node: { id: number } & any | ({ id: number } & any)[] | a
 	}	else if (node instanceof Array)
 		for (const index in node)
 			node[index] = map(node[index], mapping)
+	else if (typeof node == "object")
+		for (const key in node)
+			if (node.hasOwnProperty(key))
+				node[key] = map(node[key], mapping)
 	return node
 }
