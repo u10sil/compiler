@@ -24,7 +24,9 @@ import * as Type from "../Type"
 
 function parse(source: Source, precedance: number, previous?: SyntaxTree.Expression): SyntaxTree.Expression | undefined {
 	let result: SyntaxTree.Literal.ObjectLiteral | undefined
-	if (source.peek(0)!.isSeparator("{") && (source.peek(1)!.isIdentifier() || (source.peek(1) instanceof Tokens.Literals.String) && source.peek(2)!.isOperator(":"))) {
+	const offset = source.peek(0)!.isIdentifier() ? 1 : 0
+	if (source.peek(offset)!.isSeparator("{") && (source.peek(offset + 1)!.isIdentifier() || (source.peek(offset + 1) instanceof Tokens.Literals.String) && source.peek(offset + 2)!.isOperator(":"))) {
+		const className = offset > 0 ? Type.Identifier.parse(source) : undefined
 		const data: { [property: string]: SyntaxTree.Expression } = {}
 		do {
 			source.fetch() // consume: {
@@ -44,7 +46,7 @@ function parse(source: Source, precedance: number, previous?: SyntaxTree.Express
 		} while (source.peek()!.isSeparator(";"))
 		if (source.fetch()!.isSeparator("}"))
 			source.raise("Expected \"}\" to end object literal.")
-		result = new SyntaxTree.Literal.ObjectLiteral(data, Type.tryParse(source), source.mark())
+		result = new SyntaxTree.Literal.ObjectLiteral(className, data, Type.tryParse(source), source.mark())
 	}
 	return result
 }

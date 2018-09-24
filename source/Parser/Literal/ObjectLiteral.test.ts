@@ -30,4 +30,12 @@ describe("Parser.Expressions.Literals.Object", () => {
 		expect(literal instanceof SyntaxTree.Literal.ObjectLiteral).toBeTruthy()
 		expect(SyntaxTree.filterId(literal!.serialize())).toEqual({ class: "literal.object", value: { property: { class: "literal.number", value: 1337 } } })
 	})
+	it("typed literal", () => {
+		const parser = Parser.create("Class { property: 1337 }", handler)
+		const statements = parser.fetch()!.statements.getEnumerator()
+		const literal = statements.fetch()
+		console.log(literal)
+		expect(literal instanceof SyntaxTree.Literal.ObjectLiteral).toBeTruthy()
+		expect(SyntaxTree.filterUndefined(SyntaxTree.filterId(literal!.serialize()))).toEqual({ class: "literal.object", className: { class: "type.identifier", name: "Class" }, value: { property: { class: "literal.number", value: 1337 } } })
+	})
 })
