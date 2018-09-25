@@ -4,7 +4,7 @@ const backend = Backend {
 		tables: {
 			users: {
 				columns: {
-					id: { type: "number", indexed }
+					id: { type: "number", indexed: true }
 					name: { type: "string" }
 				}
 			}

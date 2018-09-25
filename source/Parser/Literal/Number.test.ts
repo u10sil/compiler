@@ -54,4 +54,11 @@ describe("Parser.Expressions.Literal.Number", () => {
 		expect((literal as SyntaxTree.Literal.Number).value).toEqual(54321)
 		expect(SyntaxTree.filterId(literal!.serialize())).toEqual({ class: "literal.number", value: 54321 })
 	})
+	it("typed object", () => {
+		const parser = Parser.create("Class 12345", handler)
+		const statements = parser.fetch()!.statements.getEnumerator()
+		const literal = statements.fetch()
+		expect(literal).toBeInstanceOf(SyntaxTree.Literal.TypedObject)
+		expect(SyntaxTree.filterId(literal!.serialize())).toEqual({ class: "literal.typedObject", name: { class: "identifier", name: "Class" }, value: { class: "literal.number", value: 12345 } })
+	})
 })

@@ -23,9 +23,9 @@ import { Expression } from "./Expression"
 import { addDeserializer, deserialize } from "../deserialize"
 import { Node } from "../Node"
 
-export class ObjectLiteral extends Expression {
-	get class() { return "literal.object" }
-	constructor(readonly className: Type.Identifier | undefined, readonly value: { [property: string]: Expression } | any, type?: Type.Expression | undefined, tokens?: Utilities.Enumerable<Tokens.Substance> | Node) {
+export class UntypedObject extends Expression {
+	get class() { return "literal.untypedObject" }
+	constructor(readonly value: { [property: string]: Expression } | any, type?: Type.Expression | undefined, tokens?: Utilities.Enumerable<Tokens.Substance> | Node) {
 		super(type, tokens)
 	}
 	serialize(): { class: string } & any {
@@ -33,7 +33,7 @@ export class ObjectLiteral extends Expression {
 		for (const property in this.value)
 			if (this.value.hasOwnProperty(property))
 				value[property] = this.value[property].serialize()
-		return { ...super.serialize(), className: (this.className ? this.className.serialize() : undefined), value }
+		return { ...super.serialize(), value }
 	}
 }
 function deserializeValue(value: { [property: string]: { class: string } & any }): { [property: string]: Expression } {
@@ -45,4 +45,4 @@ function deserializeValue(value: { [property: string]: { class: string } & any }
 	return result
 }
 // tslint:disable no-construct
-addDeserializer("literal.object", data => data.hasOwnProperty("value") ? new ObjectLiteral(data.className, deserializeValue(data.value)) : undefined)
+addDeserializer("literal.untypedObject", data => data.hasOwnProperty("value") ? new UntypedObject(deserializeValue(data.value)) : undefined)

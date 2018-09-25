@@ -24,8 +24,13 @@ describe("Parser.Expressions.Literals.StringLiteral", () => {
 	const handler = new Error.ConsoleHandler()
 	it("literal", () => {
 		const literal = Parser.parseFirst("\"\\\"string\\\"\"", handler)
-		expect(literal instanceof SyntaxTree.Literal.String).toBeTruthy()
+		expect(literal).toBeInstanceOf(SyntaxTree.Literal.String)
 		expect((literal as SyntaxTree.Literal.String).value).toEqual("\"string\"")
 		expect(SyntaxTree.filterId(literal!.serialize())).toEqual({ class: "literal.string", value: "\"string\"" })
+	})
+	it("typed object literal", () => {
+		const literal = Parser.parseFirst("Class \"string\"", handler)
+		expect(literal instanceof SyntaxTree.Literal.TypedObject).toBeTruthy()
+		expect(SyntaxTree.filterId(literal!.serialize())).toEqual({ class: "literal.typedObject", name: { class: "identifier", name: "Class" }, value: { class: "literal.string", value: "string" } })
 	})
 })

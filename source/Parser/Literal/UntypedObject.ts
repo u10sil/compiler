@@ -23,10 +23,8 @@ import * as Tokens from "../../Tokens"
 import * as Type from "../Type"
 
 function parse(source: Source, precedance: number, previous?: SyntaxTree.Expression): SyntaxTree.Expression | undefined {
-	let result: SyntaxTree.Literal.ObjectLiteral | undefined
-	const offset = source.peek(0)!.isIdentifier() ? 1 : 0
-	if (source.peek(offset)!.isSeparator("{") && (source.peek(offset + 1)!.isIdentifier() || (source.peek(offset + 1) instanceof Tokens.Literals.String) && source.peek(offset + 2)!.isOperator(":"))) {
-		const className = offset > 0 ? Type.Identifier.parse(source) : undefined
+	let result: SyntaxTree.Literal.UntypedObject | undefined
+	if (source.peek()!.isSeparator("{") && (source.peek(1)!.isIdentifier() || (source.peek(1) instanceof Tokens.Literals.String) && source.peek(2)!.isOperator(":"))) {
 		const data: { [property: string]: SyntaxTree.Expression } = {}
 		do {
 			source.fetch() // consume: {
@@ -44,9 +42,11 @@ function parse(source: Source, precedance: number, previous?: SyntaxTree.Express
 					source.raise("Missing expression after property name: \"" + name + "\" in object literal.")
 			}
 		} while (source.peek()!.isSeparator(";"))
-		if (source.fetch()!.isSeparator("}"))
+		if (!source.fetch()!.isSeparator("}"))
 			source.raise("Expected \"}\" to end object literal.")
-		result = new SyntaxTree.Literal.ObjectLiteral(className, data, Type.tryParse(source), source.mark())
+		result = new SyntaxTree.Literal.UntypedObject(data, Type.tryParse(source), source.mark())
+		if (previous instanceof SyntaxTree.Identifier)
+			result = new SyntaxTree.Literal.TypedObject(previous, result)
 	}
 	return result
 }
