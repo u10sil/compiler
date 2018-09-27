@@ -16,17 +16,16 @@
 // along with U10sil.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import "./Literal"
-import "./Type"
-import "./ArgumentDeclaration"
-import "./Assignment"
-import "./ExpressionStatement"
-import "./FunctionCall"
-import "./FunctionDeclaration"
-import "./Identifier"
-import "./Module"
-import "./New"
-import "./ReturnStatement"
-import "./VariableDeclaration"
+import * as SyntaxTree from "../../../SyntaxTree"
+import * as ES from "../../SyntaxTree"
+import { addConverter } from "../Converter"
 
-export { Generator } from "./Generator"
+addConverter<SyntaxTree.Literal.UntypedObject>("literal.untypedObject",
+	(converter, node) => {
+		const value: { [ property: string ]: ES.Expression } = {}
+		for (const property in node.value)
+			if (node.value.hasOwnProperty(property))
+				value[property] = converter.convert(node.value[property])
+		return new ES.Literal.Objekt(value, node.tokens)
+	},
+)

@@ -22,5 +22,5 @@ import { addGenerator } from "./Generator"
 addGenerator<SyntaxTree.Assignment>("Assignment", async (generator, node) =>
 	await generator.write(node.symbol) &&
 	await generator.write(" = ") &&
-	generator.generate(node.expression),
+	generator.generate(node.argument),
 )

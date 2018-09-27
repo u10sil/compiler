@@ -16,17 +16,10 @@
 // along with U10sil.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import "./Literal"
-import "./Type"
-import "./ArgumentDeclaration"
-import "./Assignment"
-import "./ExpressionStatement"
-import "./FunctionCall"
-import "./FunctionDeclaration"
-import "./Identifier"
-import "./Module"
-import "./New"
-import "./ReturnStatement"
-import "./VariableDeclaration"
+import * as SyntaxTree from "../../SyntaxTree"
+import { Scope, addResolver } from "../Scope"
 
-export { Generator } from "./Generator"
+function resolve(scope: Scope, node: SyntaxTree.Literal.TypedObject) {
+	scope.setType(node, node.name)
+}
+addResolver("literal.typedObject", resolve)

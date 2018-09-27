@@ -1,4 +1,4 @@
-// Copyright (C) 2015, 2017  Simon Mika <simon@mika.se>
+// Copyright (C) 2018  Simon Mika <simon@mika.se>
 //
 // This file is part of U10sil.
 //
@@ -17,26 +17,18 @@
 //
 
 import { Utilities } from "@cogneco/mend"
-import * as Tokens from "../Tokens"
-import * as Type from "./Type"
+import * as Tokens from "../../Tokens"
 import { Expression } from "./Expression"
-import { addDeserializer } from "./deserialize"
-import { Node } from "./Node"
 
-export class Identifier extends Expression {
-	get class() { return "identifier" }
-	get precedence() { return Number.MAX_VALUE }
-	constructor(readonly name: string, type?: Type.Expression, tokens?: Utilities.Enumerable<Tokens.Substance> | Node) {
-		super(type, tokens)
-	}
-	asTypeIdentifier(): Type.Identifier {
-		return new Type.Identifier(this.name, Utilities.Enumerable.empty, this)
+export abstract class Operator extends Expression {
+	abstract readonly symbol: string
+	constructor(readonly tokens?: Utilities.Enumerable<Tokens.Substance>) {
+		super(tokens)
 	}
 	serialize(): { class: string } & any {
 		return {
 			...super.serialize(),
-			name: this.name,
+			symbol: this.symbol,
 		}
 	}
 }
-addDeserializer("identifier", data => data.hasOwnProperty("name") ? new Identifier(data.name) : undefined)

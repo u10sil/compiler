@@ -43,6 +43,7 @@ export class Converter {
 		return result ? this.convert(result) : ES.Type.Primitive.void
 	}
 	convert(node: SyntaxTree.Node): ES.Node
+	convert(nodes: SyntaxTree.Type.Identifier): ES.Type.Identifier
 	convert(node: SyntaxTree.Type.Expression): ES.Type.Expression
 	convert(nodes: SyntaxTree.Declaration): ES.Declaration
 	convert(nodes: Utilities.Enumerable<SyntaxTree.ArgumentDeclaration>): Utilities.Enumerable<ES.ArgumentDeclaration>
@@ -52,6 +53,8 @@ export class Converter {
 		let result: ES.Node | Utilities.Enumerable<ES.Node>
 		if (node instanceof SyntaxTree.Node) {
 			const converter = converters[node.class]
+			if (!converter)
+				this.handler.raise("Missing converter to convert \"" + node.class + "\" to ES.")
 			result = converter && converter(this, node)
 		} else
 			result = node.map(n => this.convert(n))

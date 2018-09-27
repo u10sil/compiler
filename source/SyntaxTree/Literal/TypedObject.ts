@@ -19,14 +19,13 @@
 import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../../Tokens"
 import * as Type from "../Type"
-import { Identifier } from "../Identifier"
 import { Expression } from "./Expression"
 import { addDeserializer, deserialize } from "../deserialize"
 import { Node } from "../Node"
 
 export class TypedObject extends Expression {
 	get class() { return "literal.typedObject" }
-	constructor(readonly name: Identifier, readonly value: Expression, type?: Type.Expression | undefined, tokens?: Utilities.Enumerable<Tokens.Substance> | Node) {
+	constructor(readonly name: Type.Identifier, readonly value: Expression, type?: Type.Expression | undefined, tokens?: Utilities.Enumerable<Tokens.Substance> | Node) {
 		super(type, tokens)
 	}
 	serialize(): { class: string } & any {

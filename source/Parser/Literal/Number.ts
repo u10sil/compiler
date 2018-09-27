@@ -28,7 +28,7 @@ function parse(source: Source, precedance: number, previous?: SyntaxTree.Express
 		result = new SyntaxTree.Literal.Number((source.fetch() as Tokens.Literals.Number).value, Type.tryParse(source), source.mark())
 		result = Expression.parse(source, result.precedence, result)
 		if (previous instanceof SyntaxTree.Identifier && result)
-			result = new SyntaxTree.Literal.TypedObject(previous, result)
+			result = new SyntaxTree.Literal.TypedObject(previous.asTypeIdentifier(), result)
 	}
 	return result
 }

@@ -19,17 +19,12 @@
 import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../../Tokens"
 import { Expression } from "./Expression"
+import { UnaryOperator } from "./UnaryOperator"
 
-export class Assignment extends Expression {
+export class Assignment extends UnaryOperator {
 	get class() { return "Assignment" }
-	constructor(readonly symbol: string, readonly expression: Expression, readonly tokens?: Utilities.Enumerable<Tokens.Substance>) {
-		super(tokens)
-	}
-	serialize(): { class: string } & any {
-		return {
-			...super.serialize(),
-			symbol: this.symbol,
-			expression: this.expression.serialize(),
-		}
+	get symbol() { return "=" }
+	constructor(readonly variable: string, expression: Expression, readonly tokens?: Utilities.Enumerable<Tokens.Substance>) {
+		super(expression, tokens)
 	}
 }

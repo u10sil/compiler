@@ -18,3 +18,5 @@
 
 import "./Number"
 import "./String"
+import "./TypedObject"
+import "./UntypedObject"

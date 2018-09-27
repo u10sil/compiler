@@ -1,10 +1,10 @@
-const backend = Backend {
+let model = Model {
 	database: MySql {
 		connection: Uri.Locator "mysql://user:password@server.domain.tld/database"
 		tables: {
 			users: {
 				columns: {
-					id: { type: "number", indexed: true }
+					id: { type: "number" indexed: true }
 					name: { type: "string" }
 				}
 			}
@@ -14,9 +14,10 @@ const backend = Backend {
 		listen: Uri.Locator "https://0.0.0.0:80/api"
 		root: Resource {
 			users: Collection {
-
+				fields: {
+					name: model.database.tables.users
+				}
 			}
 		}
 	}
 }
-backend.start()

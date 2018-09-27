@@ -18,4 +18,5 @@
 
 export { Expression } from "./Expression"
 export { Number } from "./Number"
+export { Objekt } from "./Objekt"
 export { String } from "./String"

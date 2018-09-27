@@ -59,6 +59,6 @@ describe("Parser.Expressions.Literal.Number", () => {
 		const statements = parser.fetch()!.statements.getEnumerator()
 		const literal = statements.fetch()
 		expect(literal).toBeInstanceOf(SyntaxTree.Literal.TypedObject)
-		expect(SyntaxTree.filterId(literal!.serialize())).toEqual({ class: "literal.typedObject", name: { class: "identifier", name: "Class" }, value: { class: "literal.number", value: 12345 } })
+		expect(SyntaxTree.filterId(literal!.serialize())).toEqual({ class: "literal.typedObject", name: { class: "type.identifier", name: "Class" }, value: { class: "literal.number", value: 12345 } })
 	})
 })

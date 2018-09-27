@@ -1,4 +1,4 @@
-// Copyright (C) 2015, 2017  Simon Mika <simon@mika.se>
+// Copyright (C) 2018  Simon Mika <simon@mika.se>
 //
 // This file is part of U10sil.
 //
@@ -17,26 +17,20 @@
 //
 
 import { Utilities } from "@cogneco/mend"
-import * as Tokens from "../Tokens"
-import * as Type from "./Type"
+import * as Tokens from "../../../Tokens"
 import { Expression } from "./Expression"
-import { addDeserializer } from "./deserialize"
-import { Node } from "./Node"
+import * as SyntaxTree from ".."
 
-export class Identifier extends Expression {
-	get class() { return "identifier" }
-	get precedence() { return Number.MAX_VALUE }
-	constructor(readonly name: string, type?: Type.Expression, tokens?: Utilities.Enumerable<Tokens.Substance> | Node) {
-		super(type, tokens)
-	}
-	asTypeIdentifier(): Type.Identifier {
-		return new Type.Identifier(this.name, Utilities.Enumerable.empty, this)
+export class Objekt extends Expression {
+	get class() { return "Literal.Object" }
+	constructor(readonly value: { [property: string]: SyntaxTree.Expression }, tokens?: Utilities.Enumerable<Tokens.Substance>) {
+		super(tokens)
 	}
 	serialize(): { class: string } & any {
-		return {
-			...super.serialize(),
-			name: this.name,
-		}
+		const value: { [property: string]: { class: string } & any } = {}
+		for (const property in this.value)
+			if (this.value.hasOwnProperty(property))
+				value[property] = this.value[property].serialize()
+		return { ...super.serialize(), value }
 	}
 }
-addDeserializer("identifier", data => data.hasOwnProperty("name") ? new Identifier(data.name) : undefined)

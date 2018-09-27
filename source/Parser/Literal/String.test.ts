@@ -31,6 +31,6 @@ describe("Parser.Expressions.Literals.StringLiteral", () => {
 	it("typed object literal", () => {
 		const literal = Parser.parseFirst("Class \"string\"", handler)
 		expect(literal instanceof SyntaxTree.Literal.TypedObject).toBeTruthy()
-		expect(SyntaxTree.filterId(literal!.serialize())).toEqual({ class: "literal.typedObject", name: { class: "identifier", name: "Class" }, value: { class: "literal.string", value: "string" } })
+		expect(SyntaxTree.filterId(literal!.serialize())).toEqual({ class: "literal.typedObject", name: { class: "type.identifier", name: "Class" }, value: { class: "literal.string", value: "string" } })
 	})
 })

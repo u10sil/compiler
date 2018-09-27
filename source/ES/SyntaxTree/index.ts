@@ -20,17 +20,22 @@ import * as Literal from "./Literal"
 import * as Type from "./Type"
 import { ArgumentDeclaration } from "./ArgumentDeclaration"
 import { Assignment } from "./Assignment"
+import { BinaryOperator } from "./BinaryOperator"
 import { Declaration } from "./Declaration"
 import { Expression } from "./Expression"
 import { ExpressionStatement } from "./ExpressionStatement"
 import { FunctionCall } from "./FunctionCall"
 import { FunctionDeclaration } from "./FunctionDeclaration"
 import { Identifier } from "./Identifier"
+import { MemberAccess } from "./MemberAccess"
 import { Module } from "./Module"
+import { New } from "./New"
 import { Node } from "./Node"
+import { Operator } from "./Operator"
 import { ReturnStatement } from "./ReturnStatement"
 import { Statement } from "./Statement"
 import { SymbolDeclaration } from "./SymbolDeclaration"
+import { UnaryOperator } from "./UnaryOperator"
 import { VariableDeclaration } from "./VariableDeclaration"
 
 export {
@@ -38,16 +43,21 @@ export {
 	Type,
 	ArgumentDeclaration,
 	Assignment,
+	BinaryOperator,
 	Declaration,
 	Expression,
 	ExpressionStatement,
 	FunctionCall,
 	FunctionDeclaration,
 	Identifier,
+	MemberAccess,
 	Module,
+	New,
 	Node,
+	Operator,
 	ReturnStatement,
 	Statement,
 	SymbolDeclaration,
+	UnaryOperator,
 	VariableDeclaration,
 }
