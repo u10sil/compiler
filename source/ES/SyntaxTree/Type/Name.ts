@@ -1,4 +1,4 @@
-// Copyright (C) 2018  Simon Mika <simon@mika.se>
+// Copyright (C) 2015, 2017  Simon Mika <simon@mika.se>
 //
 // This file is part of U10sil.
 //
@@ -16,11 +16,22 @@
 // along with U10sil.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import * as SyntaxTree from "../SyntaxTree"
-import { addGenerator } from "./Generator"
+import { Utilities } from "@cogneco/mend"
+import { Expression } from "./Expression"
+import * as Tokens from "../../../Tokens"
 
-addGenerator<SyntaxTree.Assignment>("Assignment", async (generator, node) =>
-	await generator.write(node.variable) &&
-	await generator.write(" " + node.symbol + " ") &&
-	generator.generate(node.argument),
-)
+export class Name extends Expression {
+	get class() { return "Type.Name" }
+	constructor(readonly name: string, tokens?: Utilities.Enumerable<Tokens.Substance>) {
+		super(tokens)
+	}
+	serialize(): { class: string } & any {
+		return {
+			...super.serialize(),
+			name: this.name,
+		}
+	}
+	toString(): string {
+		return this.name
+	}
+}

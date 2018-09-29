@@ -25,8 +25,8 @@ import { Identifier } from "./Identifier"
 export class New extends Operator {
 	get class(): string { return "New" }
 	get symbol(): string { return "new" }
-	readonly arguments: Expression[]
-	constructor(readonly name: Identifier, argumentList: Expression[], readonly tokens?: Utilities.Enumerable<Tokens.Substance>) {
+	readonly arguments: Utilities.Enumerable<Expression>
+	constructor(readonly name: Identifier, argumentList: Utilities.Enumerable<Expression>, readonly tokens?: Utilities.Enumerable<Tokens.Substance>) {
 		super(tokens)
 		this.arguments = argumentList
 	}

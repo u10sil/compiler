@@ -21,6 +21,7 @@ import * as Type from "./Type"
 import { ArgumentDeclaration } from "./ArgumentDeclaration"
 import { Assignment } from "./Assignment"
 import { BinaryOperator } from "./BinaryOperator"
+import { ClassDeclaration } from "./ClassDeclaration"
 import { Declaration } from "./Declaration"
 import { Expression } from "./Expression"
 import { ExpressionStatement } from "./ExpressionStatement"
@@ -44,6 +45,7 @@ export {
 	ArgumentDeclaration,
 	Assignment,
 	BinaryOperator,
+	ClassDeclaration,
 	Declaration,
 	Expression,
 	ExpressionStatement,

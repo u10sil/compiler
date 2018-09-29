@@ -44,6 +44,9 @@ export class Converter {
 	}
 	convert(node: SyntaxTree.Node): ES.Node
 	convert(nodes: SyntaxTree.Type.Identifier): ES.Type.Identifier
+	convert(nodes: Utilities.Enumerable<SyntaxTree.Type.Identifier>): Utilities.Enumerable<ES.Type.Identifier>
+	convert(nodes: SyntaxTree.Type.Name): ES.Type.Name
+	convert(nodes: Utilities.Enumerable<SyntaxTree.Type.Name>): Utilities.Enumerable<ES.Type.Name>
 	convert(node: SyntaxTree.Type.Expression): ES.Type.Expression
 	convert(nodes: SyntaxTree.Declaration): ES.Declaration
 	convert(nodes: Utilities.Enumerable<SyntaxTree.ArgumentDeclaration>): Utilities.Enumerable<ES.ArgumentDeclaration>

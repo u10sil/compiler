@@ -16,4 +16,5 @@
 // along with U10sil.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+import "./Identifier"
 import "./Primitive"

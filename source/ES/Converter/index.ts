@@ -19,6 +19,7 @@
 import "./Literal"
 import "./Type"
 import "./ArgumentDeclaration"
+import "./ClassDeclaration"
 import "./FunctionCall"
 import "./FunctionDeclaration"
 import "./Identifier"

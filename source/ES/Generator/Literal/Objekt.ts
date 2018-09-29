@@ -16,23 +16,20 @@
 // along with U10sil.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import * as SyntaxTree from "../SyntaxTree"
-import { Generator, addGenerator } from "./Generator"
-import { Utilities } from "@cogneco/mend"
+import * as SyntaxTree from "../../SyntaxTree"
+import { Generator, addGenerator } from "../Generator"
 
-addGenerator<SyntaxTree.FunctionCall>("FunctionCall",
-	async (generator, node) => {
-		return await generator.generate(node.functionExpression) &&
-			await generator.write("(") &&
-			await generateArguments(generator, node.argumentExpressions) &&
-			generator.write(")")
-	},
+addGenerator<SyntaxTree.Literal.Objekt>("Literal.Object", async (generator, node) =>
+	await generator.writeLine("{") &&
+	generator.increase() &&
+	await generateValue(generator, node.value) &&
+	generator.decrease() &&
+	generator.write("}"),
 )
-async function generateArguments(generator: Generator, argumentExpressions: Utilities.Enumerable<SyntaxTree.Expression>): Promise<boolean> {
+async function generateValue(generator: Generator, value: { [ property: string ]: SyntaxTree.Expression }): Promise<boolean> {
 	let result = true
-	let notFirst = false
-	for (const expression of argumentExpressions)
-		if (!(result = (notFirst = !notFirst || await generator.write(", ")) && await generator.generate(expression)))
-			break
+	for (const property in value)
+		if (result && value.hasOwnProperty(property))
+			result = await generator.write(property) && await generator.write(": ") && await generator.generate(value[property]) && await generator.writeLine(",")
 	return result
 }

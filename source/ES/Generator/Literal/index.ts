@@ -17,4 +17,5 @@
 //
 
 import "./Number"
+import "./Objekt"
 import "./String"

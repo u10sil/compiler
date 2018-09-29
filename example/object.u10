@@ -1,6 +1,6 @@
 let model = Model {
 	database: MySql {
-		connection: Uri.Locator "mysql://user:password@server.domain.tld/database"
+		connection: Url "mysql://user:password@server.domain.tld/database"
 		tables: {
 			users: {
 				columns: {
@@ -11,12 +11,13 @@ let model = Model {
 		}
 	}
 	service: Rest {
-		listen: Uri.Locator "https://0.0.0.0:80/api"
+		listen: Url "https://0.0.0.0:80/api"
 		root: Resource {
 			users: Collection {
-				fields: {
-					name: model.database.tables.users
-				}
+				create: data => data
+				read: id => model.database.tables.users.select(id)
+				update: (id, data) => false
+				delete: id => false
 			}
 		}
 	}

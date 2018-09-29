@@ -18,9 +18,9 @@
 
 import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../../../Tokens"
-import { Identifier } from "./Identifier"
+import { Name } from "./Name"
 
-export class Primitive extends Identifier {
+export class Primitive extends Name {
 	get class() { return "Type.Primitive" }
 	constructor(readonly symbol: string, tokens?: Utilities.Enumerable<Tokens.Substance>) {
 		super(symbol, tokens)

@@ -18,5 +18,6 @@
 
 export { Expression } from "./Expression"
 export { Identifier } from "./Identifier"
+export { Name } from "./Name"
 export { Primitive } from "./Primitive"
 export { Union } from "./Union"

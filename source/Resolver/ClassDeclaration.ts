@@ -17,10 +17,13 @@
 //
 
 import * as SyntaxTree from "../SyntaxTree"
-import { addGenerator } from "./Generator"
+import { Scope, addResolver } from "./Scope"
 
-addGenerator<SyntaxTree.Assignment>("Assignment", async (generator, node) =>
-	await generator.write(node.variable) &&
-	await generator.write(" " + node.symbol + " ") &&
-	generator.generate(node.argument),
-)
+function resolve(scope: Scope, node: SyntaxTree.ClassDeclaration) {
+	scope.addType(node)
+	scope.resolve(node.extended)
+	scope.resolve(node.implements)
+	scope = scope.create()
+	scope.resolve(node.content)
+}
+addResolver("classDeclaration", resolve)

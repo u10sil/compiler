@@ -17,18 +17,18 @@
 //
 
 import { Utilities } from "@cogneco/mend"
-import * as Tokens from "../../../Tokens"
-import { Expression } from "./Expression"
+import * as Tokens from "../../Tokens"
+import * as Type from "./Type"
+import { TypeDeclaration } from "./TypeDeclaration"
+import { Statement } from "./Statement"
 
-export class Identifier extends Expression {
-	get class() { return "Type.Identifier" }
-	constructor(readonly symbol: string, readonly parameters: Utilities.Enumerable<Identifier>, tokens?: Utilities.Enumerable<Tokens.Substance>) {
-		super(tokens)
-	}
-	serialize(): { class: string } & any {
-		return {
-			...super.serialize(),
-			symbol: this.symbol,
-		}
+export class ClassDeclaration extends TypeDeclaration {
+	get class() { return "classDeclaration" }
+	readonly extends: Type.Identifier | undefined
+	readonly implements: Utilities.Enumerable<Type.Identifier>
+	constructor(symbol: string, readonly isAbstract: boolean, readonly parameters: Utilities.Enumerable<Type.Name>, extended: Type.Identifier | undefined, implemented: Utilities.Enumerable<Type.Identifier>, readonly declarations: Utilities.Enumerable<Statement>, tokens?: Utilities.Enumerable<Tokens.Substance>) {
+		super(symbol, tokens)
+		this.extends = extended
+		this.implements = implemented
 	}
 }

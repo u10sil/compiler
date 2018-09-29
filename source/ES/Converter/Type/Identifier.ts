@@ -16,11 +16,10 @@
 // along with U10sil.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import * as SyntaxTree from "../SyntaxTree"
-import { addGenerator } from "./Generator"
+import * as SyntaxTree from "../../../SyntaxTree"
+import * as ES from "../../SyntaxTree"
+import { addConverter } from "../Converter"
 
-addGenerator<SyntaxTree.Assignment>("Assignment", async (generator, node) =>
-	await generator.write(node.variable) &&
-	await generator.write(" " + node.symbol + " ") &&
-	generator.generate(node.argument),
+addConverter<SyntaxTree.Type.Identifier>("type.identifier",
+	(converter, node) => new ES.Type.Identifier(node.name, converter.convert(node.parameters), node.tokens),
 )

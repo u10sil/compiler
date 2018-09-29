@@ -16,10 +16,11 @@
 // along with U10sil.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+import { Utilities } from "@cogneco/mend"
 import * as SyntaxTree from "../../../SyntaxTree"
 import * as ES from "../../SyntaxTree"
 import { addConverter } from "../Converter"
 
 addConverter<SyntaxTree.Literal.TypedObject>("literal.typedObject",
-	(converter, node) => new ES.New(converter.convert(node.name) as ES.Identifier, [converter.convert(node.value)], node.tokens),
+	(converter, node) => new ES.New(converter.convert(node.name) as ES.Identifier, Utilities.Enumerable.from([converter.convert(node.value)]), node.tokens),
 )

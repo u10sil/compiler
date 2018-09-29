@@ -19,8 +19,17 @@
 import * as SyntaxTree from "../SyntaxTree"
 import { addGenerator } from "./Generator"
 
-addGenerator<SyntaxTree.Assignment>("Assignment", async (generator, node) =>
-	await generator.write(node.variable) &&
-	await generator.write(" " + node.symbol + " ") &&
-	generator.generate(node.argument),
+addGenerator<SyntaxTree.ClassDeclaration>("classDeclaration",
+	async (generator, node) => {
+		let notFirst = false
+		return await generator.write("class ") &&
+			await generator.write(node.symbol) &&
+			(node.extends ? await generator.write(" extends ") && await generator.generate(node.extends) : true) &&
+			(node.implements && node.implements.length > 0 ? await generator.write(" implements ") && node.implements.map(async item => (notFirst = !notFirst || await generator.write(", ")) && generator.generate(item)).reduce((r, item) => item && r, true) : true) &&
+			await generator.writeLine(" {") &&
+			generator.increase() &&
+			await generator.generate(node.declarations) &&
+			generator.decrease() &&
+			generator.writeLine("}")
+	},
 )

@@ -16,11 +16,13 @@
 // along with U10sil.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import * as SyntaxTree from "../SyntaxTree"
-import { addGenerator } from "./Generator"
+import { Utilities } from "@cogneco/mend"
+import * as Tokens from "../../Tokens"
+import { Expression } from "./Expression"
+import { Declaration } from "./Declaration"
 
-addGenerator<SyntaxTree.Assignment>("Assignment", async (generator, node) =>
-	await generator.write(node.variable) &&
-	await generator.write(" " + node.symbol + " ") &&
-	generator.generate(node.argument),
-)
+export abstract class TypeDeclaration extends Declaration {
+	constructor(symbol: string, tokens?: Utilities.Enumerable<Tokens.Substance>, readonly expression?: Expression) {
+		super(symbol, tokens)
+	}
+}
