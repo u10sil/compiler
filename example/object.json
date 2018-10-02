@@ -1,17 +1,17 @@
 [
 	{
-		"id": 7,
+		"id": 64,
 		"class": "module",
 		"name": "object",
 		"statements": [
 			{
-				"id": 6,
+				"id": 63,
 				"class": "variableDeclaration",
 				"symbol": "model",
 				"isConstant": true,
 				"type": "Model",
 				"value": {
-					"id": 5,
+					"id": 62,
 					"class": "literal.typedObject",
 					"name": {
 						"id": 0,
@@ -19,21 +19,289 @@
 						"name": "Model"
 					},
 					"value": {
-						"id": 4,
+						"id": 61,
 						"class": "literal.untypedObject",
 						"value": {
 							"database": {
-								"id": 3,
+								"id": 14,
 								"class": "literal.typedObject",
 								"name": {
 									"id": 1,
 									"class": "type.identifier",
-									"name": "Url"
+									"name": "MySql"
 								},
 								"value": {
-									"id": 2,
-									"class": "literal.string",
-									"value": "mysql://user:password@server.domain.tld/database"
+									"id": 13,
+									"class": "literal.untypedObject",
+									"value": {
+										"connection": {
+											"id": 4,
+											"class": "literal.typedObject",
+											"name": {
+												"id": 2,
+												"class": "type.identifier",
+												"name": "Url"
+											},
+											"value": {
+												"id": 3,
+												"class": "literal.string",
+												"value": "mysql://user:password@server.domain.tld/database"
+											}
+										},
+										"tables": {
+											"id": 12,
+											"class": "literal.untypedObject",
+											"value": {
+												"users": {
+													"id": 11,
+													"class": "literal.untypedObject",
+													"value": {
+														"columns": {
+															"id": 10,
+															"class": "literal.untypedObject",
+															"value": {
+																"id": {
+																	"id": 7,
+																	"class": "literal.untypedObject",
+																	"value": {
+																		"type": {
+																			"id": 5,
+																			"class": "literal.string",
+																			"value": "number"
+																		},
+																		"indexed": {
+																			"id": 6,
+																			"class": "identifier",
+																			"name": "true"
+																		}
+																	}
+																},
+																"name": {
+																	"id": 9,
+																	"class": "literal.untypedObject",
+																	"value": {
+																		"type": {
+																			"id": 8,
+																			"class": "literal.string",
+																			"value": "string"
+																		}
+																	}
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							},
+							"service": {
+								"id": 60,
+								"class": "literal.typedObject",
+								"name": {
+									"id": 15,
+									"class": "type.identifier",
+									"name": "Rest"
+								},
+								"value": {
+									"id": 59,
+									"class": "literal.untypedObject",
+									"value": {
+										"listen": {
+											"id": 18,
+											"class": "literal.typedObject",
+											"name": {
+												"id": 16,
+												"class": "type.identifier",
+												"name": "Url"
+											},
+											"value": {
+												"id": 17,
+												"class": "literal.string",
+												"value": "https://0.0.0.0:80/api"
+											}
+										},
+										"root": {
+											"id": 58,
+											"class": "literal.typedObject",
+											"name": {
+												"id": 19,
+												"class": "type.identifier",
+												"name": "Resource"
+											},
+											"value": {
+												"id": 57,
+												"class": "literal.untypedObject",
+												"value": {
+													"users": {
+														"id": 56,
+														"class": "literal.typedObject",
+														"name": {
+															"id": 20,
+															"class": "type.identifier",
+															"name": "Collection"
+														},
+														"value": {
+															"id": 55,
+															"class": "literal.untypedObject",
+															"value": {
+																"create": {
+																	"id": 25,
+																	"class": "lambdaOperator",
+																	"symbol": "=>",
+																	"arguments": [
+																		{
+																			"id": 23,
+																			"class": "argumentDeclaration",
+																			"symbol": "data",
+																			"type": {
+																				"id": 21,
+																				"class": "type.primitive",
+																				"name": "s32"
+																			}
+																		}
+																	],
+																	"body": {
+																		"id": 24,
+																		"class": "identifier",
+																		"name": "data"
+																	}
+																},
+																"read": {
+																	"id": 40,
+																	"class": "lambdaOperator",
+																	"symbol": "=>",
+																	"arguments": [
+																		{
+																			"id": 28,
+																			"class": "argumentDeclaration",
+																			"symbol": "id",
+																			"type": {
+																				"id": 26,
+																				"class": "type.primitive",
+																				"name": "u32"
+																			}
+																		}
+																	],
+																	"body": {
+																		"id": 39,
+																		"class": "functionCall",
+																		"function": {
+																			"id": 37,
+																			"class": "infixOperator",
+																			"symbol": ".",
+																			"left": {
+																				"id": 35,
+																				"class": "infixOperator",
+																				"symbol": ".",
+																				"left": {
+																					"id": 33,
+																					"class": "infixOperator",
+																					"symbol": ".",
+																					"left": {
+																						"id": 31,
+																						"class": "infixOperator",
+																						"symbol": ".",
+																						"left": {
+																							"id": 29,
+																							"class": "identifier",
+																							"name": "model"
+																						},
+																						"right": {
+																							"id": 30,
+																							"class": "identifier",
+																							"name": "database"
+																						}
+																					},
+																					"right": {
+																						"id": 32,
+																						"class": "identifier",
+																						"name": "tables"
+																					}
+																				},
+																				"right": {
+																					"id": 34,
+																					"class": "identifier",
+																					"name": "users"
+																				}
+																			},
+																			"right": {
+																				"id": 36,
+																				"class": "identifier",
+																				"name": "select"
+																			}
+																		},
+																		"arguments": [
+																			{
+																				"id": 38,
+																				"class": "identifier",
+																				"name": "id"
+																			}
+																		]
+																	}
+																},
+																"update": {
+																	"id": 49,
+																	"class": "lambdaOperator",
+																	"symbol": "=>",
+																	"arguments": [
+																		{
+																			"id": 46,
+																			"class": "argumentDeclaration",
+																			"symbol": "id",
+																			"type": {
+																				"id": 41,
+																				"class": "type.primitive",
+																				"name": "u32"
+																			}
+																		},
+																		{
+																			"id": 47,
+																			"class": "argumentDeclaration",
+																			"symbol": "data",
+																			"type": {
+																				"id": 43,
+																				"class": "type.primitive",
+																				"name": "s32"
+																			}
+																		}
+																	],
+																	"body": {
+																		"id": 48,
+																		"class": "identifier",
+																		"name": "false"
+																	}
+																},
+																"delete": {
+																	"id": 54,
+																	"class": "lambdaOperator",
+																	"symbol": "=>",
+																	"arguments": [
+																		{
+																			"id": 52,
+																			"class": "argumentDeclaration",
+																			"symbol": "id",
+																			"type": {
+																				"id": 50,
+																				"class": "type.primitive",
+																				"name": "u32"
+																			}
+																		}
+																	],
+																	"body": {
+																		"id": 53,
+																		"class": "identifier",
+																		"name": "false"
+																	}
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
 								}
 							}
 						}

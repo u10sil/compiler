@@ -28,6 +28,7 @@ import { ExpressionStatement } from "./ExpressionStatement"
 import { FunctionCall } from "./FunctionCall"
 import { FunctionDeclaration } from "./FunctionDeclaration"
 import { Identifier } from "./Identifier"
+import { LambdaOperator } from "./LambdaOperator"
 import { MemberAccess } from "./MemberAccess"
 import { Module } from "./Module"
 import { New } from "./New"
@@ -36,6 +37,7 @@ import { Operator } from "./Operator"
 import { ReturnStatement } from "./ReturnStatement"
 import { Statement } from "./Statement"
 import { SymbolDeclaration } from "./SymbolDeclaration"
+import { Tuple } from "./Tuple"
 import { UnaryOperator } from "./UnaryOperator"
 import { VariableDeclaration } from "./VariableDeclaration"
 
@@ -52,6 +54,7 @@ export {
 	FunctionCall,
 	FunctionDeclaration,
 	Identifier,
+	LambdaOperator,
 	MemberAccess,
 	Module,
 	New,
@@ -60,6 +63,7 @@ export {
 	ReturnStatement,
 	Statement,
 	SymbolDeclaration,
+	Tuple,
 	UnaryOperator,
 	VariableDeclaration,
 }

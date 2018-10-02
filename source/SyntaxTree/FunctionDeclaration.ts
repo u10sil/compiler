@@ -78,5 +78,5 @@ addDeserializer("functionDeclaration", data => data.hasOwnProperty("symbol") ?
 		deserialize<Type.Name>(data.parameters as ({ class: string } & any)[]),
 		deserialize<ArgumentDeclaration>(data.arguments as ({ class: string } & any)[]),
 		deserialize<Type.Expression>(data.returnType),
-		deserialize<Block>(data.Block))
+		deserialize<Block>(data.body))
 	: undefined)

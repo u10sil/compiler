@@ -43,6 +43,7 @@ export class Converter {
 		return result ? this.convert(result) : ES.Type.Primitive.void
 	}
 	convert(node: SyntaxTree.Node): ES.Node
+	convert(node: SyntaxTree.Expression): ES.Expression
 	convert(nodes: SyntaxTree.Type.Identifier): ES.Type.Identifier
 	convert(nodes: Utilities.Enumerable<SyntaxTree.Type.Identifier>): Utilities.Enumerable<ES.Type.Identifier>
 	convert(nodes: SyntaxTree.Type.Name): ES.Type.Name

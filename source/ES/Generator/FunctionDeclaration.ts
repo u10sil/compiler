@@ -20,17 +20,15 @@ import * as SyntaxTree from "../SyntaxTree"
 import { addGenerator } from "./Generator"
 
 addGenerator<SyntaxTree.FunctionDeclaration>("FunctionDeclaration",
-	async (generator, node) => {
-		let notFirst = false
-		return await generator.write("function ") &&
-			await generator.write(node.symbol) &&
-			await generator.write("(") &&
-			node.argumentList.map(async item => (notFirst = !notFirst || await generator.write(", ")) && generator.generate(item)).reduce((r, item) => item && r, true) &&
-			await generator.write(")") &&
-			await generator.writeLine(" {") &&
-			generator.increase() &&
-			await generator.generate(node.statements) &&
-			generator.decrease() &&
-			generator.writeLine("}")
-	},
+	async (generator, node) =>
+		await generator.write("function ") &&
+		await generator.write(node.symbol) &&
+		await generator.write("(") &&
+		await generator.generate(node.argumentList, ", ") &&
+		await generator.write(")") &&
+		await generator.writeLine(" {") &&
+		generator.increase() &&
+		await generator.generate(node.statements) &&
+		generator.decrease() &&
+		generator.writeLine("}"),
 )

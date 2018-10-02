@@ -29,6 +29,7 @@ import { FunctionModifier } from "./FunctionModifier"
 import { Identifier } from "./Identifier"
 import { InfixOperator } from "./InfixOperator"
 import * as Literal from "./Literal"
+import { LambdaOperator } from "./LambdaOperator"
 import { Module } from "./Module"
 import { Node } from "./Node"
 import { Operator } from "./Operator"
@@ -60,6 +61,7 @@ export {
 	Identifier,
 	InfixOperator,
 	Literal,
+	LambdaOperator,
 	Module,
 	Node,
 	Operator,

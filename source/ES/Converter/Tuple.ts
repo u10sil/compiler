@@ -16,20 +16,10 @@
 // along with U10sil.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import "./Literal"
-import "./Type"
-import "./ArgumentDeclaration"
-import "./Assignment"
-import "./ClassDeclaration"
-import "./ExpressionStatement"
-import "./FunctionCall"
-import "./FunctionDeclaration"
-import "./Identifier"
-import "./LambdaOperator"
-import "./MemberAccess"
-import "./Module"
-import "./New"
-import "./ReturnStatement"
-import "./VariableDeclaration"
+import * as SyntaxTree from "../../SyntaxTree"
+import * as ES from "../SyntaxTree"
+import { addConverter } from "./Converter"
 
-export { Generator } from "./Generator"
+addConverter<SyntaxTree.Type.Tuple>("tuple",
+	(converter, node) => new ES.Type.Tuple(converter.convert(node.elements), node.tokens),
+)

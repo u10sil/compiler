@@ -17,7 +17,9 @@
 //
 
 export { Expression } from "./Expression"
+export { Function } from "./Function"
 export { Identifier } from "./Identifier"
 export { Name } from "./Name"
 export { Primitive } from "./Primitive"
 export { Union } from "./Union"
+export { Tuple } from "./Tuple"

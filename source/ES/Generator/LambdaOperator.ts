@@ -16,20 +16,12 @@
 // along with U10sil.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import "./Literal"
-import "./Type"
-import "./ArgumentDeclaration"
-import "./Assignment"
-import "./ClassDeclaration"
-import "./ExpressionStatement"
-import "./FunctionCall"
-import "./FunctionDeclaration"
-import "./Identifier"
-import "./LambdaOperator"
-import "./MemberAccess"
-import "./Module"
-import "./New"
-import "./ReturnStatement"
-import "./VariableDeclaration"
+import * as SyntaxTree from "../SyntaxTree"
+import { addGenerator } from "./Generator"
 
-export { Generator } from "./Generator"
+addGenerator<SyntaxTree.LambdaOperator>("lambdaOperator", async (generator, node) =>
+	(node.arguments.length == 1 ? await generator.generate(node.arguments.first!) :
+	(await generator.write("(") && await generator.generate(node.arguments, ", ") && await generator.write(")"))) &&
+	await generator.write(" => ") &&
+	generator.generate(node.body),
+)

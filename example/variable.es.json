@@ -15,8 +15,8 @@
 				"class": "ExpressionStatement",
 				"expression": {
 					"class": "Assignment",
-					"symbol": "alpha",
-					"expression": {
+					"symbol": "=",
+					"argument": {
 						"class": "Literal.Number",
 						"value": 42
 					}
@@ -34,8 +34,8 @@
 				"class": "ExpressionStatement",
 				"expression": {
 					"class": "Assignment",
-					"symbol": "beta",
-					"expression": {
+					"symbol": "=",
+					"argument": {
 						"class": "Literal.String",
 						"value": "The power of Attraction"
 					}
@@ -53,10 +53,86 @@
 				"class": "ExpressionStatement",
 				"expression": {
 					"class": "Assignment",
-					"symbol": "gamma",
-					"expression": {
+					"symbol": "=",
+					"argument": {
 						"class": "Literal.Number",
 						"value": 13.37
+					}
+				}
+			},
+			{
+				"class": "VariableDeclaration",
+				"symbol": "delta",
+				"expression": {
+					"class": "Type.Tuple",
+					"elements": {}
+				}
+			},
+			{
+				"class": "VariableDeclaration",
+				"symbol": "epsilon",
+				"expression": {
+					"class": "lambdaOperator",
+					"symbol": "=>",
+					"returnType": {
+						"class": "Type.Tuple",
+						"elements": {}
+					},
+					"body": {
+						"class": "Identifier",
+						"symbol": "delta"
+					}
+				}
+			},
+			{
+				"class": "VariableDeclaration",
+				"symbol": "zeta",
+				"expression": {
+					"class": "lambdaOperator",
+					"symbol": "=>",
+					"arguments": [
+						{
+							"class": "ArgumentDeclaration",
+							"symbol": "argument"
+						}
+					],
+					"returnType": {
+						"class": "type.function",
+						"arguments": [],
+						"result": {
+							"class": "Type.Tuple",
+							"elements": {}
+						}
+					},
+					"body": {
+						"class": "Identifier",
+						"symbol": "epsilon"
+					}
+				}
+			},
+			{
+				"class": "VariableDeclaration",
+				"symbol": "eta",
+				"expression": {
+					"class": "lambdaOperator",
+					"symbol": "=>",
+					"arguments": [
+						{
+							"class": "ArgumentDeclaration",
+							"symbol": "argument0"
+						},
+						{
+							"class": "ArgumentDeclaration",
+							"symbol": "argument1"
+						}
+					],
+					"returnType": {
+						"class": "Type.Primitive",
+						"name": "f64"
+					},
+					"body": {
+						"class": "Identifier",
+						"symbol": "gamma"
 					}
 				}
 			}

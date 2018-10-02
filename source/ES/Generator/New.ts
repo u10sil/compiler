@@ -17,21 +17,12 @@
 //
 
 import * as SyntaxTree from "../SyntaxTree"
-import { Generator, addGenerator } from "./Generator"
-import { Utilities } from "@cogneco/mend"
+import { addGenerator } from "./Generator"
 
 addGenerator<SyntaxTree.New>("New", async (generator, node) =>
-		await generator.write("new ") &&
-		await generator.generate(node.name) &&
-		await generator.write("(") &&
-		await generateArguments(generator, node.arguments) &&
-		generator.write(")"),
+	await generator.write("new ") &&
+	await generator.generate(node.name) &&
+	await generator.write("(") &&
+	await generator.generate(node.arguments, ", ") &&
+	generator.write(")"),
 )
-async function generateArguments(generator: Generator, argumentExpressions: Utilities.Enumerable<SyntaxTree.Expression>): Promise<boolean> {
-let result = true
-let notFirst = false
-for (const expression of argumentExpressions)
-	if (!(result = (notFirst = !notFirst || await generator.write(", ")) && await generator.generate(expression)))
-		break
-return result
-}

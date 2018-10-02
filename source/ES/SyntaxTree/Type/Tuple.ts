@@ -16,20 +16,22 @@
 // along with U10sil.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import "./Literal"
-import "./Type"
-import "./ArgumentDeclaration"
-import "./Assignment"
-import "./ClassDeclaration"
-import "./ExpressionStatement"
-import "./FunctionCall"
-import "./FunctionDeclaration"
-import "./Identifier"
-import "./LambdaOperator"
-import "./MemberAccess"
-import "./Module"
-import "./New"
-import "./ReturnStatement"
-import "./VariableDeclaration"
+import { Utilities } from "@cogneco/mend"
+import * as Tokens from "../../../Tokens"
+import { Expression } from "./Expression"
 
-export { Generator } from "./Generator"
+export class Tuple extends Expression {
+	get class() { return "Type.Tuple" }
+	constructor(readonly elements: Utilities.Enumerable<Expression>, tokens?: Utilities.Enumerable<Tokens.Substance>) {
+		super(tokens)
+	}
+	serialize(): { class: string } & any {
+		return {
+			...super.serialize(),
+			elements: this.elements.map(element => element.serialize()),
+		}
+	}
+	toString(): string {
+		return this.elements.map(element => element.toString()).toArray().join(", ")
+	}
+}

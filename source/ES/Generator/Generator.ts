@@ -27,7 +27,7 @@ export class Generator extends IO.Indenter {
 	raise(message: string) {
 		this.handler.raise(message, Error.Level.Recoverable, "generator", this.lastNode ? this.lastNode.region : undefined)
 	}
-	async generate(node: ES.Node | Utilities.Enumerable<ES.Node>): Promise<boolean> {
+	async generate(node: ES.Node | Utilities.Enumerable<ES.Node>, separator?: string): Promise<boolean> {
 		let result = false
 		if (node instanceof ES.Node) {
 			this.lastNode = node
@@ -38,10 +38,12 @@ export class Generator extends IO.Indenter {
 				this.raise("Failed to generate output for " + JSON.stringify(node.serialize()) + ".")
 		} else if (node instanceof Utilities.Enumerable) {
 			const e = node.getEnumerator()
-			let item: IteratorResult<ES.Node>
-			result = true
-			while (!(item = e.next()).done)
-				result = await this.generate(item.value) && result
+			let item = e.next()
+			if (!(result = item.done)) {
+				result = await this.generate(item.value)
+				while (result && !(item = e.next()).done)
+					result = (!separator || await this.write(separator)) && await this.generate(item.value) && result
+			}
 		}
 		return result
 	}

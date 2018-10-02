@@ -1,0 +1,212 @@
+[
+	{
+		"id": 40,
+		"class": "module",
+		"name": "variable",
+		"statements": [
+			{
+				"id": 1,
+				"class": "variableDeclaration",
+				"symbol": "alpha",
+				"type": "u16",
+				"value": {
+					"id": 0,
+					"class": "literal.number",
+					"value": 1337,
+					"type": "u16"
+				}
+			},
+			{
+				"id": 4,
+				"class": "infixOperator",
+				"symbol": "=",
+				"left": {
+					"id": 2,
+					"class": "identifier",
+					"name": "alpha",
+					"declaration": 1,
+					"type": "u16"
+				},
+				"right": {
+					"id": 3,
+					"class": "literal.number",
+					"value": 42,
+					"type": "u8"
+				}
+			},
+			{
+				"id": 6,
+				"class": "variableDeclaration",
+				"symbol": "beta",
+				"type": "string",
+				"value": {
+					"id": 5,
+					"class": "literal.string",
+					"value": "",
+					"type": "string"
+				}
+			},
+			{
+				"id": 9,
+				"class": "infixOperator",
+				"symbol": "=",
+				"left": {
+					"id": 7,
+					"class": "identifier",
+					"name": "beta",
+					"declaration": 6,
+					"type": "string"
+				},
+				"right": {
+					"id": 8,
+					"class": "literal.string",
+					"value": "The power of Attraction",
+					"type": "string"
+				}
+			},
+			{
+				"id": 11,
+				"class": "variableDeclaration",
+				"symbol": "gamma",
+				"type": "f64",
+				"value": {
+					"id": 10,
+					"class": "literal.number",
+					"value": 4.2,
+					"type": "f64"
+				}
+			},
+			{
+				"id": 14,
+				"class": "infixOperator",
+				"symbol": "=",
+				"left": {
+					"id": 12,
+					"class": "identifier",
+					"name": "gamma",
+					"declaration": 11,
+					"type": "f64"
+				},
+				"right": {
+					"id": 13,
+					"class": "literal.number",
+					"value": 13.37,
+					"type": "f64"
+				}
+			},
+			{
+				"id": 19,
+				"class": "variableDeclaration",
+				"symbol": "delta",
+				"type": "(u16, string, f64)",
+				"value": {
+					"id": 18,
+					"class": "tuple",
+					"elements": [
+						{
+							"id": 15,
+							"class": "identifier",
+							"name": "alpha",
+							"declaration": 1,
+							"type": "u16"
+						},
+						{
+							"id": 16,
+							"class": "identifier",
+							"name": "beta",
+							"declaration": 6,
+							"type": "string"
+						},
+						{
+							"id": 17,
+							"class": "identifier",
+							"name": "gamma",
+							"declaration": 11,
+							"type": "f64"
+						}
+					],
+					"type": "(u16, string, f64)"
+				}
+			},
+			{
+				"id": 23,
+				"class": "variableDeclaration",
+				"symbol": "epsilon",
+				"type": "() => (u16, string, f64)",
+				"value": {
+					"id": 22,
+					"class": "lambdaOperator",
+					"symbol": "=>",
+					"body": {
+						"id": 21,
+						"class": "identifier",
+						"name": "delta",
+						"declaration": 19,
+						"type": "(u16, string, f64)"
+					},
+					"type": "() => (u16, string, f64)"
+				}
+			},
+			{
+				"id": 29,
+				"class": "variableDeclaration",
+				"symbol": "zeta",
+				"type": "(s32) => () => (u16, string, f64)",
+				"value": {
+					"id": 28,
+					"class": "lambdaOperator",
+					"symbol": "=>",
+					"arguments": [
+						{
+							"id": 26,
+							"class": "argumentDeclaration",
+							"symbol": "argument",
+							"type": "s32"
+						}
+					],
+					"body": {
+						"id": 27,
+						"class": "identifier",
+						"name": "epsilon",
+						"declaration": 23,
+						"type": "() => (u16, string, f64)"
+					},
+					"type": "(s32) => () => (u16, string, f64)"
+				}
+			},
+			{
+				"id": 39,
+				"class": "variableDeclaration",
+				"symbol": "eta",
+				"type": "(s32, s32) => f64",
+				"value": {
+					"id": 38,
+					"class": "lambdaOperator",
+					"symbol": "=>",
+					"arguments": [
+						{
+							"id": 35,
+							"class": "argumentDeclaration",
+							"symbol": "argument0",
+							"type": "s32"
+						},
+						{
+							"id": 36,
+							"class": "argumentDeclaration",
+							"symbol": "argument1",
+							"type": "s32"
+						}
+					],
+					"body": {
+						"id": 37,
+						"class": "identifier",
+						"name": "gamma",
+						"declaration": 11,
+						"type": "f64"
+					},
+					"type": "(s32, s32) => f64"
+				}
+			}
+		]
+	}
+]

@@ -19,8 +19,11 @@ const model = new Model({
 		listen: new Url("https://0.0.0.0:80/api"),
 		root: new Resource({
 			users: new Collection({
-				create: data,
+				create: data => data,
+				read: id => model.database.tables.users.select(id),
+				update: (id, data) => false,
+				delete: id => false,
 			}),
 		}),
-		id: model.database.tables.users.select(id),
-		update: 
+	}),
+})
