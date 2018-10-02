@@ -7,5 +7,5 @@ var gamma = 4.2
 gamma = 13.37
 var delta = (alpha, beta, gamma)
 var epsilon = () => delta
-var zeta = (argument: s32) => epsilon
-var eta = (argument0: s32, argument1: s32) => gamma
+var zeta = (argument: number) => epsilon
+var eta = (argument0: number, argument1: number) => gamma

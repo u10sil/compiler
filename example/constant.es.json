@@ -1,0 +1,32 @@
+[
+	{
+		"class": "Module",
+		"name": "constant",
+		"statements": [
+			{
+				"class": "VariableDeclaration",
+				"symbol": "alpha",
+				"expression": {
+					"class": "Literal.Number",
+					"value": 1337
+				}
+			},
+			{
+				"class": "VariableDeclaration",
+				"symbol": "beta",
+				"expression": {
+					"class": "Literal.String",
+					"value": "The power of Attraction."
+				}
+			},
+			{
+				"class": "VariableDeclaration",
+				"symbol": "gamma",
+				"expression": {
+					"class": "Literal.Number",
+					"value": 4.2
+				}
+			}
+		]
+	}
+]

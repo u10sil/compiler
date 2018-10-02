@@ -1,210 +1,210 @@
 [
 	{
-		"id": 40,
+		"id": 43,
 		"class": "module",
 		"name": "variable",
 		"statements": [
 			{
-				"id": 1,
+				"id": 4,
 				"class": "variableDeclaration",
 				"symbol": "alpha",
-				"type": "u16",
+				"type": "number",
 				"value": {
-					"id": 0,
+					"id": 3,
 					"class": "literal.number",
 					"value": 1337,
-					"type": "u16"
+					"type": "number"
 				}
 			},
 			{
-				"id": 4,
+				"id": 7,
 				"class": "infixOperator",
 				"symbol": "=",
 				"left": {
-					"id": 2,
+					"id": 5,
 					"class": "identifier",
 					"name": "alpha",
-					"declaration": 1,
-					"type": "u16"
+					"declaration": 4,
+					"type": "number"
 				},
 				"right": {
-					"id": 3,
+					"id": 6,
 					"class": "literal.number",
 					"value": 42,
-					"type": "u8"
+					"type": "number"
 				}
 			},
 			{
-				"id": 6,
+				"id": 9,
 				"class": "variableDeclaration",
 				"symbol": "beta",
 				"type": "string",
 				"value": {
-					"id": 5,
+					"id": 8,
 					"class": "literal.string",
 					"value": "",
 					"type": "string"
 				}
 			},
 			{
-				"id": 9,
+				"id": 12,
 				"class": "infixOperator",
 				"symbol": "=",
 				"left": {
-					"id": 7,
+					"id": 10,
 					"class": "identifier",
 					"name": "beta",
-					"declaration": 6,
+					"declaration": 9,
 					"type": "string"
 				},
 				"right": {
-					"id": 8,
+					"id": 11,
 					"class": "literal.string",
 					"value": "The power of Attraction",
 					"type": "string"
 				}
 			},
 			{
-				"id": 11,
+				"id": 14,
 				"class": "variableDeclaration",
 				"symbol": "gamma",
-				"type": "f64",
+				"type": "number",
 				"value": {
-					"id": 10,
+					"id": 13,
 					"class": "literal.number",
 					"value": 4.2,
-					"type": "f64"
+					"type": "number"
 				}
 			},
 			{
-				"id": 14,
+				"id": 17,
 				"class": "infixOperator",
 				"symbol": "=",
 				"left": {
-					"id": 12,
+					"id": 15,
 					"class": "identifier",
 					"name": "gamma",
-					"declaration": 11,
-					"type": "f64"
+					"declaration": 14,
+					"type": "number"
 				},
 				"right": {
-					"id": 13,
+					"id": 16,
 					"class": "literal.number",
 					"value": 13.37,
-					"type": "f64"
+					"type": "number"
 				}
 			},
 			{
-				"id": 19,
+				"id": 22,
 				"class": "variableDeclaration",
 				"symbol": "delta",
-				"type": "(u16, string, f64)",
+				"type": "(number, string, number)",
 				"value": {
-					"id": 18,
+					"id": 21,
 					"class": "tuple",
 					"elements": [
 						{
-							"id": 15,
+							"id": 18,
 							"class": "identifier",
 							"name": "alpha",
-							"declaration": 1,
-							"type": "u16"
+							"declaration": 4,
+							"type": "number"
 						},
 						{
-							"id": 16,
+							"id": 19,
 							"class": "identifier",
 							"name": "beta",
-							"declaration": 6,
+							"declaration": 9,
 							"type": "string"
 						},
 						{
-							"id": 17,
+							"id": 20,
 							"class": "identifier",
 							"name": "gamma",
-							"declaration": 11,
-							"type": "f64"
+							"declaration": 14,
+							"type": "number"
 						}
 					],
-					"type": "(u16, string, f64)"
+					"type": "(number, string, number)"
 				}
 			},
 			{
-				"id": 23,
+				"id": 26,
 				"class": "variableDeclaration",
 				"symbol": "epsilon",
-				"type": "() => (u16, string, f64)",
+				"type": "() => (number, string, number)",
 				"value": {
-					"id": 22,
+					"id": 25,
 					"class": "lambdaOperator",
 					"symbol": "=>",
 					"body": {
-						"id": 21,
+						"id": 24,
 						"class": "identifier",
 						"name": "delta",
-						"declaration": 19,
-						"type": "(u16, string, f64)"
+						"declaration": 22,
+						"type": "(number, string, number)"
 					},
-					"type": "() => (u16, string, f64)"
+					"type": "() => (number, string, number)"
 				}
 			},
 			{
-				"id": 29,
+				"id": 32,
 				"class": "variableDeclaration",
 				"symbol": "zeta",
-				"type": "(s32) => () => (u16, string, f64)",
+				"type": "(number) => () => (number, string, number)",
 				"value": {
-					"id": 28,
+					"id": 31,
 					"class": "lambdaOperator",
 					"symbol": "=>",
 					"arguments": [
 						{
-							"id": 26,
+							"id": 29,
 							"class": "argumentDeclaration",
 							"symbol": "argument",
-							"type": "s32"
+							"type": "number"
 						}
 					],
 					"body": {
-						"id": 27,
+						"id": 30,
 						"class": "identifier",
 						"name": "epsilon",
-						"declaration": 23,
-						"type": "() => (u16, string, f64)"
+						"declaration": 26,
+						"type": "() => (number, string, number)"
 					},
-					"type": "(s32) => () => (u16, string, f64)"
+					"type": "(number) => () => (number, string, number)"
 				}
 			},
 			{
-				"id": 39,
+				"id": 42,
 				"class": "variableDeclaration",
 				"symbol": "eta",
-				"type": "(s32, s32) => f64",
+				"type": "(number, number) => number",
 				"value": {
-					"id": 38,
+					"id": 41,
 					"class": "lambdaOperator",
 					"symbol": "=>",
 					"arguments": [
 						{
-							"id": 35,
+							"id": 38,
 							"class": "argumentDeclaration",
 							"symbol": "argument0",
-							"type": "s32"
+							"type": "number"
 						},
 						{
-							"id": 36,
+							"id": 39,
 							"class": "argumentDeclaration",
 							"symbol": "argument1",
-							"type": "s32"
+							"type": "number"
 						}
 					],
 					"body": {
-						"id": 37,
+						"id": 40,
 						"class": "identifier",
 						"name": "gamma",
-						"declaration": 11,
-						"type": "f64"
+						"declaration": 14,
+						"type": "number"
 					},
-					"type": "(s32, s32) => f64"
+					"type": "(number, number) => number"
 				}
 			}
 		]

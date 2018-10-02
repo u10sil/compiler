@@ -74,10 +74,6 @@
 				"expression": {
 					"class": "lambdaOperator",
 					"symbol": "=>",
-					"returnType": {
-						"class": "Type.Tuple",
-						"elements": {}
-					},
 					"body": {
 						"class": "Identifier",
 						"symbol": "delta"
@@ -96,14 +92,6 @@
 							"symbol": "argument"
 						}
 					],
-					"returnType": {
-						"class": "type.function",
-						"arguments": [],
-						"result": {
-							"class": "Type.Tuple",
-							"elements": {}
-						}
-					},
 					"body": {
 						"class": "Identifier",
 						"symbol": "epsilon"
@@ -126,10 +114,6 @@
 							"symbol": "argument1"
 						}
 					],
-					"returnType": {
-						"class": "Type.Primitive",
-						"name": "f64"
-					},
 					"body": {
 						"class": "Identifier",
 						"symbol": "gamma"

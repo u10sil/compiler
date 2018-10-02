@@ -9,23 +9,7 @@
 				"expression": {
 					"class": "New",
 					"symbol": "new",
-					"arguments": [
-						{
-							"class": "Literal.Object",
-							"value": {
-								"database": {
-									"class": "New",
-									"symbol": "new",
-									"arguments": [
-										{
-											"class": "Literal.String",
-											"value": "mysql://user:password@server.domain.tld/database"
-										}
-									]
-								}
-							}
-						}
-					]
+					"arguments": {}
 				}
 			}
 		]

@@ -20,6 +20,6 @@ import * as SyntaxTree from "../../SyntaxTree"
 import { Scope, addResolver } from "../Scope"
 
 function resolve(scope: Scope, node: SyntaxTree.Literal.Number) {
-	scope.setType(node, SyntaxTree.Type.Primitive.getType(node.value))
+	scope.setType(node, SyntaxTree.Type.Primitive.number)
 }
 addResolver("literal.number", resolve)

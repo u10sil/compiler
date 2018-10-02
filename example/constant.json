@@ -1,0 +1,48 @@
+[
+	{
+		"id": 9,
+		"class": "module",
+		"name": "constant",
+		"statements": [
+			{
+				"id": 4,
+				"class": "variableDeclaration",
+				"symbol": "alpha",
+				"isConstant": true,
+				"type": "number",
+				"value": {
+					"id": 3,
+					"class": "literal.number",
+					"value": 1337,
+					"type": "number"
+				}
+			},
+			{
+				"id": 6,
+				"class": "variableDeclaration",
+				"symbol": "beta",
+				"isConstant": true,
+				"type": "string",
+				"value": {
+					"id": 5,
+					"class": "literal.string",
+					"value": "The power of Attraction.",
+					"type": "string"
+				}
+			},
+			{
+				"id": 8,
+				"class": "variableDeclaration",
+				"symbol": "gamma",
+				"isConstant": true,
+				"type": "number",
+				"value": {
+					"id": 7,
+					"class": "literal.number",
+					"value": 4.2,
+					"type": "number"
+				}
+			}
+		]
+	}
+]

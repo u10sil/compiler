@@ -21,76 +21,19 @@ import * as Tokens from "../../Tokens"
 import { addDeserializer } from "../deserialize"
 import { Node } from "../Node"
 import { Identifier } from "./Identifier"
-import { NumberCategory } from "./NumberCategory"
-import { Expression } from "./Expression"
 
 export class Primitive extends Identifier {
-	readonly size: number
-	readonly category: NumberCategory
 	get class() { return "type.primitive" }
 	constructor(name: string, tokens?: Utilities.Enumerable<Tokens.Substance> | Node) {
 		super(name, Utilities.Enumerable.empty, tokens)
-		switch (name[0]) {
-			case "f":
-				this.category = NumberCategory.float
-				break
-			case "s":
-				this.category = NumberCategory.signed
-				break
-			default:
-			case "u":
-				this.category = NumberCategory.unsigned
-				break
-		}
-		this.size = Number.parseInt(name.slice(1))
 	}
 	serialize(): { class: string } & any {
 		return {
 			...super.serialize(),
 		}
 	}
-	static getType(value: number): Expression {
-/*
-		let result: Expression = new Intersection(new Primitive("f32"), new Primitive("f64"))
-		if (Number.isInteger(value)) {
-			if (value < 0) {
-				let base = 64
-				while (base >= 8 && value >= -Math.pow(2, base - 1)) {
-					result = new Intersection(result, new Primitive("s" + base))
-					base = base / 2
-				}
-			} else {
-				let base = 64
-				while (base >= 8 && value < Math.pow(2, base - 1)) {
-					result = new Intersection(result, new Primitive("s" + base))
-					if (value < Math.pow(2, base - 1))
-						result = new Intersection(result, new Primitive("u" + base))
-					base = base / 2
-				}
-			}
-		}
-		return result
- */
-		let result: Expression | undefined
-		if (Number.isInteger(value)) {
-			if (value < 0) {
-				let base = 64
-				while (base >= 8 && value >= -Math.pow(2, base - 1)) {
-					result = new Primitive("s" + base)
-					base = base / 2
-				}
-			} else {
-				let base = 64
-				while (base >= 8 && value < Math.pow(2, base - 1)) {
-					result = new Primitive("s" + base)
-					if (value < Math.pow(2, base - 1))
-						result = new Primitive("u" + base)
-					base = base / 2
-				}
-			}
-		} else
-			result = new Primitive("f64")
-		return result ? result : new Primitive("s32")
-	}
+	static readonly number = new Primitive("number")
+	static readonly string = new Primitive("string")
+	static readonly boolean = new Primitive("boolean")
 }
 addDeserializer("type.primitive", data => data.hasOwnProperty("name") ? new Primitive(data.name) : undefined)

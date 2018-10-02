@@ -14,10 +14,10 @@ let model = Model {
 		listen: Url "https://0.0.0.0:80/api"
 		root: Resource {
 			users: Collection {
-				create: (data: s32) => data
-				read: (id: u32) => model.database.tables.users.select(id)
-				update: (id: u32, data: s32) => false
-				delete: (id: u32) => false
+				create: (data: number) => data
+				read: (id: number) => model.database.tables.users.select(id)
+				update: (id: number, data: number) => false
+				delete: (id: number) => false
 			}
 		}
 	}
