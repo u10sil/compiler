@@ -23,15 +23,16 @@ import * as Parser from "./"
 describe("Parser.InfixOperator", () => {
 	const handler = new Error.ConsoleHandler()
 	it("a = 'b'", () => {
-		const result = Parser.parseFirst("a = 'b'", handler) as SyntaxTree.InfixOperator
+		const result = Parser.parseFirst("a = \"b\"", handler) as SyntaxTree.InfixOperator
 		expect(result.symbol).toEqual("=")
 		expect((result.left as SyntaxTree.Identifier).name).toEqual("a")
-		expect((result.right as SyntaxTree.Literal.Character).value).toEqual("b")
+		expect(result.right).toBeInstanceOf(SyntaxTree.Literal.String)
+		expect((result.right as SyntaxTree.Literal.String).value).toEqual("b")
 		expect(SyntaxTree.filterId(result.serialize())).toEqual({
 			class: "infixOperator",
 			symbol: "=",
 			left: { class: "identifier", name: "a" },
-			right: { class: "literal.character", value: "b" },
+			right: { class: "literal.string", value: "b" },
 		})
 	})
 	it("a = 12345", () => {

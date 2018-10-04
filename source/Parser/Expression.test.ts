@@ -23,13 +23,15 @@ import * as Parser from "./"
 describe("Parser.Expression", () => {
 	const handler = new Error.ConsoleHandler()
 	it("a 'b'", () => {
-		const parser = Parser.create("a 'b'", handler)
-		expect(SyntaxTree.filterId(parser.fetch()!.serialize())).toEqual({
+		const parser = Parser.create("a \"b\"", handler)
+		expect(SyntaxTree.filterUndefined(SyntaxTree.filterId(parser.fetch()!.serialize()))).toEqual({
 			class: "module",
-			statements: [
-				{ class: "identifier", name: "a" },
-				{ class: "literal.character", value: "b" },
-			],
+			name: "unnamed",
+			statements: [{
+				class: "literal.typedObject",
+				name: { class: "type.identifier", name: "a", parameters: undefined },
+				value: { class: "literal.string", value: "b" },
+			}],
 		})
 	})
 	it("a b c", () => {

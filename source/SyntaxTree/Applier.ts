@@ -49,8 +49,6 @@ export abstract class Applier {
 			node.forEach(n => this.apply(n))
 		else if (node instanceof Utilities.Enumerator)
 			node.apply(n => this.apply(n))
-		else if (node instanceof Literal.Character)
-			this.applyCharacterLiteral(node)
 		else if (node instanceof Literal.Number)
 			this.applyNumberLiteral(node)
 		else if (node instanceof Literal.String)
@@ -92,7 +90,6 @@ export abstract class Applier {
 	}
 
 	protected applyLiteral(node: Literal.Expression) { }
-	protected applyCharacterLiteral(node: Literal.Character) { this.applyLiteral(node) }
 	protected applyNumberLiteral(node: Literal.Number) { this.applyLiteral(node) }
 	protected applyStringLiteral(node: Literal.String) { this.applyLiteral(node) }
 

@@ -16,7 +16,6 @@
 // along with U10sil.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import "./Character"
 import "./Number"
 import "./UntypedObject"
 import "./String"

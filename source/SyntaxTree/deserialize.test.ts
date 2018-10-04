@@ -21,7 +21,7 @@ import { filterId } from "./filterId"
 
 describe("SyntaxTree.deserialize", () => {
 	it("'b'", () => {
-		const data = { class: "literal.character", value: "b" }
+		const data = { class: "literal.string", value: "b" }
 		const node = deserialize(data)
 		expect(node).toBeTruthy()
 		expect(filterId(node!.serialize())).toEqual(data)
@@ -31,7 +31,7 @@ describe("SyntaxTree.deserialize", () => {
 			class: "infixOperator",
 			symbol: "=",
 			left: { class: "identifier", name: "a" },
-			right: { class: "literal.character", value: "b" },
+			right: { class: "literal.string", value: "b" },
 		}
 		const node = deserialize(data)
 		expect(node).toBeTruthy()

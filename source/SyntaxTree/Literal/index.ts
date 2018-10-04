@@ -17,7 +17,6 @@
 //
 
 export { Expression } from "./Expression"
-export { Character } from "./Character"
 export { Number } from "./Number"
 export { String } from "./String"
 export { TypedObject } from "./TypedObject"

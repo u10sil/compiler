@@ -24,7 +24,7 @@ import * as SyntaxTree from "../SyntaxTree"
 
 export function parse(source: Source): SyntaxTree.Block | undefined {
 	let result: SyntaxTree.Block | undefined
-	if (source.peek()!.isSeparator("{")) {
+	if (source.peek()!.isSeparator("{") && !source.peek(2)!.isSeparator(":")) {
 		source.fetch() // consume: {
 		const statements: SyntaxTree.Statement[] = []
 		let next: SyntaxTree.Statement | undefined

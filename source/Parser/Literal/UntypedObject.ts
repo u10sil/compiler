@@ -24,10 +24,10 @@ import * as Type from "../Type"
 
 function parse(source: Source, precedance: number, previous?: SyntaxTree.Expression): SyntaxTree.Expression | undefined {
 	let result: SyntaxTree.Literal.UntypedObject | undefined
-	if (source.peek()!.isSeparator("{") && (source.peek(1)!.isIdentifier() || (source.peek(1) instanceof Tokens.Literals.String) && source.peek(2)!.isOperator(":"))) {
+	if (source.peek()!.isSeparator("{") && (source.peek(1)!.isIdentifier() || (source.peek(1) instanceof Tokens.Literals.String) && source.peek(2)!.isSeparator(":"))) {
 		const data: { [property: string]: SyntaxTree.Expression } = {}
 		source.fetch() // consume: {
-		while ((source.peek(0)!.isIdentifier() || (source.peek(0) instanceof Tokens.Literals.String) && source.peek(1)!.isOperator(":"))) {
+		while ((source.peek(0)!.isIdentifier() || (source.peek(0) instanceof Tokens.Literals.String) && source.peek(1)!.isSeparator(":"))) {
 			const token = source.fetch()
 			const name = token instanceof Tokens.Identifier ? token.name : token instanceof Tokens.Literals.String ? token.value : undefined
 			if (!name)
