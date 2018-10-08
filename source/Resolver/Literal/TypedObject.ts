@@ -20,6 +20,7 @@ import * as SyntaxTree from "../../SyntaxTree"
 import { Scope, addResolver } from "../Scope"
 
 function resolve(scope: Scope, node: SyntaxTree.Literal.TypedObject) {
+	scope.resolve(node.value)
 	scope.setType(node, node.name)
 }
 addResolver("literal.typedObject", resolve)

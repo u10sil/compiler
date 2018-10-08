@@ -20,6 +20,9 @@ import * as SyntaxTree from "../../SyntaxTree"
 import { Scope, addResolver } from "../Scope"
 
 function resolve(scope: Scope, node: SyntaxTree.Literal.UntypedObject) {
+	for (const property in node.value)
+		if (node.value.hasOwnProperty(property))
+			scope.resolve(node.value[property])
 	scope.setType(node, new SyntaxTree.Type.Primitive("object"))
 }
 addResolver("literal.untypedObject", resolve)

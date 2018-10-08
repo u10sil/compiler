@@ -1,4 +1,4 @@
-// Copyright (C) 2017, 2018  Simon Mika <simon@mika.se>
+// Copyright (C) 2018  Simon Mika <simon@mika.se>
 //
 // This file is part of U10sil.
 //
@@ -16,15 +16,7 @@
 // along with U10sil.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import * as SyntaxTree from "../SyntaxTree"
-import { Scope, addResolver } from "./Scope"
+import * as SyntaxTree from "../../SyntaxTree"
+import { addGenerator } from "../Generator"
 
-function resolve(scope: Scope, node: SyntaxTree.VariableDeclaration) {
-	scope.addSymbol(node)
-	scope.resolve(node.value)
-	scope.resolve(node.type)
-	const valueType = (node.value ? scope.getType(node.value) : undefined) || node.type
-	if (valueType)
-		scope.setType(node, valueType)
-}
-addResolver("variableDeclaration", resolve)
+addGenerator<SyntaxTree.Literal.Boolean>("Literal.Boolean", async (generator, node) => generator.write(node.value.toString()))

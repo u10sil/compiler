@@ -16,9 +16,9 @@
     esutils "^2.0.2"
     js-tokens "^4.0.0"
 
-"@cogneco/mend@^1.7.1":
-  version "1.7.1"
-  resolved "https://registry.yarnpkg.com/@cogneco/mend/-/mend-1.7.1.tgz#6863055dcab5283bb617ea6af8a7359b89261808"
+"@cogneco/mend@^1.7.3":
+  version "1.7.3"
+  resolved "https://registry.yarnpkg.com/@cogneco/mend/-/mend-1.7.3.tgz#9e588b0149436d7ac1b651378723503d450cd7c2"
   dependencies:
     async-file "^2.0.2"
 

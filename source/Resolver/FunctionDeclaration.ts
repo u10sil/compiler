@@ -20,9 +20,9 @@ import * as SyntaxTree from "../SyntaxTree"
 import { Scope, addResolver } from "./Scope"
 
 function resolve(scope: Scope, node: SyntaxTree.FunctionDeclaration) {
-	scope.resolve(node.arguments)
 	scope.resolve(node.returnType)
 	scope = scope.create(node.arguments)
+	scope.resolve(node.arguments)
 	scope.resolve(node.body)
 	if (node.body)
 		scope.setType(node, new SyntaxTree.Type.Function(node.arguments.map(n => scope.getType(n)), scope.getType(node.body)))

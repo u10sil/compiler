@@ -20,8 +20,11 @@ import * as SyntaxTree from "../SyntaxTree"
 import { Scope, addResolver } from "./Scope"
 
 function resolve(scope: Scope, node: SyntaxTree.ArgumentDeclaration) {
+	scope.addSymbol(node)
 	scope.resolve(node.type)
 	if (node.type)
 		scope.setType(node, node.type)
+	else
+		scope.raise("Missing type for argument.")
 }
 addResolver("argumentDeclaration", resolve)

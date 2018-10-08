@@ -20,8 +20,8 @@ const model = new Model({
 		root: new Resource({
 			users: new Collection({
 				create: data => data,
-				read: id => model.database.tables.users.select(id),
-				update: (id, data) => false,
+				read: id => false,
+				update: (id, data) => data,
 				delete: id => false,
 			}),
 		}),

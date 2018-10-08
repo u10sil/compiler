@@ -24,12 +24,12 @@ import { Types } from "./Types"
 
 export class Scope {
 	get declarations() { return new Declarations(this.declarationsData) }
-	private symbolTable = new SymbolTable<SyntaxTree.SymbolDeclaration>((previous, current) => {
+	private readonly symbolTable = new SymbolTable<SyntaxTree.SymbolDeclaration>((previous, current) => {
 		this.handler.raise("Declaration of symbol \"" + previous.symbol + "\" at " + previous.region + " hidden by new declaration at " + current.region, Error.Level.Recoverable, "semantic", current.region)
 		return current
 	})
 	get types() { return new Types(this.typesData) }
-	private typeTable = new SymbolTable<SyntaxTree.TypeDeclaration>((previous, current) => {
+	private readonly typeTable = new SymbolTable<SyntaxTree.TypeDeclaration>((previous, current) => {
 		this.handler.raise("Declaration of type \"" + previous.symbol + "\" at " + previous.region + " hidden by new declaration at " + current.region, Error.Level.Recoverable, "semantic", current.region)
 		return current
 	})
@@ -81,9 +81,9 @@ export class Scope {
 		if (statements)
 			statements.apply(statement => {
 				if (statement instanceof SyntaxTree.FunctionDeclaration || statement instanceof SyntaxTree.ArgumentDeclaration)
-					this.symbolTable.append(statement)
+					result.symbolTable.append(statement)
 				else if (statement instanceof SyntaxTree.TypeDeclaration)
-					this.typeTable.append(statement)
+					result.typeTable.append(statement)
 			})
 		return result
 	}

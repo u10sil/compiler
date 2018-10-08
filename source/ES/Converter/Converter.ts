@@ -27,7 +27,7 @@ export class Converter {
 	getType(node: SyntaxTree.Node): ES.Type.Expression {
 		const result = this.types.get(node)
 		if (!result)
-			this.handler.raise("No type available.", Error.Level.Recoverable, "converter", node.region)
+			this.handler.raise("No type available for node.", Error.Level.Recoverable, "converter", node.region)
 		return result ? this.convert(result) : ES.Type.Primitive.void
 	}
 	getReturnType(node: SyntaxTree.Node): ES.Type.Expression {

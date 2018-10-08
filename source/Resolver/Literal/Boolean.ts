@@ -16,15 +16,10 @@
 // along with U10sil.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import * as SyntaxTree from "../SyntaxTree"
-import { Scope, addResolver } from "./Scope"
+import * as SyntaxTree from "../../SyntaxTree"
+import { Scope, addResolver } from "../Scope"
 
-function resolve(scope: Scope, node: SyntaxTree.VariableDeclaration) {
-	scope.addSymbol(node)
-	scope.resolve(node.value)
-	scope.resolve(node.type)
-	const valueType = (node.value ? scope.getType(node.value) : undefined) || node.type
-	if (valueType)
-		scope.setType(node, valueType)
+function resolve(scope: Scope, node: SyntaxTree.Literal.Boolean) {
+	scope.setType(node, SyntaxTree.Type.Primitive.boolean)
 }
-addResolver("variableDeclaration", resolve)
+addResolver("literal.boolean", resolve)

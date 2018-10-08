@@ -16,14 +16,24 @@
 // along with U10sil.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import * as SyntaxTree from "../SyntaxTree"
-import { Scope, addResolver } from "./Scope"
+import { Utilities } from "@cogneco/mend"
+import * as Tokens from "../../Tokens"
+import * as Type from "../Type"
+import { Expression } from "./Expression"
+import { addDeserializer } from "../deserialize"
+import { Node } from "../Node"
 
-function resolve(scope: Scope, node: SyntaxTree.LambdaOperator) {
-	scope.resolve(node.returnType)
-	scope = scope.create()
-	scope.resolve(node.arguments)
-	scope.resolve(node.body)
-	scope.setType(node, new SyntaxTree.Type.Function(node.arguments.map(n => scope.getType(n)), scope.getType(node.body)))
+export class Boolean extends Expression {
+	get class() { return "literal.boolean" }
+	constructor(readonly value: boolean, type?: Type.Expression | undefined, tokens?: Utilities.Enumerable<Tokens.Substance> | Node) {
+		super(type, tokens)
+	}
+	serialize(): { class: string } & any {
+		return {
+			...super.serialize(),
+			value: this.value,
+		}
+	}
 }
-addResolver("lambdaOperator", resolve)
+// tslint:disable no-construct
+addDeserializer("literal.number", data => data.hasOwnProperty("value") ? new Boolean(data.value) : undefined)

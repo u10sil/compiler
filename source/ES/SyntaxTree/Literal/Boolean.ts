@@ -1,4 +1,4 @@
-// Copyright (C) 2017, 2018  Simon Mika <simon@mika.se>
+// Copyright (C) 2018  Simon Mika <simon@mika.se>
 //
 // This file is part of U10sil.
 //
@@ -16,15 +16,19 @@
 // along with U10sil.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import * as SyntaxTree from "../SyntaxTree"
-import { Scope, addResolver } from "./Scope"
+import { Utilities } from "@cogneco/mend"
+import * as Tokens from "../../../Tokens"
+import { Expression } from "./Expression"
 
-function resolve(scope: Scope, node: SyntaxTree.VariableDeclaration) {
-	scope.addSymbol(node)
-	scope.resolve(node.value)
-	scope.resolve(node.type)
-	const valueType = (node.value ? scope.getType(node.value) : undefined) || node.type
-	if (valueType)
-		scope.setType(node, valueType)
+export class Boolean extends Expression {
+	get class() { return "Literal.Boolean" }
+	constructor(readonly value: boolean, tokens?: Utilities.Enumerable<Tokens.Substance>) {
+		super(tokens)
+	}
+	serialize(): { class: string } & any {
+		return {
+			...super.serialize(),
+			value: this.value,
+		}
+	}
 }
-addResolver("variableDeclaration", resolve)

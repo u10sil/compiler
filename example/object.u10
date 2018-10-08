@@ -15,8 +15,8 @@ let model = Model {
 		root: Resource {
 			users: Collection {
 				create: (data: number) => data
-				read: (id: number) => model.database.tables.users.select(id)
-				update: (id: number, data: number) => false
+				read: (id: number) => false
+				update: (id: number, data: number) => data
 				delete: (id: number) => false
 			}
 		}

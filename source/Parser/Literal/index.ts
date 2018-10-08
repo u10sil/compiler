@@ -1,4 +1,4 @@
-// Copyright (C) 2017  Simon Mika <simon@mika.se>
+// Copyright (C) 2017, 2018  Simon Mika <simon@mika.se>
 //
 // This file is part of U10sil.
 //
@@ -16,6 +16,7 @@
 // along with U10sil.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+import "./Boolean"
 import "./Number"
 import "./UntypedObject"
 import "./String"

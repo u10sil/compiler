@@ -1,17 +1,17 @@
 [
 	{
-		"id": 67,
+		"id": 57,
 		"class": "module",
 		"name": "object",
 		"statements": [
 			{
-				"id": 66,
+				"id": 56,
 				"class": "variableDeclaration",
 				"symbol": "model",
 				"isConstant": true,
 				"type": "Model",
 				"value": {
-					"id": 65,
+					"id": 55,
 					"class": "literal.typedObject",
 					"name": {
 						"id": 3,
@@ -19,7 +19,7 @@
 						"name": "Model"
 					},
 					"value": {
-						"id": 64,
+						"id": 54,
 						"class": "literal.untypedObject",
 						"value": {
 							"database": {
@@ -45,8 +45,10 @@
 											"value": {
 												"id": 6,
 												"class": "literal.string",
-												"value": "mysql://user:password@server.domain.tld/database"
-											}
+												"value": "mysql://user:password@server.domain.tld/database",
+												"type": "string"
+											},
+											"type": "Url"
 										},
 										"tables": {
 											"id": 15,
@@ -67,14 +69,17 @@
 																		"type": {
 																			"id": 8,
 																			"class": "literal.string",
-																			"value": "number"
+																			"value": "number",
+																			"type": "string"
 																		},
 																		"indexed": {
 																			"id": 9,
-																			"class": "identifier",
-																			"name": "true"
+																			"class": "literal.boolean",
+																			"value": true,
+																			"type": "boolean"
 																		}
-																	}
+																	},
+																	"type": "object"
 																},
 																"name": {
 																	"id": 12,
@@ -83,21 +88,28 @@
 																		"type": {
 																			"id": 11,
 																			"class": "literal.string",
-																			"value": "string"
+																			"value": "string",
+																			"type": "string"
 																		}
-																	}
+																	},
+																	"type": "object"
 																}
-															}
+															},
+															"type": "object"
 														}
-													}
+													},
+													"type": "object"
 												}
-											}
+											},
+											"type": "object"
 										}
-									}
-								}
+									},
+									"type": "object"
+								},
+								"type": "MySql"
 							},
 							"service": {
-								"id": 63,
+								"id": 53,
 								"class": "literal.typedObject",
 								"name": {
 									"id": 18,
@@ -105,7 +117,7 @@
 									"name": "Rest"
 								},
 								"value": {
-									"id": 62,
+									"id": 52,
 									"class": "literal.untypedObject",
 									"value": {
 										"listen": {
@@ -119,11 +131,13 @@
 											"value": {
 												"id": 20,
 												"class": "literal.string",
-												"value": "https://0.0.0.0:80/api"
-											}
+												"value": "https://0.0.0.0:80/api",
+												"type": "string"
+											},
+											"type": "Url"
 										},
 										"root": {
-											"id": 61,
+											"id": 51,
 											"class": "literal.typedObject",
 											"name": {
 												"id": 22,
@@ -131,11 +145,11 @@
 												"name": "Resource"
 											},
 											"value": {
-												"id": 60,
+												"id": 50,
 												"class": "literal.untypedObject",
 												"value": {
 													"users": {
-														"id": 59,
+														"id": 49,
 														"class": "literal.typedObject",
 														"name": {
 															"id": 23,
@@ -143,7 +157,7 @@
 															"name": "Collection"
 														},
 														"value": {
-															"id": 58,
+															"id": 48,
 															"class": "literal.untypedObject",
 															"value": {
 																"create": {
@@ -155,21 +169,20 @@
 																			"id": 26,
 																			"class": "argumentDeclaration",
 																			"symbol": "data",
-																			"type": {
-																				"id": 24,
-																				"class": "type.primitive",
-																				"name": "number"
-																			}
+																			"type": "number"
 																		}
 																	],
 																	"body": {
 																		"id": 27,
 																		"class": "identifier",
-																		"name": "data"
-																	}
+																		"name": "data",
+																		"declaration": 26,
+																		"type": "number"
+																	},
+																	"type": "(number) => number"
 																},
 																"read": {
-																	"id": 43,
+																	"id": 33,
 																	"class": "lambdaOperator",
 																	"symbol": "=>",
 																	"arguments": [
@@ -177,134 +190,81 @@
 																			"id": 31,
 																			"class": "argumentDeclaration",
 																			"symbol": "id",
-																			"type": {
-																				"id": 29,
-																				"class": "type.primitive",
-																				"name": "number"
-																			}
+																			"type": "number"
 																		}
 																	],
 																	"body": {
-																		"id": 42,
-																		"class": "functionCall",
-																		"function": {
-																			"id": 40,
-																			"class": "infixOperator",
-																			"symbol": ".",
-																			"left": {
-																				"id": 38,
-																				"class": "infixOperator",
-																				"symbol": ".",
-																				"left": {
-																					"id": 36,
-																					"class": "infixOperator",
-																					"symbol": ".",
-																					"left": {
-																						"id": 34,
-																						"class": "infixOperator",
-																						"symbol": ".",
-																						"left": {
-																							"id": 32,
-																							"class": "identifier",
-																							"name": "model"
-																						},
-																						"right": {
-																							"id": 33,
-																							"class": "identifier",
-																							"name": "database"
-																						}
-																					},
-																					"right": {
-																						"id": 35,
-																						"class": "identifier",
-																						"name": "tables"
-																					}
-																				},
-																				"right": {
-																					"id": 37,
-																					"class": "identifier",
-																					"name": "users"
-																				}
-																			},
-																			"right": {
-																				"id": 39,
-																				"class": "identifier",
-																				"name": "select"
-																			}
-																		},
-																		"arguments": [
-																			{
-																				"id": 41,
-																				"class": "identifier",
-																				"name": "id"
-																			}
-																		]
-																	}
+																		"id": 32,
+																		"class": "literal.boolean",
+																		"value": false,
+																		"type": "boolean"
+																	},
+																	"type": "(number) => boolean"
 																},
 																"update": {
-																	"id": 52,
+																	"id": 42,
 																	"class": "lambdaOperator",
 																	"symbol": "=>",
 																	"arguments": [
 																		{
-																			"id": 49,
+																			"id": 39,
 																			"class": "argumentDeclaration",
 																			"symbol": "id",
-																			"type": {
-																				"id": 44,
-																				"class": "type.primitive",
-																				"name": "number"
-																			}
+																			"type": "number"
 																		},
 																		{
-																			"id": 50,
+																			"id": 40,
 																			"class": "argumentDeclaration",
 																			"symbol": "data",
-																			"type": {
-																				"id": 46,
-																				"class": "type.primitive",
-																				"name": "number"
-																			}
+																			"type": "number"
 																		}
 																	],
 																	"body": {
-																		"id": 51,
+																		"id": 41,
 																		"class": "identifier",
-																		"name": "false"
-																	}
+																		"name": "data",
+																		"declaration": 40,
+																		"type": "number"
+																	},
+																	"type": "(number, number) => number"
 																},
 																"delete": {
-																	"id": 57,
+																	"id": 47,
 																	"class": "lambdaOperator",
 																	"symbol": "=>",
 																	"arguments": [
 																		{
-																			"id": 55,
+																			"id": 45,
 																			"class": "argumentDeclaration",
 																			"symbol": "id",
-																			"type": {
-																				"id": 53,
-																				"class": "type.primitive",
-																				"name": "number"
-																			}
+																			"type": "number"
 																		}
 																	],
 																	"body": {
-																		"id": 56,
-																		"class": "identifier",
-																		"name": "false"
-																	}
+																		"id": 46,
+																		"class": "literal.boolean",
+																		"value": false,
+																		"type": "boolean"
+																	},
+																	"type": "(number) => boolean"
 																}
-															}
-														}
+															},
+															"type": "object"
+														},
+														"type": "Collection"
 													}
-												}
-											}
+												},
+												"type": "object"
+											},
+											"type": "Resource"
 										}
-									}
-								}
+									},
+									"type": "object"
+								},
+								"type": "Rest"
 							}
-						}
+						},
+						"type": "object"
 					},
 					"type": "Model"
 				}

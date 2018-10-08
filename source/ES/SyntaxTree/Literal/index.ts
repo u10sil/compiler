@@ -16,6 +16,7 @@
 // along with U10sil.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+export { Boolean } from "./Boolean"
 export { Expression } from "./Expression"
 export { Number } from "./Number"
 export { Objekt } from "./Objekt"
