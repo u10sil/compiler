@@ -51,7 +51,7 @@ export function parse(source: Source): SyntaxTree.Statement | undefined {
 		if (!block)
 			source.raise("Expected block in class declaration.")
 		if (symbol)
-			result = new SyntaxTree.ClassDeclaration(symbol.name, isAbstract, Utilities.Enumerable.from(parameters), extended, Utilities.Enumerable.from(implemented), block!, source.mark())
+			result = new SyntaxTree.ClassDeclaration(symbol, isAbstract, Utilities.Enumerable.from(parameters), extended, Utilities.Enumerable.from(implemented), block!, source.mark())
 	}
 	return result
 }

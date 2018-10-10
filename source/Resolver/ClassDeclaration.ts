@@ -20,10 +20,10 @@ import * as SyntaxTree from "../SyntaxTree"
 import { Scope, addResolver } from "./Scope"
 
 function resolve(scope: Scope, node: SyntaxTree.ClassDeclaration) {
-	scope.addType(node)
 	scope.resolve(node.extended)
 	scope.resolve(node.implements)
-	scope = scope.create()
+	scope = scope.create(node)
+	scope.setType(node, node.type)
 	scope.resolve(node.content)
 }
 addResolver("classDeclaration", resolve)

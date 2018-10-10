@@ -1,7 +1,7 @@
 class Point {
 	let x: number
 	let y: number
-	get area() {
+	func getArea() {
 		this.x * this.y
 	}
 }

@@ -20,9 +20,10 @@ import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../Tokens"
 import { Declaration } from "./Declaration"
 import { Node } from "./Node"
+import * as Type from "./Type"
 
 export abstract class TypeDeclaration extends Declaration {
-	constructor(symbol: string, tokens?: Utilities.Enumerable<Tokens.Substance> | Node) {
-		super(symbol, tokens)
+	constructor(readonly type: Type.Name, tokens?: Utilities.Enumerable<Tokens.Substance> | Node) {
+		super(type.name, tokens)
 	}
 }

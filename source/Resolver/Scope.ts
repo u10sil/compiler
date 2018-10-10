@@ -76,9 +76,12 @@ export class Scope {
 				this.raise("Missing resolver for class \"" + node.class + "\".", Error.Level.Recoverable, "semantic", node.region)
 		}
 	}
-	create(statements?: Utilities.Enumerable<SyntaxTree.Statement>): Scope {
+	create(statements?: SyntaxTree.ClassDeclaration | Utilities.Enumerable<SyntaxTree.Statement>): Scope {
 		const result = new Scope(this.handler, this.declarationsData, this.typesData, this)
-		if (statements)
+		if (statements instanceof SyntaxTree.ClassDeclaration) {
+			result.symbolTable.append(statements, "this")
+			result.typeTable.append(statements, "This")
+		} else if (statements)
 			statements.apply(statement => {
 				if (statement instanceof SyntaxTree.FunctionDeclaration || statement instanceof SyntaxTree.ArgumentDeclaration)
 					result.symbolTable.append(statement)

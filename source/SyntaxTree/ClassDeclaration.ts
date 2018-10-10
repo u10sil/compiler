@@ -27,7 +27,7 @@ import { Node } from "./Node"
 export class ClassDeclaration extends TypeDeclaration {
 	get class() { return "classDeclaration" }
 	readonly implements: Utilities.Enumerable<Type.Identifier>
-	constructor(symbol: string, readonly isAbstract: boolean, readonly parameters: Utilities.Enumerable<Type.Name>, readonly extended: Type.Identifier | undefined, implemented: Utilities.Enumerable<Type.Identifier>, readonly content: Block, tokens?: Utilities.Enumerable<Tokens.Substance> | Node) {
+	constructor(symbol: Type.Name, readonly isAbstract: boolean, readonly parameters: Utilities.Enumerable<Type.Name>, readonly extended: Type.Identifier | undefined, implemented: Utilities.Enumerable<Type.Identifier>, readonly content: Block, tokens?: Utilities.Enumerable<Tokens.Substance> | Node) {
 		super(symbol, tokens)
 		this.implements = implemented
 	}

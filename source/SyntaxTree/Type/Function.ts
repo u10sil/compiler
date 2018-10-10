@@ -37,7 +37,7 @@ export class Function extends Expression {
 		}
 	}
 	toString(): string {
-		return "(" + this.arguments.map(argument => argument.toString()).toArray().join(", ") + ") => " + this.result.toString()
+		return "(" + this.arguments.map(argument => argument ? argument.toString() : "unkown").toArray().join(", ") + ") => " + (this.result ? this.result.toString() : "unknown")
 	}
 }
 addDeserializer("type.function", data => data.hasOwnProperty("value") ? new Function(deserialize<Expression>(data.arguments as ({ class: string } & any)[]), deserialize(data.result)!) : undefined)

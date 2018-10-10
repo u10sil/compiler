@@ -23,8 +23,8 @@ export class SymbolTable<T extends { symbol: string }> {
 	get(symbol: string): T | undefined{
 		return this.symbols[symbol]
 	}
-	append(declaration: T) {
-		const previous = this.symbols[declaration.symbol]
-		this.symbols[declaration.symbol] = previous ? this.merge(previous, declaration) : declaration
+	append(declaration: T, symbol?: string) {
+		const previous = this.symbols[symbol || declaration.symbol]
+		this.symbols[symbol || declaration.symbol] = previous ? this.merge(previous, declaration) : declaration
 	}
 }

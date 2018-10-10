@@ -1,0 +1,91 @@
+[
+	{
+		"id": 19,
+		"class": "module",
+		"name": "class",
+		"statements": [
+			{
+				"id": 18,
+				"class": "classDeclaration",
+				"symbol": "Point",
+				"content": {
+					"id": 17,
+					"class": "block",
+					"statements": [
+						{
+							"id": 5,
+							"class": "variableDeclaration",
+							"symbol": "x",
+							"isConstant": true,
+							"type": "number"
+						},
+						{
+							"id": 7,
+							"class": "variableDeclaration",
+							"symbol": "y",
+							"isConstant": true,
+							"type": "number"
+						},
+						{
+							"id": 16,
+							"class": "functionDeclaration",
+							"symbol": "getArea",
+							"body": {
+								"id": 15,
+								"class": "block",
+								"statements": [
+									{
+										"id": 14,
+										"class": "infixOperator",
+										"symbol": "*",
+										"left": {
+											"id": 10,
+											"class": "infixOperator",
+											"symbol": ".",
+											"left": {
+												"id": 8,
+												"class": "identifier",
+												"name": "this",
+												"declaration": 18,
+												"type": "Point"
+											},
+											"right": {
+												"id": 9,
+												"class": "identifier",
+												"name": "x",
+												"declaration": 5,
+												"type": "number"
+											}
+										},
+										"right": {
+											"id": 13,
+											"class": "infixOperator",
+											"symbol": ".",
+											"left": {
+												"id": 11,
+												"class": "identifier",
+												"name": "this",
+												"declaration": 18,
+												"type": "Point"
+											},
+											"right": {
+												"id": 12,
+												"class": "identifier",
+												"name": "y",
+												"declaration": 7,
+												"type": "number"
+											}
+										}
+									}
+								]
+							},
+							"type": "() => unknown"
+						}
+					],
+					"type": "() => unknown"
+				},
+				"type": "Point"
+			}
+		]
+	}
+]
