@@ -16,18 +16,21 @@
 // along with U10sil.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import "./Literal"
-import "./Type"
-import "./ArgumentDeclaration"
-import "./ClassDeclaration"
-import "./FunctionCall"
-import "./FunctionDeclaration"
-import "./Identifier"
-import "./InfixOperator"
-import "./LambdaOperator"
-import "./Module"
-import "./ResolvingOperator"
-import "./VariableDeclaration"
-import "./Tuple"
+import * as SyntaxTree from "../../SyntaxTree"
+import * as ES from "../SyntaxTree"
+import { addConverter } from "./Converter"
 
-export { Converter } from "./Converter"
+addConverter<SyntaxTree.InfixOperator>("resolvingOperator",
+	(converter, node) => {
+		let result: ES.Node | undefined
+		switch (node.symbol) {
+			case ".":
+				result = new ES.ResolvingOperator(converter.convert(node.left), converter.convert(node.right), node.tokens)
+				break
+			default:
+				converter.handler.raise("Unable to convert \"" + node.class + "\" to ES.")
+				break
+		}
+		return result || new ES.Identifier("ERROR")
+	},
+)

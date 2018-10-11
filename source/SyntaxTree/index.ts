@@ -35,6 +35,7 @@ import { Node } from "./Node"
 import { Operator } from "./Operator"
 import { PostfixOperator } from "./PostfixOperator"
 import { PrefixOperator } from "./PrefixOperator"
+import { ResolvingOperator } from "./ResolvingOperator"
 import { Statement } from "./Statement"
 import { SymbolDeclaration } from "./SymbolDeclaration"
 import * as Type from "./Type"
@@ -67,6 +68,7 @@ export {
 	Operator,
 	PostfixOperator,
 	PrefixOperator,
+	ResolvingOperator,
 	Statement,
 	SymbolDeclaration,
 	Tuple,
