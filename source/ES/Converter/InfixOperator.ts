@@ -31,7 +31,7 @@ addConverter<SyntaxTree.InfixOperator>("infixOperator",
 					converter.handler.raise("Left hand of expression must be \"identifier\" and not \"" + node.class + "\" when converting to ES.")
 				break
 			case ".":
-				result = new ES.MemberAccess(converter.convert(node.left), converter.convert(node.right), node.tokens)
+				result = new ES.ResolvingOperator(converter.convert(node.left), converter.convert(node.right), node.tokens)
 				break
 			default:
 				converter.handler.raise("Unable to convert \"" + node.class + "\" to ES.")

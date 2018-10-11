@@ -19,7 +19,7 @@
 import * as SyntaxTree from "../SyntaxTree"
 import { addGenerator } from "./Generator"
 
-addGenerator<SyntaxTree.MemberAccess>("MemberAccess", async (generator, node) =>
+addGenerator<SyntaxTree.ResolvingOperator>("ResolvingOperator", async (generator, node) =>
 	await generator.generate(node.left) &&
 	await generator.write(node.symbol) &&
 	generator.generate(node.right),

@@ -29,7 +29,7 @@ import { FunctionCall } from "./FunctionCall"
 import { FunctionDeclaration } from "./FunctionDeclaration"
 import { Identifier } from "./Identifier"
 import { LambdaOperator } from "./LambdaOperator"
-import { MemberAccess } from "./MemberAccess"
+import { ResolvingOperator } from "./ResolvingOperator"
 import { Module } from "./Module"
 import { New } from "./New"
 import { Node } from "./Node"
@@ -55,7 +55,7 @@ export {
 	FunctionDeclaration,
 	Identifier,
 	LambdaOperator,
-	MemberAccess,
+	ResolvingOperator,
 	Module,
 	New,
 	Node,

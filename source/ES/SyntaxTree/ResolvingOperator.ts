@@ -21,8 +21,8 @@ import * as Tokens from "../../Tokens"
 import { Expression } from "./Expression"
 import { BinaryOperator } from "./BinaryOperator"
 
-export class MemberAccess extends BinaryOperator {
-	get class() { return "MemberAccess" }
+export class ResolvingOperator extends BinaryOperator {
+	get class() { return "ResolvingOperator" }
 	get symbol() { return "." }
 	constructor(left: Expression, right: Expression, readonly tokens?: Utilities.Enumerable<Tokens.Substance>) {
 		super(left, right, tokens)
