@@ -59,7 +59,7 @@ describe("Parser.FunctionCall", () => {
 		expect(SyntaxTree.filterId(result!.serialize())).toEqual({
 			class: "functionCall",
 			function: {
-				class: "infixOperator",
+				class: "resolvingOperator",
 				symbol: ".",
 				left: { class: "identifier", name: "c" },
 				right: { class: "identifier", name: "m" },

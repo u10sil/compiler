@@ -59,32 +59,20 @@ describe("Parser.InfixOperator", () => {
 			right: { class: "identifier", name: "b" },
 		})
 	})
-	it("a.b", () => {
-		const result = Parser.parseFirst("a.b", handler) as SyntaxTree.InfixOperator
-		expect(result.symbol).toEqual(".")
-		expect((result.left as SyntaxTree.Identifier).name).toEqual("a")
-		expect((result.right as SyntaxTree.Identifier).name).toEqual("b")
+	it("a * b + c * d", () => {
+		const result = Parser.parseFirst("a * b + c * d", handler) as SyntaxTree.InfixOperator
 		expect(SyntaxTree.filterId(result.serialize())).toEqual({
 			class: "infixOperator",
-			symbol: ".",
-			left: { class: "identifier", name: "a" },
-			right: { class: "identifier", name: "b" },
-		})
-	})
-	it("a.b * c.d", () => {
-		const result = Parser.parseFirst("a.b * c.d", handler) as SyntaxTree.InfixOperator
-		expect(SyntaxTree.filterId(result.serialize())).toEqual({
-			class: "infixOperator",
-			symbol: "*",
+			symbol: "+",
 			left: {
 				class: "infixOperator",
-				symbol: ".",
+				symbol: "*",
 				left: { class: "identifier", name: "a" },
 				right: { class: "identifier", name: "b" },
 			},
 			right: {
 				class: "infixOperator",
-				symbol: ".",
+				symbol: "*",
 				left: { class: "identifier", name: "c" },
 				right: { class: "identifier", name: "d" },
 			},

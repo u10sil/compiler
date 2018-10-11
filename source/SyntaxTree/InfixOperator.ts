@@ -43,10 +43,10 @@ export class InfixOperator extends Operator {
 			default:
 				break
 		// Resolving
-			case ".":
-			case ".?":
-				result = [300, Associativity.None]
-				break
+			// case ".":
+			// case ".?":
+				// result = [300, Associativity.None]
+				// break
 		// Bitwise Shifting
 			case "<<":
 			case ">>":

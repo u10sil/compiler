@@ -67,9 +67,9 @@ describe("Parser.Expression", () => {
 			class: "module",
 			statements: [
 				{
-					class: "infixOperator", symbol: ".",
+					class: "resolvingOperator", symbol: ".",
 					left: {
-						class: "infixOperator", symbol: ".",
+						class: "resolvingOperator", symbol: ".",
 						left: { class: "identifier", name: "a" },
 						right: { class: "identifier", name: "b" },
 					},
@@ -83,7 +83,7 @@ describe("Parser.Expression", () => {
 			class: "module",
 			statements: [
 				{
-					class: "infixOperator", symbol: ".",
+					class: "resolvingOperator", symbol: ".",
 					left: { class: "identifier", name: "a" },
 					right: { class: "identifier", name: "b" },
 				},
