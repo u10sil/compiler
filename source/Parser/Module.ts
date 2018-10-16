@@ -28,7 +28,7 @@ export function parse(source: Source): SyntaxTree.Module | undefined {
 	if (peeked != undefined && !(peeked instanceof Tokens.EndOfFile)) {
 		const statements: SyntaxTree.Statement[] = []
 		let next: SyntaxTree.Statement | undefined
-		while (next = Statement.parse(source.clone()))
+		while (next = Statement.parse("default", source.clone()))
 			statements.push(next)
 		if (!(source.fetch() instanceof Tokens.EndOfFile))
 			source.raise("Missing end of file.")

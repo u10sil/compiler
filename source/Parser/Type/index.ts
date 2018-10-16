@@ -47,4 +47,4 @@ export {
 	tryParse,
 	parse,
 }
-Statement.addParser(parse, 20)
+Statement.addParser("default", parse, 20)

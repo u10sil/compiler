@@ -28,27 +28,12 @@ describe("Parser.VariableDeclaration", () => {
 		expect((variableDeclaration.type as SyntaxTree.Type.Identifier).name).toEqual("Int")
 		expect(SyntaxTree.filterId(SyntaxTree.filterId(variableDeclaration.serialize()))).toEqual({ class: "variableDeclaration", symbol: "i", type: { class: "type.identifier", name: "Int"} })
 	})
-	it("static variable", () => {
-		const variableDeclaration = createDeclaration("static var i: Int\n", handler)
-		expect(variableDeclaration.symbol).toEqual("i")
-		expect(variableDeclaration.isStatic).toBeTruthy()
-		expect((variableDeclaration.type as SyntaxTree.Type.Identifier).name).toEqual("Int")
-		expect(SyntaxTree.filterId(SyntaxTree.filterId(variableDeclaration.serialize()))).toEqual({ class: "variableDeclaration", isStatic: true, symbol: "i", type: { class: "type.identifier", name: "Int"} })
-	})
 	it("constant", () => {
 		const variableDeclaration = createDeclaration("let i: Int\n", handler)
 		expect(variableDeclaration.symbol).toEqual("i")
 		expect(variableDeclaration.isConstant).toBeTruthy()
 		expect((variableDeclaration.type as SyntaxTree.Type.Identifier).name).toEqual("Int")
 		expect(SyntaxTree.filterId(SyntaxTree.filterId(variableDeclaration.serialize()))).toEqual({ class: "variableDeclaration", isConstant: true, symbol: "i", type: { class: "type.identifier", name: "Int"} })
-	})
-	it("static const", () => {
-		const variableDeclaration = createDeclaration("static let i: Int\n", handler)
-		expect(variableDeclaration.symbol).toEqual("i")
-		expect(variableDeclaration.isStatic).toBeTruthy()
-		expect(variableDeclaration.isConstant).toBeTruthy()
-		expect((variableDeclaration.type as SyntaxTree.Type.Identifier).name).toEqual("Int")
-		expect(SyntaxTree.filterId(SyntaxTree.filterId(variableDeclaration.serialize()))).toEqual({ class: "variableDeclaration", isStatic: true, isConstant: true, symbol: "i", type: { class: "type.identifier", name: "Int"} })
 	})
 	it("var a = b", () => {
 		const variableDeclaration = Parser.parseFirst("var a = b", handler) as SyntaxTree.VariableDeclaration

@@ -31,6 +31,6 @@ addConverter<SyntaxTree.InfixOperator>("resolvingOperator",
 				converter.handler.raise("Unable to convert \"" + node.class + "\" to ES.")
 				break
 		}
-		return result || new ES.Identifier("ERROR")
+		return result || new ES.Identifier("RESOLVE ERROR")
 	},
 )

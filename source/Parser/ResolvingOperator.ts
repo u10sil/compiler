@@ -27,10 +27,13 @@ export function parse(source: Source, precedance: number, previous?: SyntaxTree.
 		const symbol = (source.fetch() as Tokens.Operator).symbol
 		if (!previous)
 			source.raise("Missing left hand of infix operator " + symbol)
-		const right = Expression.parse(source, 300)
-		if (!right)
-			source.raise("Missing right hand of infix operator " + symbol)
-		result = Expression.parse(source, precedance, new SyntaxTree.ResolvingOperator(symbol, previous!, right!, source.mark()))
+		else {
+			const right = Expression.parse(source, 300)
+			if (right instanceof SyntaxTree.Identifier)
+				result = Expression.parse(source, precedance, new SyntaxTree.ResolvingOperator(symbol, previous, right, source.mark()))
+			else
+				source.raise("Right hand of resolving operator must by identifier.")
+		}
 	}
 	return result
 }

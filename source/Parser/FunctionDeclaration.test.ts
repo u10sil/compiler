@@ -30,26 +30,6 @@ describe("Parser.FunctionDeclaration", () => {
 		expect(functionDeclaration.symbol).toEqual("empty")
 		expect(SyntaxTree.filterId(functionDeclaration.serialize())).toEqual({ class: "functionDeclaration", symbol: "empty" })
 	})
-	it("static function", () => {
-		const functionDeclaration = createDeclaration("static func empty\n", handler)
-		expect(functionDeclaration.modifier).toEqual(SyntaxTree.FunctionModifier.Static)
-		expect(SyntaxTree.filterId(functionDeclaration.serialize())).toEqual({ class: "functionDeclaration", symbol: "empty", modifier: "static" })
-	})
-	it("abstract function", () => {
-		const functionDeclaration = createDeclaration("abstract func empty\n", handler)
-		expect(functionDeclaration.modifier).toEqual(SyntaxTree.FunctionModifier.Abstract)
-		expect(SyntaxTree.filterId(functionDeclaration.serialize())).toEqual({ class: "functionDeclaration", symbol: "empty", modifier: "abstract" })
-	})
-	it("virtual function", () => {
-		const functionDeclaration = createDeclaration("virtual func empty\n", handler)
-		expect(functionDeclaration.modifier).toEqual(SyntaxTree.FunctionModifier.Virtual)
-		expect(SyntaxTree.filterId(functionDeclaration.serialize())).toEqual({ class: "functionDeclaration", symbol: "empty", modifier: "virtual" })
-	})
-	it("override function", () => {
-		const functionDeclaration = createDeclaration("override func empty\n", handler)
-		expect(functionDeclaration.modifier).toEqual(SyntaxTree.FunctionModifier.Override)
-		expect(SyntaxTree.filterId(functionDeclaration.serialize())).toEqual({ class: "functionDeclaration", symbol: "empty", modifier: "override" })
-	})
 	it("empty function with parameters", () => {
 		const functionDeclaration = createDeclaration("func empty(i: Int, j: Float, k: Double)\n", handler)
 		const functionArguments = functionDeclaration.arguments.getEnumerator()

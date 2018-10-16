@@ -1,4 +1,5 @@
 import "./Function"
 import "./Identifier"
+import "./Name"
 import "./Primitive"
 import "./Tuple"

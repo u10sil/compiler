@@ -1,4 +1,4 @@
-// Copyright (C) 2019  Simon Mika <simon@mika.se>
+// Copyright (C) 2018  Simon Mika <simon@mika.se>
 //
 // This file is part of U10sil.
 //
@@ -23,7 +23,7 @@ import { Expression } from "./Expression"
 import { Operator } from "./Operator"
 
 export class LambdaOperator extends Operator {
-	get class() { return "lambdaOperator" }
+	get class() { return "LambdaOperator" }
 	get symbol() { return "=>" }
 	readonly arguments: Utilities.Enumerable<ArgumentDeclaration>
 	constructor(

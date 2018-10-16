@@ -16,23 +16,13 @@
 // along with U10sil.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import "./Literal"
-import "./Type"
-import "./ArgumentDeclaration"
-import "./Assignment"
-import "./ClassDeclaration"
-import "./ExpressionStatement"
-import "./FunctionCall"
-import "./FunctionDeclaration"
-import "./Identifier"
-import "./InfixOperator"
-import "./LambdaOperator"
-import "./ResolvingOperator"
-import "./MethodDeclaration"
-import "./Module"
-import "./PropertyDeclaration"
-import "./New"
-import "./ReturnStatement"
-import "./VariableDeclaration"
+import * as SyntaxTree from "../SyntaxTree"
+import { addGenerator } from "./Generator"
 
-export { Generator } from "./Generator"
+addGenerator<SyntaxTree.InfixOperator>("InfixOperator", async (generator, node) =>
+	await generator.generate(node.left) &&
+	await generator.write(" ") &&
+	await generator.write(node.symbol) &&
+	await generator.write(" ") &&
+	generator.generate(node.right),
+)

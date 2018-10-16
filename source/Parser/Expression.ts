@@ -40,4 +40,4 @@ export function parse(source: Source, precedence: number = 0, previous?: SyntaxT
 	}
 	return result
 }
-Statement.addParser(parse, 10)
+Statement.addParser("default", parse, 10)

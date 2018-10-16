@@ -1,4 +1,4 @@
-// Copyright (C) 2018  Simon Mika <simon@mika.se>
+// Copyright (C) 2017, 2018  Simon Mika <simon@mika.se>
 //
 // This file is part of U10sil.
 //
@@ -16,23 +16,17 @@
 // along with U10sil.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import "./Literal"
-import "./Type"
-import "./ArgumentDeclaration"
-import "./Assignment"
-import "./ClassDeclaration"
-import "./ExpressionStatement"
-import "./FunctionCall"
-import "./FunctionDeclaration"
-import "./Identifier"
-import "./InfixOperator"
-import "./LambdaOperator"
-import "./ResolvingOperator"
-import "./MethodDeclaration"
-import "./Module"
-import "./PropertyDeclaration"
-import "./New"
-import "./ReturnStatement"
-import "./VariableDeclaration"
+import * as SyntaxTree from "../SyntaxTree"
+import { Scope, addResolver } from "./Scope"
 
-export { Generator } from "./Generator"
+function resolve(scope: Scope, node: SyntaxTree.ResolvingOperator) {
+	scope.resolve(node.left)
+	const leftType = scope.getType(node.left)
+	const rightDeclartionNode = scope.findMember(leftType, node.right)
+	if (rightDeclartionNode) {
+		scope.addDeclaration(node.right, rightDeclartionNode)
+		scope.setType(node, scope.getType(rightDeclartionNode))
+	} else
+		scope.raise("Unable to find member \"" + node.right.name + "\" in type \"" + leftType.toString() + "\"")
+}
+addResolver("resolvingOperator", resolve)

@@ -19,7 +19,7 @@
 import * as SyntaxTree from "../SyntaxTree"
 import { addGenerator } from "./Generator"
 
-addGenerator<SyntaxTree.LambdaOperator>("lambdaOperator", async (generator, node) =>
+addGenerator<SyntaxTree.LambdaOperator>("LambdaOperator", async (generator, node) =>
 	(node.arguments.length == 1 ? await generator.generate(node.arguments.first!) :
 	(await generator.write("(") && await generator.generate(node.arguments, ", ") && await generator.write(")"))) &&
 	await generator.write(" => ") &&

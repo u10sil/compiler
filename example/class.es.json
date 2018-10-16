@@ -1,0 +1,61 @@
+[
+	{
+		"class": "Module",
+		"name": "class",
+		"statements": [
+			{
+				"class": "classDeclaration",
+				"declarations": [
+					{
+						"class": "PropertyDeclaration",
+						"symbol": "x"
+					},
+					{
+						"class": "PropertyDeclaration",
+						"symbol": "y"
+					},
+					{
+						"class": "MethodDeclaration",
+						"symbol": "getArea",
+						"arguments": [],
+						"statements": [
+							{
+								"class": "ReturnStatement",
+								"expression": {
+									"class": "InfixOperator",
+									"symbol": "*",
+									"precedence": 150,
+									"associativity": "left",
+									"left": {
+										"class": "ResolvingOperator",
+										"symbol": ".",
+										"left": {
+											"class": "Identifier",
+											"symbol": "this"
+										},
+										"right": {
+											"class": "Identifier",
+											"symbol": "x"
+										}
+									},
+									"right": {
+										"class": "ResolvingOperator",
+										"symbol": ".",
+										"left": {
+											"class": "Identifier",
+											"symbol": "this"
+										},
+										"right": {
+											"class": "Identifier",
+											"symbol": "y"
+										}
+									}
+								}
+							}
+						]
+					}
+				]
+			}
+		]
+	}
+]

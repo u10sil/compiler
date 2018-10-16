@@ -33,6 +33,9 @@ addConverter<SyntaxTree.InfixOperator>("infixOperator",
 			case ".":
 				result = new ES.ResolvingOperator(converter.convert(node.left), converter.convert(node.right), node.tokens)
 				break
+			case "*":
+				result = new ES.InfixOperator(node.symbol, node.precedence, node.associativity, converter.convert(node.left), converter.convert(node.right), node.tokens)
+				break
 			default:
 				converter.handler.raise("Unable to convert \"" + node.class + "\" to ES.")
 				break

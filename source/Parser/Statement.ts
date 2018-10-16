@@ -19,21 +19,22 @@
 import { Source } from "./Source"
 import * as SyntaxTree from "../SyntaxTree"
 
-const statementParsers: { parse: ((source: Source) => SyntaxTree.Statement | undefined), priority: number }[] = []
-export function addParser(parser: (source: Source) => SyntaxTree.Statement | undefined, priority: number = 0) {
-	statementParsers.push({
+type Parsers = { parse: ((source: Source) => SyntaxTree.Statement | undefined), priority: number }[]
+const statementParsers: { [mode: string]: Parsers } = { default: [], class: [] }
+export function addParser(mode: "default" | "class", parser: (source: Source) => SyntaxTree.Statement | undefined, priority: number = 0) {
+	statementParsers[mode].push({
 		parse: parser,
 		priority,
 	})
-	statementParsers.sort((left, right) => left.priority < right.priority ? -1 : left.priority > right.priority ? 1 : 0)
+	statementParsers[mode].sort((left, right) => left.priority < right.priority ? -1 : left.priority > right.priority ? 1 : 0)
 }
-export function parse(source: Source): SyntaxTree.Statement | undefined {
+export function parse(mode: "default" | "class", source: Source): SyntaxTree.Statement | undefined {
 	let result: SyntaxTree.Statement | undefined
-	if (statementParsers.length > 0) {
+	if (statementParsers[mode].length > 0) {
 		let i = 0
 		do {
-			result = statementParsers[i++].parse(source)
-		} while (!result && i < statementParsers.length)
+			result = statementParsers[mode][i++].parse(source)
+		} while (!result && i < statementParsers[mode].length)
 	}
 	return result
 }

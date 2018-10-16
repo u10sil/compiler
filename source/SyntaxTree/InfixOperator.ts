@@ -50,7 +50,7 @@ export class InfixOperator extends Operator {
 		// Bitwise Shifting
 			case "<<":
 			case ">>":
-				result = [160, Associativity.None]
+				result = [160, "none"]
 				break
 		// Multiplicative
 			case "*":
@@ -58,7 +58,7 @@ export class InfixOperator extends Operator {
 			case "%":
 			case "&*":
 			case "&":
-				result = [150, Associativity.Left]
+				result = [150, "left"]
 				break
 		// Additive
 			case "+":
@@ -67,24 +67,24 @@ export class InfixOperator extends Operator {
 			case "&-":
 			case "|":
 			case "^":
-				result = [140, Associativity.Left]
+				result = [140, "left"]
 				break
 		// Range Formation
 			case "..<":
 			case "...":
-				result = [135, Associativity.None]
+				result = [135, "none"]
 				break
 		// Casting TODO: Letters in operator? Does currently not work!
 			case "is":
 			case "as":
 			case "as?":
 			case "as!":
-				result = [132, Associativity.Left]
+				result = [132, "left"]
 				break
 		// Null coalescing
 			case "??":
 				/// TODO: Correct precedence for ?? operator?
-				result = [132 , Associativity.Right]
+				result = [132 , "right"]
 				break
 		// Comparative
 			case "<":
@@ -96,15 +96,15 @@ export class InfixOperator extends Operator {
 			case "===":
 			case "!==":
 			case "~=":
-				result = [130, Associativity.None]
+				result = [130, "none"]
 				break
 		// Conjuctive
 			case "&&":
-				result = [120, Associativity.Left]
+				result = [120, "left"]
 				break
 		// Disjunctive
 			case "||":
-				result = [110, Associativity.Left]
+				result = [110, "left"]
 				break
 		// Assigning
 			case "=":
@@ -119,7 +119,7 @@ export class InfixOperator extends Operator {
 			case "|=":
 			case "&&=":
 			case "||=":
-				result = [90, Associativity.Right]
+				result = [90, "right"]
 		}
 		return result
 	}

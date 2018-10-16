@@ -1,4 +1,4 @@
-// Copyright (C) 2017  Simon Mika <simon@mika.se>
+// Copyright (C) 2017, 2018  Simon Mika <simon@mika.se>
 //
 // This file is part of U10sil.
 //
@@ -16,8 +16,4 @@
 // along with U10sil.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-export enum Associativity {
-	None,
-	Left,
-	Right,
-}
+export type Associativity = "none" | "left" | "right"

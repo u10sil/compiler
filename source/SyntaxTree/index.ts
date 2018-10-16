@@ -25,16 +25,18 @@ import { Declaration } from "./Declaration"
 import { Expression } from "./Expression"
 import { FunctionCall } from "./FunctionCall"
 import { FunctionDeclaration } from "./FunctionDeclaration"
-import { FunctionModifier } from "./FunctionModifier"
+import { MethodModifier } from "./MethodModifier"
 import { Identifier } from "./Identifier"
 import { InfixOperator } from "./InfixOperator"
 import * as Literal from "./Literal"
 import { LambdaOperator } from "./LambdaOperator"
+import { MethodDeclaration } from "./MethodDeclaration"
 import { Module } from "./Module"
 import { Node } from "./Node"
 import { Operator } from "./Operator"
 import { PostfixOperator } from "./PostfixOperator"
 import { PrefixOperator } from "./PrefixOperator"
+import { PropertyDeclaration } from "./PropertyDeclaration"
 import { ResolvingOperator } from "./ResolvingOperator"
 import { Statement } from "./Statement"
 import { SymbolDeclaration } from "./SymbolDeclaration"
@@ -58,16 +60,18 @@ export {
 	Expression,
 	FunctionCall,
 	FunctionDeclaration,
-	FunctionModifier,
+	MethodModifier,
 	Identifier,
 	InfixOperator,
 	Literal,
 	LambdaOperator,
+	MethodDeclaration,
 	Module,
 	Node,
 	Operator,
 	PostfixOperator,
 	PrefixOperator,
+	PropertyDeclaration,
 	ResolvingOperator,
 	Statement,
 	SymbolDeclaration,

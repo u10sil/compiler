@@ -1,4 +1,4 @@
-// Copyright (C) 2018  Simon Mika <simon@mika.se>
+// Copyright (C) 2017, 2018  Simon Mika <simon@mika.se>
 //
 // This file is part of U10sil.
 //
@@ -16,23 +16,15 @@
 // along with U10sil.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import "./Literal"
-import "./Type"
-import "./ArgumentDeclaration"
-import "./Assignment"
-import "./ClassDeclaration"
-import "./ExpressionStatement"
-import "./FunctionCall"
-import "./FunctionDeclaration"
-import "./Identifier"
-import "./InfixOperator"
-import "./LambdaOperator"
-import "./ResolvingOperator"
-import "./MethodDeclaration"
-import "./Module"
-import "./PropertyDeclaration"
-import "./New"
-import "./ReturnStatement"
-import "./VariableDeclaration"
+import * as SyntaxTree from "../SyntaxTree"
+import { Scope, addResolver } from "./Scope"
 
-export { Generator } from "./Generator"
+function resolve(scope: Scope, node: SyntaxTree.PropertyDeclaration) {
+	scope.addSymbol(node)
+	scope.resolve(node.value)
+	scope.resolve(node.type)
+	const valueType = (node.value ? scope.getType(node.value) : undefined) || node.type
+	if (valueType)
+		scope.setType(node, valueType)
+}
+addResolver("propertyDeclaration", resolve)

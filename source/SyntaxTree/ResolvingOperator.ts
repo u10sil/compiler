@@ -19,20 +19,20 @@
 import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../Tokens"
 import { Expression } from "./Expression"
+import { Identifier } from "./Identifier"
 import { InfixOperator } from "./InfixOperator"
-import { Associativity } from "./Associativity"
 import { addDeserializer, deserialize } from "./deserialize"
 import { Node } from "./Node"
 
 export class ResolvingOperator extends InfixOperator {
 	get class() { return "resolvingOperator" }
-	constructor(symbol: string, left: Expression, right: Expression, tokens?: Utilities.Enumerable<Tokens.Substance> | Node) {
-		super(symbol, 300, Associativity.None, left, right, tokens)
+	constructor(symbol: string, left: Expression, readonly right: Identifier, tokens?: Utilities.Enumerable<Tokens.Substance> | Node) {
+		super(symbol, 300, "none", left, right, tokens)
 	}
 }
 addDeserializer("resolvingOperator", data => {
 	let result: ResolvingOperator | undefined
 	if (data.hasOwnProperty("symbol") && data.hasOwnProperty("left") && data.hasOwnProperty("right"))
-		result = new ResolvingOperator(data.symbol, deserialize<Expression>(data.left)!, deserialize<Expression>(data.right)!)
+		result = new ResolvingOperator(data.symbol, deserialize<Expression>(data.left)!, deserialize<Expression>(data.right) as Identifier)
 	return result
 })

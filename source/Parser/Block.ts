@@ -28,7 +28,7 @@ export function parse(source: Source): SyntaxTree.Block | undefined {
 		source.fetch() // consume: {
 		const statements: SyntaxTree.Statement[] = []
 		let next: SyntaxTree.Statement | undefined
-		while (source.peek() &&	!source.peek()!.isSeparator("}") && (next = Statement.parse(source.clone()))) {
+		while (source.peek() &&	!source.peek()!.isSeparator("}") && (next = Statement.parse("default", source.clone()))) {
 			statements.push(next)
 		}
 		if (!source.fetch()!.isSeparator("}"))

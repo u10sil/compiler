@@ -1,4 +1,4 @@
-// Copyright (C) 2018  Simon Mika <simon@mika.se>
+// Copyright (C) 2015, 2017  Simon Mika <simon@mika.se>
 //
 // This file is part of U10sil.
 //
@@ -16,23 +16,10 @@
 // along with U10sil.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import "./Literal"
-import "./Type"
-import "./ArgumentDeclaration"
-import "./Assignment"
-import "./ClassDeclaration"
-import "./ExpressionStatement"
-import "./FunctionCall"
-import "./FunctionDeclaration"
-import "./Identifier"
-import "./InfixOperator"
-import "./LambdaOperator"
-import "./ResolvingOperator"
-import "./MethodDeclaration"
-import "./Module"
-import "./PropertyDeclaration"
-import "./New"
-import "./ReturnStatement"
-import "./VariableDeclaration"
-
-export { Generator } from "./Generator"
+export enum MethodModifier {
+	None,
+	Static,
+	Abstract,
+	Virtual,
+	Override,
+}

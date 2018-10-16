@@ -28,12 +28,15 @@ import { ExpressionStatement } from "./ExpressionStatement"
 import { FunctionCall } from "./FunctionCall"
 import { FunctionDeclaration } from "./FunctionDeclaration"
 import { Identifier } from "./Identifier"
+import { InfixOperator } from "./InfixOperator"
 import { LambdaOperator } from "./LambdaOperator"
+import { MethodDeclaration } from "./MethodDeclaration"
 import { ResolvingOperator } from "./ResolvingOperator"
 import { Module } from "./Module"
 import { New } from "./New"
 import { Node } from "./Node"
 import { Operator } from "./Operator"
+import { PropertyDeclaration } from "./PropertyDeclaration"
 import { ReturnStatement } from "./ReturnStatement"
 import { Statement } from "./Statement"
 import { SymbolDeclaration } from "./SymbolDeclaration"
@@ -54,12 +57,15 @@ export {
 	FunctionCall,
 	FunctionDeclaration,
 	Identifier,
+	InfixOperator,
 	LambdaOperator,
+	MethodDeclaration,
 	ResolvingOperator,
 	Module,
 	New,
 	Node,
 	Operator,
+	PropertyDeclaration,
 	ReturnStatement,
 	Statement,
 	SymbolDeclaration,

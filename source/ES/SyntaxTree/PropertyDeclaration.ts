@@ -20,16 +20,16 @@ import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../../Tokens"
 import { Expression } from "./Expression"
 import * as Type from "./Type"
-import { SymbolDeclaration } from "./SymbolDeclaration"
+import { VariableDeclaration } from "./VariableDeclaration"
 import { Assignment } from "./Assignment"
 import { ExpressionStatement } from "./ExpressionStatement"
 
-export class VariableDeclaration extends SymbolDeclaration {
-	get class() { return "VariableDeclaration" }
-	get declaration() { return new VariableDeclaration(this.symbol, this.isConstant, this.type, undefined, this.tokens) }
+export class PropertyDeclaration extends VariableDeclaration {
+	get class() { return "PropertyDeclaration" }
+	get declaration() { return new PropertyDeclaration(this.symbol, this.type, this.isConstant, this.isStatic, undefined, this.tokens) }
 	get assignment() { return this.expression ? new ExpressionStatement(new Assignment(this.symbol, this.expression, this.expression.tokens)) : undefined }
-	constructor(symbol: string, readonly isConstant: boolean, type: Type.Expression, readonly expression?: Expression, tokens?: Utilities.Enumerable<Tokens.Substance>) {
-		super(symbol, type, tokens)
+	constructor(symbol: string, type: Type.Expression, isConstant: boolean, readonly isStatic: boolean, expression?: Expression, tokens?: Utilities.Enumerable<Tokens.Substance>) {
+		super(symbol, isConstant, type, expression, tokens)
 	}
 	serialize(): { class: string } & any {
 		return {

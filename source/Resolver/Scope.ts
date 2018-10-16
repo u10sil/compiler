@@ -33,7 +33,7 @@ export class Scope {
 		this.handler.raise("Declaration of type \"" + previous.symbol + "\" at " + previous.region + " hidden by new declaration at " + current.region, Error.Level.Recoverable, "semantic", current.region)
 		return current
 	})
-	private constructor(private handler: Error.Handler, private readonly declarationsData: { [id: number]: number }, private readonly typesData: { [id: number]: SyntaxTree.Type.Expression }, private parent?: Scope) {
+	private constructor(private handler: Error.Handler, private readonly declarationsData: { [id: number]: number }, private readonly typesData: { [id: number]: SyntaxTree.Type.Expression }, private readonly membersData: { [id: number]: { [member: string]: number } }, private parent?: Scope) {
 	}
 	raise(message: string, level?: Error.Level, type?: string, region?: Error.Region) {
 		this.handler.raise(message, level, type, region)
@@ -47,19 +47,43 @@ export class Scope {
 	addDeclaration(node: SyntaxTree.Node, declaration: number) {
 		this.declarationsData[node.id] = declaration
 	}
+	addMember(parent: SyntaxTree.TypeDeclaration, member: SyntaxTree.SymbolDeclaration) {
+		const p = this.membersData[parent.id] || {}
+		p[member.symbol] = member.id
+		this.membersData[parent.id] = p
+	}
 	findSymbol(identifier: SyntaxTree.Identifier): number | undefined {
 		const result = this.symbolTable.get(identifier.name)
 		return result ? result.id : this.parent ? this.parent.findSymbol(identifier) : undefined
 	}
-	findType(identifier: SyntaxTree.Type.Identifier): number | undefined {
+	findType(identifier: SyntaxTree.Type.Name): number | undefined {
 		const result = this.typeTable.get(identifier.name)
 		return result ? result.id : this.parent ? this.parent.findType(identifier) : undefined
 	}
-	setType(node: SyntaxTree.Node, type: SyntaxTree.Type.Expression) {
-		this.typesData[node.id] = type
+	setType(node: SyntaxTree.Node | number, type: SyntaxTree.Type.Expression) {
+		this.typesData[node instanceof SyntaxTree.Node ? node.id : node] = type
 	}
-	getType(node: SyntaxTree.Node): SyntaxTree.Type.Expression {
-		return this.typesData[node.id]
+	getType(node: SyntaxTree.Node | number): SyntaxTree.Type.Expression {
+		return this.typesData[node instanceof SyntaxTree.Node ? node.id : node]
+	}
+	findMember(parent: SyntaxTree.Type.Expression | number, member: SyntaxTree.Identifier): number | undefined {
+		let result: number | undefined
+		if (parent instanceof SyntaxTree.Type.Expression) {
+			const finder = memberFinders[parent.class]
+			if (finder)
+				result = finder(this, parent, member.name)
+			else
+				this.raise("Unable to find member resolver for declaration of class \"" + parent.class + "\"")
+		} else {
+			const p = this.membersData[parent]
+			if (p) {
+				result = p[member.name]
+				if (!result)
+					this.raise("Could not find member with the name \"" + member.name + "\" on type declared in node " + parent)
+			} else
+				this.raise("No members available for node " + parent)
+		}
+		return result
 	}
 	resolve(statement: undefined): void
 	resolve<T extends SyntaxTree.Node>(node: T | undefined | Utilities.Enumerable<T>): void
@@ -77,7 +101,7 @@ export class Scope {
 		}
 	}
 	create(statements?: SyntaxTree.ClassDeclaration | Utilities.Enumerable<SyntaxTree.Statement>): Scope {
-		const result = new Scope(this.handler, this.declarationsData, this.typesData, this)
+		const result = new Scope(this.handler, this.declarationsData, this.typesData, this.membersData, this)
 		if (statements instanceof SyntaxTree.ClassDeclaration) {
 			result.symbolTable.append(statements, "this")
 			result.typeTable.append(statements, "This")
@@ -91,10 +115,14 @@ export class Scope {
 		return result
 	}
 	static create(handler: Error.Handler): Scope {
-		return new Scope(handler, {}, {})
+		return new Scope(handler, {}, {}, {})
 	}
 }
 const resolvers: { [className: string]: ((scope: Scope, node: SyntaxTree.Node) => void) } = {}
 export function addResolver<T extends SyntaxTree.Node>(className: string, resolver: (scope: Scope, node: T) => void): void {
 	resolvers[className] = (scope: Scope, node: SyntaxTree.Node) => resolver(scope, node as T)
+}
+const memberFinders: { [className: string]: ((scope: Scope, parent: SyntaxTree.Type.Expression, name: string) => number | undefined) } = {}
+export function addMemberFinder<T extends SyntaxTree.Type.Expression>(className: string, finder: (scope: Scope, parent: T, name: string) => number | undefined): void {
+	memberFinders[className] = (scope: Scope, parent: SyntaxTree.Type.Expression, name: string) => finder(scope, parent as T, name)
 }

@@ -16,23 +16,16 @@
 // along with U10sil.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import "./Literal"
-import "./Type"
-import "./ArgumentDeclaration"
-import "./Assignment"
-import "./ClassDeclaration"
-import "./ExpressionStatement"
-import "./FunctionCall"
-import "./FunctionDeclaration"
-import "./Identifier"
-import "./InfixOperator"
-import "./LambdaOperator"
-import "./ResolvingOperator"
-import "./MethodDeclaration"
-import "./Module"
-import "./PropertyDeclaration"
-import "./New"
-import "./ReturnStatement"
-import "./VariableDeclaration"
+import { Utilities } from "@cogneco/mend"
+import * as Tokens from "../../Tokens"
+import { FunctionDeclaration } from "./FunctionDeclaration"
+import { ArgumentDeclaration } from "./ArgumentDeclaration"
+import { Statement } from "./Statement"
+import * as Type from "./Type"
 
-export { Generator } from "./Generator"
+export class MethodDeclaration extends FunctionDeclaration {
+	get class() { return "MethodDeclaration" }
+	constructor(symbol: string, argumentList: Utilities.Enumerable<ArgumentDeclaration>, returnType: Type.Expression, statements: Utilities.Enumerable<Statement>, tokens?: Utilities.Enumerable<Tokens.Substance>) {
+		super(symbol, argumentList, returnType, statements, tokens)
+	}
+}

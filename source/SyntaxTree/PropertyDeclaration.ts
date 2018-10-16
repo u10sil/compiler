@@ -1,4 +1,4 @@
-// Copyright (C) 2015, 2017  Simon Mika <simon@mika.se>
+// Copyright (C) 2015, 2017, 2018  Simon Mika <simon@mika.se>
 //
 // This file is part of U10sil.
 //
@@ -18,25 +18,23 @@
 
 import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../Tokens"
-import { SymbolDeclaration } from "./SymbolDeclaration"
+import { VariableDeclaration } from "./VariableDeclaration"
 import { Expression } from "./Expression"
 import * as Type from "./Type"
 import { addDeserializer, deserialize } from "./deserialize"
 import { Node } from "./Node"
 
-export class VariableDeclaration extends SymbolDeclaration {
-	get class() { return "variableDeclaration" }
+export class PropertyDeclaration extends VariableDeclaration {
+	get class() { return "propertyDeclaration" }
 	get noAssignment(): boolean { return !this.value }
-	constructor(symbol: string, readonly isConstant: boolean, readonly type: Type.Expression | undefined, readonly value: Expression | undefined, tokens?: Utilities.Enumerable<Tokens.Substance> | Node) {
-		super(symbol, tokens)
+	constructor(symbol: string, isConstant: boolean, readonly isStatic: boolean, type: Type.Expression | undefined, value: Expression | undefined, tokens?: Utilities.Enumerable<Tokens.Substance> | Node) {
+		super(symbol, isConstant, type, value, tokens)
 	}
 	serialize(): { class: string } & any {
 		return {
 			...super.serialize(),
-			isConstant: this.isConstant || undefined,
-			type: this.type && this.type.serialize(),
-			value: this.value && this.value.serialize(),
+			isStatic: this.isStatic || undefined,
 		}
 	}
 }
-addDeserializer("variableDeclaration", data => data.hasOwnProperty("symbol") ? new VariableDeclaration(data.symbol, data.isConstant, deserialize<Type.Expression>(data.type), deserialize<Expression>(data.value)) : undefined)
+addDeserializer("propertyDeclaration", data => data.hasOwnProperty("symbol") ? new PropertyDeclaration(data.symbol, data.isConstant, data.isStatic, deserialize<Type.Expression>(data.type), deserialize<Expression>(data.value)) : undefined)

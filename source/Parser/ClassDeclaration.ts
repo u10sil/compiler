@@ -20,10 +20,21 @@ import { Source } from "./Source"
 import * as Statement from "./Statement"
 import * as Declaration from "./Declaration"
 import * as Type from "./Type"
-import * as Block from "./Block"
 import * as SyntaxTree from "../SyntaxTree"
 import { Utilities } from "@cogneco/mend"
 
+function parseContent(source: Source): Utilities.Enumerable<SyntaxTree.Statement> {
+	const result: SyntaxTree.Statement[] = []
+	if (source.peek()!.isSeparator("{") && !source.peek(2)!.isSeparator(":")) {
+		source.fetch() // consume: {
+		let next: SyntaxTree.Statement | undefined
+		while (source.peek() &&	!source.peek()!.isSeparator("}") && (next = Statement.parse("class", source.clone())))
+			result.push(next)
+		if (!source.fetch()!.isSeparator("}"))
+			source.raise("Expected \"}\"")
+	}
+	return Utilities.Enumerable.from(result)
+}
 export function parse(source: Source): SyntaxTree.Statement | undefined {
 	let result: SyntaxTree.Statement | undefined
 	const isAbstract = source.peek()!.isIdentifier("abstract")
@@ -47,12 +58,12 @@ export function parse(source: Source): SyntaxTree.Statement | undefined {
 					source.raise("Expected identifier with name of interface to extend.")
 				implemented.push(Type.Identifier.parse(source.clone())!)
 			} while (source.peek()!.isSeparator(","))
-		const block = Block.parse(source.clone())
-		if (!block)
-			source.raise("Expected block in class declaration.")
+		const content = parseContent(source.clone())
+		if (!content)
+			source.raise("Expected content in class declaration.")
 		if (symbol)
-			result = new SyntaxTree.ClassDeclaration(symbol, isAbstract, Utilities.Enumerable.from(parameters), extended, Utilities.Enumerable.from(implemented), block!, source.mark())
+			result = new SyntaxTree.ClassDeclaration(symbol, isAbstract, Utilities.Enumerable.from(parameters), extended, Utilities.Enumerable.from(implemented), content!, source.mark())
 	}
 	return result
 }
-Statement.addParser(parse)
+Statement.addParser("default", parse)

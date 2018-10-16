@@ -25,10 +25,8 @@ export function* convertDeclarations(converter: Converter, statements: Utilities
 	const iterator = statements.getEnumerator()
 	let next = iterator.next()
 	while (!next.done) {
-		let result = converter.convert(next.value)
+		const result = converter.convert(next.value)
 		next = iterator.next()
-		if (next.done)
-			result = new ES.ReturnStatement(result)
 		yield result
 	}
 }
@@ -39,6 +37,6 @@ addConverter<SyntaxTree.ClassDeclaration>("classDeclaration",
 		converter.convert(node.parameters),
 		node.extended ? converter.convert(node.extended) as ES.Type.Identifier : undefined,
 		converter.convert(node.implements),
-		Utilities.Enumerable.from(convertDeclarations(converter, node.content ? node.content.statements : Utilities.Enumerable.empty)),
+		Utilities.Enumerable.from(convertDeclarations(converter, node.content ? node.content : Utilities.Enumerable.empty)),
 		node.tokens),
 )

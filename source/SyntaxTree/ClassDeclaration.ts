@@ -20,14 +20,21 @@ import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../Tokens"
 import { TypeDeclaration } from "./TypeDeclaration"
 import * as Type from "./Type"
-import { Block } from "./Block"
+import { Statement } from "./Statement"
 import { addDeserializer, deserialize } from "./deserialize"
 import { Node } from "./Node"
 
 export class ClassDeclaration extends TypeDeclaration {
 	get class() { return "classDeclaration" }
 	readonly implements: Utilities.Enumerable<Type.Identifier>
-	constructor(symbol: Type.Name, readonly isAbstract: boolean, readonly parameters: Utilities.Enumerable<Type.Name>, readonly extended: Type.Identifier | undefined, implemented: Utilities.Enumerable<Type.Identifier>, readonly content: Block, tokens?: Utilities.Enumerable<Tokens.Substance> | Node) {
+	constructor(
+		symbol: Type.Name,
+		readonly isAbstract: boolean,
+		readonly parameters: Utilities.Enumerable<Type.Name>,
+		readonly extended: Type.Identifier | undefined,
+		implemented: Utilities.Enumerable<Type.Identifier>,
+		readonly content: Utilities.Enumerable<Statement>,
+		tokens?: Utilities.Enumerable<Tokens.Substance> | Node) {
 		super(symbol, tokens)
 		this.implements = implemented
 	}
@@ -40,11 +47,11 @@ export class ClassDeclaration extends TypeDeclaration {
 			parameters: parameters.length > 0 ? parameters : undefined,
 			extends: this.extended && this.extended.serialize(),
 			implements: implemented.length > 0 ? implemented : undefined,
-			content: this.content.serialize(),
+			content: this.content.map(c => c.serialize()).toArray(),
 		}
 	}
 }
 addDeserializer("classDeclaration", data =>
 	data.hasOwnProperty("name") && data.hasOwnProperty("content") ?
-	new ClassDeclaration(data.name, data.isAbstract, deserialize<Type.Name>(data.parameters as ({ class: string } & any)[]), deserialize<Type.Identifier>(data.extends), deserialize<Type.Identifier>(data.implements as ({ class: string } & any)[]), deserialize<Block>(data.content)!) :
+	new ClassDeclaration(data.name, data.isAbstract, deserialize<Type.Name>(data.parameters as ({ class: string } & any)[]), deserialize<Type.Identifier>(data.extends), deserialize<Type.Identifier>(data.implements as ({ class: string } & any)[]), deserialize<Statement>(data.content as ({ class: string } & any)[])!) :
 	undefined)

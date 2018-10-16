@@ -1,4 +1,4 @@
-// Copyright (C) 2015, 2017  Simon Mika <simon@mika.se>
+// Copyright (C) 2018  Simon Mika <simon@mika.se>
 //
 // This file is part of U10sil.
 //
@@ -16,10 +16,10 @@
 // along with U10sil.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-export enum FunctionModifier {
-	None,
-	Static,
-	Abstract,
-	Virtual,
-	Override,
-}
+import * as SyntaxTree from "../../SyntaxTree"
+import * as ES from "../SyntaxTree"
+import { addConverter } from "./Converter"
+
+addConverter<SyntaxTree.PropertyDeclaration>("propertyDeclaration",
+	(converter, node) => new ES.PropertyDeclaration(node.symbol, converter.getType(node), node.isConstant, node.isStatic, node.value ? converter.convert(node.value) : undefined, node.tokens),
+)

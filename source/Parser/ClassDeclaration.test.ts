@@ -30,7 +30,7 @@ describe("Parser.ClassDeclaration", () => {
 			const classDeclaration = createDeclaration("class Empty {}\n", handler)
 			expect(classDeclaration).toBeTruthy()
 			expect(classDeclaration.symbol).toEqual("Empty")
-			expect(SyntaxTree.filterId(classDeclaration.serialize())).toEqual({ class: "classDeclaration", symbol: "Empty", content: { class: "block" } })
+			expect(SyntaxTree.filterId(classDeclaration.serialize())).toEqual({ class: "classDeclaration", symbol: "Empty", content: [] })
 		})
 		it("generic class #1", () => {
 			const classDeclaration = createDeclaration("class Empty<T> {}\n", handler)
@@ -40,7 +40,7 @@ describe("Parser.ClassDeclaration", () => {
 				class: "classDeclaration", symbol: "Empty", parameters: [
 					{ class: "type.name", name: "T" },
 				],
-				content: { class: "block" },
+				content: [],
 			})
 		})
 		it("generic class #2", () => {
@@ -54,13 +54,13 @@ describe("Parser.ClassDeclaration", () => {
 					{ class: "type.name", name: "T" },
 					{ class: "type.name", name: "S" },
 				],
-				content: { class: "block" },
+				content: [],
 			})
 		})
 		it("class extends", () => {
 			const classDeclaration = createDeclaration("class Empty extends Full {}\n", handler)
 			expect(classDeclaration.extended!.name).toEqual("Full")
-			expect(SyntaxTree.filterId(classDeclaration.serialize())).toEqual({ class: "classDeclaration", symbol: "Empty", extends: { class: "type.identifier", name: "Full" }, content: { class: "block" } })
+			expect(SyntaxTree.filterId(classDeclaration.serialize())).toEqual({ class: "classDeclaration", symbol: "Empty", extends: { class: "type.identifier", name: "Full" }, content: [] })
 		})
 		it("class implements", () => {
 			const classDeclaration = createDeclaration("class Empty implements Enumerable, Enumerator {}\n", handler)
@@ -73,7 +73,7 @@ describe("Parser.ClassDeclaration", () => {
 					{ class: "type.identifier", name: "Enumerable" },
 					{ class: "type.identifier", name: "Enumerator" },
 				],
-				content: { class: "block" },
+				content: [],
 			})
 		})
 		it("generic class implements generic interfaces", () => {
@@ -99,13 +99,13 @@ describe("Parser.ClassDeclaration", () => {
 					{ class: "type.identifier", name: "Interface1", parameters: [{ class: "type.identifier", name: "T" }, { class: "type.identifier", name: "S" }] },
 					{ class: "type.identifier", name: "Interface2", parameters: [{ class: "type.identifier", name: "T" }, { class: "type.identifier", name: "S" }] },
 				],
-				content: { class: "block" },
+				content: [],
 			})
 		})
 		it("abstract class", () => {
 			const classDeclaration = createDeclaration("abstract class Empty {}\n", handler)
 			expect(classDeclaration.isAbstract).toEqual(true)
-			expect(SyntaxTree.filterUndefined(SyntaxTree.filterId(classDeclaration.serialize()))).toEqual({ class: "classDeclaration", symbol: "Empty", isAbstract: true, content: { class: "block" } })
+			expect(SyntaxTree.filterUndefined(SyntaxTree.filterId(classDeclaration.serialize()))).toEqual({ class: "classDeclaration", symbol: "Empty", isAbstract: true, content: [] })
 		})
 		it("member fields", () => {
 			const program: string =
@@ -115,24 +115,21 @@ var f = 50.5
 }
 `
 			const classDeclaration = createDeclaration(program, handler)
-			const statements = classDeclaration.content.statements.getEnumerator()
-			const firstField = statements.fetch() as SyntaxTree.VariableDeclaration
+			const statements = classDeclaration.content.getEnumerator()
+			const firstField = statements.fetch() as SyntaxTree.PropertyDeclaration
 			expect(firstField.symbol).toEqual("i")
 			expect((firstField.type as SyntaxTree.Type.Identifier).name).toEqual("Int")
 			expect((firstField.value as SyntaxTree.Literal.Number).value).toEqual(10)
-			const secondField = statements.fetch() as SyntaxTree.VariableDeclaration
+			const secondField = statements.fetch() as SyntaxTree.PropertyDeclaration
 			expect(secondField.symbol).toEqual("f")
 			expect(secondField.type).toBeUndefined()
 			expect((secondField.value as SyntaxTree.Literal.Number).value).toEqual(50.5)
 			expect(statements.fetch()).toBeUndefined()
 			expect(SyntaxTree.filterId(classDeclaration.serialize())).toEqual({
-				class: "classDeclaration", symbol: "Foobar", content: {
-					class: "block",
-					statements: [
-						{ class: "variableDeclaration", symbol: "i", type: { class: "type.identifier", name: "Int"} , value: { class: "literal.number", value: 10 } },
-						{ class: "variableDeclaration", symbol: "f", value: { class: "literal.number", value: 50.5 } },
-					],
-				},
+				class: "classDeclaration", symbol: "Foobar", content: [
+					{ class: "propertyDeclaration", symbol: "i", type: { class: "type.identifier", name: "Int"} , value: { class: "literal.number", value: 10 } },
+					{ class: "propertyDeclaration", symbol: "f", value: { class: "literal.number", value: 50.5 } },
+				],
 			})
 		})
 		it("member functions", () => {
@@ -149,46 +146,43 @@ var f = 50.5
 }
 `
 			const classDeclaration = createDeclaration(program, handler)
-			const statements = classDeclaration.content.statements.getEnumerator()
-			const countField = statements.fetch() as SyntaxTree.VariableDeclaration
+			const statements = classDeclaration.content.getEnumerator()
+			const countField = statements.fetch() as SyntaxTree.PropertyDeclaration
 			expect(countField.symbol).toEqual("count")
-			const constructor = statements.fetch() as SyntaxTree.FunctionDeclaration
+			const constructor = statements.fetch() as SyntaxTree.MethodDeclaration
 			expect(constructor.symbol).toEqual("init")
 			expect(constructor.body).toBeUndefined()
 			expect(constructor.returnType).toBeUndefined()
-			const updateCountFunction = statements.fetch() as SyntaxTree.FunctionDeclaration
+			const updateCountFunction = statements.fetch() as SyntaxTree.MethodDeclaration
 			expect(updateCountFunction.symbol).toEqual("updateCount")
 			const updateCountArgument = updateCountFunction.arguments.first as SyntaxTree.ArgumentDeclaration
 			expect(updateCountArgument.symbol).toEqual("newCount")
 			expect((updateCountArgument.type as SyntaxTree.Type.Identifier).name).toEqual("Int")
 			expect(updateCountFunction.returnType).toBeUndefined()
-			const getCountFunction = statements.fetch() as SyntaxTree.FunctionDeclaration
+			const getCountFunction = statements.fetch() as SyntaxTree.MethodDeclaration
 			expect(getCountFunction.symbol).toEqual("getCount")
 			expect((getCountFunction.returnType as SyntaxTree.Type.Identifier).name).toEqual("Int")
 			const getCountFunctionStatement = getCountFunction.body!.statements.first as SyntaxTree.Identifier
 			expect(getCountFunctionStatement.name).toEqual("count")
-			expect(SyntaxTree.filterId(classDeclaration.serialize())).toEqual({
-				class: "classDeclaration", symbol: "Foobar", content: {
-					class: "block",
-					statements: [
-						{ class: "variableDeclaration", symbol: "count", type: { class: "type.identifier", name: "Int" }, value: { class: "literal.number", value: 0 } },
-						{ class: "functionDeclaration", symbol: "init" },
-						{
-							class: "functionDeclaration", symbol: "updateCount", arguments: [{ class: "argumentDeclaration", symbol: "newCount", type: { class: "type.identifier", name: "Int" } }], body: {
-								class: "block", statements: [
-									{ class: "infixOperator", symbol: "=", left: { class: "identifier", name: "count" }, right: { class: "identifier", name: "newCount" } },
-								],
-							},
+			expect(SyntaxTree.filterUndefined(SyntaxTree.filterId(classDeclaration.serialize()))).toEqual({
+				class: "classDeclaration", symbol: "Foobar", content: [
+					{ class: "propertyDeclaration", symbol: "count", type: { class: "type.identifier", name: "Int" }, value: { class: "literal.number", value: 0 } },
+					{ class: "methodDeclaration", symbol: "init" },
+					{
+						class: "methodDeclaration", symbol: "updateCount", arguments: [{ class: "argumentDeclaration", symbol: "newCount", type: { class: "type.identifier", name: "Int" } }], body: {
+							class: "block", statements: [
+								{ class: "infixOperator", symbol: "=", left: { class: "identifier", name: "count" }, right: { class: "identifier", name: "newCount" } },
+							],
 						},
-						{
-							class: "functionDeclaration", symbol: "getCount", returnType: { class: "type.identifier", name: "Int" }, body: {
-								class: "block", statements: [
-									{ class: "identifier", name: "count" },
-								],
-							},
+					},
+					{
+						class: "methodDeclaration", symbol: "getCount", returnType: { class: "type.identifier", name: "Int" }, body: {
+							class: "block", statements: [
+								{ class: "identifier", name: "count" },
+							],
 						},
-					],
-				},
+					},
+				],
 			})
 		})
 	})

@@ -19,22 +19,27 @@
 import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../../Tokens"
 import { Expression } from "./Expression"
-import * as Type from "./Type"
-import { SymbolDeclaration } from "./SymbolDeclaration"
-import { Assignment } from "./Assignment"
-import { ExpressionStatement } from "./ExpressionStatement"
+import { Operator } from "./Operator"
 
-export class VariableDeclaration extends SymbolDeclaration {
-	get class() { return "VariableDeclaration" }
-	get declaration() { return new VariableDeclaration(this.symbol, this.isConstant, this.type, undefined, this.tokens) }
-	get assignment() { return this.expression ? new ExpressionStatement(new Assignment(this.symbol, this.expression, this.expression.tokens)) : undefined }
-	constructor(symbol: string, readonly isConstant: boolean, type: Type.Expression, readonly expression?: Expression, tokens?: Utilities.Enumerable<Tokens.Substance>) {
-		super(symbol, type, tokens)
+export class InfixOperator extends Operator {
+	get class() { return "InfixOperator" }
+	constructor(
+		readonly symbol: string,
+		readonly precedence: number,
+		readonly associativity: "left" | "right" | "none",
+		readonly left: Expression,
+		readonly right: Expression,
+		tokens?: Utilities.Enumerable<Tokens.Substance>) {
+		super(tokens)
 	}
 	serialize(): { class: string } & any {
 		return {
 			...super.serialize(),
-			expression: this.expression ? this.expression.serialize() : undefined,
+			symbol: this.symbol,
+			precedence: this.precedence,
+			associativity: this.associativity,
+			left: this.left.serialize(),
+			right: this.right.serialize(),
 		}
 	}
 }

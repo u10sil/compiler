@@ -1,4 +1,4 @@
-// Copyright (C) 2015, 2017  Simon Mika <simon@mika.se>
+// Copyright (C) 2015, 2017, 2018  Simon Mika <simon@mika.se>
 //
 // This file is part of U10sil.
 //
@@ -23,21 +23,21 @@ import * as Type from "./Type"
 import * as SyntaxTree from "../SyntaxTree"
 import * as Declaration from "./Declaration"
 
-export function parse(source: Source): SyntaxTree.VariableDeclaration | undefined {
-	let result: SyntaxTree.VariableDeclaration | undefined
+export function parse(source: Source): SyntaxTree.PropertyDeclaration | undefined {
+	let result: SyntaxTree.PropertyDeclaration | undefined
 	const next = source.peek()
 	let isConstant = false
 	if (!!next && next.isIdentifier("var") || (isConstant = next!.isIdentifier("let"))) {
 		source.fetch() // consume "var" or "let"
 		const symbol = Declaration.parseIdentifier(source)
 		if (!symbol)
-			source.raise("Expected symbol in variable declaration.")
+			source.raise("Expected symbol in property declaration.")
 		const type = Type.tryParse(source.clone())
 		let value: SyntaxTree.Expression | undefined
 		if (source.peek()!.isOperator("=") && source.fetch())
 			value = Expression.parse(source, 90)
-		result = new SyntaxTree.VariableDeclaration(symbol!, isConstant, type, value, source.mark())
+		result = new SyntaxTree.PropertyDeclaration(symbol!, isConstant, false, type, value, source.mark())
 	}
 	return result
 }
-Statement.addParser("default", parse)
+Statement.addParser("class", parse)

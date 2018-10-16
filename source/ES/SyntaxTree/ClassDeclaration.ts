@@ -31,4 +31,16 @@ export class ClassDeclaration extends TypeDeclaration {
 		this.extends = extended
 		this.implements = implemented
 	}
+	serialize(): { class: string } & any {
+		const parameters = this.parameters.map(t => t.serialize()).toArray()
+		const implemented = this.implements.map(i => i.serialize()).toArray()
+		return {
+			...super.serialize(),
+			isAbstract: this.isAbstract || undefined,
+			parameters: parameters.length > 0 ? parameters : undefined,
+			extends: this.extends && this.extends.serialize(),
+			implements: implemented.length > 0 ? implemented : undefined,
+			declarations: this.declarations.map(declaration => declaration.serialize()).toArray(),
+		}
+	}
 }

@@ -16,10 +16,22 @@
 // along with U10sil.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+import { Utilities } from "@cogneco/mend"
 import * as SyntaxTree from "../../SyntaxTree"
 import * as ES from "../SyntaxTree"
-import { addConverter } from "./Converter"
+import { Converter, addConverter } from "./Converter"
 
-addConverter<SyntaxTree.VariableDeclaration>("variableDeclaration",
-	(converter, node) => new ES.VariableDeclaration(node.symbol, node.isConstant, converter.getType(node), node.value ? converter.convert(node.value) : undefined, node.tokens),
+export function* convertBody(converter: Converter, statements: Utilities.Enumerable<SyntaxTree.Statement>): Iterable<ES.Statement> {
+	const iterator = statements.getEnumerator()
+	let next = iterator.next()
+	while (!next.done) {
+		let result = converter.convert(next.value)
+		next = iterator.next()
+		if (next.done)
+			result = new ES.ReturnStatement(result)
+		yield result
+	}
+}
+addConverter<SyntaxTree.MethodDeclaration>("methodDeclaration",
+	(converter, node) => new ES.MethodDeclaration(node.symbol, converter.convert(node.arguments), converter.getReturnType(node), Utilities.Enumerable.from(convertBody(converter, node.body ? node.body.statements : Utilities.Enumerable.empty)), node.tokens),
 )
