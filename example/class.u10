@@ -5,3 +5,5 @@ class Point {
 		this.x * this.y
 	}
 }
+var p: Point
+p.x

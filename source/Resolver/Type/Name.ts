@@ -27,3 +27,4 @@ function find(scope: Scope, parent: SyntaxTree.Type.Name, member: SyntaxTree.Ide
 	return result
 }
 addMemberFinder("type.name", find)
+addMemberFinder("type.identifier", find)

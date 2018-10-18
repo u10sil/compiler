@@ -55,6 +55,25 @@
 						]
 					}
 				]
+			},
+			{
+				"class": "VariableDeclaration",
+				"symbol": "p"
+			},
+			{
+				"class": "ExpressionStatement",
+				"expression": {
+					"class": "ResolvingOperator",
+					"symbol": ".",
+					"left": {
+						"class": "Identifier",
+						"symbol": "p"
+					},
+					"right": {
+						"class": "Identifier",
+						"symbol": "x"
+					}
+				}
 			}
 		]
 	}

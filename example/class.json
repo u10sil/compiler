@@ -1,6 +1,6 @@
 [
 	{
-		"id": 18,
+		"id": 23,
 		"class": "module",
 		"name": "class",
 		"statements": [
@@ -84,6 +84,32 @@
 					}
 				],
 				"type": "Point"
+			},
+			{
+				"id": 19,
+				"class": "variableDeclaration",
+				"symbol": "p",
+				"type": "Point"
+			},
+			{
+				"id": 22,
+				"class": "resolvingOperator",
+				"symbol": ".",
+				"left": {
+					"id": 20,
+					"class": "identifier",
+					"name": "p",
+					"declaration": 19,
+					"type": "Point"
+				},
+				"right": {
+					"id": 21,
+					"class": "identifier",
+					"name": "x",
+					"declaration": 5,
+					"type": "number"
+				},
+				"type": "number"
 			}
 		]
 	}
