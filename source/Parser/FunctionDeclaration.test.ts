@@ -26,12 +26,12 @@ describe("Parser.FunctionDeclaration", () => {
 	// TODO: Construct a test for an argument list with no explicitly set types (type inference)
 	//
 	it("empty function", () => {
-		const functionDeclaration = createDeclaration("func empty\n", handler)
+		const functionDeclaration = createDeclaration("fun empty\n", handler)
 		expect(functionDeclaration.symbol).toEqual("empty")
 		expect(SyntaxTree.filterId(functionDeclaration.serialize())).toEqual({ class: "functionDeclaration", symbol: "empty" })
 	})
 	it("empty function with parameters", () => {
-		const functionDeclaration = createDeclaration("func empty(i: Int, j: Float, k: Double)\n", handler)
+		const functionDeclaration = createDeclaration("fun empty(i: Int, j: Float, k: Double)\n", handler)
 		const functionArguments = functionDeclaration.arguments.getEnumerator()
 		let currentArgument: SyntaxTree.ArgumentDeclaration
 		expect(functionDeclaration.symbol).toEqual("empty")
@@ -51,7 +51,7 @@ describe("Parser.FunctionDeclaration", () => {
 		] })
 	})
 	it("empty function with interfered argument types", () => {
-		const functionDeclaration = createDeclaration("func empty(w, h: Int, x, y, z: Float)\n", handler)
+		const functionDeclaration = createDeclaration("fun empty(w, h: Int, x, y, z: Float)\n", handler)
 		const functionArguments = functionDeclaration.arguments.getEnumerator()
 		let currentArgument: SyntaxTree.ArgumentDeclaration
 		expect(functionDeclaration.symbol).toEqual("empty")
@@ -79,7 +79,7 @@ describe("Parser.FunctionDeclaration", () => {
 		] })
 	})
 	it("empty generic function with generic parameter types", () => {
-		const functionDeclaration = createDeclaration("func empty<T, S>(a, b: Generic<T>, x, y: Generic<S>)\n", handler)
+		const functionDeclaration = createDeclaration("fun empty<T, S>(a, b: Generic<T>, x, y: Generic<S>)\n", handler)
 		const parameters = functionDeclaration.parameters.getEnumerator()
 		expect(parameters.fetch()!.name).toEqual("T")
 		expect(parameters.fetch()!.name).toEqual("S")
@@ -106,13 +106,13 @@ describe("Parser.FunctionDeclaration", () => {
 		] })
 	})
 	it("empty function with return type", () => {
-		const functionDeclaration = createDeclaration("func empty -> ReturnType\n", handler)
+		const functionDeclaration = createDeclaration("fun empty -> ReturnType\n", handler)
 		expect(functionDeclaration.symbol).toEqual("empty")
 		expect((functionDeclaration.returnType as SyntaxTree.Type.Identifier).name).toEqual("ReturnType")
 		expect(SyntaxTree.filterId(functionDeclaration.serialize())).toEqual({ class: "functionDeclaration", symbol: "empty", returnType: { class: "type.identifier", name: "ReturnType" } })
 	})
 	it("empty function with return type tuple", () => {
-		const functionDeclaration = createDeclaration("func empty -> (Int, Float, Double)\n", handler)
+		const functionDeclaration = createDeclaration("fun empty -> (Int, Float, Double)\n", handler)
 		const tupleChildren = (functionDeclaration.returnType as SyntaxTree.Type.Tuple).elements.getEnumerator()
 		expect(functionDeclaration.symbol).toEqual("empty")
 		expect((tupleChildren.fetch() as SyntaxTree.Type.Identifier).name).toEqual("Int")

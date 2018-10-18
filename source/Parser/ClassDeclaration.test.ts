@@ -136,11 +136,11 @@ var f = 50.5
 			const program: string =
 `class Foobar {
 	var count: Int = 0
-	func init
-	func updateCount(newCount: Int) {
+	fun init
+	fun updateCount(newCount: Int) {
 		count = newCount
 	}
-	func getCount -> Int {
+	fun getCount -> Int {
 		count
 	}
 }

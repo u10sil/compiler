@@ -1,4 +1,4 @@
-func identity(number: number) {
+fun identity(number: number) {
 	number
 }
 let a = 5

@@ -27,7 +27,7 @@ import { Utilities } from "@cogneco/mend"
 
 export function parse(source: Source): SyntaxTree.FunctionDeclaration | undefined {
 	let result: SyntaxTree.FunctionDeclaration | undefined
-	if (source.peek()!.isIdentifier("func") && source.fetch()) {
+	if (source.peek()!.isIdentifier("fun") && source.fetch()) {
 		const symbol = Declaration.parseIdentifier(source.clone())
 		if (!symbol)
 			source.raise("Expected symbol in function declaration.")
