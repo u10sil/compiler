@@ -19,12 +19,14 @@
 import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../../Tokens"
 import { Expression } from "./Expression"
+import { Identifier } from "./Identifier"
+import { ResolvingOperator } from "./ResolvingOperator"
 import { UnaryOperator } from "./UnaryOperator"
 
 export class Assignment extends UnaryOperator {
 	get class() { return "Assignment" }
 	get symbol() { return "=" }
-	constructor(readonly variable: string, expression: Expression, readonly tokens?: Utilities.Enumerable<Tokens.Substance>) {
+	constructor(readonly left: Identifier | ResolvingOperator, expression: Expression, readonly tokens?: Utilities.Enumerable<Tokens.Substance>) {
 		super(expression, tokens)
 	}
 }

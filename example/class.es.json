@@ -74,6 +74,36 @@
 						"symbol": "x"
 					}
 				}
+			},
+			{
+				"class": "ExpressionStatement",
+				"expression": {
+					"class": "Assignment",
+					"symbol": "=",
+					"argument": {
+						"class": "Literal.Number",
+						"value": 3
+					}
+				}
+			},
+			{
+				"class": "ExpressionStatement",
+				"expression": {
+					"class": "FunctionCall",
+					"function": {
+						"class": "ResolvingOperator",
+						"symbol": ".",
+						"left": {
+							"class": "Identifier",
+							"symbol": "p"
+						},
+						"right": {
+							"class": "Identifier",
+							"symbol": "getArea"
+						}
+					},
+					"arguments": []
+				}
 			}
 		]
 	}

@@ -22,13 +22,13 @@ import { Expression } from "./Expression"
 import { Operator } from "./Operator"
 
 export abstract class UnaryOperator extends Operator {
-	constructor(readonly argument: Expression, readonly tokens?: Utilities.Enumerable<Tokens.Substance>) {
+	constructor(readonly right: Expression, readonly tokens?: Utilities.Enumerable<Tokens.Substance>) {
 		super(tokens)
 	}
 	serialize(): { class: string } & any {
 		return {
 			...super.serialize(),
-			argument: this.argument.serialize(),
+			argument: this.right.serialize(),
 		}
 	}
 }

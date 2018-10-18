@@ -7,3 +7,5 @@ class Point {
 }
 let p
 p.x
+p.x = 3
+p.getArea()

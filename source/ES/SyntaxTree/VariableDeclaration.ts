@@ -22,12 +22,13 @@ import { Expression } from "./Expression"
 import * as Type from "./Type"
 import { SymbolDeclaration } from "./SymbolDeclaration"
 import { Assignment } from "./Assignment"
+import { Identifier } from "./Identifier"
 import { ExpressionStatement } from "./ExpressionStatement"
 
 export class VariableDeclaration extends SymbolDeclaration {
 	get class() { return "VariableDeclaration" }
 	get declaration() { return new VariableDeclaration(this.symbol, this.isConstant, this.type, undefined, this.tokens) }
-	get assignment() { return this.expression ? new ExpressionStatement(new Assignment(this.symbol, this.expression, this.expression.tokens)) : undefined }
+	get assignment() { return this.expression ? new ExpressionStatement(new Assignment(new Identifier(this.symbol), this.expression, this.expression.tokens)) : undefined }
 	constructor(symbol: string, readonly isConstant: boolean, type: Type.Expression, readonly expression?: Expression, tokens?: Utilities.Enumerable<Tokens.Substance>) {
 		super(symbol, type, tokens)
 	}

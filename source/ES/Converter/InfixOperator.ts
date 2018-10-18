@@ -25,10 +25,10 @@ addConverter<SyntaxTree.InfixOperator>("infixOperator",
 		let result: ES.Node | undefined
 		switch (node.symbol) {
 			case "=":
-				if (node.left.class == "identifier")
-					result = new ES.Assignment((node.left as SyntaxTree.Identifier).name, converter.convert(node.right), node.tokens)
+				if (node.left.class == "identifier" || node.left.class == "resolvingOperator")
+					result = new ES.Assignment(converter.convert(node.left) as ES.Identifier | ES.ResolvingOperator, converter.convert(node.right), node.tokens)
 				else
-					converter.handler.raise("Left hand of expression must be \"identifier\" and not \"" + node.class + "\" when converting to ES.")
+					converter.handler.raise("Left hand of expression must be variable or property and not \"" + node.class + "\" when converting to ES.")
 				break
 			case ".":
 				result = new ES.ResolvingOperator(converter.convert(node.left), converter.convert(node.right), node.tokens)

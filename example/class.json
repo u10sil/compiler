@@ -1,6 +1,6 @@
 [
 	{
-		"id": 23,
+		"id": 32,
 		"class": "module",
 		"name": "class",
 		"statements": [
@@ -108,6 +108,63 @@
 					"name": "x",
 					"declaration": 5,
 					"type": "number"
+				},
+				"type": "number"
+			},
+			{
+				"id": 27,
+				"class": "infixOperator",
+				"symbol": "=",
+				"left": {
+					"id": 25,
+					"class": "resolvingOperator",
+					"symbol": ".",
+					"left": {
+						"id": 23,
+						"class": "identifier",
+						"name": "p",
+						"declaration": 19,
+						"type": "Point"
+					},
+					"right": {
+						"id": 24,
+						"class": "identifier",
+						"name": "x",
+						"declaration": 5,
+						"type": "number"
+					},
+					"type": "number"
+				},
+				"right": {
+					"id": 26,
+					"class": "literal.number",
+					"value": 3,
+					"type": "number"
+				},
+				"type": "number"
+			},
+			{
+				"id": 31,
+				"class": "functionCall",
+				"function": {
+					"id": 30,
+					"class": "resolvingOperator",
+					"symbol": ".",
+					"left": {
+						"id": 28,
+						"class": "identifier",
+						"name": "p",
+						"declaration": 19,
+						"type": "Point"
+					},
+					"right": {
+						"id": 29,
+						"class": "identifier",
+						"name": "getArea",
+						"declaration": 16,
+						"type": "() => number"
+					},
+					"type": "() => number"
 				},
 				"type": "number"
 			}

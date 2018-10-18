@@ -20,7 +20,7 @@ import * as SyntaxTree from "../SyntaxTree"
 import { addGenerator } from "./Generator"
 
 addGenerator<SyntaxTree.Assignment>("Assignment", async (generator, node) =>
-	await generator.write(node.variable) &&
+	await generator.generate(node.left) &&
 	await generator.write(" " + node.symbol + " ") &&
-	generator.generate(node.argument),
+	generator.generate(node.right),
 )
