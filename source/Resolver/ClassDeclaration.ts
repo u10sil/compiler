@@ -24,6 +24,6 @@ function resolve(scope: Scope, node: SyntaxTree.ClassDeclaration) {
 	scope.resolve(node.implements)
 	scope = scope.create(node)
 	scope.setType(node, node.type)
-	scope.resolve(node.content)
+	scope.resolve(node.content, node)
 }
 addResolver("classDeclaration", resolve)

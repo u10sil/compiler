@@ -24,5 +24,6 @@ function resolve(scope: Scope, node: SyntaxTree.InfixOperator) {
 	scope.resolve(node.left)
 	scope.resolve(node.right)
 	scope.resolve(node.type)
+	scope.setType(node, scope.getType(node.left)) // TODO: this is a temporary hack
 }
 addResolver("infixOperator", resolve)

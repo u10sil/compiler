@@ -19,7 +19,8 @@
 import * as SyntaxTree from "../SyntaxTree"
 import { Scope, addResolver } from "./Scope"
 
-function resolve(scope: Scope, node: SyntaxTree.MethodDeclaration) {
+function resolve(scope: Scope, node: SyntaxTree.MethodDeclaration, parent?: SyntaxTree.TypeDeclaration) {
+	scope.addMember(node, parent)
 	scope.resolve(node.returnType)
 	scope = scope.create(node.arguments)
 	scope.resolve(node.arguments)

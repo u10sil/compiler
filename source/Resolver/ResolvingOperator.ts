@@ -21,12 +21,14 @@ import { Scope, addResolver } from "./Scope"
 
 function resolve(scope: Scope, node: SyntaxTree.ResolvingOperator) {
 	scope.resolve(node.left)
-	const leftType = scope.getType(node.left)
-	const rightDeclartionNode = scope.findMember(leftType, node.right)
+	const parentType = scope.getType(node.left)
+	const rightDeclartionNode = scope.findMember(node.right, parentType)
 	if (rightDeclartionNode) {
 		scope.addDeclaration(node.right, rightDeclartionNode)
-		scope.setType(node, scope.getType(rightDeclartionNode))
+		const type = scope.getType(rightDeclartionNode)
+		scope.setType(node.right, type)
+		scope.setType(node, type)
 	} else
-		scope.raise("Unable to find member \"" + node.right.name + "\" in type \"" + leftType.toString() + "\"")
+		scope.raise("Unable to find member \"" + node.right.name + "\" in type \"" + parentType.toString() + "\"")
 }
 addResolver("resolvingOperator", resolve)
