@@ -16,10 +16,4 @@
 // along with U10sil.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-export enum MethodModifier {
-	None,
-	Static,
-	Abstract,
-	Virtual,
-	Override,
-}
+export type MethodModifier = "static" | "abstract" | "virtual" | "override"

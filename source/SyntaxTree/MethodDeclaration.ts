@@ -29,21 +29,9 @@ import { Node } from "./Node"
 export class MethodDeclaration extends FunctionDeclaration {
 	get class() { return "methodDeclaration" }
 	readonly arguments: Utilities.Enumerable<ArgumentDeclaration>
-	private get modifierAsString(): string {
-		let result: string
-		switch (this.modifier) {
-			case MethodModifier.Abstract: result = "abstract"; break
-			default:
-			case MethodModifier.None: result = ""; break
-			case MethodModifier.Override: result = "override"; break
-			case MethodModifier.Static: result = "static"; break
-			case MethodModifier.Virtual: result = "virtual"; break
-		}
-		return result
-	}
 	constructor(
 		symbol: string,
-		readonly modifier: MethodModifier,
+		readonly modifier: MethodModifier | undefined,
 		parameters: Utilities.Enumerable<Type.Name>,
 		argumentsEnumerable: Utilities.Enumerable<ArgumentDeclaration>,
 		returnType: Type.Expression | undefined,
@@ -55,17 +43,20 @@ export class MethodDeclaration extends FunctionDeclaration {
 	serialize(): { class: string } & any {
 		return {
 			...super.serialize(),
-			modifier: this.modifier != MethodModifier.None ? this.modifierAsString : undefined,
+			modifier: this.modifier,
 		}
 	}
-	static parseModifier(modifier: string): MethodModifier {
-		let result: MethodModifier
+	static parseModifier(modifier: string): MethodModifier | undefined {
+		let result: MethodModifier | undefined
 		switch (modifier) {
-			case "abstract": result = MethodModifier.Abstract; break
-			default: result = MethodModifier.None; break
-			case "override": result = MethodModifier.Override; break
-			case "static": result = MethodModifier.Static; break
-			case "virtual": result = MethodModifier.Virtual; break
+			case "abstract":
+			case "override":
+			case "static":
+			case "virtual":
+				result = modifier
+				break
+			default:
+				break
 		}
 		return result
 	}

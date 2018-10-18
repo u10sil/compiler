@@ -29,7 +29,7 @@ import { Utilities } from "@cogneco/mend"
 export function parse(source: Source): SyntaxTree.MethodDeclaration | undefined {
 	let result: SyntaxTree.MethodDeclaration | undefined
 	const modifier = SyntaxTree.MethodDeclaration.parseModifier((source.peek() as Tokens.Identifier).name)
-	if (source.peek(modifier == SyntaxTree.MethodModifier.None ? 0 : 1)!.isIdentifier("fun") && source.fetch() && (modifier == SyntaxTree.MethodModifier.None || source.fetch())) {
+	if (source.peek(!modifier ? 0 : 1)!.isIdentifier("fun") && source.fetch() && (!modifier || source.fetch())) {
 		const symbol = Declaration.parseIdentifier(source.clone())
 		if (!symbol)
 			source.raise("Expected symbol in function declaration.")
