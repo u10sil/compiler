@@ -22,6 +22,7 @@ import { Scope, addResolver } from "./Scope"
 function resolve(scope: Scope, node: SyntaxTree.ClassDeclaration) {
 	scope.resolve(node.extended)
 	scope.resolve(node.implements)
+	scope.resolve(node.this)
 	scope = scope.create(node)
 	scope.setType(node, node.type)
 	scope.resolve(node.content, node)

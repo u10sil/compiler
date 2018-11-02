@@ -33,7 +33,13 @@ export class Scope {
 		this.handler.raise("Declaration of type \"" + previous.symbol + "\" at " + previous.region + " hidden by new declaration at " + current.region, Error.Level.Recoverable, "semantic", current.region)
 		return current
 	})
-	private constructor(private handler: Error.Handler, private readonly declarationsData: { [id: number]: number }, private readonly typesData: { [id: number]: SyntaxTree.Type.Expression }, private readonly membersData: { [id: number]: { [member: string]: number } }, private parent?: Scope) {
+	private constructor(
+		private handler: Error.Handler,
+		private readonly declarationsData: { [id: number]: number },
+		private readonly typesData: { [id: number]: SyntaxTree.Type.Expression },
+		private readonly membersData: { [id: number]: { [member: string]: number } },
+		private readonly staticMembersData: { [id: number]: { [member: string]: number } },
+		private parent?: Scope) {
 	}
 	raise(message: string, level?: Error.Level, type?: string, region?: Error.Region) {
 		this.handler.raise(message, level, type, region)
@@ -47,13 +53,16 @@ export class Scope {
 	addDeclaration(node: SyntaxTree.Node, declaration: number) {
 		this.declarationsData[node.id] = declaration
 	}
-	addMember(member: SyntaxTree.SymbolDeclaration, parent: SyntaxTree.TypeDeclaration | undefined) {
+	addMember(member: SyntaxTree.SymbolDeclaration, parent: SyntaxTree.TypeDeclaration | undefined, isStatic?: boolean) {
 		if (!parent)
 			this.raise("Can not resolve method without a parent type declaration.")
 		else {
-			const p = this.membersData[parent.id] || {}
+			const p = (isStatic ? this.staticMembersData[parent.id] : this.membersData[parent.id]) || {}
 			p[member.symbol] = member.id
-			this.membersData[parent.id] = p
+			if (isStatic)
+				this.staticMembersData[parent.id] = p
+			else
+				this.membersData[parent.id] = p
 		}
 	}
 	findSymbol(identifier: SyntaxTree.Identifier): number | undefined {
@@ -70,7 +79,7 @@ export class Scope {
 	getType(node: SyntaxTree.Node | number): SyntaxTree.Type.Expression {
 		return this.typesData[node instanceof SyntaxTree.Node ? node.id : node]
 	}
-	findMember(member: SyntaxTree.Identifier, parent: SyntaxTree.Type.Expression | number): number | undefined {
+	findMember(member: SyntaxTree.Identifier, parent: SyntaxTree.Type.Expression | number, isStatic?: boolean): number | undefined {
 		let result: number | undefined
 		if (parent instanceof SyntaxTree.Type.Expression) {
 			const finder = memberFinders[parent.class]
@@ -79,7 +88,7 @@ export class Scope {
 			else
 				this.raise("Unable to find member resolver for declaration of class \"" + parent.class + "\"")
 		} else {
-			const p = this.membersData[parent]
+			const p = (!isStatic ? this.membersData : this.staticMembersData)[parent]
 			if (p) {
 				result = p[member.name]
 				if (!result)
@@ -105,9 +114,9 @@ export class Scope {
 		}
 	}
 	create(statements?: SyntaxTree.ClassDeclaration | Utilities.Enumerable<SyntaxTree.Statement>): Scope {
-		const result = new Scope(this.handler, this.declarationsData, this.typesData, this.membersData, this)
+		const result = new Scope(this.handler, this.declarationsData, this.typesData, this.membersData, this.staticMembersData, this)
 		if (statements instanceof SyntaxTree.ClassDeclaration) {
-			result.symbolTable.append(statements, "this")
+			result.symbolTable.append(statements.this)
 			result.typeTable.append(statements, "This")
 		} else if (statements)
 			statements.apply(statement => {
@@ -119,7 +128,7 @@ export class Scope {
 		return result
 	}
 	static create(handler: Error.Handler): Scope {
-		return new Scope(handler, {}, {}, {})
+		return new Scope(handler, {}, {}, {}, {})
 	}
 }
 const resolvers: { [className: string]: ((scope: Scope, node: SyntaxTree.Node, parent: SyntaxTree.TypeDeclaration | undefined) => void) } = {}

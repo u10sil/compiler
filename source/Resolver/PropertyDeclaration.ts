@@ -20,7 +20,7 @@ import * as SyntaxTree from "../SyntaxTree"
 import { Scope, addResolver } from "./Scope"
 
 function resolve(scope: Scope, node: SyntaxTree.PropertyDeclaration, parent: SyntaxTree.TypeDeclaration | undefined) {
-	scope.addMember(node, parent)
+	scope.addMember(node, parent, node.isStatic)
 	scope.resolve(node.value)
 	scope.resolve(node.type)
 	const valueType = (node.value ? scope.getType(node.value) : undefined) || node.type

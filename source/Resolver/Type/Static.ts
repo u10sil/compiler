@@ -1,4 +1,4 @@
-// Copyright (C) 2017, 2018  Simon Mika <simon@mika.se>
+// Copyright (C) 2018  Simon Mika <simon@mika.se>
 //
 // This file is part of U10sil.
 //
@@ -16,16 +16,14 @@
 // along with U10sil.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import * as SyntaxTree from "../SyntaxTree"
-import { Scope, addResolver } from "./Scope"
+import * as SyntaxTree from "../../SyntaxTree"
+import { Scope, addMemberFinder } from "../Scope"
 
-function resolve(scope: Scope, node: SyntaxTree.MethodDeclaration, parent?: SyntaxTree.TypeDeclaration) {
-	scope.addMember(node, parent, node.modifier == "static")
-	scope.resolve(node.returnType)
-	scope = scope.create()
-	scope.resolve(node.arguments)
-	scope.resolve(node.body)
-	if (node.body)
-		scope.setType(node, new SyntaxTree.Type.Function(node.arguments.map(n => scope.getType(n)), scope.getType(node.body)))
+function find(scope: Scope, parent: SyntaxTree.Type.Static, member: SyntaxTree.Identifier): number | undefined {
+	let result: number | undefined
+	const parentType = scope.findType(parent.argument)
+	if (parentType)
+		result = scope.findMember(member, parentType, true)
+	return result
 }
-addResolver("methodDeclaration", resolve)
+addMemberFinder("type.static", find)

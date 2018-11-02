@@ -19,13 +19,8 @@
 import * as SyntaxTree from "../SyntaxTree"
 import { Scope, addResolver } from "./Scope"
 
-function resolve(scope: Scope, node: SyntaxTree.MethodDeclaration, parent?: SyntaxTree.TypeDeclaration) {
-	scope.addMember(node, parent, node.modifier == "static")
-	scope.resolve(node.returnType)
-	scope = scope.create()
-	scope.resolve(node.arguments)
-	scope.resolve(node.body)
-	if (node.body)
-		scope.setType(node, new SyntaxTree.Type.Function(node.arguments.map(n => scope.getType(n)), scope.getType(node.body)))
+function resolve(scope: Scope, node: SyntaxTree.ThisDeclaration) {
+	scope.addSymbol(node)
+	scope.setType(node, node.type)
 }
-addResolver("methodDeclaration", resolve)
+addResolver("thisDeclaration", resolve)

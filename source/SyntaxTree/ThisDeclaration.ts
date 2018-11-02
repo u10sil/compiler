@@ -1,4 +1,4 @@
-// Copyright (C) 2017, 2018  Simon Mika <simon@mika.se>
+// Copyright (C) 2015, 2017, 2018  Simon Mika <simon@mika.se>
 //
 // This file is part of U10sil.
 //
@@ -16,16 +16,18 @@
 // along with U10sil.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import * as SyntaxTree from "../SyntaxTree"
-import { Scope, addResolver } from "./Scope"
+import { Utilities } from "@cogneco/mend"
+import * as Tokens from "../Tokens"
+import { SymbolDeclaration } from "./SymbolDeclaration"
+import { ClassDeclaration } from "./ClassDeclaration"
+import { Node } from "./Node"
+import * as Type from "./Type"
 
-function resolve(scope: Scope, node: SyntaxTree.MethodDeclaration, parent?: SyntaxTree.TypeDeclaration) {
-	scope.addMember(node, parent, node.modifier == "static")
-	scope.resolve(node.returnType)
-	scope = scope.create()
-	scope.resolve(node.arguments)
-	scope.resolve(node.body)
-	if (node.body)
-		scope.setType(node, new SyntaxTree.Type.Function(node.arguments.map(n => scope.getType(n)), scope.getType(node.body)))
+export class ThisDeclaration extends SymbolDeclaration {
+	get class() { return "thisDeclaration" }
+	readonly type: Type.Name
+	constructor(readonly classDeclaration: ClassDeclaration, tokens?: Utilities.Enumerable<Tokens.Substance> | Node) {
+		super("this", tokens)
+		this.type = new Type.Name(classDeclaration.symbol, classDeclaration.tokens)
+	}
 }
-addResolver("methodDeclaration", resolve)

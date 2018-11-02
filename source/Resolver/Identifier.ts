@@ -20,11 +20,13 @@ import * as SyntaxTree from "../SyntaxTree"
 import { Scope, addResolver } from "./Scope"
 
 function resolve(scope: Scope, node: SyntaxTree.Identifier) {
-	const result = scope.findSymbol(node)
+	const result = scope.findSymbol(node) || scope.findType(node)
 	if (result != undefined) {
 		scope.addDeclaration(node, result)
 		const declaration = SyntaxTree.Node.locate(result)
-		if (declaration)
+		if (declaration instanceof SyntaxTree.TypeDeclaration)
+			scope.setType(node, new SyntaxTree.Type.Static(scope.getType(declaration) as SyntaxTree.Type.Name))
+		else if (declaration instanceof SyntaxTree.SymbolDeclaration)
 			scope.setType(node, scope.getType(declaration))
 	} else
 		scope.raise("Unable to resolve symbol \"" + node.name + "\" at " + node.region + ".")

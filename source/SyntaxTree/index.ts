@@ -40,6 +40,7 @@ import { PropertyDeclaration } from "./PropertyDeclaration"
 import { ResolvingOperator } from "./ResolvingOperator"
 import { Statement } from "./Statement"
 import { SymbolDeclaration } from "./SymbolDeclaration"
+import { ThisDeclaration } from "./ThisDeclaration"
 import * as Type from "./Type"
 import { Tuple } from "./Tuple"
 import { TypeDeclaration } from "./TypeDeclaration"
@@ -75,6 +76,7 @@ export {
 	ResolvingOperator,
 	Statement,
 	SymbolDeclaration,
+	ThisDeclaration,
 	Tuple,
 	Type,
 	TypeDeclaration,

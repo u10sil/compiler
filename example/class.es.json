@@ -53,6 +53,91 @@
 								}
 							}
 						]
+					},
+					{
+						"class": "MethodDeclaration",
+						"symbol": "scale",
+						"arguments": [
+							{
+								"class": "ArgumentDeclaration",
+								"symbol": "factor"
+							}
+						],
+						"statements": [
+							{
+								"class": "ExpressionStatement",
+								"expression": {
+									"class": "Assignment",
+									"symbol": "=",
+									"argument": {
+										"class": "InfixOperator",
+										"symbol": "*",
+										"precedence": 150,
+										"associativity": "left",
+										"left": {
+											"class": "ResolvingOperator",
+											"symbol": ".",
+											"left": {
+												"class": "Identifier",
+												"symbol": "this"
+											},
+											"right": {
+												"class": "Identifier",
+												"symbol": "x"
+											}
+										},
+										"right": {
+											"class": "Identifier",
+											"symbol": "factor"
+										}
+									}
+								}
+							},
+							{
+								"class": "ReturnStatement",
+								"expression": {
+									"class": "Assignment",
+									"symbol": "=",
+									"argument": {
+										"class": "InfixOperator",
+										"symbol": "*",
+										"precedence": 150,
+										"associativity": "left",
+										"left": {
+											"class": "ResolvingOperator",
+											"symbol": ".",
+											"left": {
+												"class": "Identifier",
+												"symbol": "this"
+											},
+											"right": {
+												"class": "Identifier",
+												"symbol": "y"
+											}
+										},
+										"right": {
+											"class": "Identifier",
+											"symbol": "factor"
+										}
+									}
+								}
+							}
+						]
+					},
+					{
+						"class": "MethodDeclaration",
+						"symbol": "unit",
+						"arguments": [],
+						"statements": [
+							{
+								"class": "ReturnStatement",
+								"expression": {
+									"class": "Literal.Number",
+									"value": 42
+								}
+							}
+						],
+						"modifier": "static"
 					}
 				]
 			},
@@ -100,6 +185,26 @@
 						"right": {
 							"class": "Identifier",
 							"symbol": "getArea"
+						}
+					},
+					"arguments": []
+				}
+			},
+			{
+				"class": "VariableDeclaration",
+				"symbol": "a",
+				"expression": {
+					"class": "FunctionCall",
+					"function": {
+						"class": "ResolvingOperator",
+						"symbol": ".",
+						"left": {
+							"class": "Identifier",
+							"symbol": "Point"
+						},
+						"right": {
+							"class": "Identifier",
+							"symbol": "unit"
 						}
 					},
 					"arguments": []

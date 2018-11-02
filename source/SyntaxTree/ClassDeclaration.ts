@@ -23,9 +23,11 @@ import * as Type from "./Type"
 import { Statement } from "./Statement"
 import { addDeserializer, deserialize } from "./deserialize"
 import { Node } from "./Node"
+import { ThisDeclaration } from "./ThisDeclaration"
 
 export class ClassDeclaration extends TypeDeclaration {
 	get class() { return "classDeclaration" }
+	readonly this: ThisDeclaration
 	readonly implements: Utilities.Enumerable<Type.Identifier>
 	constructor(
 		symbol: Type.Name,
@@ -37,6 +39,7 @@ export class ClassDeclaration extends TypeDeclaration {
 		tokens?: Utilities.Enumerable<Tokens.Substance> | Node) {
 		super(symbol, tokens)
 		this.implements = implemented
+		this.this = new ThisDeclaration(this, tokens instanceof ClassDeclaration ? tokens.this : tokens)
 	}
 	serialize(): { class: string } & any {
 		const parameters = this.parameters.map(t => t.serialize()).toArray()

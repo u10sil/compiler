@@ -29,6 +29,8 @@ export function* convertBody(converter: Converter, statements: Utilities.Enumera
 		next = iterator.next()
 		if (next.done)
 			result = new ES.ReturnStatement(result)
+		else if (result instanceof ES.Expression)
+			result = new ES.ExpressionStatement(result)
 		yield result
 	}
 }

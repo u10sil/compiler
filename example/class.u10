@@ -4,8 +4,16 @@ class Point {
 	fun getArea() {
 		this.x * this.y
 	}
+	fun scale(factor: number) {
+		this.x = this.x * factor
+		this.y = this.y * factor
+	}
+	static fun unit() {
+		42
+	}
 }
 var p: Point
 p.x
 p.x = 3
 p.getArea()
+var a = Point.unit()

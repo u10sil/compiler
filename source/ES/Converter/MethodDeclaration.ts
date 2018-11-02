@@ -29,9 +29,11 @@ export function* convertBody(converter: Converter, statements: Utilities.Enumera
 		next = iterator.next()
 		if (next.done)
 			result = new ES.ReturnStatement(result)
+		else if (result instanceof ES.Expression)
+			result = new ES.ExpressionStatement(result)
 		yield result
 	}
 }
 addConverter<SyntaxTree.MethodDeclaration>("methodDeclaration",
-	(converter, node) => new ES.MethodDeclaration(node.symbol, converter.convert(node.arguments), converter.getReturnType(node), Utilities.Enumerable.from(convertBody(converter, node.body ? node.body.statements : Utilities.Enumerable.empty)), node.tokens),
+	(converter, node) => new ES.MethodDeclaration(node.symbol, node.modifier == "static" ? "static" : undefined, converter.convert(node.arguments), converter.getReturnType(node), Utilities.Enumerable.from(convertBody(converter, node.body ? node.body.statements : Utilities.Enumerable.empty)), node.tokens),
 )

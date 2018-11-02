@@ -26,5 +26,6 @@ function find(scope: Scope, parent: SyntaxTree.Type.Name, member: SyntaxTree.Ide
 		result = scope.findMember(member, parentType)
 	return result
 }
-addMemberFinder("type.name", find)
 addMemberFinder("type.identifier", find)
+addMemberFinder("type.name", find)
+addMemberFinder("type.static", find)

@@ -21,6 +21,7 @@ import { addGenerator } from "./Generator"
 
 addGenerator<SyntaxTree.MethodDeclaration>("MethodDeclaration",
 	async (generator, node) =>
+		(!node.modifier || await generator.write(node.modifier) && await generator.write(" ")) &&
 		await generator.write(node.symbol) &&
 		await generator.write("(") &&
 		await generator.generate(node.argumentList, ", ") &&

@@ -18,20 +18,24 @@
 
 import { Utilities } from "@cogneco/mend"
 import * as Tokens from "../../Tokens"
-import { FunctionDeclaration } from "./FunctionDeclaration"
-import { ArgumentDeclaration } from "./ArgumentDeclaration"
-import { Statement } from "./Statement"
-import * as Type from "./Type"
+import { Expression } from "./Expression"
+import { Name } from "./Name"
+import { addDeserializer, deserialize } from "../deserialize"
+import { Node } from "../Node"
 
-export class MethodDeclaration extends FunctionDeclaration {
-	get class() { return "MethodDeclaration" }
-	constructor(symbol: string, readonly modifier: "static" | undefined, argumentList: Utilities.Enumerable<ArgumentDeclaration>, returnType: Type.Expression, statements: Utilities.Enumerable<Statement>, tokens?: Utilities.Enumerable<Tokens.Substance>) {
-		super(symbol, argumentList, returnType, statements, tokens)
+export class Static extends Expression {
+	get class() { return "type.static" }
+	constructor(readonly argument: Name, tokens?: Utilities.Enumerable<Tokens.Substance> | Node) {
+		super(tokens)
 	}
 	serialize(): { class: string } & any {
 		return {
 			...super.serialize(),
-			modifier: this.modifier,
+			argument: this.argument.serialize(),
 		}
 	}
+	toString(): string {
+		return "Static<" + this.argument.toString() + ">"
+	}
 }
+addDeserializer("type.static", data => data.hasOwnProperty("argument") ? new Static(deserialize<Name>(data.argument)!) : undefined)
