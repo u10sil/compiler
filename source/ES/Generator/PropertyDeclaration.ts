@@ -20,8 +20,5 @@ import * as SyntaxTree from "../SyntaxTree"
 import { addGenerator } from "./Generator"
 
 addGenerator<SyntaxTree.PropertyDeclaration>("PropertyDeclaration",
-	async (generator, node) =>
-		await generator.write(node.symbol) &&
-		(!node.expression || await generator.write(" = ") && await generator.generate(node.expression)) &&
-		generator.writeLine(),
+	async (generator, node) => (!node.expression || await generator.write(node.symbol) && await generator.write(" = ") && await generator.generate(node.expression) && generator.writeLine()),
 )
